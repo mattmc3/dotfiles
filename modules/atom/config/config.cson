@@ -1,0 +1,32 @@
+"*":
+  "autocomplete-python":
+    useKite: false
+  core:
+    ignoredNames: [
+      ".git"
+      ".hg"
+      ".svn"
+      ".DS_Store"
+      "._*"
+      "Thumbs.db"
+      "*.pyc"
+    ]
+    projectHome: "/Users/mattmc3/Projects/github.com"
+    telemetryConsent: "no"
+    themes: [
+      "one-dark-ui"
+      "base16-tomorrow-dark-theme"
+    ]
+  editor:
+    fontSize: 15
+    scrollPastEnd: true
+    tabLength: 4
+  "exception-reporting":
+    userId: "e24a5ce0-d0e1-7ac0-7ae0-ea87166610ef"
+  tasks: {}
+  "tree-view":
+    autoReveal: true
+    hideIgnoredNames: true
+    hideVcsIgnoredFiles: true
+  welcome:
+    showOnStartup: false

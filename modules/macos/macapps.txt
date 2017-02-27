@@ -1,0 +1,124 @@
+Alfred 3.app
+App Store.app
+AppCleaner.app
+Atom.app
+Automator.app
+Bartender 2.app
+Base.app
+BetterTouchTool.app
+Beyond Compare.app
+Byword.app
+Cakebrew.app
+Calculator.app
+Calendar.app
+Chess.app
+ChopCommute.app
+Contacts.app
+Cyberduck.app
+DVD Player.app
+DaisyDisk.app
+Dash.app
+Dashboard.app
+Day One.app
+DbSchema
+Dbeaver.app
+Dictionary.app
+DiffMerge.app
+Dropbox.app
+Dropzone 3.app
+FaceTime.app
+Firefox.app
+Flux.app
+FoldingText.app
+Font Book.app
+GIF Brewery 3.app
+GarageBand.app
+GitHub Desktop.app
+Go2Shell.app
+Go2Shell.localized
+Google Chrome.app
+Google Drive.app
+Google Photos Backup.app
+Hermes.app
+HipChat.app
+IDLE 3.app
+IDLE.app
+Image Capture.app
+Julia-0.5.app
+Karabiner-Elements.app
+Karabiner-EventViewer.app
+KeepingYouAwake.app
+Keyboard Maestro.app
+Keynote.app
+Kindle.app
+Kivy.app
+LastPass.app
+Launchpad.app
+LibreOffice.app
+LineIn.app
+MacDown.app
+MacVim.app
+Mail.app
+MailButler.app
+Maps.app
+Messages.app
+Microsoft Excel.app
+Microsoft OneNote.app
+Microsoft Outlook.app
+Microsoft PowerPoint.app
+Microsoft Remote Desktop.app
+Microsoft Word.app
+MindNode.app
+Monolingual.app
+Navicat Data Modeler.app
+Navicat Premium Essentials.app
+Notes.app
+Numbers.app
+OmniGraffle.app
+Pages.app
+Photo Booth.app
+Photos.app
+Pixelmator.app
+Pocket.app
+Postgres.app
+Postico.app
+Preview.app
+Python Launcher 3.app
+Python Launcher.app
+QuickTime Player.app
+Reminders.app
+Royal TSX.app
+Safari.app
+Simplenote.app
+Siri.app
+Skitch.app
+Slack.app
+SourceTree.app
+Spectacle.app
+Stickies.app
+Sublime Text.app
+Suspicious Package.app
+System Preferences.app
+TaskPaper.app
+TextEdit.app
+The Unarchiver.app
+Time Machine.app
+TodoTxtMac.app
+Transmit.app
+Uninstall iShowU Audio Capture.app
+Utilities
+VLC.app
+VMware Horizon Client.app
+VirtualBox.app
+Visual Studio Code.app
+Write.app
+XMind.app
+Xamarin Studio.app
+Xcode.app
+calibre.app
+data-integration
+iBooks.app
+iMovie.app
+iTerm.app
+iTunes.app
+nvALT.app

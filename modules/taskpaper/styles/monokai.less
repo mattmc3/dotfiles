@@ -1,0 +1,89 @@
+// UI Scale
+@base-font-size: 14;
+@user-font-size: $USER_FONT_SIZE;
+@ui-scale: @user-font-size / @base-font-size;
+
+// Monokai colors (http://www.colourlovers.com/palette/1718713/Monokai)
+@black: #272822;
+@pink: #F92672;
+@blue: #66D9EF;
+@green: #A6E22E;
+@orange: #FD971F;
+
+// UI Colors
+@background-color: @black;
+@tint-color: @blue;
+@interface-color: @tint-color;
+@selection-color: mix(@tint-color, @background-color, 30%);
+@invisibles-color: mix(@tint-color, @background-color, 70%);
+
+// Base text
+@text-color: white;
+@project-color: @green;
+@note-color: @orange;
+@done-color: @pink;
+@done-text-color: mix(@done-color, @background-color, 60%);
+@font-family: "Proxima Nova", "Helvetica Neue", Helvetica;
+@mono-font-family: Monaco;
+@line-height-multiple: 1.3;
+
+editor {
+  color: @text-color;
+  font-size: @user-font-size;
+  font-family: @font-family;
+  background-color: @background-color;
+  line-height-multiple: @line-height-multiple;
+  item-indent: 15px * @ui-scale;
+  caret-width: 2px;
+  caret-color: @blue;
+  handle-color: @tint-color;
+  drop-indicator-color: @tint-color;
+  invisibles-color: @invisibles-color;
+  selection-background-color: @selection-color;
+  guide-line-color: mix(@tint-color, @background-color, 15%);
+  message-color: mix(@text-color, @background-color, 50%);
+}
+
+item[data-type="note"] {
+  color: @note-color;
+  // font-style: italic;
+}
+
+item[data-type="task"] {
+  font-family: @mono-font-family;
+  font-style: normal;
+}
+
+item[data-type="project"] {
+  color: @project-color;
+  font-size: @user-font-size * 1.2;
+  font-weight: normal;
+}
+
+item[data-done] {
+  color: @done-text-color;
+  > run[display] {
+    text-strikethrough: NSUnderlineStyleSingle;
+    text-strikethrough-color: @done-color;
+  }
+}
+
+run[link] {
+  cursor: pointer;
+  color: @interface-color;
+}
+
+run[link^="button"] {
+  color: @text-color;
+}
+
+run[link^="filter"] {
+  color: @text-color;
+}
+
+run[tag] {
+  font-size: @user-font-size;
+  font-style: normal;
+  font-weight: normal;
+  color: mix(@text-color, @background-color, 50%);
+}

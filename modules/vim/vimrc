@@ -1,0 +1,4 @@
+set number
+set guifont=Monaco:h14
+syntax enable
+set background=dark

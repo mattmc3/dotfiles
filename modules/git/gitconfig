@@ -1,0 +1,31 @@
+[user]
+	name =
+	email =
+[core]
+	excludesfile = /Users/mattmc3/.gitignore_global
+[difftool "sourcetree"]
+	cmd = opendiff \"$LOCAL\" \"$REMOTE\"
+	path = 
+[mergetool "sourcetree"]
+	cmd = /Applications/SourceTree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
+	trustExitCode = true
+[push]
+	default = simple
+[credential]
+	helper = osxkeychain
+[filter "lfs"]
+	clean = git-lfs clean %f
+	smudge = git-lfs smudge %f
+	required = true
+[commit]
+	template = /Users/mattmc3/.stCommitMsg
+[merge]
+	tool = sourcetree
+[alias]
+	branches = !legit branches
+	publish = !legit publish
+	unpublish = !legit unpublish
+	sync = !legit sync
+	switch = !legit switch
+	resync = !legit resync
+	undo = !legit undo

@@ -1,0 +1,4 @@
+# run todo-checkpoint every hour on the hour from 8AM to 9PM
+0 8-21 * * * ~/Dropbox/todo/todo-checkpoint.sh >/tmp/cron.log 2>/tmp/cron.err
+# run git-checkpoint at 5 after every hour from 8AM to 9PM
+5 8-21 * * * ~/bin/git-checkpoint.sh ~/Dropbox/notes >/tmp/cron.log 2>/tmp/cron.err
