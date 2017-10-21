@@ -23,6 +23,9 @@ if [ "$(uname -s)" = "Darwin" ] ; then
         brew update && brew upgrade
     fi
 
+    # accept xcode license
+    which -s xcodebuild && sudo xcodebuild -license accept
+
     # get some utils
     utils=(git gpg zsh bash)
     for util in "${utils[@]}" ; do
