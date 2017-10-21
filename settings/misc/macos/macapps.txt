@@ -1,10 +1,11 @@
 Alfred 3.app
+Amazon Music.app
 App Store.app
 AppCleaner.app
 Atom.app
 Automator.app
 Backup and Sync.app
-Bartender 2.app
+Bartender 3.app
 Base.app
 BetterTouchTool.app
 Beyond Compare.app
@@ -31,7 +32,6 @@ Dropbox.app
 Dropzone 3.app
 FaceTime.app
 Firefox.app
-Flux.app
 FoldingText.app
 Font Book.app
 ForeScout SecureConnector.app
@@ -58,7 +58,6 @@ KeepingYouAwake.app
 Keyboard Maestro.app
 Keynote.app
 Kindle.app
-Kitematic (Beta).app
 Launchpad.app
 LibreOffice.app
 LineIn.app
@@ -101,7 +100,7 @@ Simplenote.app
 Siri.app
 Skitch.app
 Slack.app
-SourceTree.app
+Sourcetree.app
 Spectacle.app
 Stickies.app
 Sublime Text.app

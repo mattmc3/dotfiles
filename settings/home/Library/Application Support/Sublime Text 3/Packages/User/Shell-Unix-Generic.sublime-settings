@@ -1,9 +1,9 @@
 {
 	"extensions":
 	[
-		"bash",
-		"sh",
-		"zsh",
-		"dotfile"
+        "bash",
+        "dotfile",
+        "sh",
+        "zsh"
 	]
 }
