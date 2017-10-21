@@ -1,0 +1,10 @@
+/usr/local/lib
+├── delicious-exporter@1.1.0
+├── express@4.16.2
+├── generator-code@1.1.20
+├── less@3.0.0-alpha.3
+├── npm@5.5.1
+├── sql-cli@0.6.2
+├── typescript@2.5.3
+└── yo@2.0.0
+

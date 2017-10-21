@@ -1,0 +1,23 @@
+<snippet>
+	<content><![CDATA[
+select '${1:field}' as column_name
+      ,count(*) as total_rows
+      ,count(distinct a.${1:field}) as distinct_values
+      ,cast(min(a.${1:field}) as varchar(1000)) as min_value
+      ,cast(max(a.${1:field}) as varchar(1000)) as max_value
+      ,min(len(cast(a.${1:field} as varchar(1000)))) as min_length
+      ,max(len(cast(a.${1:field} as varchar(1001)))) as max_length
+      ,sum(case when a.${1:field} is null then 1 else 0 end) as count_nulls
+      ,sum(case when a.${1:field} is null then 0 else 1 end) as count_not_nulls
+      ,sum(case when cast(a.${1:field} as varchar(1000)) = '' then 1 else 0 end) as count_empty
+      ,sum(case when cast(a.${1:field} as varchar(1000)) = '' then 0 else 1 end) as count_not_empty
+      ,sum(case when isnumeric(cast(a.${1:field} as varchar(1000))) = 1 then 1 else 0 end) as count_numeric
+      ,sum(case when isnumeric(cast(a.${1:field} as varchar(1000))) = 1 then 0 else 1 end) as count_not_numeric
+from
+    ${2:table} a
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>sql-select-column-profile</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<scope>source.sql</scope>
+</snippet>

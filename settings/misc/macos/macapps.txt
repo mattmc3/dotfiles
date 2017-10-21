@@ -1,0 +1,128 @@
+Alfred 3.app
+App Store.app
+AppCleaner.app
+Atom.app
+Automator.app
+Backup and Sync.app
+Bartender 2.app
+Base.app
+BetterTouchTool.app
+Beyond Compare.app
+Blue Jeans.app
+Byword.app
+CMM Shares.app
+Calculator.app
+Calendar.app
+Chess.app
+ChopCommute.app
+Contacts.app
+Cyberduck.app
+DBeaver.app
+DVD Player.app
+DaisyDisk.app
+Dash.app
+Dashboard.app
+Day One.app
+DbSchema
+Dictionary.app
+DiffMerge.app
+Docker.app
+Dropbox.app
+Dropzone 3.app
+FaceTime.app
+Firefox.app
+Flux.app
+FoldingText.app
+Font Book.app
+ForeScout SecureConnector.app
+GIF Brewery 3.app
+GlobalProtect.app
+Go2Shell.app
+Go2Shell.localized
+GoToMeeting
+Google Chrome.app
+Google Drive.app
+Google Photos Backup.app
+HandBrake.app
+Hermes.app
+HipChat.app
+IDLE 3.app
+IDLE.app
+Image Capture.app
+Julia-0.5.app
+Julia-0.6.app
+Kaleidoscope.app
+Karabiner-Elements.app
+Karabiner-EventViewer.app
+KeepingYouAwake.app
+Keyboard Maestro.app
+Keynote.app
+Kindle.app
+Kitematic (Beta).app
+Launchpad.app
+LibreOffice.app
+LineIn.app
+MacDown.app
+Magnet.app
+Mail.app
+MailButler.app
+MainUI.app
+Maps.app
+Messages.app
+Microsoft Excel.app
+Microsoft OneNote.app
+Microsoft Outlook.app
+Microsoft PowerPoint.app
+Microsoft Remote Desktop.app
+Microsoft Word.app
+MindNode.app
+Mission Control.app
+Monolingual.app
+Navicat Data Modeler.app
+Navicat Premium Essentials.localized
+Notes.app
+Numbers.app
+Pages.app
+Photo Booth.app
+Photos.app
+Pixelmator.app
+Pocket.app
+Postgres.app
+Postico.app
+Preview.app
+Python Launcher 3.app
+Python Launcher.app
+QuickTime Player.app
+Reminders.app
+Royal TSX.app
+Safari.app
+Self Service.app
+Simplenote.app
+Siri.app
+Skitch.app
+Slack.app
+SourceTree.app
+Spectacle.app
+Stickies.app
+Sublime Text.app
+Suspicious Package.app
+System Preferences.app
+TaskPaper.app
+TextEdit.app
+The Unarchiver.app
+Time Machine.app
+TodoTxtMac.app
+Transmit.app
+Uninstall iShowU Audio Capture.app
+Utilities
+VLC.app
+VMware Horizon Client.app
+VirtualBox.app
+Visual Studio Code.app
+Write.app
+Xcode.app
+data-integration
+iBooks.app
+iTerm.app
+iTunes.app
+nvALT.app

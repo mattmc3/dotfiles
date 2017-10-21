@@ -1,0 +1,52 @@
+{
+	"auto_complete": true,
+	"auto_complete_commit_on_tab": true,
+	"bold_folder_labels": false,
+	"caret_style": "phase",
+	"close_windows_when_empty": true,
+	"color_inactive_tabs": true,
+	"color_scheme": "Packages/User/SublimeLinter/Jellybeams (SL).tmTheme",
+	"default_font_size": 14,
+	"detect_indentation": true,
+	"draw_white_space": "selection",
+	"ensure_newline_at_eof_on_save": true,
+	"fade_fold_buttons": false,
+	"find_selected_text": true,
+	"folder_exclude_patterns":
+	[
+		".svn",
+		".git",
+		".idea",
+		".vscode",
+		"__pycache__"
+	],
+	"folder_no_icon": true,
+	"font_face": "Monaco",
+	"font_size": 14,
+	"highlight_line": true,
+	"highlight_modified_tabs": true,
+	"ignored_packages":
+	[
+		"AWK",
+		"Vintage"
+	],
+	"index_files": false,
+	"large_scroll_bars": true,
+	"line_padding_bottom": 1,
+	"line_padding_top": 1,
+	"rulers":
+	[
+		80,
+		120
+	],
+	"save_on_focus_lost": true,
+	"scroll_past_end": true,
+	"sidebar_row_padding_la": true,
+	"sidebar_size_13": true,
+	"status_bar_brighter": true,
+	"tab_size": 4,
+	"theme": "Default.sublime-theme",
+	"trim_trailing_whitespace_on_save": true,
+	"wide_caret": true,
+	"word_wrap": false
+}

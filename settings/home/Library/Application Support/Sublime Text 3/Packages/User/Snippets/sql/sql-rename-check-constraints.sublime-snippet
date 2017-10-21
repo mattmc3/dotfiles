@@ -1,0 +1,19 @@
+<snippet>
+	<content><![CDATA[
+select ctu.*
+      ,cc.CHECK_CLAUSE
+      ,'exec sp_rename ''' + cc.CONSTRAINT_SCHEMA + '.' + cc.CONSTRAINT_NAME + ''', '''
+          + 'CHK_' + ctu.TABLE_NAME + '_' + '${1:new-constraint-name}' + '''' as ddl
+from INFORMATION_SCHEMA.CONSTRAINT_TABLE_USAGE ctu
+join INFORMATION_SCHEMA.CHECK_CONSTRAINTS cc
+    on ctu.CONSTRAINT_SCHEMA = cc.CONSTRAINT_SCHEMA
+    and ctu.CONSTRAINT_NAME = cc.CONSTRAINT_NAME
+where ctu.TABLE_SCHEMA = '${2:schema}'
+  and ctu.TABLE_NAME = '${3:table}'
+order by 1, 2, 3
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>sql-rename-check-constraints</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<scope>source.sql</scope>
+</snippet>

@@ -1,0 +1,10 @@
+[
+    {
+        "caption": "mattmc3: T-SQL - Replace object script date",
+        "command": "mattmc3_replace_object_script_date"
+    },
+	{
+		"caption": "mattmc3: T-SQL - Make Merge from column list",
+		"command": "mattmc3_tsql_make_merge_statement"
+	}
+]

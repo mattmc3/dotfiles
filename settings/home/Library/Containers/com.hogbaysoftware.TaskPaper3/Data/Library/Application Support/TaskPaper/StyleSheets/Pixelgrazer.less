@@ -1,0 +1,168 @@
+// Base -----------------------------------
+@user-font-size: 13;
+@base-font-size: 16;
+@ui-scale: @user-font-size / @base-font-size;
+@font-family: "Helvetica";
+@font-family-header: "Helvetica Neue";
+@line-height-multiple: 1;
+@syntax-hue: 220;
+
+// Monochrome -----------------------------------
+@mono-1: hsl(30, 17%, 88%); // default text
+@mono-2: hsl(205, 38.4%, 58.6%);
+
+// Tags Colors -----------------------------------
+@tag-color: hsl(27, 60%, 50%);
+@high-color: hsl(14, 78%, 51%); 
+@next-color: hsl(187, 47%, 55%);
+@today-color: hsl(355, 65%, 65%);
+@waiting-color: hsl(30, 1%, 57%);
+
+// Prject Colors
+@project-color: hsl(78, 44%, 57%);
+@subproject-color: hsl(14, 78%, 51%); 
+
+// Base colors -----------------------------------
+@text-color: @mono-1;
+@bg-color: hsl(0, 0%, 25%);
+@link-color: @mono-2;
+
+// UI Colors -----------------------------------
+@tint-color: hsl(14, 78%, 51%);
+@selection-color: hsl(223, 17%, 42%);
+@invisibles-color: @project-color;
+@guide-color: fade(@lead-color, 10%);
+@message-color: mix(@text-color, @bg-color, 50%);;
+@caret-color: hsl(78, 44%, 57%);
+@collapsed-color: @project-color;
+@lead-color: hsl(35, 99%, 73%);
+
+editor {
+    color: @text-color;
+    font-size: @user-font-size;
+    font-family: @font-family;
+    background-color: @bg-color;
+    line-height-multiple: @line-height-multiple;
+    item-indent: 20px * @ui-scale;
+    caret-width: 2px;
+    caret-color: @caret-color;
+    handle-color: @tint-color;
+    drop-indicator-color: @tint-color;
+    invisibles-color: @invisibles-color;
+    selection-background-color: @selection-color;
+    guide-line-color: @guide-color;
+    message-color: @message-color;
+    guide-line-width: 2;
+}
+
+item[collapsed] {
+  handle-color: @collapsed-color;
+
+}
+
+item[data-type="project"] {
+    font-family: @font-family-header;    
+    font-weight: normal;
+    font-style: normal;
+    font-size: @user-font-size + 6;
+    color: @project-color;
+}
+
+item[depth=2][data-type="project"] {
+    font-size: @user-font-size + 4;    
+} 
+
+item[depth=3][data-type="project"] {
+    font-size: @user-font-size + 3;    
+} 
+
+item[depth=4][data-type="project"] {
+    font-size: @user-font-size + 2;    
+} 
+
+item[data-type="task"] {    
+    font-size: @user-font-size;
+}
+item[data-type="note"] {
+    color: @mono-2;
+    font-style: normal;
+}
+
+// Tag styles -----------------------------------
+
+item[data-today] {
+    font-size: @user-font-size;
+    font-style: normal;
+    font-weight: normal;
+    color: @today-color;    
+}
+item[data-flag],
+item[data-high],
+item[data-prio] {
+    font-size: @user-font-size;
+    font-style: normal;
+    font-weight: normal;
+    color: @high-color;    
+}
+item[data-next] {
+    font-size: @user-font-size;
+    font-style: normal;
+    font-weight: normal;
+    color: @next-color;    
+}
+item[data-waiting] {
+    font-size: @user-font-size;
+    font-style: normal;
+    font-weight: normal;
+    color: @waiting-color;
+    
+}
+item[data-search] {
+    font-size: @user-font-size;
+    font-style: normal;
+    font-weight: normal;
+    color: @mono-1;
+    > run[tag] {        
+        color: @mono-1;
+    }
+}
+
+
+item[data-done] {
+    > run[content],
+    > run[display] {
+        text-strikethrough: NSUnderlineStyleSingle;
+        text-strikethrough-color: fade(@text-color, 20%);
+        color: fade(@text-color, 20%);
+    }    
+}
+run[link] {
+    cursor: pointer;
+    text-decoration: underline;
+    color: @link-color;
+}
+
+
+run[lead] {
+    color: @lead-color;
+}
+run[link^="filter"] {
+    color: @text-color;
+}
+
+run[link^="filter"],
+run[link^="button"] {
+  text-decoration: none;
+}
+
+run[tag] {
+    font-size: @user-font-size;
+    font-style: normal;
+    font-weight: normal;
+    color: @tag-color;
+}
+
+// Sidebar
+searchbar {
+    background-color: @selection-color;
+}

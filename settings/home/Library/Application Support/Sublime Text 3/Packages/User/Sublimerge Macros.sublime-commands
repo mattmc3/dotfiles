@@ -1,0 +1,51 @@
+[
+    {
+        "caption": "Sublimerge: Show Uncommited Changes...",
+        "args": {
+            "run": 0
+        },
+        "command": "sublimerge_macro"
+    },
+    {
+        "caption": "Sublimerge: Compare to Other Branch...",
+        "args": {
+            "run": 1
+        },
+        "command": "sublimerge_macro"
+    },
+    {
+        "caption": "Sublimerge: Show Unpushed Changes...",
+        "args": {
+            "run": 2
+        },
+        "command": "sublimerge_macro"
+    },
+    {
+        "caption": "Sublimerge: Show Changes Between Current and Remote...",
+        "args": {
+            "run": 3
+        },
+        "command": "sublimerge_macro"
+    },
+    {
+        "caption": "Sublimerge: Show Uncommited Changes...",
+        "args": {
+            "run": 4
+        },
+        "command": "sublimerge_macro"
+    },
+    {
+        "caption": "Sublimerge: Show Uncommited Changes...",
+        "args": {
+            "run": 5
+        },
+        "command": "sublimerge_macro"
+    },
+    {
+        "caption": "Sublimerge: Compare to Named Branch...",
+        "args": {
+            "run": 6
+        },
+        "command": "sublimerge_macro"
+    }
+]

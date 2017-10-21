@@ -1,0 +1,243 @@
+%YAML 1.2
+---
+name: T-SQL
+file_extensions:
+  - sql
+  - ddl
+  - dml
+  - tsql
+scope: source.sql
+contexts:
+  main:
+    - include: comments
+    - match: '(?i:^\s*(create(?:\s+or\s+replace)?)\s+(aggregate|conversion|database|domain|function|group|(?:unique\s+)?index|language|operator class|operator|procedure|rule|schema|sequence|table|tablespace|trigger|type|user|view)\s+)(?:(\w+)|''(\w+)''|"(\w+)"|`(\w+)`)'
+      scope: meta.create.sql
+      captures:
+        1: keyword.other.create.sql
+        2: keyword.other.sql
+        3: entity.name.function.sql
+        4: entity.name.function.sql
+        5: entity.name.function.sql
+        6: entity.name.function.sql
+    - match: (?i:^\s*(drop)\s+(aggregate|conversion|database|domain|function|group|index|language|operator class|operator|procedure|rule|schema|sequence|table|tablespace|trigger|type|user|view))
+      scope: meta.drop.sql
+      captures:
+        1: keyword.other.create.sql
+        2: keyword.other.sql
+    - match: (?i:\s*(drop)\s+(table)\s+(\w+)(\s+cascade)?\b)
+      scope: meta.drop.sql
+      captures:
+        1: keyword.other.create.sql
+        2: keyword.other.table.sql
+        3: entity.name.function.sql
+        4: keyword.other.cascade.sql
+    - match: (?i:^\s*(alter)\s+(aggregate|conversion|database|domain|function|group|index|language|operator class|operator|procedure|rule|schema|sequence|table|tablespace|trigger|type|user|view)\s+)
+      scope: meta.alter.sql
+      captures:
+        1: keyword.other.create.sql
+        2: keyword.other.table.sql
+    - match: |-
+        (?xi)
+
+                # normal stuff, capture 1
+                 \b(bigint|bigserial|bit|boolean|box|bytea|cidr|circle|date|datetime|double\sprecision|inet|int|integer|line|lseg|macaddr|money|ntext|oid|path|point|polygon|real|serial|smallint|sysdate|sysname|text|datetime2|float|nchar|smalldatetime|smallmoney|tinyint|uniqueidentifier)\b
+
+                # numeric suffix, capture 2 + 3i
+                |\b(bit\svarying|character\s(?:varying)?|tinyint|var\schar|float|interval)\((\d+)\)
+
+                # optional numeric suffix, capture 4 + 5i
+                |\b(binary|char|datetimeoffset|nchar|number|nvarchar|varbinary|varchar\d?)\b(?:\((\d+|max)\))?
+
+                # special case, capture 6 + 7i + 8i
+                |\b(numeric|decimal)\b(?:\((\d+),(\d+)\))?
+
+                # special case, captures 9, 10i, 11
+                |\b(times?)\b(?:\((\d+)\))?(\swith(?:out)?\stime\szone\b)?
+
+                # special case, captures 12, 13, 14i, 15
+                |\b(timestamp)(?:(s|tz))?\b(?:\((\d+)\))?(\s(with|without)\stime\szone\b)?
+
+
+      captures:
+        1: storage.type.sql
+        2: storage.type.sql
+        3: constant.numeric.sql
+        4: storage.type.sql
+        5: constant.numeric.sql
+        6: storage.type.sql
+        7: constant.numeric.sql
+        8: constant.numeric.sql
+        9: storage.type.sql
+        10: constant.numeric.sql
+        11: storage.type.sql
+        12: storage.type.sql
+        13: storage.type.sql
+        14: constant.numeric.sql
+        15: storage.type.sql
+    - match: (?i:\b((?:primary|foreign)\s+key|references|on\sdelete(\s+cascade)?|on\supdate(\s+cascade)?|check|constraint|default)\b)
+      scope: storage.modifier.sql
+    - match: \b\d+\b
+      scope: constant.numeric.sql
+    - match: (?i:\b(true|false)\b)
+      scope: constant.boolean.sql
+    - match: (?i:\b(select(\s+(distinct|top))?|insert(\s+(ignore\s+)?into)?|update|delete|from|set|where|group\sby|or|like|between|and|with|case|when|then|else|end|union(\s+all)?|having|order\sby|limit|(inner|cross)\s+join|join|straight_join|(left|right)(\s+outer)?\s+join|natural(\s+(left|right)(\s+outer)?)?\s+join)\b)
+      scope: keyword.other.DML.sql
+    - match: (?i:\b(on|((is\s+)?not\s+)?null)\b)
+      scope: keyword.other.DDL.create.II.sql
+    - match: (?i:\bvalues\b)
+      scope: keyword.other.DML.II.sql
+    - match: (?i:\b(begin(\s+work)?|start\s+transaction|commit(\s+work)?|rollback(\s+work)?)\b)
+      scope: keyword.other.LUW.sql
+    - match: (?i:\b(grant(\swith\sgrant\soption)?|revoke)\b)
+      scope: keyword.other.authorization.sql
+    - match: (?i:\bin\b)
+      scope: keyword.other.data-integrity.sql
+    - match: (?i:^\s*(comment\s+on\s+(table|column|aggregate|constraint|database|domain|function|index|operator|rule|schema|sequence|trigger|type|view))\s+.*?\s+(is)\s+)
+      scope: keyword.other.object-comments.sql
+    - match: (?i)\bAS\b
+      scope: keyword.other.alias.sql
+    - match: (?i)\b(DESC|ASC)\b
+      scope: keyword.other.order.sql
+    - match: \*
+      scope: keyword.operator.star.sql
+    - match: "[!<>]?=|<>|<|>"
+      scope: keyword.operator.comparison.sql
+    - match: '-|\+|/'
+      scope: keyword.operator.math.sql
+    - match: \|\|
+      scope: keyword.operator.concatenator.sql
+    - match: (?i)\b(PARAMETERS|ABSOLUTE|ACTION|ADMIN|AFTER|AGGREGATE|ASYMMETRIC|CALL|CATALOG|CHARACTER|CONNECT|CUBE|DEC|DYNAMIC|FIRST|GET|GLOBAL|GO|HOUR|IMMEDIATE|ISOLATION|LANGUAGE|LAST|LEVEL|LOCAL|MILLISECOND|MINUTE|MOD|MODIFY|NEXT|NO|NONE|OBJECT|OUT|OUTPUT|PARTIAL|PARTITION|PRIOR|RANGE|RECURSIVE|RELATIVE|RETURNS|ROLE|ROLLUP|ROW|ROWS|SCROLL|SECOND|SESSION|SETS|SQL|STATE|STATEMENT|STATIC|SYMMETRIC|SYSTEM|USING|WITHOUT)\b
+      scope: keyword.other.future.sql
+    - match: (?i)\b(CURRENT_(DATE|TIME(STAMP)?|USER)|(SESSION|SYSTEM)_USER)\b
+      comment: List of SQL99 built-in functions from http://www.oreilly.com/catalog/sqlnut/chapter/ch04.html
+      scope: support.function.scalar.sql
+    - match: (?i)\b(AVG|CHECKSUM_AGG|COUNT|COUNT_BIG|GROUPING|GROUPING_ID|MAX|MIN|STDEV|STDEVP|SUM|VAR|VARP)(?=\s*\()
+      comment: MSSQL Aggregate Functions from https://msdn.microsoft.com/en-us/library/ms173454.aspx. List of SQL99 built-in functions from http://www.oreilly.com/catalog/sqlnut/chapter/ch04.html
+      scope: support.function.aggregate.sql
+    - match: (?i)\b(DATEADD|DATEDIFF|DATEDIFF_BIG|DATEFROMPARTS|DATENAME|DATEPART|DATETIME2FROMPARTS|DATETIMEFROMPARTS|DATETIMEOFFSETFROMPARTS|DAY|EOMONTH|GETDATE|GETUTCDATE|ISDATE|MONTH|SMALLDATETIMEFROMPARTS|SWITCHOFFSET|SYSDATETIME|SYSDATETIMEOFFSET|SYSUTCDATETIME|TIMEFROMPARTS|TODATETIMEOFFSET|YEAR)(?=\s*\()
+      comment: Date and time functions https://msdn.microsoft.com/en-us/library/ms186724.aspx
+      scope: support.function.date.sql
+    - match: (?i)\b(CONCATENATE|CAST|CONVERT|LOWER|SUBSTRING|TRANSLATE|TRIM|UPPER|ASCII|NCHAR|SOUNDEX|CHAR|PATINDEX|SPACE|CHARINDEX|QUOTENAME|STR|DIFFERENCE|REPLACE|STUFF|LEFT|REPLICATE|SUBSTRING|LEN|REVERSE|UNICODE|LOWER|RIGHT|UPPER|LTRIM|RTRIM)(?=\s*\()
+      comment: SQL Server String Functions https://technet.microsoft.com/en-us/library/ms181984(v=sql.105).aspx
+      scope: support.function.string.sql
+    - match: \b(\w+?)\.(\w+)\b
+      captures:
+        1: constant.other.database-name.sql
+        2: constant.other.table-name.sql
+    - include: strings
+    - include: regexps
+    - match: (\()(\))
+      comment: Allow for special ↩ behavior
+      scope: meta.block.sql
+      captures:
+        1: punctuation.section.scope.begin.sql
+        2: punctuation.section.scope.end.sql
+    - match: (?i:\b(ADD|ALL|ALTER|ANY|AUTHORIZATION|BACKUP|BREAK|BROWSE|BULK|BY|CASCADE|CHECKPOINT|CLOSE|CLUSTERED|COALESCE|COLLATE|COLUMN|COMPUTE|CONTAINS|CONTAINSTABLE|CONTINUE|CREATE|CROSS|CURRENT|CURSOR|DATABASE|DBCC|DEALLOCATE|DECLARE|DENY|DISK|DISTINCT|DISTRIBUTED|DOUBLE|DROP|DUMP|ERRLVL|ESCAPE|EXCEPT|EXEC|EXECUTE|EXISTS|EXIT|EXTERNAL|FETCH|FILE|FILLFACTOR|FOR|FOREIGN|FREETEXT|FREETEXTTABLE|FULL|FUNCTION|GOTO|GROUP|HOLDLOCK|IDENTITY|IDENTITY_INSERT|IDENTITYCOL|IF|INDEX|INNER|INTERSECT|INTO|IS|KEY|KILL|LEFT|LINENO|LOAD|MERGE|NATIONAL|NOCHECK|NONCLUSTERED|NOT|NULLIF|OF|OFF|OFFSETS|OPEN|OPENDATASOURCE|OPENQUERY|OPENROWSET|OPENXML|OPTION|ORDER|OUTER|OVER|PERCENT|PIVOT|PLAN|PRECISION|PRIMARY|PRINT|PROC|PROCEDURE|PUBLIC|RAISERROR|READ|READTEXT|RECONFIGURE|REPLICATION|RESTORE|RESTRICT|RETURN|REVERT|RIGHT|ROWCOUNT|ROWGUIDCOL|RULE|SAVE|SCHEMA|SECURITYAUDIT|SETUSER|SHUTDOWN|SOME|STATISTICS|TABLE|TABLESAMPLE|TEXTSIZE|TO|TOP|TRAN|TRANSACTION|TRIGGER|TRUNCATE|TSEQUAL|UNIQUE|UNPIVOT|UPDATETEXT|USE|USER|VARYING|VIEW|WAITFOR|WHILE|WRITETEXT)\b)
+      comment: MSSQL Keywords https://msdn.microsoft.com/en-us/library/ms189822(v=sql.105).aspx
+      scope: keyword.other.tsql.sql
+    - match: (?i:\b(sp_add_data_file_recover_suspect_db|sp_add_log_file_recover_suspect_db|sp_addextendedproc|sp_addextendedproperty|sp_addmessage|sp_addtype|sp_addumpdevice|sp_altermessage|sp_attach_db|sp_attach_single_file_db|sp_autostats|sp_bindefault|sp_bindrule|sp_bindsession|sp_certify_removable|sp_clean_db_file_free_space|sp_clean_db_free_space|sp_configure|sp_control_plan_guide|sp_create_plan_guide|sp_create_plan_guide_from_handle|sp_create_removable|sp_createstats|sp_cycle_errorlog|sp_datatype_info|sp_db_increased_partitions|sp_dbcmptlevel|sp_dbmmonitoraddmonitoring|sp_dbmmonitorchangealert|sp_dbmmonitorchangemonitoring|sp_dbmmonitordropalert|sp_dbmmonitordropmonitoring|sp_dbmmonitorhelpalert|sp_dbmmonitorhelpmonitoring|sp_dbmmonitorresults|sp_delete_backuphistory|sp_depends|sp_describe_first_result_set|sp_describe_undeclared_parameters|sp_detach_db|sp_dropdevice|sp_dropextendedproc|sp_dropextendedproperty|sp_dropmessage|sp_droptype|sp_execute|sp_executesql|sp_getapplock|sp_getbindtoken|sp_help|sp_helpconstraint|sp_helpdb|sp_helpdevice|sp_helpextendedproc|sp_helpfile|sp_helpfilegroup|sp_helpindex|sp_helplanguage|sp_helpserver|sp_helpsort|sp_helpstats|sp_helptext|sp_helptrigger|sp_indexoption|sp_invalidate_textptr|sp_lock|sp_monitor|sp_prepare|sp_prepexec|sp_prepexecrpc|sp_procoption|sp_recompile|sp_refreshview|sp_releaseapplock|sp_rename|sp_renamedb|sp_resetstatus|sp_sequence_get_range|sp_serveroption|sp_set_session_context|sp_setnetname|sp_settriggerorder|sp_spaceused|sp_tableoption|sp_unbindefault|sp_unbindrule|sp_updateextendedproperty|sp_updatestats|sp_unprepare|sp_validname|sp_who|sp_who2|sys.sp_merge_xtp_checkpoint_files|sys.sp_xtp_control_proc_exec_stats|sys.sp_flush_log|sys.sp_xtp_bind_db_resource_pool|sys.sp_xtp_control_query_exec_stats|sys.sp_xtp_checkpoint_force_garbage_collection|sys.sp_xtp_unbind_db_resource_pool)\b)
+      comment: List of database engine stored procedures from https://msdn.microsoft.com/en-us/library/ms176007.aspx
+      scope: support.function.builtin.database-engine-procs.sql
+    - match: (?i:\b(sp_cursor_list|sp_cursor|sp_cursorclose|sp_cursorexecute|sp_cursorfetch|sp_cursoropen|sp_cursorprepare|sp_cursorprepexec|sp_cursorunprepare|sp_describe_cursor|sp_describe_cursor_columns|sp_describe_cursor_tables)\b)
+      comment: List of Cursor Stored Procedures from https://msdn.microsoft.com/en-us/library/ms187801.aspx
+      scope: support.function.builtin.cursor-procs.sql
+    - match: (?i:\b(sp_OACreate|sp_OADestroy|sp_OAGetErrorInfo|sp_OAGetProperty|sp_OAMethod|sp_OASetProperty|sp_OAStop)\b)
+      comment: List of OLE Automation Stored Procedures from https://msdn.microsoft.com/en-us/library/ms190501.aspx
+      scope: support.function.builtin.ole-automation-procs.sql
+  comments:
+    - match: "--"
+      scope: punctuation.definition.comment.sql
+      push:
+        - meta_scope: comment.line.double-dash.sql
+        - match: \n
+          pop: true
+    - match: "#"
+      scope: punctuation.definition.comment.sql
+      push:
+        - meta_scope: comment.line.number-sign.sql
+        - match: \n
+          pop: true
+    - match: /\*
+      scope: punctuation.definition.comment.sql
+      push:
+        - meta_scope: comment.block.c
+        - match: \*/
+          pop: true
+  regexps:
+    - match: /(?=\S.*/)
+      captures:
+        0: punctuation.definition.string.begin.sql
+      push:
+        - meta_scope: string.regexp.sql
+        - match: /
+          captures:
+            0: punctuation.definition.string.end.sql
+          pop: true
+        - include: string_interpolation
+        - match: \\/
+          scope: constant.character.escape.slash.sql
+    - match: '%r\{'
+      comment: We should probably handle nested bracket pairs!?! -- Allan
+      captures:
+        0: punctuation.definition.string.begin.sql
+      push:
+        - meta_scope: string.regexp.modr.sql
+        - match: '\}'
+          captures:
+            0: punctuation.definition.string.end.sql
+          pop: true
+        - include: string_interpolation
+  string_escape:
+    - match: \\.
+      scope: constant.character.escape.sql
+  string_interpolation:
+    - match: '(#\{)([^\}]*)(\})'
+      scope: string.interpolated.sql
+      captures:
+        1: punctuation.definition.string.begin.sql
+        3: punctuation.definition.string.end.sql
+  strings:
+    - match: "'"
+      captures:
+        0: punctuation.definition.string.begin.sql
+      push:
+        - meta_scope: string.quoted.single.sql
+        - match: "''"
+          scope: constant.character.escape.sql
+        - match: "'"
+          captures:
+            0: punctuation.definition.string.end.sql
+          pop: true
+        - include: string_escape
+    - match: "`"
+      captures:
+        0: punctuation.definition.string.begin.sql
+      push:
+        - meta_scope: string.quoted.other.backtick.sql
+        - match: "`"
+          captures:
+            0: punctuation.definition.string.end.sql
+          pop: true
+        - include: string_escape
+    - match: '"'
+      captures:
+        0: punctuation.definition.string.begin.sql
+      push:
+        - meta_scope: string.quoted.double.sql
+        - match: '""'
+          scope: constant.character.escape.sql
+        - match: '"'
+          captures:
+            0: punctuation.definition.string.end.sql
+          pop: true
+        - include: string_interpolation
+    - match: '%\{'
+      captures:
+        0: punctuation.definition.string.begin.sql
+      push:
+        - meta_scope: string.other.quoted.brackets.sql
+        - match: '\}'
+          captures:
+            0: punctuation.definition.string.end.sql
+          pop: true
+        - include: string_interpolation

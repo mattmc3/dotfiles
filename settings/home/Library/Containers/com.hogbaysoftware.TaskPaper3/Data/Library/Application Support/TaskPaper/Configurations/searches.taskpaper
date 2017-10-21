@@ -1,0 +1,4 @@
+This is a configuration outline. Use it to store searches that you want to show in the sidebar for all TaskPaper documents.
+
+Searches:
+	Not Done @search(not @done except @done//*)

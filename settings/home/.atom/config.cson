@@ -1,0 +1,36 @@
+"*":
+  "autocomplete-python":
+    useKite: false
+  core:
+    disabledPackages: [
+      "vim-mode-plus"
+    ]
+    excludeVcsIgnoredPaths: false
+    ignoredNames: [
+      ".git"
+      ".hg"
+      ".svn"
+      ".DS_Store"
+      "._*"
+      "Thumbs.db"
+      "*.pyc"
+    ]
+    projectHome: "/Users/mattmcelheny/Projects/github.com"
+    telemetryConsent: "no"
+    themes: [
+      "one-dark-ui"
+      "atom-dark-syntax"
+    ]
+  editor:
+    fontSize: 15
+    scrollPastEnd: true
+    tabLength: 4
+  "exception-reporting":
+    userId: "e24a5ce0-d0e1-7ac0-7ae0-ea87166610ef"
+  gist: {}
+  tasks: {}
+  "tree-view":
+    autoReveal: true
+    hideIgnoredNames: true
+  welcome:
+    showOnStartup: false

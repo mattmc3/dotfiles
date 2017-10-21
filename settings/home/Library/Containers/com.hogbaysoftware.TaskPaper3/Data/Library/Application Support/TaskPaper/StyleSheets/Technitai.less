@@ -1,0 +1,216 @@
+// Palette -----------------------------------
+// Grayscale
+@white-smoke: RGB(245, 245, 245); 
+@athens-gray: RGB(223, 223, 223); 
+@pale-slate: RGB(196, 196, 196);
+@french-gray: RGB(189, 189, 189);
+@gray: RGB(147, 145, 144); 
+@iron: RGB(207, 216, 220); 
+@charcoal: RGB(66, 66, 66);
+@black-russian: RGBA(33, 33, 33, 0.5); 
+@black: RGB(33, 33, 33); 
+// Colors
+@dark-electric-blue: RGB(89, 99, 124); 
+@deep-carmine-pink: RGB(238, 45, 43); 
+@indian-yellow: RGB(228, 174, 84); 
+@malibu: RGB(135, 196, 249); 
+@mindaro: RGB(204, 239, 95); 
+@oxford-blue: RGB(38, 50, 56); 
+@pattens-blue: RGB(227, 242, 251); 
+@perfume: RGB(201, 173, 246); 
+@sea-pink: RGB(235, 154, 156); 
+// Base -----------------------------------------
+@user-font-size: 13;
+@font-family-header: "Open Sans Light";
+@font-family: "Open Sans";
+@line-height-multiple: 1.33;
+// Tag Related -----------------------------------
+@item-background-emphasis-color: @black-russian;
+// UI Colors -------------------------------------
+@bg-color: @oxford-blue;
+@tint-color: @iron;
+@lead-color: @athens-gray;
+@guide-color: fade(@lead-color, 10%);
+@text-color: @white-smoke;
+@message-color: mix(@text-color, @bg-color, 50%);
+editor {
+    color: @text-color;
+    font-size: @user-font-size;
+    font-family: @font-family;
+    background-color: @bg-color;
+    line-height-multiple: @line-height-multiple;
+    item-indent: 20px * @ui-scale;
+    caret-width: 2px;
+    caret-color: @french-gray;
+    invisibles-color: @iron;
+    selection-background-color: @dark-electric-blue;
+    guide-line-color: @guide-color;
+    message-color: @message-color;
+    guide-line-width: 2;
+}
+
+item[collapsed] {
+    handle-color: @iron;
+}
+
+item[data-type="project"] {
+    font-family: @font-family-header;
+    font-weight: normal;
+    font-style: normal;
+    font-size: @user-font-size + 8;
+    color: @iron;
+}
+
+item[depth=2][data-type="project"] {
+    font-size: @user-font-size + 6;
+    color: @iron;
+}
+
+item[depth=3][data-type="project"] {
+    font-size: @user-font-size + 5;
+    text-decoration: underline;
+}
+
+item[depth=4][data-type="project"] {
+    font-size: @user-font-size + 4;
+}
+
+item[data-type="task"] {
+    font-size: @user-font-size;
+}
+
+item[data-type="note"] {
+    color: fade(@iron, 90%);
+    font-style: italic;
+}
+
+// Tag styles -----------------------------------
+item[data-next] {
+    background-color: @item-background-emphasis-color;
+    >run[content],
+    >run[display] {
+        font-style: normal;
+        font-weight: normal;
+        font-size: @user-font-size;
+    }
+    >run[tag="data-next"] {
+        color: @text-color;
+    }
+}
+
+item[data-someday] {
+    font-size: @user-font-size;
+    font-style: normal;
+    font-weight: normal;
+    color: @perfume;
+}
+
+item[data-today] {
+    >run[content],
+    >run[display] {
+        font-size: @user-font-size + 1;
+        font-style: normal;
+        font-weight: normal;
+    }
+}
+
+item[data-blocked] {
+    font-size: @user-font-size;
+    font-style: normal;
+    font-weight: normal;
+    color: @gray;
+    background-color: @charcoal;
+}
+
+item[data-priority=1] {
+    font-size: @user-font-size;
+    font-style: normal;
+    font-weight: normal;
+    color: @mindaro;
+}
+
+item[data-priority=2] {
+    font-size: @user-font-size;
+    font-style: normal;
+    font-weight: normal;
+    color: @indian-yellow;
+}
+
+item[data-priority=3] {
+    font-size: @user-font-size;
+    font-style: normal;
+    font-weight: normal;
+    color: @malibu;
+}
+
+item[data-panic] {
+    font-size: @user-font-size + 1;
+    font-style: normal;
+    font-weight: normal;
+    color: @deep-carmine-pink;
+    background-color: @item-background-emphasis-color;
+}
+
+item[data-search] {
+    font-size: @user-font-size;
+    font-style: normal;
+    font-weight: normal;
+    color: @white-smoke;
+    >run[tag] {
+        color: @white-smoke;
+    }
+}
+
+item[data-done] {
+    >run[content],
+    >run[display] {
+        font-size: @user-font-size;
+        text-strikethrough: NSUnderlineStyleSingle;
+        text-strikethrough-color: fade(@text-color, 20%);
+        color: fade(@text-color, 20%);
+    }
+}
+
+run[link] {
+    color: @pattens-blue;
+    cursor: pointer;
+    font-style: italic;
+    text-decoration: underline;
+}
+
+run[lead] {
+    color: @lead-color;
+}
+
+run[link^="filter"] {
+    color: @text-color;
+}
+
+run[link^="filter"],
+run[link^="button"] {
+    text-decoration: none;
+}
+
+run[tag] {
+    font-size: @user-font-size;
+    font-style: normal;
+    font-weight: normal;
+    color: @pale-slate;
+}
+
+item[leaf] {
+    handle-color: none;
+    handle-border-color: none;
+}
+
+searchbar {
+    color: @athens-gray;
+    background-color: @black;
+    secondary-text-color: @perfume;
+    error-text-color: @sea-pink;
+    placeholder-color: @pale-slate;
+}
+
+window {
+    appearance: NSAppearanceNameVibrantDark;
+}
