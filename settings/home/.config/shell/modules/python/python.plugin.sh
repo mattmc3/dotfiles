@@ -13,10 +13,10 @@ pyclean () {
     find . -type d -name "__pycache__" -delete
 }
 
-pip3upgrade () {
-    pip3 list --outdated | cut -d ' ' -f 1 | xargs -n 1 pip3 install --upgrade
+pip3update () {
+    pip3 list --outdated --format=freeze | awk -F"==" '{print $1}' | xargs -n1 pip3 install --upgrade
 }
 
-pip2upgrade () {
-    pip2 list --outdated --format=freeze | xargs -n1 pip2 install -U
+pip2update () {
+    pip2 list --outdated --format=freeze | awk -F"==" '{print $1}' | xargs -n1 pip2 install -U
 }
