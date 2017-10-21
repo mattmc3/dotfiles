@@ -32,3 +32,7 @@ export PATH=$(echo "$PATH" | awk -F: '{for (i=1;i<=NF;i++) { if ( !x[$i]++ ) pri
 find "$HOME/.config/shell/modules" -name "*.sh" -o -name "*.bash" | while read file; do
     . $file
 done
+
+[ -f /usr/local/etc/bash_completion ] && . /usr/local/etc/bash_completion
+
+# source /usr/local/etc/bash_completion.d/password-store

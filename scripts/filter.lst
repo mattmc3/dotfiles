@@ -6,13 +6,18 @@
 + .gitattributes
 + .gitconfig
 + .gitignore
++ .gitignore_global
 + .hushlogin
 + .inputrc
-+ .stCommitMsg
 + .screenrc
++ .stCommitMsg
 + .tmux.conf
 + .vimrc
 + .wgetrc
++ .zlogin
++ .zlogout
++ .zprofile
++ .zshenv
 + .zshrc
 
 # exclude
@@ -28,6 +33,7 @@
 # config
 + .config
 - .config/cmm
+- .config/stetic
 + .config/**
 
 # vscode

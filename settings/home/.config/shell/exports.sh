@@ -8,7 +8,7 @@ if [[ -n $SSH_CONNECTION ]]; then
 else
     # https://help.github.com/articles/associating-text-editors-with-git/
     #export EDITOR="atom --wait"
-    export EDITOR="subl -w"
+    export EDITOR="subl -wn"
     #export EDITOR="subl_wait.sh"
 fi
 

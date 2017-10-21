@@ -1,4 +1,5 @@
 DavidAnson.vscode-markdownlint
+EditorConfig.EditorConfig
 MattiasPernhult.vscode-todo
 bibhasdn.django-html
 bibhasdn.django-snippets

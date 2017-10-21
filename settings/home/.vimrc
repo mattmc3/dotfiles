@@ -3,6 +3,13 @@ set guifont=Monaco:h14
 syntax enable
 set background=dark
 set termguicolors
+" Change color on insert mode
+au InsertEnter * hi Normal ctermbg=234 guibg=#000000
+au InsertLeave * hi Normal ctermbg=232 guibg=#1b1d1e
+
+execute pathogen#infect()
+filetype plugin indent on
+set laststatus=2
 
 " Navigation
 "     ^
