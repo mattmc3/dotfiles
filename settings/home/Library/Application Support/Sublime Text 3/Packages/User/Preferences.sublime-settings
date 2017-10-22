@@ -27,7 +27,6 @@
 	"highlight_modified_tabs": true,
 	"ignored_packages":
 	[
-		"AWK",
 		"Vintage"
 	],
 	"index_files": false,
@@ -46,6 +45,7 @@
 	"status_bar_brighter": true,
 	"tab_size": 4,
 	"theme": "Default.sublime-theme",
+	"translate_tabs_to_spaces": false,
 	"trim_trailing_whitespace_on_save": true,
 	"wide_caret": true,
 	"word_wrap": false

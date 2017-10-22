@@ -14,9 +14,11 @@ pyclean () {
 }
 
 pip3update () {
-    pip3 list --outdated --format=freeze | awk -F"==" '{print $1}' | xargs -n1 pip3 install --upgrade
+    # the --outdated flag didn't give me everything :(
+    pip3 list --format=freeze | awk -F"==" '{print $1}' | xargs -n1 pip3 install --upgrade
 }
 
 pip2update () {
-    pip2 list --outdated --format=freeze | awk -F"==" '{print $1}' | xargs -n1 pip2 install -U
+    # the --outdated flag didn't give me everything :(
+    pip2 list --format=freeze | awk -F"==" '{print $1}' | xargs -n1 pip2 install -U
 }

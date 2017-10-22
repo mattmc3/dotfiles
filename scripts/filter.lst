@@ -1,4 +1,6 @@
 # dotfiles
++ .bash_login
++ .bash_logout
 + .bash_profile
 + .bashrc
 + .editorconfig
@@ -9,6 +11,7 @@
 + .gitignore_global
 + .hushlogin
 + .inputrc
++ .profile
 + .screenrc
 + .stCommitMsg
 + .tmux.conf
@@ -34,19 +37,25 @@
 + .config
 - .config/cmm
 - .config/stetic
+- .config/gnupg
 + .config/**
 
-# vscode
+# common library parents
 + Library/
 + Library/Application Support/
++ Library/Containers/
++ Library/KeyBindings/
+
+# keybindings
++ Library/KeyBindings/DefaultKeyBinding.dict
+
+# vscode
 + Library/Application Support/Code/
 + Library/Application Support/Code/User/
 - Library/Application Support/Code/User/workspaceStorage/
 + Library/Application Support/Code/User/**
 
 # sublime text 3
-+ Library/
-+ Library/Application Support/
 + Library/Application Support/Sublime Text 3/
 + Library/Application Support/Sublime Text 3/Packages/
 + Library/Application Support/Sublime Text 3/Packages/User/
@@ -56,7 +65,6 @@
 + Library/Application Support/Sublime Text 3/Packages/User/Snippets/**
 
 # taskpaper
-+ Library/Containers/
 + Library/Containers/com.hogbaysoftware.TaskPaper3/
 + Library/Containers/com.hogbaysoftware.TaskPaper3/Data/
 + Library/Containers/com.hogbaysoftware.TaskPaper3/Data/Library/

@@ -4,7 +4,6 @@ source "$HOME/.config/shell/secrets.sh"
 source "$HOME/.config/shell/exports.sh"
 source "$HOME/.config/shell/aliases.sh"
 source "$HOME/.config/shell/functions.sh"
-source "$HOME/.config/shell/prompt.sh"
 source "$HOME/.config/shell/local.sh"
 
 ################################################################################
