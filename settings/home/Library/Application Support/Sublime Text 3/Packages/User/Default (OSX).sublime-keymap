@@ -1,6 +1,0 @@
-[
-	{ "keys": ["super+0"],      "command": "reset_font_size_to_user_defaults" },
-	{ "keys": ["ctrl+shift+u"], "command": "upper_case" },
-	{ "keys": ["ctrl+u"],       "command": "lower_case" },
-	{ "keys": ["super+alt+a"],  "command": "alignment" }
-]

@@ -1,9 +1,0 @@
-<snippet>
-	<content><![CDATA[
-if object_id('${1:schema-name}.${2:table-name}') is not null drop table ${1:schema-name}.${2:table-name}
-]]></content>
-	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
-	<tabTrigger>if-table-exists-drop</tabTrigger>
-	<!-- Optional: Set a scope to limit where the snippet will trigger -->
-	<scope>source.sql</scope>
-</snippet>

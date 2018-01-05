@@ -1,0 +1,108 @@
+# aliases
+
+# https://medium.com/@webprolific/getting-started-with-dotfiles-43c3602fd789#.vh7hhm6th
+# https://github.com/webpro/dotfiles/blob/master/system/.alias
+# https://github.com/mathiasbynens/dotfiles/blob/master/.aliases
+
+# be safe
+alias cp='cp -i'
+alias mv='mv -i'
+alias rm='rm -i'
+
+# single character shortcuts - be sparing!
+alias _='sudo'
+alias g='git'
+alias v='vim'
+alias c='clear'
+alias h='history'
+alias x='exit'
+
+# shortcuts
+alias py2='python2'
+alias py3='python3'
+alias rmi='rm -i'
+alias afind='ack -il'
+alias md='mkdir -p'
+alias rd=rmdir
+
+# ls
+alias ll='ls -lAFh'
+alias l='ls -F'
+alias la='ls -A'
+
+# fix typos
+alias cs='cd'  # darn colemak
+alias dir='ls'  # darn Windows
+alias quit='exit'
+
+# Tools
+alias te='subl'
+alias ide='code'
+alias juno='jupyter notebook'
+
+# quick edit for projects
+alias ohmyzsh="ide \"\${ZSH}\""
+alias dotfiles="ide \"\${DOTFILES}\""
+
+# Network
+alias ip="dig +short myip.opendns.com @resolver1.opendns.com"
+alias iplocal="ifconfig | grep -Eo 'inet (addr:)?([0-9]*\.){3}[0-9]*' | grep -Eo '([0-9]*\.){3}[0-9]*' | grep -v '127.0.0.1'"
+alias dnsflush="dscacheutil -flushcache && killall -HUP mDNSResponder"
+alias speedtest="wget -O /dev/null http://speed.transip.nl/10mb.bin"
+alias ping="ping -c 5"
+
+
+# Recursively clean files
+alias cleands="find . -name '.DS_Store' -depth -exec rm {} \;"
+alias cleanpyc="find . -type f -name '*.py[co]' -delete"
+
+
+# Canonical hex dump; some systems have this symlinked
+command -v hd > /dev/null || alias hd="hexdump -C"
+
+# macOS has no `md5sum`, so use `md5` as a fallback
+command -v md5sum > /dev/null || alias md5sum="md5"
+
+# macOS has no `sha1sum`, so use `shasum` as a fallback
+command -v sha1sum > /dev/null || alias sha1sum="shasum"
+
+# other aliases
+alias venvactivate="source .venv/bin/activate"
+alias tarls="tar -tvf"
+alias untar="tar -xf"
+alias biggest='du -s ./* | sort -nr | awk '\''{print $2}'\'' | xargs du -sh'
+alias path='echo -e ${PATH//:/\\n}'
+alias linecount="grep -c '^'"
+alias ex="exit"
+alias ts="date +%Y%m%d%H%M%S"
+alias timestamp="date '+%Y-%m-%d %H:%M:%S'"
+
+
+### git ###
+alias get="git"
+alias g="git"
+
+
+### jupyter ###
+alias juno="jupyter notebook"
+
+
+### macOS ###
+# brew
+# alias bcu="brew cask list | xargs brew cask install --force"  # there's now a better way
+alias bcu="brew cu"
+
+# Show/hide hidden files in Finder
+alias show.hiddenfiles="defaults write com.apple.finder AppleShowAllFiles -bool true && killall Finder"
+alias hide.hiddenfiles="defaults write com.apple.finder AppleShowAllFiles -bool false && killall Finder"
+
+# Hide/show all desktop icons (useful when presenting)
+alias hide.desktop="defaults write com.apple.finder CreateDesktop -bool false && killall Finder"
+alias show.desktop="defaults write com.apple.finder CreateDesktop -bool true && killall Finder"
+
+alias pubkey="more ~/.ssh/id_rsa.pub | pbcopy | echo '=> Public key copied to clipboard.'"
+
+
+### todo.txt ###
+alias t="todo.sh"
+alias todo="te ~/Dropbox/notes/todo/todo.txt"
