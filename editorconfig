@@ -1,0 +1,33 @@
+# top-most EditorConfig file
+root = true
+
+[*]
+charset = utf-8
+end_of_line = lf
+insert_final_newline = true
+trim_trailing_whitespace = true
+indent_style = space
+indent_size = 4
+
+[{makefile,Makefile,MAKEFILE}]
+# Use tabs for indentation (Makefiles require tabs)
+indent_style = tab
+indent_size = 4
+
+# use visual studio defaults
+[*.cs]
+indent_style = tab
+end_of_line = crlf
+
+[*.taskpaper]
+indent_style = tab
+
+[*.go]
+indent_style = tab
+
+[*.{html,htm,xml,xsl,xsld,xsd}]
+indent_size = 2
+
+[*.{md,markdown}]
+# Don trim end spacing because unfortunately Markdown uses that
+trim_trailing_whitespace = false

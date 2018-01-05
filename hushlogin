@@ -1,0 +1,4 @@
+# See `man login`.
+# Immediately after logging a user in, login displays the system copyright notice, the date and time the user last logged in, the
+# message of the day as well as other information.  If the file .hushlogin exists in the user's home directory, all of these messages
+# are suppressed.

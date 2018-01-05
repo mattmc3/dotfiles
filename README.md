@@ -1,155 +1,123 @@
-# Dotfiles
+# dotfiles
+My CMM dotfiles
 
 ## Intro
-This repo is for making sure my *nix dot files and other configs are just a `git clone`
+This repo is for keeping changes to *nix dot files and other configs just a `git clone`
 away. Some of the techniques and code are based on concepts from
 [this article](https://medium.com/@webprolific/getting-started-with-dotfiles-43c3602fd789#.vh7hhm6th)
-and the zillions of other dotfile repos on GitHub.
+and the zillions of other [dotfile repos on GitHub](https://dotfiles.github.io/).
 
-## Philosophy
-A lot of dofiles repos use sophisticated symlinking strategies or make heavy use of GNU stow.
-I tried that method, but cluttering my box with symlinks never quite felt quite right. I
-wanted to manage the files where they really live, not in my repo. Iwanted something simpler.
-And at the same time something more porwerful. I needed `rsync`.
+This mainly targets macOS, and leverages oh-my-zsh with zsh, or bash_it for bash.
+This repo contains just my customizations on top of that.
 
-So few dotfiles repos harness the power of `rsync`. At its core, all the scripting and structure
-of this repo can be broken down into one command for dotfile management:
+### Prereqs
 
-```
-# to backup
-rsync -acv --include-from="filter.lst" "$HOME/" "$HOME/.dotfiles/settings/home/"
-
-# to restore
-rsync -avI --exclude=".DS_Store" "$HOME/.dotfiles/settings/home/" "$HOME/"
-```
-
-Now, in addition to dotfiles, I also wanted to manage saving off `pip` installs, my `Brewfile`,
-my VSCode plugins, my crontab and other things that aren't strictly dotfiles. I also secure my
-sensitive files with PGP encryption so that I can be confortable putting everything up into
-a public repo. But despite all the extras, you can clone this repo yourself and strip it down
-to a simple, elegant `rsync` dotfiles repo of your very own.
-
-## git-ing
-### Prereqs:
-
-- Get GPG and create a key pair to encrypt your files
 - Get [homebrew](https://brew.sh)
 - Get [oh-my-zsh](https://github.com/robbyrussell/oh-my-zsh)
+- Get [bash_it](https://github.com/Bash-it/)
 
-If you don't have these, `make init` will grab them.
+If you don't have these, `make install` will grab them.
 
+**WARNING**: `make install` will automatically perform a backup of your existing
+`$HOME` dotfiles before it symlinks in new ones. If you decide you want to revert
+back, `make uninstall` will not return them to the previous state. All `make uninstall`
+does is replaces the symlinks with the actual files in this repo. To revert, you'll
+want to execute the following:
 
-### git
+```zsh
+cd backups/CCYYMMDD_HHMMSS
+cp -i .* $HOME
 ```
+
+### How it works
+
+This dofiles repo backs up and replaces your shell config files with symlinks
+from this repo. This also utilizes your `$XDG_CONFIG_HOME` to store runcom
+and custom oh-my-zsh plugins directories. By using `$XDG_CONFIG_HOME`, nothing
+needs to import from your dotfiles project, so you can `make uninstall` cleanly.
+
+The symlinks on your machine following `make install` will be:
+
+- ~/.config/runcom/
+- ~/.config/omz-custom/
+- ~/.bash_profile
+- ~/.bashrc
+- ~/.editorconfig
+- ~/.gitconfig
+- ~/.gitignore_global
+- ~/.hushlogin
+- ~/.inputrc
+- ~/.myrc
+- ~/.screenrc
+- ~/.tmux.conf
+- ~/.vimrc
+- ~/.zshrc
+
+### Gitting
+
+```zsh
 # go home
 cd
-
 # get project
-git clone git@github.com:mattmc3/dotfiles.git ~/.dotfiles
-
-# restore
-make restore
-
-# or... set up new
-make clean
-make init
-make backup
+git clone git@git.innova-partners.com:mmcelheny/dotfiles.git ~/.dotfiles
+# install
+make install
 ```
 
-### !!! WARNING !!!
-`make restore` is currently a *destructive opertation*. **Backup your home directory
-before using this project.** Unless you're me, and then this is really the homedir you
-always wanted <3 <3 <3).
-
 ## Project structure
-- **docs** : My notes
-- **scripts** : bash scripts to handle backup / restore operations
-- **scripts/_dir_** : a module for a specific type of backup / restore
-- **settings** : The location of dotfiles backups
-- **settings/home** : rsync-ed files and dirs off my $HOME
-- **settings/home/.config/shell** : My shell customizations.
-    - Note that these are backups from rsync, not the master files like with other dotfiles repos.
-- **settings/misc** : Other backups such as my Brewfile, `pip freeze` files, etc.
+
+- **root**: Contains dotfiles to be symlinked into `$HOME` upon running `make install`
+  - **myrc:** My custom runcom file that should be bash/zsh agnostic. Called
+  by bashrc and zshrc after shell specific stuff is loaded. `$CURRENT_SHELL`
+  holds `bash` or `zsh` for any custom if/else logic in myrc not handled in
+  each shell's default rc file.
+- **omz-custom:** My custom plugins that run from oh-my-zsh. `$ZSH_CUSTOM` should
+point here.
+- **runcom:** Contains shell includes used by dotfiles. Divided into following
+sections:
+
+  - **aliases:** shell aliases
+  - **variables:** environment variables
+  - **functions:** common functions
+  - **options:** shell options
+  - **history:** history settings
+  - **prompt:** shell prompt settings
+- **tools:** The shell scripts that make the dotfiles project go!
+- **backups:** Snapshots of your `$HOME` prior to completing `make install`. _Excluded
+from repo to protect against secrets being committed._
 
 ## How to use?
 
 This project uses a makefile to do its work, because why not? Scripts are stored
-in the _scripts_ directory if you'd prefer to not use `make`.
+in the _tools_ directory if you'd prefer to not use `make` and run them yourself.
 
 - Run `make help` for detals, but the main actions are:
-    - `make backup`
-    - `make restore`
+  - `make install`
+  - `make uninstall`
 
-## Modules
+## Performance
 
-Modules are how we add functionality to our dotfiles backups/restores. If you don't
-use Atom for example, just comment out `atom` from backup_modules in backup.sh before
-running `make backup` and those customizations will no longer be part of the dotfiles
-backups.
+A snappy shell is very important. My dotfiles include a `benchmark-zsh` command
+that runs zsh 10 times and presents the timings. (There's also a `benchmark-bash`
+command too, but I only care about tuning my primary shell, zsh).
 
-I like the manta of "convention over configuration", so modules follow some rules to
-make the dotfiles install simple.
+The latest batch run shows that we load in ~200 ms, which is plenty
+snappy enough.
 
-A module is simply a directory with some optional scripts:
-- _backup.sh_ : the script that will run when running `make backup`. This is useful for
-snapshotting system configs or making snapshots of pip installs, etc.
-- _restore.sh_ : the script that will run when running `make restore`. This is how a
-module would restore itself back to the system - perhaps by symlinking a file into _$HOME_
-or redownloading Atom extentions.
+```zsh
+% benchmark-zsh
+        0.23 real         0.11 user         0.08 sys
+        0.20 real         0.10 user         0.06 sys
+        0.20 real         0.10 user         0.06 sys
+        0.21 real         0.11 user         0.06 sys
+        0.20 real         0.10 user         0.06 sys
+        0.21 real         0.10 user         0.06 sys
+        0.19 real         0.10 user         0.06 sys
+        0.21 real         0.11 user         0.06 sys
+        0.21 real         0.10 user         0.06 sys
+        0.21 real         0.10 user         0.07 sys
+```
 
-Remember, these files are all optional.
+## Other resources
 
-## Smarty pants
-
-Want to be a smarty pants? Run a cron job that does `make backup` followed by a `git add . && git commit -m 'checkin'`
-every so often to ensure you always have a good backup.
-
-### atom
-
-Atom stores its dot files in ~/.atom. The dotfiles module picks those up, but
-the atom module picks up the apm extentions.
-
-### autohotkey
-
-This isn't a macOS config, but if I'm ever on Windows AHK makes it more tolerable
-and I want a known place to find my AHK script.
-
-### bin
-
-It's handy to have a ~/bin folder in your path with scripts and such.
-
-### brew
-
-macOS and homebrew... like chocolate and peanut butter.
-
-### cron
-
-My crontab file.
-
-Some of the jobs serve as a belt (Dropbox) and suspenders (git) approach to saving
-my todo.txt and nvALT notes.
-
-### iTerm
-
-iTerm can save its config. This is where it goes.
-
-### python
-
-> you can't expect to wield supreme executive power just because some
-> watery tart threw a sword at you.
-
-### taskpaper
-
-Simple. Effective. And now with syncing themes via dotfiles!
-
-### tmux
-
-Best. Terminal multiplexer. Evah.
-
-### todotxt
-
-I've tried them all. This is a system that works. That, and Taskpaper.
-
-### vscode
-
-Just because MS can't make a decent OS, doesn't mean they can't make great dev tools.
+- [Sensible bash](https://github.com/mrzool/bash-sensible) (oxymoron?)

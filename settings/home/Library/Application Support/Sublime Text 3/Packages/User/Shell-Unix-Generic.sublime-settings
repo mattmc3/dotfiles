@@ -1,9 +1,0 @@
-{
-	"extensions":
-	[
-        "bash",
-        "dotfile",
-        "sh",
-        "zsh"
-	]
-}

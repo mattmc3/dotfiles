@@ -1,9 +1,0 @@
-// Settings in here override those in "EasyDiff/easy_diff.sublime-settings",
-
-{
-    // Show external options (options to send files to external diff tool)
-    "show_external": true,
-
-    // External diff tool path (absolute)
-    "external_diff": "/usr/bin/opendiff",
-}
