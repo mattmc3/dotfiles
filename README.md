@@ -1,5 +1,5 @@
 # dotfiles
-My CMM dotfiles
+My dotfiles
 
 ## Intro
 This repo is for keeping changes to *nix dot files and other configs just a `git clone`
@@ -59,7 +59,7 @@ The symlinks on your machine following `make install` will be:
 # go home
 cd
 # get project
-git clone git@git.innova-partners.com:mmcelheny/dotfiles.git ~/.dotfiles
+git clone git@github.com:mattmc3/dotfiles.git ~/.dotfiles
 # install
 make install
 ```
