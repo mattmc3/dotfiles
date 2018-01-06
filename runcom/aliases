@@ -28,7 +28,7 @@ alias rd=rmdir
 # ls
 alias ll='ls -lAFh'
 alias l='ls -F'
-alias la='ls -A'
+alias la='ls -AF'
 
 # fix typos
 alias cs='cd'  # darn colemak
@@ -81,6 +81,7 @@ alias timestamp="date '+%Y-%m-%d %H:%M:%S'"
 ### git ###
 alias get="git"
 alias g="git"
+alias sourcetree='open -a SourceTree'
 
 
 ### jupyter ###

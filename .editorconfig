@@ -1,5 +1,4 @@
-# It helps to have a home level editorConfig in the event that a project doesn't
-# have one if its very own.
+# top-most EditorConfig file
 root = true
 
 [*]
@@ -15,20 +14,9 @@ indent_size = 4
 indent_style = tab
 indent_size = 4
 
-# use visual studio defaults
-[*.cs]
-indent_style = tab
-end_of_line = crlf
-
-[*.taskpaper]
-indent_style = tab
-
-[*.go]
-indent_style = tab
-
-[*.{html,htm,xml,xsl,xsld,xsd}]
-indent_size = 2
-
 [*.{md,markdown}]
 # Don't trim end spacing because unfortunately Markdown uses that
 trim_trailing_whitespace = false
+
+[gitconfig]
+indent_style = tab

@@ -1,10 +1,11 @@
+# my oh-my-zsh plugin for git commands
 
 show_gdot=${GIT_SHOW_GDOT_CMD:-true}
 
 function __run_git_cmd() {
     local _cmd=$1
     if [[ show_gdot ]]; then
-        echo $_cmd
+        echo "% ${_cmd}"
     fi
     eval $_cmd
 }
@@ -69,6 +70,14 @@ function g.clone-https() {
     fi
 }
 
+function g.clone-github() {
+    if [ ! -n "$1" ]; then
+        echo "No https URL specified (ie: http://github.com/mattmc3/dotfiles.git)" 1>&2
+    else
+        __run_git_cmd "git clone $1 $2"
+    fi
+}
+
 function g.config-user-email() {
     if [ ! -n "$1" ]; then
         echo "No email specified" 1>&2
@@ -83,6 +92,21 @@ function g.config-user-name() {
     else
         __run_git_cmd "git config user.name \"$1\""
     fi
+}
+
+function g.show-current-user() {
+    __run_git_cmd "git config user.name"
+    __run_git_cmd "git config user.email"
+}
+
+function g.set-personal-user() {
+    __run_git_cmd "git config user.name \"$MYNAME\""
+    __run_git_cmd "git config user.email \"$HOME_EMAIL\""
+}
+
+function g.set-work-user() {
+    __run_git_cmd "git config user.name \"$MYNAME\""
+    __run_git_cmd "git config user.email \"$WORK_EMAIL\""
 }
 
 function g.commit-and-push() {
@@ -113,6 +137,30 @@ function g.delete-branch() {
     fi
 }
 
-function g.checkpoint() {
+function g.commit-checkpoint() {
     __run_git_cmd "git add . && git commit -am 'checkpoint' && git push"
+}
+
+function g.remove-submodule() {
+    # https://stackoverflow.com/a/36593218/8314
+    local submodule="$1"
+    if [[ ! -n "$submodule" || ! -d "$submodule" ]]; then
+        echo "FAIL: No valid submodule specified" 1>&2
+        return 1
+    fi
+
+    cmds=(
+        # Remove the submodule entry from .git/config
+        "git submodule deinit -f \"$submodule\""
+
+        # Remove the submodule directory from the superproject's .git/modules directory
+        "rm -rf \".git/modules/${submodule}\""
+
+        # Remove the entry in .gitmodules and remove the submodule directory located at path/to/submodule
+        "git rm -f \"$submodule\""
+    )
+    for cmd in "${cmds[@]}" ; do
+        __run_git_cmd $cmd
+    done
+
 }

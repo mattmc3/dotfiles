@@ -1,0 +1,2 @@
+(A) Look at common git aliases to add to gitconfig
+(A) Decide if there's anything in .config worth managing in dotfiles vs just keeping backups
