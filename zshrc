@@ -28,6 +28,7 @@ setopt NO_HIST_BEEP # Don't beep
 setopt SHARE_HISTORY # Share history between session/terminals
 
 # zsh only aliases
+alias cd..='cd ..'
 alias -g ...='../..'
 alias -g ....='../../..'
 alias -g .....='../../../..'
@@ -46,6 +47,13 @@ cdpath=(
 if [[ -d "${HOME}/.oh-my-zsh" ]]; then
     source "${XDG_CONFIG_HOME}/runcom/oh-my-zsh.zsh"
 fi
+
+# `ls` after `cd`
+# https://stackoverflow.com/questions/3964068/zsh-automatically-run-ls-after-every-cd
+function chpwd() {
+    emulate -L zsh
+    ls -F
+}
 
 # source my run command customizations
 test -e "${HOME}/.myrc" && source "${HOME}/.myrc"
