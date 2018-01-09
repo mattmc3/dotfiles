@@ -26,7 +26,7 @@ alias rd=rmdir
 
 # ls
 alias ll='ls -lAFh'
-alias l='ls -F'
+alias l='ls -lFh'
 alias la='ls -AF'
 
 # fix typos
