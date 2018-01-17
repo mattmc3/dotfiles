@@ -11,6 +11,7 @@ alias rmi='rm -i'
 
 # single character shortcuts - be sparing!
 alias _='sudo'
+alias c='clear'
 alias g='git'
 alias v='vim'
 alias h='history'
@@ -20,6 +21,7 @@ alias x='exit'
 alias cl='clear'
 alias py2='python2'
 alias py3='python3'
+alias py='python3'
 alias afind='ack -il'
 alias md='mkdir -p'
 alias rd=rmdir
