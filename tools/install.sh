@@ -92,8 +92,9 @@ mkdir -p "${config_dir}"
 
 # runcom
 echo "Installing runcom symlinks..."
-symlink_dotfile "${dotfiles_dir}/omz-custom"        "${config_dir}/omz-custom"
-symlink_dotfile "${dotfiles_dir}/runcom"            "${config_dir}/runcom"
+symlink_dotfile "${dotfiles_dir}/config/nvim"       "${config_dir}/nvim"
+symlink_dotfile "${dotfiles_dir}/config/omz-custom" "${config_dir}/omz-custom"
+symlink_dotfile "${dotfiles_dir}/config/runcom"     "${config_dir}/runcom"
 symlink_dotfile "${dotfiles_dir}/bash_profile"      "${HOME}/.bash_profile"
 symlink_dotfile "${dotfiles_dir}/bashrc"            "${HOME}/.bashrc"
 symlink_dotfile "${dotfiles_dir}/editorconfig"      "${HOME}/.editorconfig"

@@ -13,7 +13,7 @@ alias rmi='rm -i'
 alias _='sudo'
 alias c='clear'
 alias g='git'
-alias v='vim'
+alias v='nvim'
 alias h='history'
 alias x='exit'
 

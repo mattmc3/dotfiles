@@ -31,6 +31,7 @@ function unsymlink_dotfile() {
 ### Uninstall ------------------------------------------------------------------
 # runcom
 echo "Uninstalling runcom symlinks..."
+unsymlink_dotfile "${config_dir}/nvim"
 unsymlink_dotfile "${config_dir}/omz-custom"
 unsymlink_dotfile "${config_dir}/runcom"
 unsymlink_dotfile "${HOME}/.bash_profile"
