@@ -27,9 +27,9 @@ alias md='mkdir -p'
 alias rd=rmdir
 
 # ls
-alias ll='ls -lAFh'
-alias l='ls -lFh'
-alias la='ls -AF'
+alias ll='ls -lFh'
+alias l='ls -F'
+alias la='ls -lAFh'
 
 # fix typos
 alias cs='cd'  # darn colemak
