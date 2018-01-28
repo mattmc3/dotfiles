@@ -54,8 +54,8 @@ cdpath=(
 . ~/.lib/antigen/antigen.zsh
 
 antigen use oh-my-zsh
-# stuff I like: refined, wezm, juanghurtado, avit, kardan
-antigen theme juanghurtado
+# stuff I like: refined, wezm, juanghurtado, avit, kardan, juanghurtado, steeef
+antigen theme steeef
 
 antigen bundles <<EOBUNDLES
 zsh-users/zsh-autosuggestions

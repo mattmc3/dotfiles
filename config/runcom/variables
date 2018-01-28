@@ -3,6 +3,7 @@ DOTFILES=${DOTFILES:-$HOME/.dotfiles}
 CURRENT_OS=`uname -s`
 CURRENT_SHELL=`ps -p $$ -ocomm= | sed -E -e 's/^.*[\/\-]//'`
 CURRENT_USERNAME=`id -un`
+export TZ=America/New_York
 
 export PATH=$PATH:$HOME/bin # Add ~/bin to PATH
 
