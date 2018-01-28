@@ -1,4 +1,5 @@
 ### zsh specific settings ###
+# https://github.com/zsh-users/antigen/wiki/In-the-wild
 
 export XDG_CONFIG_HOME=${XDG_CONFIG_HOME:-$HOME/.config}
 export DOTFILES=${DOTFILES:-$HOME/.dotfiles}
@@ -27,6 +28,9 @@ setopt HIST_IGNORE_SPACE # Don't preserve spaces. You may want to turn it off
 setopt NO_HIST_BEEP # Don't beep
 setopt SHARE_HISTORY # Share history between session/terminals
 
+# add the zsh calculator
+autoload -Uz zcalc
+
 # zsh only aliases
 alias cd..='cd ..'
 alias -g ...='../..'
@@ -43,10 +47,31 @@ cdpath=(
     $HOME/Documents
 )
 
-# Source oh-my-zsh
-if [[ -d "${HOME}/.oh-my-zsh" ]]; then
-    source "${XDG_CONFIG_HOME}/runcom/oh-my-zsh.zsh"
-fi
+# Antigen <3
+[[ ! -d ~/.lib/antigen ]] &&
+    mkdir -p ~/.lib && git clone https://github.com/zsh-users/antigen.git ~/.lib/antigen
+
+. ~/.lib/antigen/antigen.zsh
+
+antigen use oh-my-zsh
+# stuff I like: refined, wezm, juanghurtado, avit, kardan
+antigen theme juanghurtado
+
+antigen bundles <<EOBUNDLES
+zsh-users/zsh-autosuggestions
+zsh-users/zsh-syntax-highlighting
+zsh-users/zsh-history-substring-search
+zsh-users/zsh-completions
+
+mattmc3/zsh-extract
+mattmc3/zsh-tailf
+mattmc3/zsh-git-gdot
+
+colored-man-pages
+EOBUNDLES
+
+antigen apply
+
 
 # `ls` after `cd`
 # https://stackoverflow.com/questions/3964068/zsh-automatically-run-ls-after-every-cd
@@ -55,5 +80,21 @@ function chpwd() {
     ls -F
 }
 
+### iTerm2 ###
+test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
+
+### ssh ###
+ssh-add ~/.ssh/id_rsa &> /dev/null
+
+### z ###
+[[ -f /usr/local/etc/profile.d/z.sh ]] && . /usr/local/etc/profile.d/z.sh
+
+
 # source my run command customizations
-test -e "${HOME}/.myrc" && source "${HOME}/.myrc"
+[[ -f ~/.config/runcom/variables ]] && . ~/.config/runcom/variables
+[[ -f ~/.config/runcom/aliases ]] && . ~/.config/runcom/aliases
+[[ -f ~/.config/runcom/functions ]] && . ~/.config/runcom/functions
+[[ -f ~/.config/runcom/completions.zsh ]] && . ~/.config/runcom/completions.zsh
+[[ -f ~/.zshrc_local ]] && . ~/.zshrc_local
+
+return 0

@@ -16,7 +16,13 @@ fi
 alias s="source ~/.bashrc"  # quick sourcing
 
 # source my run command customizations
-test -e "${HOME}/.myrc" && source "${HOME}/.myrc"
+[[ -f ~/.config/runcom/variables ]] && . ~/.config/runcom/variables
+[[ -f ~/.config/runcom/aliases ]] && . ~/.config/runcom/aliases
+[[ -f ~/.config/runcom/functions ]] && . ~/.config/runcom/functions
+[[ -f ~/.config/runcom/options.bash ]] && . ~/.config/runcom/options.bash
+[[ -f ~/.config/runcom/history.bash ]] && . ~/.config/runcom/history.bash
+[[ -f ~/.config/runcom/completions.bash ]] && . ~/.config/runcom/completions.bash
+[[ -f ~/.bashrc_local ]] && . ~/.bashrc_local
 
 ### bash only vars ###
 # dedupe path
