@@ -93,15 +93,6 @@ alias juno="jupyter notebook"
 # brew
 # alias bcu="brew cask list | xargs brew cask install --force"  # there's now a better way
 alias bcu="brew cu"
-
-# Show/hide hidden files in Finder
-alias show.hiddenfiles="defaults write com.apple.finder AppleShowAllFiles -bool true && killall Finder"
-alias hide.hiddenfiles="defaults write com.apple.finder AppleShowAllFiles -bool false && killall Finder"
-
-# Hide/show all desktop icons (useful when presenting)
-alias hide.desktop="defaults write com.apple.finder CreateDesktop -bool false && killall Finder"
-alias show.desktop="defaults write com.apple.finder CreateDesktop -bool true && killall Finder"
-
 alias pubkey="more ~/.ssh/id_rsa.pub | pbcopy | echo '=> Public key copied to clipboard.'"
 
 

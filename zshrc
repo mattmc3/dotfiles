@@ -54,7 +54,8 @@ cdpath=(
 . ~/.lib/antigen/antigen.zsh
 
 antigen use oh-my-zsh
-# stuff I like: refined, wezm, juanghurtado, avit, kardan, juanghurtado, steeef
+export ZSH=~/.antigen/bundles/robbyrussell/oh-my-zsh
+# themes I like: refined, wezm, juanghurtado, avit, kardan, juanghurtado, steeef
 antigen theme steeef
 
 antigen bundles <<EOBUNDLES
@@ -63,7 +64,17 @@ zsh-users/zsh-syntax-highlighting
 zsh-users/zsh-history-substring-search
 zsh-users/zsh-completions
 
-mattmc3/zsh-extract
+chucknorris
+common-aliases
+django
+extract
+gitignore
+golang
+history
+osx
+web-search
+z
+
 mattmc3/zsh-tailf
 mattmc3/zsh-git-gdot
 
@@ -87,13 +98,13 @@ test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell
 ssh-add ~/.ssh/id_rsa &> /dev/null
 
 ### z ###
-[[ -f /usr/local/etc/profile.d/z.sh ]] && . /usr/local/etc/profile.d/z.sh
+# [[ -f /usr/local/etc/profile.d/z.sh ]] && . /usr/local/etc/profile.d/z.sh
 
 
 # source my run command customizations
-[[ -f ~/.config/runcom/variables ]] && . ~/.config/runcom/variables
-[[ -f ~/.config/runcom/aliases ]] && . ~/.config/runcom/aliases
-[[ -f ~/.config/runcom/functions ]] && . ~/.config/runcom/functions
+[[ -f ~/.config/runcom/variables.sh ]] && . ~/.config/runcom/variables.sh
+[[ -f ~/.config/runcom/aliases.sh ]] && . ~/.config/runcom/aliases.sh
+[[ -f ~/.config/runcom/functions.sh ]] && . ~/.config/runcom/functions.sh
 [[ -f ~/.config/runcom/completions.zsh ]] && . ~/.config/runcom/completions.zsh
 [[ -f ~/.zshrc_local ]] && . ~/.zshrc_local
 
