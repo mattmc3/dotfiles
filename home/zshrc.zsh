@@ -31,14 +31,6 @@ setopt SHARE_HISTORY # Share history between session/terminals
 # add the zsh calculator
 autoload -Uz zcalc
 
-# zsh only aliases
-alias cd..='cd ..'
-alias -g ...='../..'
-alias -g ....='../../..'
-alias -g .....='../../../..'
-alias -g ......='../../../../..'
-alias s="source ~/.zshrc"
-
 # cdpath will let you treat subdirs of this list as directly avalailable from
 # whatever directory you are in
 setopt auto_cd
@@ -68,7 +60,6 @@ zsh-users/zsh-history-substring-search
 zsh-users/zsh-completions
 
 chucknorris
-# common-aliases
 django
 extract
 gitignore
@@ -95,13 +86,11 @@ function chpwd() {
 }
 
 ### OS specific ###
-if [[ $OSTYPE =~ "darwin" ]]; then
+if [[ "$OSTYPE" == darwin* ]]; then
     # macos uses keychain with ssh -K
     ssh-add -K ~/.ssh/id_rsa &> /dev/null
     # iterm ain't no linux thang
     [[ -e ~/.iterm2_shell_integration.zsh ]] && source ~/.iterm2_shell_integration.zsh
-    # z
-    [[ -f /usr/local/etc/profile.d/z.sh ]] && . /usr/local/etc/profile.d/z.sh
 else
     ssh-add ~/.ssh/id_rsa &> /dev/null
 fi

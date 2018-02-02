@@ -61,9 +61,6 @@ if [[ -d "${HOME}/.bash_it" ]]; then
     source "$DOTFILES/includes/bash_it.bash"
 fi
 
-### bash only aliases ###
-alias s="source ~/.bashrc"  # quick sourcing
-
 # source my run command customizations
 [[ -f "$DOTFILES/includes/env.sh" ]]     && . "$DOTFILES/includes/env.sh"
 [[ -f "$DOTFILES/includes/aliases.sh" ]] && . "$DOTFILES/includes/aliases.sh"

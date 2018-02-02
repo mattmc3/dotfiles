@@ -4,6 +4,37 @@
 # https://github.com/webpro/dotfiles/blob/master/system/.alias
 # https://github.com/mathiasbynens/dotfiles/blob/master/.aliases
 
+# zsh only aliases
+if [[ -n $ZSH_VERSION ]]; then
+    alias -2='cd -2'
+    alias -3='cd -3'
+    alias -4='cd -4'
+    alias cd..='cd ..'
+    alias -g ...='../..'
+    alias -g ....='../../..'
+    alias -g .....='../../../..'
+    alias -g ......='../../../../..'
+    alias s="source ~/.zshrc"
+    alias reload="source ~/.zshrc"
+
+    # zsh pipes
+    alias -g H='| head'
+    alias -g T='| tail'
+    alias -g G='| grep'
+
+elif [[ -n $BASH_VERSION ]]; then
+    alias s="source ~/.bashrc"  # quick sourcing
+    alias reload="source ~/.bashrc"
+fi
+
+# macOS only
+if [[ "$OSTYPE" == darwin* ]]; then
+    alias lmk="say 'Process complete.'"
+    alias showfiles="defaults write com.apple.finder AppleShowAllFiles -bool true && killall Finder"
+    alias hidefiles="defaults write com.apple.finder AppleShowAllFiles -bool false && killall Finder"
+fi
+
+
 # be safe
 alias cpi='cp -i'
 alias mvi='mv -i'
@@ -30,20 +61,22 @@ alias rd=rmdir
 alias ll='ls -lFh'
 alias l='ls -F'
 alias la='ls -lAFh'
+alias ldot='ls -ld .*'
 
 # fix typos
 alias cs='cd'  # darn colemak
 alias dir='ls'  # darn Windows
 alias quit='exit'
 
-# Tools
-alias te='subl'
-alias ide='code'
+# tools
+alias te='$EDITOR .'
+alias ide='$EDITOR .'
 alias juno='jupyter notebook'
 
 # quick edit for projects
-alias ohmyzsh="ide \"\${ZSH}\""
-alias dotfiles="ide \"\${DOTFILES}\""
+alias ohmyzsh="cd \"\${ZSH}\"; $EDITOR ."
+alias dotfiles="cd \"\${DOTFILES}\"; $EDITOR ."
+alias zshrc='$EDITOR ~/.zshrc' # Quick access to the ~/.zshrc file
 
 # Network
 alias ip="dig +short myip.opendns.com @resolver1.opendns.com"
@@ -51,6 +84,7 @@ alias iplocal="ifconfig | grep -Eo 'inet (addr:)?([0-9]*\.){3}[0-9]*' | grep -Eo
 alias dnsflush="dscacheutil -flushcache && killall -HUP mDNSResponder"
 alias speedtest="wget -O /dev/null http://speed.transip.nl/10mb.bin"
 alias ping="ping -c 5"
+alias pinging="command ping"
 
 
 # Recursively clean files
@@ -78,6 +112,11 @@ alias ex="exit"
 alias ts="date +%Y%m%d%H%M%S"
 alias timestamp="date '+%Y-%m-%d %H:%M:%S'"
 
+alias fd='find . -type d -name'
+alias ff='find . -type f -name'
+
+alias dud='du -d 1 -h'
+alias duf='du -sh *'
 
 ### git ###
 alias get="git"

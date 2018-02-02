@@ -94,16 +94,16 @@ The latest benchmark run shows that we load a new shell pretty fast.
 
 ```zsh
 % benchmark-zsh
-        0.18 real         0.10 user         0.05 sys
-        0.19 real         0.11 user         0.05 sys
-        0.18 real         0.10 user         0.05 sys
-        0.19 real         0.10 user         0.05 sys
-        0.19 real         0.10 user         0.06 sys
-        0.19 real         0.10 user         0.05 sys
-        0.19 real         0.11 user         0.05 sys
-        0.18 real         0.10 user         0.05 sys
-        0.18 real         0.10 user         0.05 sys
-        0.18 real         0.10 user         0.05 sys
+        0.12 real         0.07 user         0.03 sys
+        0.13 real         0.08 user         0.03 sys
+        0.12 real         0.07 user         0.03 sys
+        0.13 real         0.08 user         0.04 sys
+        0.12 real         0.07 user         0.03 sys
+        0.13 real         0.08 user         0.04 sys
+        0.13 real         0.08 user         0.04 sys
+        0.14 real         0.08 user         0.04 sys
+        0.12 real         0.07 user         0.03 sys
+        0.12 real         0.07 user         0.03 sys
 ```
 
 ## Other resources
