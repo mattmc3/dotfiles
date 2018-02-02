@@ -31,15 +31,18 @@ function main() {
 
     ### Uninstall ------------------------------------------------------------------
     # runcom
-    echo "Uninstalling runcom symlinks..."
+    echo "Uninstalling symlinks..."
+    unsymlink_dotfile "${config_dir}/fish"
+    unsymlink_dotfile "${config_dir}/git"
     unsymlink_dotfile "${config_dir}/nvim"
-    unsymlink_dotfile "${config_dir}/omz-custom"
-    unsymlink_dotfile "${config_dir}/runcom"
+    unsymlink_dotfile "${config_dir}/xonsh"
+    unsymlink_dotfile "${config_dir}/pep8"
+    unsymlink_dotfile "${HOME}/.todo"
+    unsymlink_dotfile "${HOME}/bin"
     unsymlink_dotfile "${HOME}/.bash_profile"
     unsymlink_dotfile "${HOME}/.bashrc"
     unsymlink_dotfile "${HOME}/.editorconfig"
     unsymlink_dotfile "${HOME}/.gitconfig"
-    unsymlink_dotfile "${HOME}/.gitignore_global"
     unsymlink_dotfile "${HOME}/.hushlogin"
     unsymlink_dotfile "${HOME}/.inputrc"
     unsymlink_dotfile "${HOME}/.screenrc"

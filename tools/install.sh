@@ -89,21 +89,25 @@ function main() {
     # dotfiles_dir="~/${dotfiles_dir#*$HOME/}"
     # config_dir="~/${config_dir#*$HOME/}"
 
-    # runcom
-    echo "Installing runcom symlinks..."
-    symlink_dotfile "${dotfiles_dir}/config/nvim"       "${config_dir}/nvim"
-    symlink_dotfile "${dotfiles_dir}/config/omz-custom" "${config_dir}/omz-custom"
-    symlink_dotfile "${dotfiles_dir}/config/runcom"     "${config_dir}/runcom"
-    symlink_dotfile "${dotfiles_dir}/bash_profile"      ~/.bash_profile
-    symlink_dotfile "${dotfiles_dir}/bashrc"            ~/.bashrc
-    symlink_dotfile "${dotfiles_dir}/editorconfig"      ~/.editorconfig
-    symlink_dotfile "${dotfiles_dir}/gitconfig"         ~/.gitconfig
-    symlink_dotfile "${dotfiles_dir}/gitignore_global"  ~/.gitignore_global
-    symlink_dotfile "${dotfiles_dir}/hushlogin"         ~/.hushlogin
-    symlink_dotfile "${dotfiles_dir}/inputrc"           ~/.inputrc
-    symlink_dotfile "${dotfiles_dir}/screenrc"          ~/.screenrc
-    symlink_dotfile "${dotfiles_dir}/tmux.conf"         ~/.tmux.conf
-    symlink_dotfile "${dotfiles_dir}/zshrc"             ~/.zshrc
+    # symlinks
+    echo "Installing symlinks..."
+    symlink_dotfile "${dotfiles_dir}/home/config/fish"       "${config_dir}/fish"
+    symlink_dotfile "${dotfiles_dir}/home/config/git"        "${config_dir}/git"
+    symlink_dotfile "${dotfiles_dir}/home/config/nvim"       "${config_dir}/nvim"
+    symlink_dotfile "${dotfiles_dir}/home/config/xonsh"      "${config_dir}/xonsh"
+    symlink_dotfile "${dotfiles_dir}/home/config/pep8"       "${config_dir}/pep8"
+    symlink_dotfile "${dotfiles_dir}/home/bin"               ~/bin
+    symlink_dotfile "${dotfiles_dir}/home/todo"              ~/.todo
+    symlink_dotfile "${dotfiles_dir}/home/bash_profile.bash" ~/.bash_profile
+    symlink_dotfile "${dotfiles_dir}/home/bashrc.bash"       ~/.bashrc
+    symlink_dotfile "${dotfiles_dir}/home/editorconfig"      ~/.editorconfig
+    symlink_dotfile "${dotfiles_dir}/home/gitconfig"         ~/.gitconfig
+    symlink_dotfile "${dotfiles_dir}/home/hushlogin"         ~/.hushlogin
+    symlink_dotfile "${dotfiles_dir}/home/inputrc"           ~/.inputrc
+    symlink_dotfile "${dotfiles_dir}/home/screenrc"          ~/.screenrc
+    symlink_dotfile "${dotfiles_dir}/home/tmux.conf"         ~/.tmux.conf
+    symlink_dotfile "${dotfiles_dir}/home/xonshrc"           ~/.xonshrc
+    symlink_dotfile "${dotfiles_dir}/home/zshrc.zsh"         ~/.zshrc
 
     # neovim ftw!
     ln -sf "${config_dir}/nvim/init.vim" ~/.vimrc

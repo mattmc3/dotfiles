@@ -4,7 +4,7 @@
 [include]
 	path = ~/.gitconfig_local
 [core]
-	excludesfile = ~/.gitignore_global
+	excludesfile = ~/.config/git/ignore
 	editor = subl -nw
 	fileMode = false
 [difftool "sourcetree"]

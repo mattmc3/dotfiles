@@ -38,20 +38,23 @@ needs to import from your dotfiles project, so you can `make uninstall` cleanly.
 
 The symlinks on your machine following `make install` will be:
 
-- ~/.config/runcom/
-- ~/.config/omz-custom/
+**$HOME:**
+- ~/.todo/
+- ~/.bin/
 - ~/.bash_profile
 - ~/.bashrc
 - ~/.editorconfig
 - ~/.gitconfig
-- ~/.gitignore_global
 - ~/.hushlogin
 - ~/.inputrc
-- ~/.myrc
 - ~/.screenrc
 - ~/.tmux.conf
 - ~/.vimrc
+- ~/.xonshrc
 - ~/.zshrc
+
+**.config:**
+- Various
 
 ### Gitting
 
@@ -64,24 +67,10 @@ git clone git@github.com:mattmc3/dotfiles.git ~/.dotfiles
 make install
 ```
 
-## Project structure
+## Project structure notes
 
-- **root**: Contains dotfiles to be symlinked into `$HOME` upon running `make install`
-  - **myrc:** My custom runcom file that should be bash/zsh agnostic. Called
-  by bashrc and zshrc after shell specific stuff is loaded. `$CURRENT_SHELL`
-  holds `bash` or `zsh` for any custom if/else logic in myrc not handled in
-  each shell's default rc file.
-- **omz-custom:** My custom plugins that run from oh-my-zsh. `$ZSH_CUSTOM` should
-point here.
-- **runcom:** Contains shell includes used by dotfiles. Divided into following
-sections:
-
-  - **aliases:** shell aliases
-  - **variables:** environment variables
-  - **functions:** common functions
-  - **options:** shell options
-  - **history:** history settings
-  - **prompt:** shell prompt settings
+- **home**: Contains dotfiles to be symlinked into `$HOME` upon running `make install`
+- **includes**: Files that can be included from your shellrc file
 - **tools:** The shell scripts that make the dotfiles project go!
 - **backups:** Snapshots of your `$HOME` prior to completing `make install`. _Excluded
 from repo to protect against secrets being committed._
@@ -101,21 +90,20 @@ A snappy shell is very important. My dotfiles include a `benchmark-zsh` command
 that runs zsh 10 times and presents the timings. (There's also a `benchmark-bash`
 command too, but I only care about tuning my primary shell, zsh).
 
-The latest batch run shows that we load in ~200 ms, which is plenty
-snappy enough.
+The latest benchmark run shows that we load a new shell pretty fast.
 
 ```zsh
 % benchmark-zsh
-        0.23 real         0.11 user         0.08 sys
-        0.20 real         0.10 user         0.06 sys
-        0.20 real         0.10 user         0.06 sys
-        0.21 real         0.11 user         0.06 sys
-        0.20 real         0.10 user         0.06 sys
-        0.21 real         0.10 user         0.06 sys
+        0.18 real         0.10 user         0.05 sys
+        0.19 real         0.11 user         0.05 sys
+        0.18 real         0.10 user         0.05 sys
+        0.19 real         0.10 user         0.05 sys
         0.19 real         0.10 user         0.06 sys
-        0.21 real         0.11 user         0.06 sys
-        0.21 real         0.10 user         0.06 sys
-        0.21 real         0.10 user         0.07 sys
+        0.19 real         0.10 user         0.05 sys
+        0.19 real         0.11 user         0.05 sys
+        0.18 real         0.10 user         0.05 sys
+        0.18 real         0.10 user         0.05 sys
+        0.18 real         0.10 user         0.05 sys
 ```
 
 ## Other resources

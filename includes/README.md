@@ -1,4 +1,4 @@
-# runcom
+# includes
 
 This folder represents shell runcom files (aka: dotfiles) that can be referenced
 by the dotfiles symlinked in your `$HOME` directory. The symlinks are setup when
@@ -6,7 +6,7 @@ by the dotfiles symlinked in your `$HOME` directory. The symlinks are setup when
 in your home directory are typically required configs, so this directory
 organizes the other imports you may be using.
 
-# common
+## common
 
 Example of myrc_local
 

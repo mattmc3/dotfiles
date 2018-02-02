@@ -1,10 +1,10 @@
 # exports
-DOTFILES=${DOTFILES:-$HOME/.dotfiles}
-CURRENT_OS=`uname -s`
+export DOTFILES=${DOTFILES:-$HOME/.dotfiles}
 CURRENT_SHELL=`ps -p $$ -ocomm= | sed -E -e 's/^.*[\/\-]//'`
 CURRENT_USERNAME=`id -un`
 export TZ=America/New_York
 
+export TERM=xterm-256color
 export PATH=$PATH:$HOME/bin # Add ~/bin to PATH
 
 # Preferred editor for local and remote sessions
@@ -12,11 +12,10 @@ if [[ -n $SSH_CONNECTION ]]; then
     export EDITOR='vim'
 else
     # https://help.github.com/articles/associating-text-editors-with-git/
-    #export EDITOR="atom --wait"
     export EDITOR="subl -wn"
-    #export EDITOR="subl_wait.sh"
 fi
 
+export VISUAL=$EDITOR
 export LPASS_AGENT_TIMEOUT=0
 export MONO_GAC_PREFIX="/usr/local"
 

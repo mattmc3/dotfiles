@@ -16,7 +16,7 @@ path=(
     $path
 )
 
-# history
+### history ###
 SAVEHIST=10000 # Number of entries
 HISTSIZE=10000
 HISTFILE=~/.zsh_history # File
@@ -37,7 +37,7 @@ alias -g ...='../..'
 alias -g ....='../../..'
 alias -g .....='../../../..'
 alias -g ......='../../../../..'
-alias s="source $HOME/.zshrc"
+alias s="source ~/.zshrc"
 
 # cdpath will let you treat subdirs of this list as directly avalailable from
 # whatever directory you are in
@@ -48,15 +48,18 @@ cdpath=(
 )
 
 # Antigen <3
-[[ ! -d ~/.lib/antigen ]] &&
-    mkdir -p ~/.lib && git clone https://github.com/zsh-users/antigen.git ~/.lib/antigen
+ANTIGEN_ROOT=~/.config/antigen
+export ADOTDIR=$ANTIGEN_ROOT/plugins
+[[ ! -d $ANTIGEN_ROOT/lib ]] &&
+    mkdir -p $ANTIGEN_ROOT/lib &&
+    git clone https://github.com/zsh-users/antigen.git $ANTIGEN_ROOT/lib
 
-. ~/.lib/antigen/antigen.zsh
+. $ANTIGEN_ROOT/lib/antigen.zsh
 
 antigen use oh-my-zsh
-export ZSH=~/.antigen/bundles/robbyrussell/oh-my-zsh
+export ZSH=$ANTIGEN_ROOT/plugins/bundles/robbyrussell/oh-my-zsh
 # themes I like: refined, wezm, juanghurtado, avit, kardan, juanghurtado, steeef
-antigen theme steeef
+antigen theme avit
 
 antigen bundles <<EOBUNDLES
 zsh-users/zsh-autosuggestions
@@ -65,7 +68,7 @@ zsh-users/zsh-history-substring-search
 zsh-users/zsh-completions
 
 chucknorris
-common-aliases
+# common-aliases
 django
 extract
 gitignore
@@ -91,21 +94,24 @@ function chpwd() {
     ls -F
 }
 
-### iTerm2 ###
-test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
-
-### ssh ###
-ssh-add ~/.ssh/id_rsa &> /dev/null
-
-### z ###
-# [[ -f /usr/local/etc/profile.d/z.sh ]] && . /usr/local/etc/profile.d/z.sh
-
+### OS specific ###
+if [[ $OSTYPE =~ "darwin" ]]; then
+    # macos uses keychain with ssh -K
+    ssh-add -K ~/.ssh/id_rsa &> /dev/null
+    # iterm ain't no linux thang
+    [[ -e ~/.iterm2_shell_integration.zsh ]] && source ~/.iterm2_shell_integration.zsh
+    # z
+    [[ -f /usr/local/etc/profile.d/z.sh ]] && . /usr/local/etc/profile.d/z.sh
+else
+    ssh-add ~/.ssh/id_rsa &> /dev/null
+fi
 
 # source my run command customizations
-[[ -f ~/.config/runcom/variables.sh ]] && . ~/.config/runcom/variables.sh
-[[ -f ~/.config/runcom/aliases.sh ]] && . ~/.config/runcom/aliases.sh
-[[ -f ~/.config/runcom/functions.sh ]] && . ~/.config/runcom/functions.sh
-[[ -f ~/.config/runcom/completions.zsh ]] && . ~/.config/runcom/completions.zsh
+[[ -f "$DOTFILES/includes/env.sh" ]]     && . "$DOTFILES/includes/env.sh"
+[[ -f "$DOTFILES/includes/aliases.sh" ]] && . "$DOTFILES/includes/aliases.sh"
+[[ -f "$DOTFILES/includes/funcs.sh" ]]   && . "$DOTFILES/includes/funcs.sh"
 [[ -f ~/.zshrc_local ]] && . ~/.zshrc_local
 
-return 0
+### completions ###
+# python: tab complete for workon dir (virtualenv)
+compdef '_files -W "$WORKON_HOME"' workon &> /dev/null
