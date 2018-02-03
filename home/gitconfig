@@ -5,7 +5,7 @@
 	path = ~/.gitconfig_local
 [core]
 	excludesfile = ~/.config/git/ignore
-	editor = subl -nw
+	editor = subl -n -w
 	fileMode = false
 [difftool "sourcetree"]
 	cmd = opendiff \"$LOCAL\" \"$REMOTE\"
@@ -21,8 +21,6 @@
 	clean = git-lfs clean %f
 	smudge = git-lfs smudge %f
 	required = true
-[commit]
-	template = $HOME/.stCommitMsg
 [merge]
 	tool = opendiff
 [alias]

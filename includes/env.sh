@@ -12,7 +12,7 @@ if [[ -n $SSH_CONNECTION ]]; then
     export EDITOR='vim'
 else
     # https://help.github.com/articles/associating-text-editors-with-git/
-    export EDITOR="subl -wn"
+    export EDITOR="subl -n -w"
 fi
 
 export VISUAL=$EDITOR
