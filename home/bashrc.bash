@@ -4,7 +4,7 @@
 export XDG_CONFIG_HOME=${XDG_CONFIG_HOME:-$HOME/.config}
 export DOTFILES=${DOTFILES:-$HOME/.dotfiles}
 
-# export PATH="/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/opt/X11/bin:/usr/local/bin:/usr/local/sbin"
+# path
 export PATH=/usr/local/bin:/usr/local/sbin:$PATH
 
 ### history ###
@@ -48,40 +48,42 @@ shopt -s cdspell 2> /dev/null
 
 # This defines where cd looks for targets
 # Add the directories you want to have fast access to, separated by colon
-# Ex: CDPATH=".:~:~/projects" will look for targets in the current working directory, in home and in the ~/projects folder
+# Ex: CDPATH=".:~:~/projects" will look for targets in the current working
+# directory, in home and in the ~/projects folder
 CDPATH=".:~:~/Projects"
 
 # This allows you to bookmark your favorite places across the file system
-# Define a variable containing a path and you will be able to cd into it regardless of the directory you're in
+# Define a variable containing a path and you will be able to cd into it
+# regardless of the directory you're in
 shopt -s cdable_vars
 
 
 # Source bash-it
-if [[ -d "${HOME}/.bash_it" ]]; then
-    source "$DOTFILES/includes/bash_it.bash"
-fi
+# if [[ -d "${HOME}/.bash_it" ]]; then
+#     source "$DOTFILES/includes/bash_it.bash"
+# fi
 
 # source my run command customizations
 [[ -f "$DOTFILES/includes/env.sh" ]]     && . "$DOTFILES/includes/env.sh"
 [[ -f "$DOTFILES/includes/aliases.sh" ]] && . "$DOTFILES/includes/aliases.sh"
 [[ -f "$DOTFILES/includes/funcs.sh" ]]   && . "$DOTFILES/includes/funcs.sh"
-[[ -f ~/.bashrc_local ]] && . ~/.bashrc_local
+[[ -f "$DOTFILES/includes/prompt.bash" ]]   && . "$DOTFILES/includes/prompt.bash"
 
-### bash only vars ###
 # dedupe path
 export PATH=$(echo "$PATH" | awk -F: '{for (i=1;i<=NF;i++) { if ( !x[$i]++ ) printf("%s:",$i); }}')
-
 
 ### prompt ###
 
 # Automatically trim long paths in the prompt (requires Bash 4.x)
 PROMPT_DIRTRIM=3
+export CLICOLOR=1
+export LSCOLORS=ExFxBxDxCxegedabagacad
 
-# PS1="[\u@\h:\w]\n$ "
-# export CLICOLOR=1
-# export LSCOLORS=ExGxBxDxCxEgEdxbxgxcxd
-#export LSCOLORS=ExFxBxDxCxegedabagacad
+# z
+[ -f /usr/local/etc/profile.d/z.sh ] && . /usr/local/etc/profile.d/z.sh
 
+# local overrides
+[ -f ~/.bashrc_local ] && . ~/.bashrc_local
 
 # completions for bash
 [ -f /usr/local/etc/bash_completion ] && . /usr/local/etc/bash_completion

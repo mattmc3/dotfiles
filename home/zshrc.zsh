@@ -90,7 +90,10 @@ if [[ "$OSTYPE" == darwin* ]]; then
     # macos uses keychain with ssh -K
     ssh-add -K ~/.ssh/id_rsa &> /dev/null
     # iterm ain't no linux thang
-    [[ -e ~/.iterm2_shell_integration.zsh ]] && source ~/.iterm2_shell_integration.zsh
+
+    if [ "$TERM" = "xterm-256color" ] && [ -z "$INSIDE_EMACS" ]; then
+        [ -f ~/.iterm2_shell_integration.zsh ] && source ~/.iterm2_shell_integration.zsh
+    fi
 else
     ssh-add ~/.ssh/id_rsa &> /dev/null
 fi

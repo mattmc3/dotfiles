@@ -4,7 +4,7 @@ CURRENT_SHELL=`ps -p $$ -ocomm= | sed -E -e 's/^.*[\/\-]//'`
 CURRENT_USERNAME=`id -un`
 export TZ=America/New_York
 
-export TERM=xterm-256color
+#export TERM=xterm-256color
 export PATH=$PATH:$HOME/bin # Add ~/bin to PATH
 
 # Preferred editor for local and remote sessions
