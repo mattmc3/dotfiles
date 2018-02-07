@@ -122,6 +122,8 @@ alias duf='du -sh *'
 alias get="git"
 alias g="git"
 alias sourcetree='open -a SourceTree'
+alias gcm="git checkout master"
+alias gadd="git add ."
 
 
 ### jupyter ###
