@@ -32,6 +32,8 @@ if [[ "$OSTYPE" == darwin* ]]; then
     alias lmk="say 'Process complete.'"
     alias showfiles="defaults write com.apple.finder AppleShowAllFiles -bool true && killall Finder"
     alias hidefiles="defaults write com.apple.finder AppleShowAllFiles -bool false && killall Finder"
+    # use the trash can
+    alias del="trash"
 fi
 
 
@@ -124,6 +126,9 @@ alias g="git"
 alias sourcetree='open -a SourceTree'
 alias gcm="git checkout master"
 alias gadd="git add ."
+alias gpsup='git push --set-upstream origin $(git_current_branch)'
+alias gpristine='git reset --hard && git clean -dfx'
+alias gsrh='git stash && git reset --hard'
 
 
 ### jupyter ###
