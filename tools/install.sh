@@ -52,13 +52,6 @@ function main() {
 
 
     ### Install tools --------------------------------------------------------------
-    # ensure bash-it is installed
-    if [[ ! -d "${HOME}/.bash_it" ]]; then
-        echo "getting bash-it"
-        git clone --depth=1 https://github.com/Bash-it/bash-it.git ~/.bash_it
-        ~/.bash_it/install.sh
-    fi
-
     # Set up macOS if its not already.
     if [ "$(uname -s)" = "Darwin" ] ; then
         which -s brew
@@ -111,5 +104,6 @@ function main() {
 
     # neovim ftw!
     ln -sf "${config_dir}/nvim/init.vim" ~/.vimrc
+    #ln -sf "~/.local/share/nvim/site" ~/.vim
 }
 main
