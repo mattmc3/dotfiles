@@ -1,4 +1,4 @@
-set guifont=Monaco:h14
+" set guifont=Monaco:h14
 " set termguicolors
 
 " Change color on insert mode
@@ -25,7 +25,8 @@ au InsertLeave * hi Normal ctermbg=232 guibg=#1b1d1e
 set langmap=jh,kj,hk
 
 " jj to get back to normal mode
-:imap jj <ESC>
+" :imap jj <ESC>
+inoremap jj <Esc>`^
 
 set nocompatible              " Not compatible with vi
 filetype off                  " required
@@ -77,4 +78,19 @@ let g:python2_host_prog = '/usr/local/bin/python'
 
 set encoding=utf-8
 let g:airline_powerline_fonts = 1
+
+" set fileencoding=utf-8
+set showcmd  " show commands as I type them
+set clipboard+=unnamed
+set lazyredraw
+set showmatch
+set virtualedit=block
+
+" https://stackoverflow.com/questions/2400264/is-it-possible-to-apply-vim-configurations-without-restarting
+if has ('autocmd') " Remain compatible with earlier versions
+ augroup vimrc     " Source vim configuration upon save
+    autocmd! BufWritePost $MYVIMRC source % | echom "Reloaded " . $MYVIMRC | redraw
+    autocmd! BufWritePost $MYGVIMRC if has('gui_running') | so % | echom "Reloaded " . $MYGVIMRC | endif | redraw
+  augroup END
+endif " has autocmd
 
