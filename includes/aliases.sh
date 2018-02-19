@@ -51,6 +51,8 @@ alias h='history'
 alias x='exit'
 
 # shortcuts
+alias vi='nvim'
+alias vim='nvim'
 alias cl='clear'
 alias py2='python2'
 alias py3='python3'
