@@ -1,5 +1,11 @@
 .DEFAULT_GOAL := help
 
+backup:
+	./tools/backup.sh
+
+restore:
+	./tools/restore.sh
+
 install:
 	./tools/install.sh
 
@@ -9,6 +15,12 @@ uninstall:
 help:
 	@echo "help"
 	@echo "    shows this message"
+	@echo ""
+	@echo "backup"
+	@echo "    runs backup scripts in misc directory. "
+	@echo ""
+	@echo "restore"
+	@echo "    runs restore scripts in misc directory. "
 	@echo ""
 	@echo "install"
 	@echo "    runs tools/install.sh, which installs the dotfiles. "
