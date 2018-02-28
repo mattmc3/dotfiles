@@ -22,19 +22,29 @@ au InsertLeave * hi Normal ctermbg=232 guibg=#1b1d1e
 " < j   l >
 "     k
 "     v
-set langmap=jh,kj,hk
+" set langmap=jh,kj,hk
+"     ^
+"     j
+" < h   l >
+"     k
+"     v
+set langmap=jk,kj
 
 " jj to get back to normal mode
 " :imap jj <ESC>
 inoremap jj <Esc>`^
 
+" Make U be redo instead of undo line
+noremap U <C-r>
+
 set nocompatible              " Not compatible with vi
 filetype off                  " required
 
-set clipboard=unnamed " Make vim use system
+set clipboard+=unnamed " Make vim use system
 
 set tabstop=4 shiftwidth=4 expandtab " Set TAB to four spaces
 set number " Enable line numbers
+set relativenumber " show relative line numbers
 set mouse=a " Enable mouse integration
 
 " Syntax & Coloring
@@ -51,7 +61,7 @@ set background=dark
 map <F7> mzgg=G`z " Reindent entire file
 
 " Functions
-command W silent execute 'write !sudo tee ' . shellescape(@%, 1) . ' >/dev/null'
+" command W silent execute 'write !sudo tee ' . shellescape(@%, 1) . ' >/dev/null'
 
 " Specify a directory for plugins
 " - For Neovim: ~/.local/share/nvim/plugged
@@ -85,6 +95,18 @@ set clipboard+=unnamed
 set lazyredraw
 set showmatch
 set virtualedit=block
+
+"This unsets the "last search pattern" register by hitting return
+nnoremap <CR> :noh<CR><CR>
+
+" use column 80 as a vertical indicator
+if exists('+colorcolumn')
+  set colorcolumn=80,120
+  " Change guibg color
+  highlight ColorColumn guibg=#030303
+else
+  au BufWinEnter * let w:m2=matchadd('ErrorMsg', '\%>80v.\+', -1)
+endif
 
 " https://stackoverflow.com/questions/2400264/is-it-possible-to-apply-vim-configurations-without-restarting
 if has ('autocmd') " Remain compatible with earlier versions

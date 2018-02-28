@@ -52,7 +52,6 @@ alias x='exit'
 
 # shortcuts
 alias vi='nvim'
-alias vim='nvim'
 alias cl='clear'
 alias py2='python2'
 alias py3='python3'
@@ -78,8 +77,8 @@ alias ide='$EDITOR .'
 alias juno='jupyter notebook'
 
 # quick edit for projects
-alias ohmyzsh="cd \"\${ZSH}\"; $EDITOR ."
-alias dotfiles="cd \"\${DOTFILES}\"; $EDITOR ."
+alias ohmyzsh="cd \"\${ZSH}\""
+alias dotfiles="cd \"\${DOTFILES}\""
 alias zshrc='$EDITOR ~/.zshrc' # Quick access to the ~/.zshrc file
 
 # Network
