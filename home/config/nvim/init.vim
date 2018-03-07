@@ -1,3 +1,7 @@
+set nocompatible                " Not compatible with vi
+set backspace=indent,eol,start  " Allow backspace to dedent, join lines, and move past start of insert
+filetype off                    " required
+
 " set guifont=Monaco:h14
 " set termguicolors
 
@@ -37,18 +41,26 @@ inoremap jj <Esc>`^
 " Make U be redo instead of undo line
 noremap U <C-r>
 
-set nocompatible              " Not compatible with vi
-filetype off                  " required
-
 set clipboard+=unnamed " Make vim use system
 
-set tabstop=4 shiftwidth=4 expandtab " Set TAB to four spaces
-set number " Enable line numbers
+" ================= Indentation ===============================================
+set autoindent
+set smartindent
+set smarttab
+set shiftwidth=4
+set softtabstop=4
+set tabstop=4      " Set TAB to four spaces
+set expandtab      " Tab becomes space
+set number         " Enable line numbers
 set relativenumber " show relative line numbers
-set mouse=a " Enable mouse integration
+set mouse=a        " Enable mouse integration
+set title          " Sets the terminal to show the buffer title
 
 " Syntax & Coloring
 syntax enable
+
+" Display tabs and trailing spaces visually
+set list listchars=tab:»\ ,trail:·
 
 " Enable colors
 set t_Co=256
@@ -116,3 +128,13 @@ if has ('autocmd') " Remain compatible with earlier versions
   augroup END
 endif " has autocmd
 
+" Small helper that inserts a random uuid4 on ^U
+" ----------------------------------------------
+fun! InsertUUID4()
+python3 << endpython
+if 1:
+    import uuid, vim
+    vim.command('return "%s"' % str(uuid.uuid4()))
+endpython
+endfun
+inoremap <c-u> <C-R>=InsertUUID4()<CR>

@@ -57,6 +57,8 @@ CDPATH=".:~:~/Projects"
 # regardless of the directory you're in
 shopt -s cdable_vars
 
+# Set vi editing mode
+set -o vi
 
 # Source bash-it
 # if [[ -d "${HOME}/.bash_it" ]]; then
