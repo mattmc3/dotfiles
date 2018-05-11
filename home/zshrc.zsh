@@ -66,7 +66,6 @@ gitignore
 golang
 history
 osx
-vi-mode
 web-search
 z
 
