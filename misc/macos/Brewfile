@@ -1,24 +1,20 @@
 tap "buo/cask-upgrade"
-tap "caskroom/cask"
-tap "caskroom/drivers"
-tap "caskroom/fonts"
-tap "caskroom/versions"
 tap "covermymeds/history"
 tap "d12frosted/emacs-plus"
 tap "go-delve/delve"
 tap "homebrew/boneyard"
 tap "homebrew/bundle"
+tap "homebrew/cask"
+tap "homebrew/cask-drivers"
+tap "homebrew/cask-fonts"
+tap "homebrew/cask-versions"
 tap "homebrew/core"
 tap "homebrew/versions"
 tap "microsoft/mssql-release"
 tap "neovim/neovim"
-cask "caskroom/versions/java8"
+cask "homebrew/cask-versions/java8"
 brew "apache-spark"
 brew "autoconf"
-brew "openssl"
-brew "gdbm"
-brew "xz"
-brew "awscli"
 brew "bash"
 brew "bash-completion"
 brew "bison"
@@ -36,18 +32,23 @@ brew "duti"
 brew "fish"
 brew "fortune"
 brew "libtool"
+brew "openssl"
 brew "freetds", args: ["with-unixodbc"]
-brew "gobject-introspection"
+brew "fzf"
+brew "gdbm"
 brew "git"
 brew "libusb"
 brew "pinentry"
 brew "gnupg"
 brew "go"
+brew "python@2"
+brew "gobject-introspection"
 brew "gpg-agent"
 brew "groovy"
 brew "gstreamer"
 brew "lua"
 brew "highlight"
+brew "xz"
 brew "imagemagick"
 brew "jhead"
 brew "oniguruma"
@@ -74,7 +75,6 @@ brew "pinentry-mac"
 brew "postgresql"
 brew "pyenv"
 brew "python"
-brew "pyqt"
 brew "ruby-build"
 brew "rbenv"
 brew "rename"
@@ -97,18 +97,18 @@ brew "wget"
 brew "z"
 brew "zeromq"
 brew "zsh"
-brew "d12frosted/emacs-plus/emacs-plus", args: ["HEAD"]
 brew "microsoft/mssql-release/msodbcsql"
+brew "microsoft/mssql-release/msodbcsql17"
+brew "microsoft/mssql-release/msodbcsql@13.1.9.2"
 brew "microsoft/mssql-release/mssql-tools"
 cask "alfred"
-cask "amazon-music"
-cask "atom"
 cask "bartender"
 cask "bettertouchtool"
 cask "blue-jeans"
 cask "dash"
 cask "dbschema"
 cask "discord"
+cask "docker"
 cask "dropbox"
 cask "firefox"
 cask "go2shell"
@@ -131,8 +131,8 @@ cask "todotxt"
 cask "vimr"
 cask "visual-studio-code"
 cask "vmware-horizon-client"
-cask "caskroom/drivers/logitech-control-center"
-cask "caskroom/fonts/font-source-code-pro"
+cask "homebrew/cask-drivers/logitech-control-center"
+cask "homebrew/cask-fonts/font-source-code-pro"
 mas "Byword", id: 420212497
 mas "DaisyDisk", id: 411643860
 mas "Day One", id: 1055511498
@@ -141,6 +141,7 @@ mas "Kaleidoscope", id: 587512244
 mas "Keynote", id: 409183694
 mas "Kindle", id: 405399194
 mas "LastPass", id: 926036361
+mas "Microsoft Remote Desktop", id: 1295203466
 mas "MindNode", id: 1289197285
 mas "Navicat Data Modeler", id: 514851490
 mas "Navicat Premium Essentials", id: 1256997614
@@ -150,8 +151,9 @@ mas "Pages", id: 409201541
 mas "Pixelmator", id: 407963104
 mas "Reeder", id: 880001334
 mas "Skitch", id: 425955336
-mas "Slack", id: 803453959
 mas "SQLPro Studio", id: 985614903
 mas "TaskPaper", id: 1090940630
 mas "The Unarchiver", id: 425424353
+mas "TNEF's Enough", id: 986621173
 mas "Transmit", id: 403388562
+mas "Trello", id: 1278508951

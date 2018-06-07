@@ -78,20 +78,20 @@ EOBUNDLES
 antigen apply
 
 # Vi mode ----------------------------------------------------------------------
-bindkey -v
-export KEYTIMEOUT=1  # remove lag
-# make cursor indicate mode
-zle-keymap-select () {
-    if [ "$TERM" = "xterm-256color" ]; then
-        if [ $KEYMAP = vicmd ]; then
-            # the command mode for vi
-            echo -ne "\e[4 q"
-        else
-            # the insert mode for vi
-            echo -ne "\e[2 q"
-        fi
-    fi
-}
+# bindkey -v
+# export KEYTIMEOUT=1  # remove lag
+# # make cursor indicate mode
+# zle-keymap-select () {
+#     if [ "$TERM" = "xterm-256color" ]; then
+#         if [ $KEYMAP = vicmd ]; then
+#             # the command mode for vi
+#             echo -ne "\e[4 q"
+#         else
+#             # the insert mode for vi
+#             echo -ne "\e[2 q"
+#         fi
+#     fi
+# }
 
 
 # `ls` after `cd`
