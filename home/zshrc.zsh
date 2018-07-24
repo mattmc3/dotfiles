@@ -66,6 +66,7 @@ gitignore
 golang
 history
 osx
+vi-mode
 web-search
 z
 
@@ -77,10 +78,14 @@ EOBUNDLES
 
 antigen apply
 
-# Vi mode ----------------------------------------------------------------------
+
+# vi mode ----------------------------------------------------------------------
 # bindkey -v
-# export KEYTIMEOUT=1  # remove lag
-# # make cursor indicate mode
+# bindkey -a '^[[3~' delete-char
+export KEYTIMEOUT=1  # remove lag
+
+# http://lynnard.me/blog/2014/01/05/change-cursor-shape-for-zsh-vi-mode/
+# make cursor indicate mode
 # zle-keymap-select () {
 #     if [ "$TERM" = "xterm-256color" ]; then
 #         if [ $KEYMAP = vicmd ]; then
@@ -98,15 +103,15 @@ antigen apply
 # https://stackoverflow.com/questions/3964068/zsh-automatically-run-ls-after-every-cd
 function chpwd() {
     emulate -L zsh
-    ls -F
+    ls -FG
 }
 
 ### OS specific ###
 if [[ "$OSTYPE" == darwin* ]]; then
     # macos uses keychain with ssh -K
     ssh-add -K ~/.ssh/id_rsa &> /dev/null
-    # iterm ain't no linux thang
 
+    # iterm is a macOS only app
     if [ "$TERM" = "xterm-256color" ] && [ -z "$INSIDE_EMACS" ]; then
         [ -f ~/.iterm2_shell_integration.zsh ] && source ~/.iterm2_shell_integration.zsh
     fi
@@ -115,9 +120,9 @@ else
 fi
 
 # source my run command customizations
-[[ -f "$DOTFILES/includes/env.sh" ]]     && . "$DOTFILES/includes/env.sh"
+[[ -f "$DOTFILES/includes/env.sh"     ]] && . "$DOTFILES/includes/env.sh"
 [[ -f "$DOTFILES/includes/aliases.sh" ]] && . "$DOTFILES/includes/aliases.sh"
-[[ -f "$DOTFILES/includes/funcs.sh" ]]   && . "$DOTFILES/includes/funcs.sh"
+[[ -f "$DOTFILES/includes/funcs.sh"   ]] && . "$DOTFILES/includes/funcs.sh"
 [[ -f ~/.zshrc_local ]] && . ~/.zshrc_local
 
 ### completions ###

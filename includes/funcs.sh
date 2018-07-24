@@ -15,7 +15,9 @@ echoerr () { echo "$@" 1>&2; }
 
 # use keychain to store passwords
 get_pw () {
-    security find-generic-password -ga "$1" -w
+    # https://www.netmeister.org/blog/keychain-passwords.html
+    # security find-generic-password -ga "$1" -w
+    security find-generic-password -a ${USER} -s "$1" -w
 }
 
 ### golang ###
