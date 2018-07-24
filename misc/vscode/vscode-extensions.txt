@@ -17,6 +17,7 @@ ms-mssql.mssql
 ms-python.python
 ms-vscode.csharp
 ms-vscode.Go
+ms-vscode.sublime-keybindings
 sandy081.todotasks
 searKing.preview-vscode
 sensourceinc.vscode-sql-beautify
@@ -24,6 +25,7 @@ steve8708.Align
 stkb.rewrap
 tht13.python
 tht13.rst-vscode
+tootone.org-mode
 ttereves.taskbuttons
 vscodevim.vim
 wmaurer.change-case
