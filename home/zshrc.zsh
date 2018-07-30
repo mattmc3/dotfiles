@@ -4,18 +4,6 @@
 export XDG_CONFIG_HOME=${XDG_CONFIG_HOME:-$HOME/.config}
 export DOTFILES=${DOTFILES:-$HOME/.dotfiles}
 
-# Set path
-typeset -gxU path PATH
-path=(
-    $HOME/bin
-    /usr/local/{sbin,bin}
-    /usr/local/share/npm/bin
-    /usr/{sbin,bin}
-    /{sbin,bin}
-    .
-    $path
-)
-
 ### history ###
 SAVEHIST=10000 # Number of entries
 HISTSIZE=10000

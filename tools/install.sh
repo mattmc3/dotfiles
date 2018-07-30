@@ -101,6 +101,7 @@ function main() {
     symlink_dotfile "${dotfiles_dir}/home/tmux.conf"         ~/.tmux.conf
     symlink_dotfile "${dotfiles_dir}/home/xonshrc"           ~/.xonshrc
     symlink_dotfile "${dotfiles_dir}/home/zshrc.zsh"         ~/.zshrc
+    symlink_dotfile "${dotfiles_dir}/home/zshenv.zsh"        ~/.zshenv
 
     # neovim ftw!
     ln -sf "${config_dir}/nvim/init.vim" ~/.vimrc
