@@ -1,0 +1,10 @@
+{
+	"extensions":
+	[
+		"ddl",
+		"idx",
+		"pk",
+		"fk",
+		"sql"
+	]
+}

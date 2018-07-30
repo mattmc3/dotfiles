@@ -1,0 +1,49 @@
+{
+	"bootstrapped": true,
+	"in_process_packages":
+	[
+	],
+	"installed_packages":
+	[
+		"A File Icon",
+		"Advanced CSV",
+		"Alignment",
+		"ApplySyntax",
+		"Awk",
+		"BracketHighlighter",
+		"Color Highlighter",
+		"Colorsublime",
+		"DashDoc",
+		"EasyDiff",
+		"EditorConfig",
+		"Focus File on Sidebar",
+		"Gitignore",
+		"Gutter Color",
+		"HexViewer",
+		"Highlight",
+		"Indent XML",
+		"Jinja2",
+		"LoremIpsum",
+		"MagicPython",
+		"MarkdownLivePreview",
+		"NeoVintageous",
+		"Origami",
+		"Package Control",
+		"PackageResourceViewer",
+		"PlainTasks",
+		"PowerShell",
+		"ProjectManager",
+		"QuickRulers",
+		"SideBarTools",
+		"SourceTreeCommands",
+		"sublime-github",
+		"Terminal",
+		"Text Pastry",
+		"Themr",
+		"TodoTxt Syntax",
+		"Trimmer"
+	],
+	"repositories":
+	[
+	]
+}

@@ -1,0 +1,39 @@
+%YAML 1.2
+---
+# http://www.sublimetext.com/docs/3/syntax.html
+name: Todo.txt
+file_extensions:
+  - todo.txt
+  - done.txt
+  - report.txt
+  - todo.txt.bak
+scope: text.todotxt
+contexts:
+  main:
+    - match: ^\(A\)
+      comment: Todo item priority A
+      scope: constant.language.todotxt.priority
+    - match: ^\(B\)
+      comment: Todo item priority B
+      scope: keyword.control.include.todotxt.priority
+    - match: '^\([C-Z]\)'
+      comment: Todo item priority
+      scope: markup.heading.3.priorityother
+    - match: (^\@\S*)|(\s\@\S*)
+      comment: Todo item context
+      scope: entity.name.tag.todotxt.context
+    - match: (^\+\S*)|(\s\+\S*)
+      comment: Todo item project
+      scope: entity.name.function.todotxt.project
+    - match: ^x\s.*$
+      comment: Done Todo item
+      scope: comment.line.todotxt
+    - match: '([1-2]\d{3}[-/\\.](0?[1-9]|1[012])[-/\\.](0[1-9]|[12]\d|3[01]) ){1,2}'
+      comment: Todo item done or creation date
+      scope: constant.numeric.todotxt.date
+    - match: '(?i:DUE):([1-2]\d{3}[-/\\.](0?[1-9]|1[012])[-/\\.](0[1-9]|[12]\d|3[01]))'
+      comment: Todo item due date
+      scope: invalid.illegal.todotxt.date
+    - match: '[^\S](?i:WAIT)[^\S]'
+      comment: Todo WAIT command
+      scope: keyword.other.todotxt.wait

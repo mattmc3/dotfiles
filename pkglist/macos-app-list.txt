@@ -1,0 +1,107 @@
+Alfred 3.app
+App Store.app
+Atom.app
+Automator.app
+Backup and Sync.app
+Bartender 3.app
+BetterTouchTool.app
+Blue Jeans.app
+Byword.app
+CMM Shares.app
+Calculator.app
+Calendar.app
+Canon Utilities
+Chess.app
+Contacts.app
+DVD Player.app
+DaisyDisk.app
+Dash.app
+Dashboard.app
+Day One.app
+DbSchema.app
+Dictionary.app
+Discord.app
+Docker.app
+Dropbox.app
+Dropzone 3.app
+Emacs.app
+FaceTime.app
+Firefox.app
+Flux.app
+Font Book.app
+ForeScout SecureConnector.app
+GlobalProtect.app
+Go2Shell.app
+GoToMeeting
+Google Chrome.app
+Hermes.app
+HipChat.app
+Image Capture.app
+Joplin.app
+Julia-0.6.app
+Kaleidoscope.app
+Karabiner-Elements.app
+Karabiner-EventViewer.app
+KeepingYouAwake.app
+Keyboard Maestro.app
+Keynote.app
+Kindle.app
+LastPass.app
+Launchpad.app
+LibreOffice.app
+Lynda.com.app
+Mail.app
+Maps.app
+Messages.app
+Microsoft Excel.app
+Microsoft OneNote.app
+Microsoft Outlook.app
+Microsoft PowerPoint.app
+Microsoft Remote Desktop.localized
+Microsoft Word.app
+MindNode.app
+Mission Control.app
+Monolingual.app
+Navicat Data Modeler.app
+Navicat Premium Essentials.app
+Notes.app
+Numbers.app
+OneDrive.app
+Pages.app
+Photo Booth.app
+Photos.app
+Pixelmator.app
+Postgres.app
+Preview.app
+QuickTime Player.app
+Reeder.app
+Reminders.app
+Royal TSX.app
+SQL Operations Studio.app
+SQLPro Studio.app
+Safari.app
+Self Service.app
+Siri.app
+Skitch.app
+Skype Meetings App.app
+Slack.app
+Sourcetree.app
+Stickies.app
+Sublime Text.app
+System Preferences.app
+TNEF's Enough.app
+TaskPaper.app
+TextEdit.app
+The Unarchiver.app
+Time Machine.app
+TodoTxtMac.app
+Transmit.app
+Trello.app
+TrendMicroSecurity.app
+Utilities
+VMware Horizon Client.app
+VimR.app
+Visual Studio Code.app
+iBooks.app
+iTerm.app
+iTunes.app

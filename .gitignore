@@ -33,3 +33,15 @@ Temporary Items
 .vscode/
 backups/
 **/nvim/.netrwhist
+bak/
+
+# Sublime Text stuff to exclude
+Package Control.cache/
+Package Control.last-run
+Package Control.user-ca-bundle
+Package Control.merged-ca-bundle
+oscrypto-ca-bundle.crt
+GitHub.sublime-settings
+SQLTools*
+**/Sublime Text 3/Packages/User.symlink/*/
+!**/Sublime Text 3/Packages/User.symlink/Snippets/

@@ -1,0 +1,41 @@
+<snippet>
+	<content><![CDATA[
+create table all_datatypes (
+	id int identity(1,1) not null
+	,a bigint null
+	,b binary(50) null
+	,c bit null
+	,d char(10) null
+	,e date null
+	,f datetime null
+	,g datetime2(7) null
+	,h datetimeoffset(7) null
+	,i decimal(18, 0) null
+	,j float null
+	,k int null
+	,l money null
+	,m nchar(10) null
+	,n ntext null
+	,o numeric(18, 0) null
+	,p nvarchar(50) null
+	,q nvarchar(max) null
+	,r real null
+	,s smalldatetime null
+	,t smallint null
+	,u smallmoney null
+	,v text null
+	,w time(7) null
+	,x timestamp null
+	,y tinyint null
+	,z uniqueidentifier null
+	,aa varbinary(50) null
+	,bb varbinary(max) null
+	,cc varchar(50) null
+	,dd varchar(max) null
+)
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>sql-create-table-all-datatypes</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<scope>source.sql</scope>
+</snippet>

@@ -1,0 +1,41 @@
+{
+/*
+     // Place your snippets for T-SQL here. Each snippet is defined under a snippet name and has a prefix, body and
+     // description. The prefix is what is used to trigger the snippet and the body will be expanded and inserted. Possible variables are:
+     // $1, $2 for tab stops, ${id} and ${id:label} and ${1:label} for variables. Variables with the same id are connected.
+     // Example:
+     "Print to console": {
+        "prefix": "log",
+        "body": [
+            "console.log('$1');",
+            "$2"
+        ],
+        "description": "Log output to console"
+    }
+*/
+    "sql-select": {
+        "prefix": "sql.select2",
+        "body": [
+            "select *",
+            "from ${schema:Enter schema name}.${table:Enter table name}",
+            "order by 1"
+        ],
+        "description": "Simple select"
+    },
+    "sql-select-tog": {
+        "prefix": "sql.select-top",
+        "body": [
+            "select top ${top} *",
+            "from ${schema:Enter schema name}.${table:Enter table name}",
+            "order by 1"
+        ],
+        "description": "Select top..."
+    },
+    "sql-die": {
+        "prefix": "sql.die",
+        "body": [
+            "if object_id('${schema:Enter schema name}.${table:Enter table name}') is not null drop table ${schema:Enter schema name}.${table:Enter table name}"
+        ],
+    "description": "SQL DIE"
+    }
+}

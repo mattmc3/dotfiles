@@ -1,0 +1,227 @@
+// Base -----------------------------------
+// @font-family: Source Sans Pro;
+@base-font-size: 16;
+@user-font-size: $USER_FONT_SIZE;
+@ui-scale: @user-font-size / @base-font-size;
+@line-height-multiple: 1.2;
+@syntax-hue: 220;
+@syntax-saturation: 13%;
+@syntax-brightness: 18%;
+
+// Monochrome -----------------------------------
+@mono-1: hsl(@syntax-hue, 14%, 71%); // Mischka or Cadet Blue, default text
+@mono-2: hsl(@syntax-hue, 9%, 55%); // Light Slate Grey or Oslo Gray
+@mono-3: hsl(@syntax-hue, 10%, 40%); // Shuttle Grey
+
+
+// Colors -----------------------------------
+@color1: hsl(187, 47%, 55%); // Fountain Blue
+@color2: hsl(207, 82%, 66%); // Malibu
+@color3: hsl(286, 60%, 67%); // Soft Purple
+@color4: hsl(95, 38%, 62%); // Pistachio
+@color5: hsl(355, 65%, 65%); // Froly
+@color6: hsl(5, 48%, 51%); // Sunset
+@color7: hsl(29, 54%, 61%); // Whiskey
+@color8: hsl(39, 67%, 69%); // Chalky
+
+// Base colors -----------------------------------
+@project-color: @color2;
+@text-color: @mono-1;
+@bg-color: hsl(@syntax-hue, @syntax-saturation, @syntax-brightness); // Ebony or Charade
+@message-color: mix(@text-color, @bg-color, 50%);
+@tag-color: fade(@color7, 80%);
+
+// UI Colors -----------------------------------
+@tint-color: @color2;
+@interface-color: @tint-color;
+@selection-color: lighten(@bg-color, 10%); // Blue Zodiac or Bright Gray
+@invisibles-color: fade(@tint-color, 50%);
+@guide-color: darken(@mono-1, 26%);
+
+window {
+  appearance: NSAppearanceNameVibrantDark;
+}
+editor {
+    color: @text-color;
+    font-size: @user-font-size;
+    font-family: @font-family;
+    background-color: @bg-color;
+    line-height-multiple: @line-height-multiple;
+    item-handle-size: 6;
+    item-indent: 20px * @ui-scale;
+    caret-width: 2px;
+    caret-color: @color1;
+    handle-color: @guide-color;
+    drop-indicator-color: @tint-color;
+    invisibles-color: @invisibles-color;
+    selection-background-color: @selection-color;
+    guide-line-width: 0.5;
+    guide-line-color: mix(@guide-color,@bg-color, 40%);
+    message-color: @message-color;
+    // top-padding-percent: 25%; // Pad top of editor with 25% of viewport height
+    // bottom-padding-percent: 50%; // Pad bottom of editor with 25% of viewport height
+    // editor-wrap-to-column: 80; // Wrap editor text at 80 columns, center if extra space
+    // item-wrap-to-column: 60; // Wrap item text at 60 columns (smaller value them above means item text doesn't rewrap when item is indented
+    typewriter-scroll-percent: 50%; // Scroll edit location to 50% location in viewport when possible
+}
+item[depth=1][data-type=project] {
+    font-weight: semi-bold;
+    font-size: 18;
+    color: @project-color;
+    paragraph-spacing-before: 20;
+    paragraph-spacing-after: 3;
+}
+item[depth=2][data-type=project] {
+    font-weight: semi-bold;
+    font-size: 17;
+    color: fade(@project-color, 90%);
+    paragraph-spacing-before: 20;
+    paragraph-spacing-after: 3;
+}
+item[depth=3][data-type=project] {
+    font-weight: semi-bold;
+    font-size: 16;
+    color: fade(@project-color, 80%);
+    paragraph-spacing-before: 20;
+    paragraph-spacing-after: 3;
+}
+item[depth=4][data-type=project] {
+    font-weight: semi-bold;
+    font-size: 16;
+    color: fade(@project-color, 70%);
+    paragraph-spacing-before: 20;
+    paragraph-spacing-after: 3;
+}
+item[data-type="task"] {
+    font-style: normal;
+}
+item[data-type="note"] {
+    font-style: normal;
+    font-size: 14;
+    color: @mono-3;
+    line-height-multiple: 1.1;
+    paragraph-spacing-after: 5;
+}
+
+// Handle styles -----------------------------------
+item {
+  handle-color: none;
+  handle-border-color: @guide-color ;
+  handle-border-width: 0.5;
+  // handle-border-width: floor(1 * @ui-scale);
+}
+
+item[collapsed] {
+  handle-color: @project-color;
+  handle-border-color: @project-color;
+}
+
+item[filtered] {
+  handle-color: @tag-color;
+  handle-border-color: @tag-color;
+}
+
+item[empty] {
+  handle-color: none;
+  handle-border-color: none;
+}
+
+item[leaf] {
+  handle-color: none;
+  handle-border-color: none;
+}
+
+// Tag styles -----------------------------------
+item[data-today],
+item[data-active],
+item[data-now] {
+    font-size: @user-font-size;
+    font-style: normal;
+    font-weight: normal;
+    color: @color4;
+    > run[tag] {
+        color: fade(@color4, 60%);
+    }
+}
+item[data-flag],
+item[data-high],
+item[date-hot],
+item[data-prio],
+item[data-priority] {
+    font-size: @user-font-size;
+    font-style: normal;
+    font-weight: normal;
+    color: @color6;
+    > run[tag] {
+        color: fade(@color6, 60%);
+    }
+}
+item[data-due] {
+    font-size: @user-font-size;
+    font-style: normal;
+    font-weight: normal;
+    color: @color5;
+    > run[tag] {
+        color: fade(@color5, 80%);
+    }
+}
+item[data-next] {
+    font-size: @user-font-size;
+    font-style: normal;
+    font-weight: normal;
+    color: @color1;
+    > run[tag] {
+        color: fade(@color1, 60%);
+    }
+}
+item[data-waiting] {
+    font-size: @user-font-size;
+    font-style: normal;
+    font-weight: normal;
+    color: fade(@color3, 60%);
+    > run[tag] {
+        color: fade(@color3, 20%);
+    }
+}
+item[data-context] {
+    > run[tag] {
+        color: fade(@color8, 40%);
+    }
+}
+item[data-search] {
+    font-size: @user-font-size;
+    font-style: normal;
+    font-weight: normal;
+    color: fade(@mono-1, 20%);
+    > run[tag] {
+        color: fade(@mono-1, 20%);
+    }
+}
+item[data-done] {
+    > run[content] {
+        text-strikethrough: NSUnderlineStyleSingle;
+        text-strikethrough-color: fade(@text-color, 20%);
+        color: fade(@text-color, 20%);
+    }
+    > run[tag] {
+        text-strikethrough: NSUnderlineStyleSingle;
+        text-strikethrough-color: fade(@text-color, 20%);
+        color: fade(@text-color, 20%);
+    }
+}
+run[link] {
+    cursor: pointer;
+    color: @color2;
+}
+run[lead] {
+    color: fade(@color2, 50%);
+}
+run[link^="filter"] {
+    color: @text-color;
+}
+run[tag] {
+    font-size: @user-font-size;
+    font-style: normal;
+    font-weight: normal;
+    color: @tag-color;
+}

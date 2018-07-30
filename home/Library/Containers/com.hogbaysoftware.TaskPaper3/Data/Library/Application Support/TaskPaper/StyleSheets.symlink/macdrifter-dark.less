@@ -1,0 +1,131 @@
+// http://support.hogbaysoftware.com/t/less-for-theming/1271/4
+// Base text
+@font-family: Source Sans Pro;
+@font-size: $USER_FONT_SIZE;
+@text-color: white;
+@background-color: #131313;
+@line-height-multiple: 1.1;
+@done-color: rgba(127, 127, 127, 0.52);
+@link-color: #3974cb;
+@waiting-color: #828ccb;
+@due-color: orange;
+@flag-color: red;
+@project-color: #f8e9ad;
+
+
+// UI
+@tint-color: #e3ea5c;
+@interface-color: @tint-color;
+@selection-color: mix(@tint-color, @background-color, 30%); // rgb(148, 192, 255);
+@invisibles-color: mix(@tint-color, @background-color, 70%); // rgb(67, 119, 211);
+
+editor {
+color: @text-color;
+font-size: @font-size;
+font-family: @font-family;
+background-color: @background-color;
+line-height-multiple: @line-height-multiple;
+
+item-indent: 20px;
+caret-width: 2px;
+caret-color: @tint-color;
+handle-color: @tint-color;
+drop-indicator-color: @tint-color;
+invisibles-color: @invisibles-color;
+selection-background-color: @selection-color;
+guide-line-color: mix(@tint-color, @background-color, 15%);
+message-color: mix(@text-color, @background-color, 50%);
+}
+
+run[link^="button"] {
+color: @text-color;
+
+}
+
+item[data-type="note"] {
+font-style: italic;
+color: darken(@text-color, 30%);
+}
+
+item[data-type="task"] {
+font-style: normal;
+}
+
+item[data-type="project"] {
+font-weight: bold;
+color: @project-color;
+}
+
+item[depth="1"].item[data-type="project"] {
+}
+
+item[data-done] {
+> run{
+text-strikethrough: NSUnderlineStyleSingle;
+text-strikethrough-color: @done-color;
+color:@done-color;
+}
+}
+
+run[link] {
+cursor: pointer;
+color: @link-color;
+}
+
+
+
+run[link^="filter"] {
+color: @text-color;
+}
+
+
+run[tag=data-done] {
+color:@done-color;
+}
+
+run[tag] {
+font-size: @font-size;
+font-style: normal;
+font-weight: normal;
+color: mix(@text-color, @background-color, 50%);
+}
+
+item[data-today] {
+color: orange;
+}
+
+run[tag=data-today] {
+color: mix(@due-color, @done-color, 70%);
+}
+
+item[data-flag] {
+color: @flag-color;
+}
+
+run[tag=data-flag] {
+color: darken(@flag-color, 20%);
+}
+
+item[data-next] {
+color: darken(@due-color, 20%);
+}
+
+run[tag=data-next] {
+color: darken(@due-color, 20%);
+}
+
+item[data-waiting] {
+color: @waiting-color;
+}
+
+run[tag=data-waiting] {
+color:@waiting-color;
+}
+
+item[data-hold] {
+color: @waiting-color;
+}
+
+run[tag=data-hold] {
+color:@waiting-color;
+}
