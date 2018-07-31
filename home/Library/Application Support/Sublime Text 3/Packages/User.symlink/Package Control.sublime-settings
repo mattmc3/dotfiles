@@ -49,6 +49,7 @@
 		"SublimeCodeIntel",
 		"SublimeLinter",
 		"SublimeLinter-contrib-sqlint",
+		"SublimeLinter-pyflakes",
 		"Terminal",
 		"Text Pastry",
 		"Theme - Soda",

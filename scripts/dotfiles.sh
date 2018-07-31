@@ -10,6 +10,11 @@ while IFS= read -d $'\0' -r file ; do
     file_list=("${file_list[@]}" "$file")
 done < <(find ./home -type f -not -name ".DS_Store" -not -path "*.symlink/*" -print0)
 
+dir_list=()
+while IFS= read -d $'\0' -r dirname ; do
+    dir_list=("${dir_list[@]}" "$dirname")
+done < <(find ./home -type d -name "*.symlink" -print0)
+
 function usage() {
     echo "Usage:"
     echo "  dotfiles.sh install"
@@ -56,9 +61,12 @@ function symlink_dotfile() {
     echo "symlinking \"${source}\" to \"${target}\""
     if [[ -d "${source}" ]]; then
         rm -rf "${target}"
+        ln -sfn "${source}" "${target}"
+        exitcode=$?
+    else
+        ln -sfn "${source}" "${target}"
+        exitcode=$?
     fi
-    ln -sfn "${source}" "${target}"
-    exitcode=$?
     if [[ $exitcode -ne 0 ]]; then
         echo "FAILED symlinking!" 1>&2
         return 1
@@ -86,6 +94,7 @@ function unsymlink_dotfile() {
 }
 
 function main() {
+    # files
     for file in "${file_list[@]}" ; do
         dotfile_path=`abspath "$file"`
         dest_file=`swapdir "$dotfile_path" "$_dotfiles_dir/home" "$HOME"`
@@ -98,6 +107,24 @@ function main() {
             symlink_dotfile "$dotfile_path" "$dest_file"
         elif [[ $_action = "uninstall" ]]; then
             unsymlink_dotfile "$dest_file"
+        fi
+    done
+
+    # dirs
+    for dirname in "${dir_list[@]}" ; do
+        dotfile_path=`abspath "$dirname"`
+        dest_path=`swapdir "$dotfile_path" "$_dotfiles_dir/home" "$HOME"`
+        dest_path="${dest_path%.symlink}"
+
+        dest_parent=`dirname "$dest_path"`
+        if [[ ! -d "$dest_parent" ]]; then
+            mkdir -p "$dest_parent"
+        fi
+
+        if [[ $_action = "install" ]]; then
+            symlink_dotfile "$dotfile_path" "$dest_path"
+        elif [[ $_action = "uninstall" ]]; then
+            unsymlink_dotfile "$dest_path"
         fi
     done
 }
