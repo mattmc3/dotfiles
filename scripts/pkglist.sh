@@ -2,8 +2,8 @@
 
 function usage() {
     echo "Usage:"
-    echo "pkglist.sh backup"
-    echo "pkglist.sh restore"
+    echo "  pkglist.sh backup"
+    echo "  pkglist.sh restore"
 }
 
 function apm_pkglist() {
@@ -113,9 +113,9 @@ function vscode_pkglist() {
     if type code > /dev/null 2>&1 ; then
         echo "${_action} visual-studio-code extentions..."
         if [[ $_action = "backup" ]]; then
-            code --list-extensions > "${_dotfiles_root}/pkglist/extensions.txt"
+            code --list-extensions > "${_dotfiles_root}/pkglist/vscode-extensions.txt"
         else
-            cat "${_dotfiles_root}/pkglist/extensions.txt" | xargs -L 1 code --install-extension
+            cat "${_dotfiles_root}/pkglist/vscode-extensions.txt" | xargs -L 1 code --install-extension
         fi
     else
         echo "visual-studio-code not found... skipping..." 1>&2
@@ -136,25 +136,8 @@ function main() {
 # begin
 _dotfiles_root="$( cd "$( dirname "${BASH_SOURCE[0]}" )/.." && pwd )"
 _action="$1"
-_result=0
-
 if [[ $_action != "backup" ]] && [[ $_action != "restore" ]] ; then
     usage
-    _result=1
-else
-    main
+    exit 1
 fi
-
-# clean
-unset _dotfiles_root
-unset _action
-unset -f apm_pkglist
-unset -f brew_pkglist
-unset -f gem_pkglist
-unset -f macos_app_pkglist
-unset -f npm_pkglist
-unset -f pip_pkglist
-unset -f subl_pkglist
-unset -f vscode_pkglist
-unset -f main
-exit $_result
+main
