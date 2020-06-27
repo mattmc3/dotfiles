@@ -1,0 +1,33 @@
+# env
+.DS_Store
+.vscode/
+_bak/
+*.bak
+*.backup
+_tmp/
+.tmp/
+
+**/karabiner/automatic_backups/
+**/karabiner/automatic_backups/*
+
+# vim
+~*
+**/nvim/.netrwhist
+
+# private
+*_local
+*.local
+
+# shell
+.*_history
+*_history
+
+# fish shell
+fish_history
+fish_variables
+fisher/
+
+# zsh
+*.zcompdump*
+*.zwc
+**/zsh/plugins/*
