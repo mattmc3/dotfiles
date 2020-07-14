@@ -5,10 +5,10 @@ My dotfiles
 ## Install
 
 ```shell
-export DOTFILES=~/.config/dotfiles
+export DOTFILES=~/.dotfiles
 git clone --recursive git@github.com:mattmc3/dotfiles.git $DOTFILES
 cd $DOTFILES
-make install
+make <whatever>
 ```
 
 ## Intro
@@ -31,24 +31,18 @@ mine. What makes this one so special?!
 
 ![Terminal][terminal]
 
-## What's not here (but really is)
-
-My [fish][fish] and [zsh][zsh] configs are in their own repos, but are
-referenced here as submodules. I prefer the option to work on my shell
-separately from other dotfiles. It's no fun when everything is
-broken at the same time when I'm messing with this repo.
-
-My machine specific files are stored in their own private repo, dotfiles.local.
-
 ### Prereqs
 
-- git & [zsh][zsh] & rsync (for backups)
+- git
+- [stow][stow]
+- [zsh][zsh]
+- rsync (for backups)
 
 ## How to use
 
 This project uses a makefile to do its work, because... why not? Run
-`make help` for details. Or, skip the makefile and run "make install" to get
-started. A backup of your dotfiles is taken automatically if you have rsync.
+`make help` for details. Or, skip the makefile and run `stow` yourself to get
+started.
 
 ### Commands
 
@@ -69,8 +63,8 @@ make backup
 **Install these dotfiles:**
 
 ```shell
-# stow the dotfiles
-make install
+# stow the zsh dotfiles
+make zsh
 ```
 
 If you decide you want to revert back, you'll want to copy your files
