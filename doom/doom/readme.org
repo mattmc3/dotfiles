@@ -1,0 +1,8 @@
+#+TITLE: doom - My doom-emacs config
+
+** Installation
+
+#+BEGIN_SRC bash
+cd ~/.dotfiles
+stow -v --target=$HOME/.config doom
+#+END_SRC
