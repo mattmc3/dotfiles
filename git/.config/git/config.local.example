@@ -1,0 +1,10 @@
+# home machine
+[includeIf "gitdir:~/.dotfiles"]
+	path = config_home.local
+# work machine
+[includeIf "gitdir:~/Projects/work/**"]
+	path = config_work.local
+
+[alias]
+	config-pers = ! git config user.name "My Internet Name" && git config user.email "email@home.com" && git whoami
+	config-work = ! git config user.name "My Real Name" && git config user.email "email@work.com" && git whoami
