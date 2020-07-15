@@ -4,6 +4,7 @@
 	doom rmdoom \
 	fish rmfish fishfmt \
 	git rmgit \
+	python rmpython \
 	stow rmstow \
 	vscode rmvscode
 .DEFAULT_GOAL := help
@@ -34,6 +35,12 @@ git:
 
 rmgit:
 	stow -v -D git
+
+python:
+	stow -v python
+
+rmpython:
+	stow -v -D python
 
 stow:
 	stow -v stow
