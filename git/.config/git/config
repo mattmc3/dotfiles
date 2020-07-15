@@ -1,0 +1,105 @@
+# Watch out for configs that land in ~/.gitconfig still
+
+[user]
+	# The values in the [user] section are set in $DOTFILES.local
+	# https://stackoverflow.com/questions/42553685/setting-git-username-and-email-without-using-gitconfig
+[include]
+	path = ~/.config/git/config.local
+[core]
+	excludesfile = ~/.config/git/gitignore
+	editor = subl -n -w
+	fileMode = false
+[difftool "sourcetree"]
+	cmd = opendiff \"$LOCAL\" \"$REMOTE\"
+	path =
+[mergetool "sourcetree"]
+	cmd = /Applications/Sourcetree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
+	trustExitCode = true
+[push]
+	default = simple
+[credential]
+	helper = osxkeychain
+[filter "lfs"]
+	clean = git-lfs clean %f
+	smudge = git-lfs smudge %f
+	required = true
+[merge]
+	tool = opendiff
+[alias]
+	alias = ! git config --get-regexp ^alias\\. | sort | sed -e s/^alias\\.// -e s/\\ /\\ =\\ /
+
+	# config/users
+	whoami = !git config user.name && git config user.email
+
+	# branch {{
+	branch-name = !git rev-parse --abbrev-ref HEAD
+	# https://stackoverflow.com/questions/7726949/remove-tracking-branches-no-longer-on-remote
+	branch-cleanup = "!git checkout master && git fetch -p && git branch -vv | awk '/: gone]/{print $1}' | xargs git branch -d"
+	# https://stackoverflow.com/questions/67699/how-to-clone-all-remote-branches-in-git
+	clone-branches = "! git branch -a | sed -n \"/\\/HEAD /d; /\\/master$/d; /remotes/p;\" | xargs -L1 git checkout -t"
+	# }}
+
+	# clean {{
+	cleanup = !git clean -fd
+	pristine = !git reset --hard && git clean -dfx
+	# }}
+
+	# checkout {{
+	# quick switch to common branches
+	co-master = !git checkout master && git pull origin
+	co-develop = !git checkout develop && git pull origin
+	cob = checkout -b
+	# }}
+
+	# commit {{
+	wip = !git add -A && git commit -m "WIP"
+	checkpoint = !git add -A && git commit -m "Checkpoint $(date -u +'%Y-%m-%dT%H:%M:%SZ')"
+	# }}
+
+	# log {{
+	log-pretty = log --all --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)%an <%ae>%Creset' --abbrev-commit --date=relative
+	lg = log-pretty
+	log-short = log --oneline --decorate --graph --all
+	# }}
+
+	# pull all branches
+	pull-branches = "!git branch -a | sed -n \"/\\/HEAD /d; /\\/master$/d; /remotes/p;\" | xargs -L1 git checkout -t"
+	# }}
+
+	# push {{
+	# push a new branch to the remote
+	push-branch = !git push --set-upstream ${1-origin} $(git rev-parse --abbrev-ref HEAD)
+	# }}
+
+	# status {{
+	stat = status -sb
+	# }}
+
+	# misc {{
+	revert = !git stash && git reset --hard
+	unstage = reset --
+
+	# remove local branches that have already been merged into the current branch
+	dmerged = "!git branch --merged | grep -v '\\*' | xargs -n 1 git branch -d"
+
+	# open repo in browser, usage: git browse [upstream]
+	browse = "! f() { URL=$(git config remote.${1-origin}.url | sed -e 's#^.*@#https://#' -e 's#.git$##' -e 's#:#/#2'); git web--browse $URL; }; f"
+
+	# https://haacked.com/archive/2014/07/28/github-flow-aliases/
+	up = !git pull --rebase --prune $@ && git submodule update --init --recursive
+	# checkpoint = !git add -A && git commit -m 'Checkpoint'
+
+	# wipe = !git add -A && git commit -qm 'WIPE SAVEPOINT' && git reset HEAD~1 --hard
+	bclean = "!f() { git branch --merged ${1-master} | grep -v " ${1-master}$" | xargs git branch -d; }; f"
+	bdone = "!f() { git checkout ${1-master} && git up && git bclean ${1-master}; }; f"
+
+	# }}
+
+[status]
+	submoduleSummary = true
+[magithub]
+	online = false
+[magithub "status"]
+	includeStatusHeader = false
+	includePullRequestsSection = false
+	includeIssuesSection = false
