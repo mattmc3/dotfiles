@@ -1,0 +1,20 @@
+{
+    "files.associations": {
+        "*.taskpaper": "todo",
+        "dot-bash*": "shellscript",
+        "dot-editorconfig": "properties",
+        "dot-gitconfig": "properties",
+        "dot-inputrc": "properties",
+        "dot-spacemacs": "lisp",
+        "dot-zsh*": "shellscript",
+        "dot-vimrc": "viml",
+        "config*.local": "properties",
+        "config": "properties",
+        "**/zsh/**/*": "shellscript"
+    },
+    // Configure glob patterns for excluding files and folders.
+    "files.exclude": {
+        "**/*.zwc": true,
+        "**/*.zwc.old": true
+    }
+}

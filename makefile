@@ -1,10 +1,17 @@
 # makefile
 .PHONY: help submodules \
+	bash rmbash
 	fish rmfish fishfmt \
 	git rmgit \
 	stow rmstow \
 	vscode rmvscode
 .DEFAULT_GOAL := help
+
+bash:
+	stow -v --dotfiles bash
+
+rmbash:
+	stow -v -D --dotfiles bash
 
 fish:
 	stow -v fish
