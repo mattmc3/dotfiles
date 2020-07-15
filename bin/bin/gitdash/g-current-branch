@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+
+# Show name of current branch
+_g-current-branch() {
+	git rev-parse --abbrev-ref HEAD
+}
+_g-current-branch

@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+
+_g-push-branch-upstream() {
+	git push --set-upstream origin $(git rev-parse --abbrev-ref HEAD)
+}
+_g-push-branch-upstream

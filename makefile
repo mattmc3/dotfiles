@@ -1,6 +1,7 @@
 # makefile
 .PHONY: help submodules \
 	bash rmbash \
+	bin rmbin \
 	doom rmdoom \
 	fish rmfish fishfmt \
 	git rmgit \
@@ -14,6 +15,12 @@ bash:
 
 rmbash:
 	stow -v -D --dotfiles bash
+
+bin:
+	stow -v bin
+
+rmbin:
+	stow -v -D bin
 
 doom:
 	stow -v --target=$$HOME/.config doom

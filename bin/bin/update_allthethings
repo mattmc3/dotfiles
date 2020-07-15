@@ -1,0 +1,17 @@
+
+# homebrew
+brew update && brew upgrade
+brew cu -af
+brew cleanup
+
+# python
+pip2 list --outdated | cut -d ' ' -f1 | xargs -n1 pip2 install -U
+pip3 list --outdated | cut -d ' ' -f1 | xargs -n1 pip3 install -U
+
+# node
+# https://docs.npmjs.com/getting-started/updating-global-packages
+npm update -g
+
+# ruby
+gem update
+gem cleanup

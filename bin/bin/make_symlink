@@ -1,0 +1,26 @@
+#!/usr/bin/env sh
+
+usage() {
+    local exitcd="${1-0}"
+    local errmsg="$2"
+    [[ -z $errmsg ]] || echo "$errmsg\n" 1>&2
+
+cat <<EOM
+Usage:
+  $(basename $0) <source> <target-symlink>
+
+EOM
+    exit $exitcd
+}
+
+make_symlink() {
+    local src="$1"
+    local tgt="$2"
+    [[ -n $src ]] || [[ -n $tgt ]] || usage 1
+    [[ "$src" =~ "$HOME"/* ]] || usage 2 "cannot symlink outside \$HOME"
+
+    [[ -d "$tgt" ]] && rm -rf "$tgt"
+    [[ -e "$tgt" ]] && rm "$tgt"
+    ln -sf "$src" "$tgt"
+}
+make_symlink "$@"

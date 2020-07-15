@@ -1,0 +1,23 @@
+#!/usr/bin/env bash
+
+__benchmark () {
+  for ((n=0; n<10; n++)) do
+    /usr/bin/time $1 -i -c exit
+  done
+}
+
+__benchmark_shell () {
+  if [[ -z $2 ]] || [[ "$1" == "$2" ]]; then
+    if [[ -x "$(command -v $1)" ]]; then
+      echo "benchmarking $1"
+      __benchmark "$1"
+    fi
+  fi
+}
+
+main () {
+  __benchmark_shell "bash" "$1"
+  __benchmark_shell "fish" "$1"
+  __benchmark_shell "zsh" "$1"
+}
+main $@

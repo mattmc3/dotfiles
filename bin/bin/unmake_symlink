@@ -1,0 +1,20 @@
+#!/usr/bin/env sh
+
+unmake_symlink() {
+    local symlink="$1"
+    [[ -n $symlink ]] || { echo "no symlink provided" 1>&2; exit 2; }
+    [[ "$symlink" =~ "$HOME"/* ]] || { echo "cannot remove symlink outside \$HOME" 1>&2; exit 2; }
+    [[ -L "$symlink" ]] || { echo "not a symlink" 1>&2; exit 2; }
+
+    local target=$(readlink "$symlink")
+    [[ -e "$target" ]] || { echo "missing target" 1>&2; exit 3; }
+
+    if [[ -d "$symlink" ]]; then
+        unlink "$symlink"
+        cp -r "$target" "$symlink"
+    else
+        rm -f "$symlink"
+        cp "$target" "$symlink"
+    fi
+}
+unmake_symlink "$@"

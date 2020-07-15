@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+
+# Show the git commit log
+_g-log() {
+	git log --oneline --decorate --graph --all
+}
+_g-log
