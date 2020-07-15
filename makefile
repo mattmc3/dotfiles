@@ -2,7 +2,8 @@
 .PHONY: help submodules \
 	fish rmfish fishfmt \
 	git rmgit \
-	stow rmstow
+	stow rmstow \
+	vscode rmvscode
 .DEFAULT_GOAL := help
 
 fish:
@@ -15,12 +16,10 @@ fishfmt:
 	find . \( -type f -or -type l \) -name '*.fish' ! -name 'fisher.fish' ! -path './fisher/*' ! -path './aliases/*' -exec fish_indent -w {} \;
 
 git:
-	stow -v --dotfiles --no-folding git
-	stow -v --dotfiles --no-folding --dir=local --target=$$HOME/.config git
+	stow -v git
 
 rmgit:
 	stow -v -D git
-	stow -v -D --dir=local --target=$$HOME/.config git
 
 stow:
 	stow -v stow
@@ -30,6 +29,12 @@ rmstow:
 
 submodules:
 	git submodule update --recursive --remote
+
+vscode:
+	stow -v --dir=local --target="$$HOME/Library/Application Support/Code/User" vscode
+
+rmvscode:
+	stow -v -D --dir=local --target="$$HOME/Library/Application Support/Code/User" vscode
 
 help:
 	@echo "help"
