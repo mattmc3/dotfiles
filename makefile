@@ -5,8 +5,12 @@
 	doom rmdoom \
 	fish rmfish fishfmt \
 	git rmgit \
+	npm rmnpm \
 	python rmpython \
+	readline rmreadline \
+	screen rmscreen \
 	stow rmstow \
+	tmux rmtmux \
 	vscode rmvscode
 .DEFAULT_GOAL := help
 
@@ -43,17 +47,41 @@ git:
 rmgit:
 	stow -v -D git
 
+npm:
+	stow -v npm
+
+rmnpm:
+	stow -v -D npm
+
 python:
 	stow -v python
 
 rmpython:
 	stow -v -D python
 
+readline:
+	stow -v readline
+
+rmreadline:
+	stow -v -D readline
+
+screen:
+	stow -v screen
+
+rmscreen:
+	stow -v -D screen
+
 stow:
 	stow -v stow
 
 rmstow:
 	stow -v -D stow
+
+tmux:
+	stow -v tmux
+
+rmtmux:
+	stow -v -D tmux
 
 submodules:
 	git submodule update --recursive --remote

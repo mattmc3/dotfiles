@@ -1,0 +1,31 @@
+# inputrc is the config for GNU Readline. Anything that uses Readline
+# benefits from these configs (in case you're wondering why they aren't
+# in .bashrc).
+# From http://www.ukuug.org/events/linux2003/papers/bash_tips/
+# https://github.com/JEG2/dotfiles/blob/master/inputrc
+
+# allow the use of the Home/End keys
+"\e[1~": beginning-of-line
+"\e[4~": end-of-line
+
+# allow the use of the Delete/Insert keys
+"\e[3~": delete-char
+"\e[2~": quoted-insert
+
+# mappings for "page up" and "page down"
+# to step to the beginning/end of the history
+"\e[5~": beginning-of-history
+"\e[6~": end-of-history
+
+"\e[5C": forward-word
+"\e[5D": backward-word
+"\e\e[C": forward-word
+"\e\e[D": backward-word
+
+set completion-ignore-case on
+set expand-tilde on
+set convert-meta off
+set input-meta on
+set output-meta on
+set show-all-if-ambiguous on
+set visible-stats on
