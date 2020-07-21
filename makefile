@@ -11,7 +11,9 @@
 	screen rmscreen \
 	stow rmstow \
 	tmux rmtmux \
-	vscode rmvscode
+	vim rmvim \
+	vscode rmvscode \
+	tmux rmtmux
 .DEFAULT_GOAL := help
 
 bash:
@@ -85,6 +87,12 @@ rmtmux:
 
 submodules:
 	git submodule update --recursive --remote
+
+vim:
+	stow -v --dotfiles vim
+
+rmvim:
+	stow -v -D --dotfiles vim
 
 vscode:
 	stow -v --dir=local --target="$$HOME/Library/Application Support/Code/User" vscode
