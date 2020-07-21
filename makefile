@@ -6,6 +6,7 @@
 	fish rmfish fishfmt \
 	git rmgit \
 	npm rmnpm \
+	nvim rmnvim \
 	python rmpython \
 	readline rmreadline \
 	screen rmscreen \
@@ -54,6 +55,12 @@ npm:
 
 rmnpm:
 	stow -v -D npm
+
+nvim:
+	stow -v --target=$$HOME/.config nvim
+
+rmnvim:
+	stow -v -D --target=$$HOME/.config nvim
 
 python:
 	stow -v python
