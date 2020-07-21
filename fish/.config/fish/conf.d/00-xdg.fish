@@ -16,3 +16,4 @@ set -q XDG_DOCUMENTS_DIR; or set -gx XDG_DOCUMENTS_DIR $HOME/Documents
 set -q XDG_MUSIC_DIR; or set -gx XDG_MUSIC_DIR $HOME/Music
 set -q XDG_PICTURES_DIR; or set -gx XDG_PICTURES_DIR $HOME/Pictures
 set -q XDG_VIDEOS_DIR; or set -gx XDG_VIDEOS_DIR $HOME/Videos
+set -q XDG_PROJECTS_DIR; or set -gx XDG_PROJECTS_DIR $HOME/Projects

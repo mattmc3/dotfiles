@@ -27,3 +27,13 @@ set -gx PATH $HOME/bin $PATH $XDG_DATA_HOME/npm/bin
 
 # add aliases to fish_function_path
 set fish_function_path $XDG_CONFIG_HOME/fish/aliases $fish_function_path
+
+# add function subdirs to fish_function_path
+for d in $fish_config/functions/*/
+    set fish_function_path $d $fish_function_path
+end
+
+# add completion subdirs to fish_function_path
+for d in $fish_config/completions/*/
+    set fish_complete_path $d $fish_complete_path
+end
