@@ -1,5 +1,6 @@
-# makefile
+# Phony helps when you have directories with the same name as a make command
 .PHONY: help submodules \
+	pkgimport pkgexport \
 	bash rmbash \
 	bin rmbin \
 	doom rmdoom \
@@ -16,6 +17,19 @@
 	vscode rmvscode \
 	tmux rmtmux
 .DEFAULT_GOAL := help
+
+submodules:
+	git submodule update --recursive --remote
+
+pkgexport:
+	pkgmgr export azuredatastudio > ./local/packages/$$(hostname)/azuredatastudio-extensions.txt
+	pkgmgr export brew > ./local/packages/$$(hostname)/Brewfile
+	pkgmgr export gem > ./local/packages/$$(hostname)/gemfile.txt
+	pkgmgr export macosapps > ./local/packages/$$(hostname)/macosapps.txt
+	pkgmgr export npm > ./local/packages/$$(hostname)/npm.txt
+	pkgmgr export pip2 > ./local/packages/$$(hostname)/pip2-requirements.txt
+	pkgmgr export pip3 > ./local/packages/$$(hostname)/pip3-requirements.txt
+	pkgmgr export code > ./local/packages/$$(hostname)/vscode-extensions.txt
 
 bash:
 	stow -v --dotfiles bash
@@ -91,9 +105,6 @@ tmux:
 
 rmtmux:
 	stow -v -D tmux
-
-submodules:
-	git submodule update --recursive --remote
 
 vim:
 	stow -v --dotfiles vim

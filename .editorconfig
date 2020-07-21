@@ -17,6 +17,10 @@ indent_style = tab
 indent_style = space
 trim_trailing_whitespace = false
 
+[bin/bin/*]
+indent_style = space
+indent_size = 2
+
 [*.{sh,bash,zsh}]
 indent_style = space
 indent_size = 2
