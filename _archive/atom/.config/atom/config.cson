@@ -1,0 +1,49 @@
+"*":
+  "autocomplete-python":
+    useKite: false
+  build:
+    saveOnBuild: true
+  core:
+    disabledPackages: [
+      "vim-mode-plus"
+    ]
+    excludeVcsIgnoredPaths: false
+    ignoredNames: [
+      ".git"
+      ".hg"
+      ".svn"
+      ".DS_Store"
+      "._*"
+      "Thumbs.db"
+      "*.pyc"
+    ]
+    projectHome: "/Users/mmcelheny/Projects/github.com"
+    telemetryConsent: "no"
+    themes: [
+      "one-dark-ui"
+      "base16-tomorrow-dark-theme"
+    ]
+  editor:
+    fontSize: 15
+    preferredLineLength: 100
+    scrollPastEnd: true
+    scrollSensitivity: 80
+    softWrap: true
+    softWrapAtPreferredLineLength: true
+    tabLength: 4
+  "exception-reporting":
+    userId: "e24a5ce0-d0e1-7ac0-7ae0-ea87166610ef"
+  gist: {}
+  "split-diff":
+    diffWords: true
+    ignoreWhitespace: true
+    leftEditorColor: "red"
+    rightEditorColor: "green"
+    scrollSyncType: "Vertical + Horizontal"
+  tasks: {}
+  "tree-view":
+    autoReveal: true
+    hideIgnoredNames: true
+    hideVcsIgnoredFiles: true
+  welcome:
+    showOnStartup: false
