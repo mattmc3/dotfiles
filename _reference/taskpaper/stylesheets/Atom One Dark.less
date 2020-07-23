@@ -1,0 +1,138 @@
+// https://github.com/pslobo/TaskPaper-Atom-One-Dark
+// Base -----------------------------------
+@base-font-size: 16;
+@user-font-size: $USER_FONT_SIZE;
+@ui-scale: @user-font-size / @base-font-size;
+@font-family: Source Sans Pro;
+@line-height-multiple: 1.1;
+@syntax-hue: 220;
+
+// Monochrome -----------------------------------
+@mono-1: hsl(@syntax-hue, 14%, 71%); // default text
+@mono-2: hsl(@syntax-hue, 10%, 40%);
+
+// Colors -----------------------------------
+@color1: hsl(187, 47%, 55%);
+@color2: hsl(207, 82%, 66%);
+@color3: hsl(286, 60%, 67%);
+@color4: hsl( 95, 38%, 62%);
+@color5: hsl(355, 65%, 65%);
+@color6: hsl( 5, 48%, 51%);
+@color7: hsl( 29, 54%, 61%);
+@color8: hsl( 39, 67%, 69%);
+
+// Base colors -----------------------------------
+@text-color: @mono-1;
+@bg-color: hsl(@syntax-hue, 13%, 18%);
+
+// UI Colors -----------------------------------
+@tint-color: @color8;
+@interface-color: @tint-color;
+@selection-color: mix(@tint-color, @bg-color, 10%);
+@invisibles-color: fade(@tint-color, 30%);
+@guide-color: fade(@tint-color, 10%);
+@message-color: mix(@text-color, @bg-color, 50%);
+editor {
+    color: @text-color;
+    font-size: @user-font-size;
+    font-family: @font-family;
+    background-color: @bg-color;
+    line-height-multiple: @line-height-multiple;
+    item-indent: 20px * @ui-scale;
+    caret-width: 2px;
+    caret-color: @color2;
+    handle-color: @tint-color;
+    drop-indicator-color: @tint-color;
+    invisibles-color: @invisibles-color;
+    selection-background-color: @selection-color;
+    guide-line-color: @guide-color;
+    message-color: @message-color;
+}
+item[data-type="project"] {
+    font-weight: semi-bold;
+    color: @color7;
+}
+item[data-type="task"] {
+    font-style: normal;
+}
+item[data-type="note"] {
+    font-style: italic;
+    color: @mono-2;
+}
+
+// Tag styles -----------------------------------
+item[data-today] {
+    font-size: @user-font-size;
+    font-style: normal;
+    font-weight: normal;
+    color: @color4;
+    > run[tag] {
+        color: fade(@color4, 60%);
+    }
+}
+item[data-flag],
+item[data-high],
+item[data-prio] {
+    font-size: @user-font-size;
+    font-style: normal;
+    font-weight: normal;
+    color: @color5;
+    > run[tag] {
+        color: fade(@color5, 60%);
+    }
+}
+item[data-next] {
+    font-size: @user-font-size;
+    font-style: normal;
+    font-weight: normal;
+    color: @color1;
+    > run[tag] {
+        color: fade(@color1, 60%);
+    }
+}
+item[data-waiting] {
+    font-size: @user-font-size;
+    font-style: normal;
+    font-weight: normal;
+    color: fade(@color2, 60%);
+    > run[tag] {
+        color: fade(@color2, 20%);
+    }
+}
+item[data-search] {
+    font-size: @user-font-size;
+    font-style: normal;
+    font-weight: normal;
+    color: fade(@mono-1, 50%);
+    > run[tag] {
+        color: fade(@mono-1, 20%);
+    }
+}
+item[data-done] {
+    > run[content] {
+        text-strikethrough: NSUnderlineStyleSingle;
+        text-strikethrough-color: fade(@text-color, 20%);
+        color: fade(@text-color, 20%);
+    }
+    > run[tag] {
+        text-strikethrough: NSUnderlineStyleSingle;
+        text-strikethrough-color: fade(@text-color, 20%);
+        color: fade(@text-color, 20%);
+    }
+}
+run[link] {
+    cursor: pointer;
+    color: @color2;
+}
+run[lead] {
+    color: fade(@color2, 50%);
+}
+run[link^="filter"] {
+    color: @text-color;
+}
+run[tag] {
+    font-size: @user-font-size;
+    font-style: normal;
+    font-weight: normal;
+    color: fade(@color3, 70%);
+}

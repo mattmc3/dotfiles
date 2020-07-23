@@ -1,0 +1,185 @@
+// http://support.hogbaysoftware.com/t/workflowy-inspired-theme/3256
+// Base Size
+
+@base-font-size: 15;
+@user-font-size: (1.1 * $USER_FONT_SIZE);
+@ui-scale: @user-font-size / @base-font-size;
+
+// UI Colors
+
+@tint-color: rgb(70%,84%,99%);
+@background-color: rgb(100%,100%,100%);
+@selection-color: mix(@tint-color, @background-color, 50%);
+@invisibles-color: mix(@tint-color, @background-color, 100%);
+@searchbar-background-color: rgb(92%,92%,92%);
+@searchbar-error-text-color: rgb(100%,0%,0%);
+
+// Base Text
+
+@font-family: .SF NS Text, Helvetica;
+@text-color: rgb(25%,25%,25%);
+@text-dimmed-color: mix(@text-color, @background-color, 30%);
+@line-height-multiple: 1.15;
+
+// Handles
+
+@handle-size: floor(16 * @ui-scale);
+@handle-border-width: floor(5 * @ui-scale);
+@handle-color: mix(rgb(0%,0%,0%), @background-color, 55%);
+@handle-border-color: mix(rgb(0%,0%,0%), @background-color, 12%);
+@handle-border-secondary-color: mix(rgb(0%,0%,0%), @background-color, 25%);
+
+// Guide Lines
+
+@guide-line-color: mix(rgb(0%,0%,0%), @background-color, 8%);
+@guide-line-width: floor(1.5 * @ui-scale);
+
+// Elements
+
+window {
+  appearance: NSAppearanceNameVibrantLight;
+}
+
+sidebar {
+  appearance: NSAppearanceNameVibrantLight;
+}
+
+searchbar {
+  appearance: NSAppearanceNameVibrantLight;
+  background-color: @searchbar-background-color;
+  color: mix(rgb(10%,10%,10%), @background-color, 90%);
+  placeholder-color: mix(rgb(10%,10%,10%), @background-color, 50%);
+  secondary-text-color: mix(rgb(10%,10%,10%), @background-color, 50%);
+  error-text-color: mix(@searchbar-error-text-color, @background-color, 100%);
+}
+
+editor {
+  color: @text-color;
+  ui-scale: @ui-scale;
+  font-size: @user-font-size;
+  font-family: @font-family;
+  background-color: @background-color;
+  line-height-multiple: @line-height-multiple;
+  item-indent: floor(28 * @ui-scale);
+  caret-width: floor(2 * @ui-scale);
+  caret-color: rgb(8%,54%,79%);
+  drop-indicator-color: @tint-color;
+  fold-color: @tint-color;
+  invisibles-color: @invisibles-color;
+  selection-background-color: @selection-color;
+  guide-line-color: @guide-line-color;
+  guide-line-width: @guide-line-width;
+  top-padding-percent: 0%;
+  bottom-padding-percent: 25%;
+  typewriter-scroll-percent: 25%;
+}
+
+item {
+  handle-size: @handle-size;
+  handle-border-width: @handle-border-width;
+}
+
+item[leaf] {
+  handle-color: none;
+  handle-border-color: none;
+}
+
+item[empty] {
+  handle-color: none;
+  handle-border-color: none;
+}
+
+item[expanded] {
+  handle-color: @handle-color;
+  handle-border-color: @background-color;
+}
+
+item[collapsed] {
+  handle-color: @handle-color;
+  handle-border-color: @handle-border-color;
+}
+
+item[filtered] {
+  handle-color: @handle-color;
+  handle-border-color: @handle-border-color;
+}
+
+item[focused] {
+  handle-color: @handle-color;
+  handle-border-color: @handle-border-color;
+}
+
+item[hoisted] {
+  line-height-multiple: @line-height-multiple * 2;
+  handle-color: none;
+  handle-border-color: none;
+}
+
+item[mouseOverHandle] {
+  handle-size: @handle-size + (1.2 * @ui-scale);
+  handle-border-color: @handle-border-secondary-color;
+}
+
+item[mouseOverHandle][leaf] {
+  handle-border-color: @handle-secondary-color;
+}
+
+item[data-type="project"] {
+  font-style: normal;
+  font-weight: bold;
+  paragraph-spacing-before: @ui-scale * 6;
+  paragraph-spacing-after: @ui-scale * 4;
+}
+
+item[data-type="task"] {
+  font-style: normal;
+  font-weight: normal;
+}
+
+item[data-type="note"] {
+  font-style: normal;
+  font-weight: normal;
+  color: @text-dimmed-color;
+}
+
+item[data-done] {
+  > run[content] {
+      color: @text-dimmed-color;
+      text-strikethrough: NSUnderlineStyleSingle;
+      text-strikethrough-color: @text-dimmed-color;
+    }
+  > run[link^="button"] {
+      color: @text-dimmed-color;
+    }
+  > run[tag] {
+      color: @text-dimmed-color;
+    }
+
+}
+
+run[link] {
+  cursor: pointer;
+  // color: rgb(10%,63%,85%);
+  color: rgb(8%,54%,79%);
+  text-decoration: underline;
+}
+
+run[link^="button"] {
+  color: rgb(0%,0%,0%);
+  text-decoration: none;
+}
+
+run[link^="filter"] {
+  text-decoration: none;
+}
+
+run[tag] {
+  font-size: @user-font-size;
+  font-style: normal;
+  font-weight: normal;
+  color: @text-dimmed-color;
+}
+
+run[tag="data-na"] {
+  color: rgb(99%,48%,17%);
+}

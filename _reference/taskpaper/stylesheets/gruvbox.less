@@ -1,0 +1,165 @@
+// https://github.com/nwykes/gruvbox-taskpaper-theme
+// Gruvbox colors
+@gruvbox-dark0-hard:     #1d2021;
+@gruvbox-dark0:          #282828;
+@gruvbox-dark0-soft:     #32302f;
+@gruvbox-dark1:          #3c3836;
+@gruvbox-dark2:          #504945;
+@gruvbox-dark3:          #665c54;
+@gruvbox-dark4:          #7c6f64;
+
+@gruvbox-medium:         #928374;
+
+@gruvbox-light0-hard:    #f9f5d7;
+@gruvbox-light0:         #fbf1c7;
+@gruvbox-light0-soft:    #f2e5bc;
+@gruvbox-light1:         #ebdbb2;
+@gruvbox-light2:         #d5c4a1;
+@gruvbox-light3:         #bdae93;
+@gruvbox-light4:         #a89984;
+
+@gruvbox-bright-red:     #fb4934;
+@gruvbox-bright-green:   #b8bb26;
+@gruvbox-bright-yellow:  #fabd2f;
+@gruvbox-bright-blue:    #83a598;
+@gruvbox-bright-purple:  #d3869b;
+@gruvbox-bright-aqua:    #8ec07c;
+@gruvbox-bright-orange:  #fe8019;
+
+@gruvbox-neutral-red:    #cc241d;
+@gruvbox-neutral-green:  #98971a;
+@gruvbox-neutral-yellow: #d79921;
+@gruvbox-neutral-blue:   #458588;
+@gruvbox-neutral-purple: #b16286;
+@gruvbox-neutral-aqua:   #689d6a;
+@gruvbox-neutral-orange: #d65d0e;
+
+@gruvbox-faded-red:      #9d0006;
+@gruvbox-faded-green:    #79740e;
+@gruvbox-faded-yellow:   #b57614;
+@gruvbox-faded-blue:     #076678;
+@gruvbox-faded-purple:   #8f3f71;
+@gruvbox-faded-aqua:     #427b58;
+@gruvbox-faded-orange:   #af3a03;
+
+// TaskPaper theme settings
+
+@background-color: @gruvbox-dark0;
+@text-color: @gruvbox-light1;
+
+editor {
+    background-color: @background-color;
+    color:@text-color;
+    caret-color: @gruvbox-light0;
+    caret-width: 3px;
+    selection-background-color: @gruvbox-dark4;
+    line-height-multiple: 1.6;
+
+}
+sidebar {
+    search-item-prefix: "🔍 ";
+}
+searchbar {
+    background-color: @gruvbox-light1;
+    color: @gruvbox-dark0;
+    error-text-color: @gruvbox-bright-red;
+}
+
+/*Items-- main elements: Projects, note, tasks etc*/
+run[link] {
+  cursor: pointer;
+    color: @gruvbox-neutral-blue;
+  text-decoration: underline;
+}
+
+run[link^="button"] {
+  color: @text-color;
+  text-decoration: none;
+  font-weight: normal;
+}
+
+run[link^="filter"] {
+  color: @text-color;
+  text-decoration: none;
+}
+
+item[data-Reaction], run[tag=data-Reaction], item[data-Action], run[tag=data-Action], item[data-Climax], run[tag=data-Climax], item[data-Resolution], run[tag=data-Resolution] {
+	color: @gruvbox-neutral-purple;
+}
+
+item {
+    handle-color: @gruvbox-light4;
+
+}
+
+item[data-done], run[tag=data-done] {
+  color: @gruvbox-light4;
+  > run[content] {
+    text-strikethrough: NSUnderlineStyleSingle;
+  	text-strikethrough-color: @gruvbox-light4;
+  }
+}
+
+item[collapsed] {
+    handle-color: @gruvbox-neutral-blue;
+}
+item[data-type="project"] {
+    font-weight: bold;
+    font-size: @base-font-size*1.3;
+    color:@gruvbox-neutral-green;
+}
+
+
+/* Project settings */
+item[depth=2][data-type=project] {
+    font-weight: bold;
+    font-size: @base-font-size*1.2;
+    color:@gruvbox-neutral-green;
+
+}
+
+/* Task settings*/
+item[data-type=task] {
+  font-style: normal;
+    font-size:@base-font-size*1.2;
+}
+
+/*Note settings*/
+item[data-type=note] {
+  font-style: italic;
+    font-size:@base-font-size*1.0;
+}
+
+/*Element in different states styling*/
+run[tag=data-today] {
+    color: @gruvbox-neutral-red;
+    }
+
+item[data-today] {
+color: @gruvbox-neutral-red;
+font-weight:bold;
+    }
+
+run[tag=data-flag] {
+    color: @gruvbox-neutral-yellow;
+}
+
+item[data-flag] {
+    color: @gruvbox-neutral-yellow;
+    font-weight: bold;
+}
+
+run[tag=data-context], run[tag=data-priority], run[tag=data-due], run[tag=data-project] {
+  color: @gruvbox-neutral-aqua;
+}
+
+item[data-priority] {
+  // Just the tag values (between the parentheses).
+  > run[tagvalue=high], > run[tagvalue="1"] {
+    color: @gruvbox-neutral-red;
+    font-weight: bold;
+  }
+  > run[tagvalue=low], > run[tagvalue="5"] {
+    color: @gruvbox-medium;
+  }
+}

@@ -1,0 +1,211 @@
+// JellyBean Taskpaper Theme, v1.0
+// https://github.com/mattmc3/taskpaper-themes
+// Tested with Taskpaper 3.7
+
+// colors from: https://github.com/mbadolato/iTerm2-Color-Schemes/blob/master/xrdb/Jellybeans.xrdb
+// to make a new theme with different colors, grab a different .xrdb file from this repo
+// and change the ansi color values here. Consider this top part generated code.
+
+@ansi_0_color: #929292;
+@ansi_1_color: #e27373;
+@ansi_2_color: #94b979;
+@ansi_3_color: #ffba7b;
+@ansi_4_color: #97bedc;
+@ansi_5_color: #e1c0fa;
+@ansi_6_color: #00988e;
+@ansi_7_color: #dedede;
+@ansi_8_color: #bdbdbd;
+@ansi_9_color: #ffa1a1;
+@ansi_10_color: #bddeab;
+@ansi_11_color: #ffdca0;
+@ansi_12_color: #b1d8f6;
+@ansi_13_color: #fbdaff;
+@ansi_14_color: #1ab2a8;
+@ansi_15_color: #ffffff;
+@background_color: #121212;
+@bold_color: #ffffff;
+@cursor_color: #ffa560;
+@cursor_text_color: #ffffff;
+@foreground_color: #dedede;
+@selected_text_color: #f4f4f4;
+@selection_color: #474e91;
+
+// =============================================================================
+
+// named colors ---------------------------
+@black:   @ansi_0_color;
+@red:     @ansi_1_color;
+@green:   @ansi_2_color;
+@yellow:  @ansi_3_color;
+@blue:    @ansi_4_color;
+@magenta: @ansi_5_color;
+@cyan:    @ansi_6_color;
+@white:   @ansi_7_color;
+@black-bright:   @ansi_8_color;
+@red-bright:     @ansi_9_color;
+@green-bright:   @ansi_10_color;
+@yellow-bright:  @ansi_11_color;
+@blue-bright:    @ansi_12_color;
+@magenta-bright: @ansi_13_color;
+@cyan-bright:    @ansi_14_color;
+@white-bright:   @ansi_15_color;
+
+@very-dark-grey: #202020;
+@dark-grey: #3d3d3d;
+@grey: #666666;
+@light-grey: #929292;
+@very-light-grey: #e0e0e0;
+
+// Base -----------------------------------
+@base-font-size: 16;
+@user-font-size: $USER_FONT_SIZE;
+@ui-scale: @user-font-size / @base-font-size;
+@font-family: Helvetica;
+@line-height-multiple: 1.1;
+@syntax-hue: 220;
+
+// Base colors -----------------------------------
+@text-color: @foreground_color;
+@bg-color: @background_color;
+
+// UI Colors -----------------------------------
+@tint-color: @yellow-bright;
+@interface-color: @tint-color;
+@selection-color: mix(@tint-color, @bg-color, 10%);
+@invisibles-color: fade(@tint-color, 30%);
+@guide-color: fade(@tint-color, 10%);
+@message-color: mix(@text-color, @bg-color, 50%);
+
+searchbar {
+    background-color: @selection_color;
+}
+
+window {
+    // uncomment line below for a dark sidebar
+    // appearance: NSAppearanceNameVibrantDark;
+}
+
+editor {
+    color: @text-color;
+    font-size: @user-font-size;
+    font-family: @font-family;
+    background-color: @bg-color;
+    line-height-multiple: @line-height-multiple;
+    item-indent: 20px * @ui-scale;
+    caret-width: 2px;
+    caret-color: @blue;
+    handle-color: @tint-color;
+    drop-indicator-color: @tint-color;
+    invisibles-color: @invisibles-color;
+    selection-background-color: @selection-color;
+    guide-line-color: @guide-color;
+    message-color: @message-color;
+}
+
+item[data-type="project"] {
+    font-weight: semi-bold;
+    color: @green;
+    font-size: @user-font-size * 1.2;
+}
+
+item[data-type="task"] {
+    font-size: @user-font-size;
+    font-style: normal;
+    font-weight: normal;
+    color: @white-bright;
+}
+
+item[data-type="note"] {
+    font-size: @user-font-size;
+    font-style: normal;
+    font-weight: normal;
+    color: @text-color;
+}
+
+// Tag styles -----------------------------------
+item[data-today] {
+    font-size: @user-font-size;
+    font-style: normal;
+    font-weight: normal;
+    color: @magenta;
+    > run[tag] {
+        color: fade(@magenta, 60%);
+    }
+}
+
+item[data-flag],
+item[data-high],
+item[data-prio] {
+    color: @red-bright;
+    > run[tag] {
+        color: fade(@red-bright, 60%);
+    }
+}
+item[data-next] {
+    color: @blue;
+    > run[tag] {
+        color: fade(@blue, 60%);
+    }
+}
+
+item[data-overdue] {
+   color: @red-bright;
+    > run[tag] {
+        color: fade(@red-bright, 60%);
+    }
+}
+
+item[data-due] {
+   color: @yellow-bright;
+    > run[tag] {
+        color: fade(@yellow-bright, 60%);
+    }
+}
+
+item[data-waiting] {
+   color: @red;
+    > run[tag] {
+        color: fade(@red, 60%);
+    }
+}
+
+item[data-search] {
+   color: fade(@light-grey, 50%);
+    > run[tag] {
+        color: fade(@light-grey, 20%);
+    }
+}
+
+item[data-done] {
+    > run[content] {
+        text-strikethrough: NSUnderlineStyleSingle;
+        text-strikethrough-color: fade(@text-color, 20%);
+        color: fade(@text-color, 20%);
+    }
+    > run[tag] {
+        text-strikethrough: NSUnderlineStyleSingle;
+        text-strikethrough-color: fade(@text-color, 20%);
+        color: fade(@text-color, 20%);
+    }
+}
+
+run[link] {
+    cursor: pointer;
+    color: @blue-bright;
+}
+
+// represents the lead dash before tasks
+run[lead] {
+    color: @yellow-bright;
+}
+
+run[link^="filter"] {
+    color: @text-color;
+}
+
+run[tag] {
+    font-size: @user-font-size;
+    font-style: italic;
+    font-weight: normal;
+    color: fade(@cyan-bright, 50%);
+}

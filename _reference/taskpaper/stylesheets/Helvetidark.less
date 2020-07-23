@@ -1,0 +1,57 @@
+// https://gist.github.com/drifteaur/7f91e3d81e5951af84c062956d10d8c5
+// An approximation of the TaskPaper 2 Helvetidark theme for TaskPaper 3
+
+@text-color: rgb(90%, 90%, 90%);
+@background-color: rgb(10%, 10%, 10%);
+@font-family: 'Helvetica Neue';
+@user-font-size: $USER_FONT_SIZE;
+
+@selection-color: rgb(20%, 20%, 20%);
+@invisibles-color: mix(@tint-color, @background-color, 70%);
+@cursor-color: rgb(40%, 40%, 40%);
+@done-color: rgb(30%, 30%, 30%);
+@tag-color:  rgb(35%, 35%, 35%);
+
+editor {
+	caret-color: @cursor-color;
+}
+
+item {
+	line-height-multiple: 1.2;
+	handle-color: none;
+	handle-border-color: none;
+	> run[link] {
+		color: @tint-color;
+	}
+	> run[tag] {
+		color: @tag-color;
+	}
+}
+
+item[data-type="project"] {
+  font-family: 'Helvetica Neue Medium';
+  font-size: @user-font-size;
+  font-weight: normal;
+  color: @tint-color;
+}
+
+item[depth=1][data-type=project] {
+    font-family: 'Helvetica Neue Light';
+    font-size: 21;
+}
+
+item[data-type="note"] {
+  font-style: normal;
+  color: rgb(60%, 60%, 60%);
+}
+
+item[data-done] {
+  > run[content] {
+	  color: @done-color;
+	  text-strikethrough: NSUnderlineStyleSingle;
+	  text-strikethrough-color: @done-color;
+  }
+  > run[tag] {
+		color: @done-color;
+  }
+}
