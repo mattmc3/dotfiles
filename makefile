@@ -10,6 +10,7 @@
 	nvim rmnvim \
 	python rmpython \
 	readline rmreadline \
+	spacemacs rmspacemacs \
 	screen rmscreen \
 	stow rmstow \
 	tmux rmtmux \
@@ -93,6 +94,12 @@ screen:
 
 rmscreen:
 	stow -v -D screen
+
+spacemacs:
+	stow -v --dotfiles spacemacs
+
+rmspacemacs:
+	stow -v -D --dotfiles spacemacs
 
 stow:
 	stow -v stow
