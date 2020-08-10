@@ -1,4 +1,7 @@
 New things to add to stow:
-	- spacemacs
-	- vimbasic - a single file vimrc
+	- karabiner
+	- vimbasic - a single file vimrc, without plugins
 	- zsh
+
+Archive:
+  - spacemacs @done(20-07-27 15:27) @project(New things to add to stow)

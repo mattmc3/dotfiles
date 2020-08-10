@@ -17,7 +17,7 @@
 	tmux rmtmux \
 	vim rmvim \
 	vscode rmvscode \
-	tmux rmtmux
+	zsh rmzsh
 .DEFAULT_GOAL := help
 
 submodules:
@@ -131,6 +131,12 @@ vscode:
 
 rmvscode:
 	stow -v -D --dir=local --target="$$HOME/Library/Application Support/Code/User" vscode
+
+zsh:
+	stow -v --dotfiles zsh
+
+rmzsh:
+	stow -v -D --dotfiles zsh
 
 help:
 	@echo "help"

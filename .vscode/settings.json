@@ -10,7 +10,9 @@
         "dot-vimrc": "viml",
         "config*.local": "properties",
         "config": "properties",
-        "**/zsh/**/*": "shellscript"
+        "**/zsh/**/*": "shellscript",
+        "zplugins": "shellscript",
+        "zfunctions/*": "shellscript"
     },
     // Configure glob patterns for excluding files and folders.
     "files.exclude": {
