@@ -13,6 +13,7 @@
 	spacemacs rmspacemacs \
 	screen rmscreen \
 	stow rmstow \
+	todotxt rmtodotxt \
 	tmux rmtmux \
 	vim rmvim \
 	vscode rmvscode \
@@ -112,6 +113,12 @@ tmux:
 
 rmtmux:
 	stow -v -D tmux
+
+todotxt:
+	stow -v --target=$$HOME/.config todotxt
+
+rmtodotxt:
+	stow -v -D --target=$$HOME/.config todotxt
 
 vim:
 	stow -v --dotfiles vim
