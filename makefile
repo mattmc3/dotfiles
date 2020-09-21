@@ -1,28 +1,10 @@
-# Phony helps when you have directories with the same name as a make command
-.PHONY: help submodules \
-	pkgimport pkgexport \
-	bash rmbash \
-	bin rmbin \
-	doom rmdoom \
-	fish rmfish fishfmt \
-	git rmgit \
-	npm rmnpm \
-	nvim rmnvim \
-	python rmpython \
-	readline rmreadline \
-	spacemacs rmspacemacs \
-	screen rmscreen \
-	stow rmstow \
-	todotxt rmtodotxt \
-	tmux rmtmux \
-	vim rmvim \
-	vscode rmvscode \
-	zsh rmzsh
 .DEFAULT_GOAL := help
 
+.PHONY: submodules
 submodules:
 	git submodule update --recursive --remote
 
+.PHONY: pkgexport
 pkgexport:
 	pkgmgr export azuredatastudio > ./local/packages/$$(hostname)/azuredatastudio-extensions.txt
 	pkgmgr export brew > ./local/packages/$$(hostname)/Brewfile
@@ -33,111 +15,147 @@ pkgexport:
 	pkgmgr export pip3 > ./local/packages/$$(hostname)/pip3-requirements.txt
 	pkgmgr export code > ./local/packages/$$(hostname)/vscode-extensions.txt
 
+.PHONY: bash
 bash:
 	stow -v --dotfiles bash
 
-rmbash:
+.PHONY: rm-bash
+rm-bash:
 	stow -v -D --dotfiles bash
 
+.PHONY: bin
 bin:
 	stow -v bin
 
-rmbin:
+.PHONY: rm-bin
+rm-bin:
 	stow -v -D bin
 
+.PHONY: doom
 doom:
 	stow -v --target=$$HOME/.config doom
 
-rmdoom:
+.PHONY: rm-doom
+rm-doom:
 	stow -v -D --target=$$HOME/.config doom
 
+.PHONY: fish
 fish:
 	stow -v fish
 
-rmfish:
+.PHONY: rm-fish
+rm-fish:
 	stow -v -D fish
 
+.PHONY: fishfmt
 fishfmt:
 	find . \( -type f -or -type l \) -name '*.fish' ! -name 'fisher.fish' ! -path './fisher/*' ! -path './aliases/*' -exec fish_indent -w {} \;
 
+.PHONY: git
 git:
 	stow -v git
 
-rmgit:
+.PHONY: rm-git
+rm-git:
 	stow -v -D git
 
+.PHONY: npm
 npm:
 	stow -v npm
 
-rmnpm:
+.PHONY: rm-npm
+rm-npm:
 	stow -v -D npm
 
+.PHONY: nvim
 nvim:
 	stow -v --target=$$HOME/.config nvim
 
-rmnvim:
+.PHONY: rm-nvim
+rm-nvim:
 	stow -v -D --target=$$HOME/.config nvim
 
+.PHONY: python
 python:
 	stow -v python
 
-rmpython:
+.PHONY: rm-python
+rm-python:
 	stow -v -D python
 
+.PHONY: readline
 readline:
 	stow -v readline
 
-rmreadline:
+.PHONY: rm-readline
+rm-readline:
 	stow -v -D readline
 
+.PHONY: screen
 screen:
 	stow -v screen
 
-rmscreen:
+.PHONY: rm-screen
+rm-screen:
 	stow -v -D screen
 
+.PHONY: spacemacs
 spacemacs:
 	stow -v --dotfiles spacemacs
 
-rmspacemacs:
+.PHONY: rm-spacemacs
+rm-spacemacs:
 	stow -v -D --dotfiles spacemacs
 
+.PHONY: stow
 stow:
 	stow -v stow
 
-rmstow:
+.PHONY: rm-stow
+rm-stow:
 	stow -v -D stow
 
+.PHONY: tmux
 tmux:
 	stow -v tmux
 
-rmtmux:
+.PHONY: rm-tmux
+rm-tmux:
 	stow -v -D tmux
 
+.PHONY: todotxt
 todotxt:
 	stow -v --target=$$HOME/.config todotxt
 
-rmtodotxt:
+.PHONY: rm-todotxt
+rm-todotxt:
 	stow -v -D --target=$$HOME/.config todotxt
 
+.PHONY: vim
 vim:
 	stow -v --dotfiles vim
 
-rmvim:
+.PHONY: rm-vim
+rm-vim:
 	stow -v -D --dotfiles vim
 
+.PHONY: vscode
 vscode:
 	stow -v --dir=local --target="$$HOME/Library/Application Support/Code/User" vscode
 
-rmvscode:
+.PHONY: rm-vscode
+rm-vscode:
 	stow -v -D --dir=local --target="$$HOME/Library/Application Support/Code/User" vscode
 
+.PHONY: zsh
 zsh:
 	stow -v --dotfiles zsh
 
-rmzsh:
+.PHONY: rm-zsh
+rm-zsh:
 	stow -v -D --dotfiles zsh
 
+.PHONY: help
 help:
 	@echo "help"
 	@echo "    shows this message"
