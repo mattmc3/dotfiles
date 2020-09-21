@@ -12,6 +12,7 @@ set -gx PATH "$HOME/bin" \
              "/usr/bin" \
              "/bin" \
              "$HOME/.emacs.d/bin" \
+             "/usr/local/share/npm/bin" \
              "/usr/local/opt/go/libexec/bin" \
              "/usr/local/opt/ruby/bin"
 
