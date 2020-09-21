@@ -5,7 +5,15 @@ set -q DOTFILES; or set -gx DOTFILES ~/.dotfiles
 set -q fish_config; or set -gx fish_config $HOME/.config/fish
 
 # path
-set -gx PATH "$HOME/bin" "/usr/local/sbin" "/usr/local/bin" "/usr/sbin" "/usr/bin" "/bin"
+set -gx PATH "$HOME/bin" \
+             "/usr/local/sbin" \
+             "/usr/local/bin" \
+             "/usr/sbin" \
+             "/usr/bin" \
+             "/bin" \
+             "$HOME/.emacs.d/bin" \
+             "/usr/local/opt/go/libexec/bin" \
+             "/usr/local/opt/ruby/bin"
 
 # no greeting
 set fish_greeting
