@@ -32,7 +32,8 @@
 (setq which-key-idle-delay 0.2)
 
 ;; editor
-(setq display-line-numbers-type 'visual)
+(setq display-line-numbers t)
+;; (setq display-line-numbers-type 'relative)
 ;; (desktop-save-mode 1)
 
 ;; org mode
