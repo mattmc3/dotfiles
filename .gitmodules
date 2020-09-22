@@ -1,6 +1,7 @@
 [submodule "local"]
 	path = local
 	url = git@github.com:mattmc3/dotfiles.local.git
+    branch = main
 [submodule "zsh/.config/zsh"]
 	path = zsh/.config/zsh
 	url = git@github.com:mattmc3/zdotdir.git
