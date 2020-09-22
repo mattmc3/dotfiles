@@ -1,2 +1,0 @@
-local shellname=$(ps -p $$ -ocomm=)
-echo ${shellname#*-}
