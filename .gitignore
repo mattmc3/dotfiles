@@ -30,4 +30,4 @@ fisher/
 # zsh
 *.zcompdump*
 *.zwc
-**/zsh/plugins/*
+**/zsh/zplugins/
