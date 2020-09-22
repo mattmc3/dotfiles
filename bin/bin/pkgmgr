@@ -30,6 +30,7 @@ gem_import() {
 brew_export() {
   # brew is a pain... it dumps to a forced Brewfile, and is not consistently
   # sorted, making version controling your Brewfile tricky. #FixedIt
+  brew update > /dev/null
   brew bundle dump --force
   brewfile="Brewfile"
   brewfile_tmp="Brewfile.tmp"
