@@ -1,5 +1,11 @@
 .DEFAULT_GOAL := help
 
+.PHONY: all
+all: bash bin doom fish git npm nvim python readline screen stow tmux todotxt vim vscode zsh
+
+.PHONY: rm-all
+rm-all: rm-bash rm-bin rm-doom rm-fish rm-git rm-npm rm-nvim rm-python rm-readline rm-screen rm-stow rm-tmux rm-todotxt rm-vim rm-vscode rm-zsh
+
 .PHONY: submodules
 submodules:
 	git submodule update --recursive --remote
