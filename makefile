@@ -81,6 +81,14 @@ nvim:
 rm-nvim:
 	stow -v -D --target=$$HOME/.config nvim
 
+.PHONY: powershell
+powershell:
+	stow -v --target=$$HOME/.config powershell
+
+.PHONY: rm-powershell
+rm-powershell:
+	stow -v -D --target=$$HOME/.config powershell
+
 .PHONY: python
 python:
 	stow -v python
