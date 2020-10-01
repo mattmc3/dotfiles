@@ -1,7 +1,9 @@
 New things to add to stow:
 	- karabiner
 	- vimbasic - a single file vimrc, without plugins
-	- zsh
+	- fish submodule
+	- sublimetext from local
+	- zebrafi.sh - bash and zsh single file config
 
 Archive:
   - spacemacs @done(20-07-27 15:27) @project(New things to add to stow)
