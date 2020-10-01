@@ -47,11 +47,11 @@ rm-doom:
 
 .PHONY: fish
 fish:
-	stow -v fish
+	stow -v --target=$$HOME/.config fish
 
 .PHONY: rm-fish
 rm-fish:
-	stow -v -D fish
+	stow -v -D --target=$$HOME/.config fish
 
 .PHONY: fishfmt
 fishfmt:
