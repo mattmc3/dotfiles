@@ -1,0 +1,73 @@
+layer-name = "dreymar_extend"
+title = "Colemak Extend (DreymaR version, Python Generated) - github.com/mattmc3/colemak-tools"
+description = "Extend Mode [Caps Lock as Trigger Key]"
+version = "1.0"
+author = "mattmc3"
+homepage = "https://github.com/mattmc3/colemak-tools/tree/master/Karabiner"
+switch-layer-modifier = "caps_lock"
+switch-layer-modifier-alone-action = "escape"
+keyboard = "colemak"
+mouse-move-distance = 1500
+mouse-scroll-distance = 50
+natural-scrolling = false
+
+[mappings]
+    # number row
+    "1" = "f1"
+    "2" = "f2"
+    "3" = "f3"
+    "4" = "f4"
+    "5" = "f5"
+    "6" = "f6"
+    "7" = "f7"
+    "8" = "f8"
+    "9" = "f9"
+    "0" = "f10"
+    "-" = "f11"
+    "=" = "f12"
+
+    # system
+    "q" = "esc"
+    "[" = "esc"
+    "]" = "ins"
+    "space" = "return"
+    ";" = "delete_forward"
+    "o" = "delete"
+    "return" = "CMD-SHIFT-3"
+    "'" = "menu"
+    "a" = "OPT"
+    "s" = "SHIFT"
+    "t" = "CMD"
+    "delete" = "return"
+    "esc" = "caps_lock"
+
+    # navigation
+    "j" = "pgup"
+    "h" = "pgdn"
+    "l" = "home"
+    "y" = "end"
+    "u" = "up"
+    "n" = "left"
+    "e" = "down"
+    "i" = "right"
+    "z" = "CMD-z"
+    "x" = "CMD-x"
+    "c" = "CMD-c"
+    "v" = "CMD-v"
+    # browser back
+    "f" = "CMD-["
+    # browser forward
+    "p" = "CMD-]"
+
+    # mouse
+    "w" = "mouse_scroll_up"
+    "r" = "mouse_scroll_down"
+    "g" = "mouse_move_up"
+    "d" = "mouse_move_down"
+    "b" = "mouse_click_left"
+    "k" = "mouse_click_middle"
+    "m" = "mouse_click_right"
+    "," = "mouse_move_left"
+    "." = "mouse_move_right"
+    "/" = "mouse_scroll_right"
+    "backslash" = "mouse_scroll_left"

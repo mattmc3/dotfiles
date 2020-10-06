@@ -67,6 +67,14 @@ git:
 rm-git:
 	stow -v -D git
 
+.PHONY: karabiner
+karabiner:
+	stow -v --target=$$HOME/.config karabiner
+
+.PHONY: rm-karabiner
+rm-karabiner:
+	stow -v -D --target=$$HOME/.config karabiner
+
 .PHONY: npm
 npm:
 	stow -v npm
