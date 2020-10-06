@@ -9,6 +9,8 @@ rm-all: rm-bash rm-bin rm-doom rm-fish rm-git rm-npm rm-nvim rm-python rm-readli
 .PHONY: submodules
 submodules:
 	git submodule update --recursive --remote
+	git submodule foreach git checkout main
+	git submodule foreach git pull origin main
 
 .PHONY: pkgexport
 pkgexport:
