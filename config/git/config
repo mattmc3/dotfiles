@@ -4,7 +4,7 @@
 	# The values in the [user] section are set in $DOTFILES.local
 	# https://stackoverflow.com/questions/42553685/setting-git-username-and-email-without-using-gitconfig
 [include]
-	path = ~/.dotfiles/local/git/config.local
+	path = ~/.config/dotfiles.local/git/config.local
 [core]
 	excludesfile = ~/.config/git/gitignore
 	editor = subl -n -w
