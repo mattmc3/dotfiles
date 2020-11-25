@@ -1,10 +1,10 @@
 .DEFAULT_GOAL := help
 
 .PHONY: all
-all: stow bash bin doom fish git npm nvim python readline screen tmux todotxt vim vscode zsh
+all: stow bash bin doom fish git npm nvim python readline screen starship tmux todotxt vim vscode zsh
 
 .PHONY: rm-all
-rm-all: rm-bash rm-bin rm-doom rm-fish rm-git rm-npm rm-nvim rm-python rm-readline rm-screen rm-tmux rm-todotxt rm-vim rm-vscode rm-zsh rm-stow
+rm-all: rm-bash rm-bin rm-doom rm-fish rm-git rm-npm rm-nvim rm-python rm-readline rm-screen rm-tmux rm-todotxt rm-vim rm-vscode rm-zsh rm-starship rm-stow
 
 .PHONY: submodules
 submodules:
@@ -130,6 +130,14 @@ spacemacs:
 .PHONY: rm-spacemacs
 rm-spacemacs:
 	stow -v -D --dotfiles spacemacs
+
+.PHONY: starship
+starship:
+	stow -v starship
+
+.PHONY: rm-starship
+rm-starship:
+	stow -v -D starship
 
 .PHONY: stow
 stow:
