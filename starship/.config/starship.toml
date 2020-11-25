@@ -1,0 +1,20 @@
+[character]
+# symbol = ">"
+# success_symbol = "[>](bold green)"
+# error_symbol = "[>](bold red)"
+
+[custom.powershell]
+command = "echo -n 🚀"
+when = '[ "$STARSHIP_SHELL" == "powershell" ]'
+
+[custom.fish]
+command = "echo -n 🐟"
+when = '[ "$STARSHIP_SHELL" == "fish" ]'
+
+[custom.bash]
+command = "echo -n $"
+when = '[ "$STARSHIP_SHELL" == "fish" ]'
+
+[custom.zsh]
+command = "echo -n %"
+when = '[ "$STARSHIP_SHELL" == "fish" ]'
