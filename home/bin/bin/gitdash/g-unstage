@@ -1,7 +1,0 @@
-#!/usr/bin/env bash
-
-# Unstage current files
-_g-unstage() {
-	git reset -- $@
-}
-_g-unstage $@
