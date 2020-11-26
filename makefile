@@ -1,16 +1,14 @@
 .DEFAULT_GOAL := help
 
 .PHONY: all
-all: stow home config
+all: backup stow home config
 
 .PHONY: rm-all
 rm-all: rm-stow rm-home rm-config
 
-.PHONY: submodules
-submodules:
-	git submodule update --recursive --remote
-	git submodule foreach git checkout main
-	git submodule foreach git pull origin main
+.PHONY: backup
+backup:
+	./bin/backup.sh
 
 .PHONY: config
 config:

@@ -1,3 +1,1 @@
-# ~/.zshenv should be minimal - everything else should be in $ZDOTDIR
-export ZDOTDIR=$HOME/.config/zsh
-[[ -f "$ZDOTDIR"/.zshenv ]] && source "$ZDOTDIR"/.zshenv
+source ~/.config/zsh/.zshenv

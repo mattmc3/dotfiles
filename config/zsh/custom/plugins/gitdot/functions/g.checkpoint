@@ -1,0 +1,6 @@
+# Example for adding a git checkin to a cron job
+# run git-checkpoint at 5 after every hour from 8AM to 9PM
+# 5 8-21 * * * g-checkpoint ~/Dropbox/notes >/tmp/cron_notes.log 2>/tmp/cron_notes.err
+
+git add . && git commit -am 'checkpoint' && git push
+
