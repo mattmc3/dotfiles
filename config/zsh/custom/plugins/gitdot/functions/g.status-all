@@ -1,8 +1,0 @@
-# shows the status of all projects under the current directory
-local gitdir=
-for gitdir in `find ./ -name .git`; do
-  local workdir=${gitdir%/*};
-  echo
-  echo $workdir
-  git --git-dir=$gitdir --work-tree=$workdir status -sb
-done
