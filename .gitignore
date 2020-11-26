@@ -31,3 +31,5 @@ fisher/
 *.zcompdump*
 *.zwc
 **/zsh/zplugins/
+**/zsh/.oh-my-zsh/
+**/zsh/**/external

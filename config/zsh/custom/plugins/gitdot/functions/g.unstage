@@ -1,0 +1,2 @@
+# Unstage current files
+git reset -- $@

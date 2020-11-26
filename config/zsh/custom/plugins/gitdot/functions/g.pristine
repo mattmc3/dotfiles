@@ -1,0 +1,2 @@
+# Restore your repo to freshly cloned state
+git reset --hard && git clean -dfx
