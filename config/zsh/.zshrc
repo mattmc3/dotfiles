@@ -82,6 +82,9 @@ ZSH_COMPDUMP="${ZDOTDIR:-$HOME}/.zcompdump"
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
 plugins=(
+  # first
+  xdg
+
   # omz
   colored-man-pages
   copydir
@@ -92,18 +95,29 @@ plugins=(
   z
 
   # custom
+  aliases
   autosuggestions
+  brew
   cd-ls
   completions
+  dotfiles
+  gitdot
+  golang
   history-substring-search
   iwd
-  omz
+  java
+  jupyter
+  lpass
   osx
   python
-  setopts
+  safe-rm
+  tmux
+  todo-txt
+  up
   zfunctions
 
   # last
+  setopts
   syntax-highlighting
 )
 
