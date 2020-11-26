@@ -6,6 +6,9 @@ export PATH=$HOME/bin:/usr/local/bin:$PATH
 
 # Path to your oh-my-zsh installation.
 export ZSH="${ZDOTDIR:-$HOME}/.oh-my-zsh"
+if [[ ! -d "$ZSH" ]]; then
+  git clone https://github.com/ohmyzsh/ohmyzsh.git --depth=1 "$ZSH"
+fi
 
 # Set name of the theme to load --- if set to "random", it will
 # load a random theme each time oh-my-zsh is loaded, in which case,
@@ -64,7 +67,10 @@ DISABLE_MAGIC_FUNCTIONS="true"
 HIST_STAMPS="yyyy-mm-dd"
 
 # Would you like to use another custom folder than $ZSH/custom?
-ZSH_CUSTOM="${ZDOTDIR:-$HOME}/custom"
+ZSH_CUSTOM="${ZDOTDIR:-$HOME}/.zsh_custom"
+if [[ ! -d "$ZSH_CUSTOM" ]]; then
+  git clone git@github.com:mattmc3/zsh_custom --recursive "$ZSH_CUSTOM"
+fi
 
 # Other OMZ variables
 ZSH_DISABLE_COMPFIX=true
@@ -96,6 +102,9 @@ plugins=(
   python
   setopts
   zfunctions
+
+  # last
+  syntax-highlighting
 )
 
 source $ZSH/oh-my-zsh.sh
