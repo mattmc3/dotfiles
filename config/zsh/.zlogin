@@ -40,6 +40,6 @@
   # cleanup
   find $HOME -type f -name "*.zwc.old" -maxdepth 1 -delete
   if [[ "$HOME" != "$ZDOTDIR" ]] && [[ -d "$ZDOTDIR" ]]; then
-    find $ZDOTDIR -type f -name "*.zwc.old" -delete
+    find "$ZDOTDIR:A" -type f -name "*.zwc.old" -delete
   fi
 ) &!
