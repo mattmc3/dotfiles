@@ -1,7 +1,0 @@
-#!/usr/bin/env bash
-
-# Restore your repo to freshly cloned state
-_g-pristine() {
-	git reset --hard && git clean -fdx
-}
-_g-pristine

@@ -1,8 +1,0 @@
-#!/usr/bin/env bash
-
-# Show the current git user info
-_g-whoami() {
-	echo "user.name:" $(git config user.name)
-	echo "user.email:" $(git config user.email)
-}
-_g-whoami

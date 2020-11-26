@@ -1,7 +1,0 @@
-#!/usr/bin/env bash
-
-# Show the current git user info
-_g-wip() {
-	git add . && git commit -am 'WIP'
-}
-_g-wip

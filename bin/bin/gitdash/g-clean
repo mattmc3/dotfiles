@@ -1,7 +1,0 @@
-#!/usr/bin/env bash
-
-# Remove untracked files and directories from the working tree
-_g-clean() {
-	git clean -fd
-}
-_g-clean

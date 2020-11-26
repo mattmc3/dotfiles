@@ -1,6 +1,0 @@
-#!/usr/bin/env bash
-
-_g-revert() {
-	git stash && git reset --hard
-}
-g-revert

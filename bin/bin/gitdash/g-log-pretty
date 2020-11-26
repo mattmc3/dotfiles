@@ -1,7 +1,0 @@
-#!/usr/bin/env bash
-
-# Show the git commit log in pretty format
-_g-log-pretty() {
-	git log --graph --pretty='%Cred%h%Creset -%C(auto)%d%Creset %s %Cgreen(%ad) %C(bold blue)<%an>%Creset' --date=short
-}
-_g-log-pretty
