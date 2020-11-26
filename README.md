@@ -8,7 +8,7 @@ My dotfiles
 export DOTFILES=~/.dotfiles
 git clone --recursive git@github.com:mattmc3/dotfiles.git $DOTFILES
 cd $DOTFILES
-make <whatever>
+make all
 ```
 
 ## Intro
@@ -63,8 +63,9 @@ make backup
 **Install these dotfiles:**
 
 ```shell
-# stow the zsh dotfiles
-make zsh
+# install ~ and ~/.config dotfiles
+make home
+make config
 ```
 
 If you decide you want to revert back, you'll want to copy your files

@@ -1,7 +1,0 @@
-#!/usr/bin/env bash
-
-# Show the working tree status
-_g-status() {
-	git status -sb
-}
-_g-status
