@@ -1,11 +1,4 @@
 #
-# Sets Prezto options.
-#
-# Authors:
-#   Sorin Ionescu <sorin.ionescu@gmail.com>
-#
-
-#
 # General
 #
 
@@ -16,10 +9,13 @@
 zstyle ':prezto:*:*' color 'yes'
 
 # Add additional directories to load prezto modules from
-# zstyle ':prezto:load' pmodule-dirs $HOME/.zprezto-contrib
+ZSH_CUSTOM="${ZDOTDIR:-$HOME}/.zsh_custom"
+zstyle ':prezto:load' pmodule-dirs \
+  "${ZDOTDIR:-$HOME}/.oh-my-zsh/plugins" \
+  "$ZSH_CUSTOM/plugins"
 
 # Allow module overrides when pmodule-dirs causes module name collisions
-# zstyle ':prezto:load' pmodule-allow-overrides 'yes'
+zstyle ':prezto:load' pmodule-allow-overrides 'yes'
 
 # Set the Zsh modules to load (man zshmodules).
 # zstyle ':prezto:load' zmodule 'attr' 'stat'
@@ -29,23 +25,53 @@ zstyle ':prezto:*:*' color 'yes'
 
 # Set the Prezto modules to load (browse modules).
 # The order matters.
-zstyle ':prezto:load' pmodule \
-  'environment' \
-  'terminal' \
-  'editor' \
-  'history' \
-  'directory' \
-  'spectrum' \
-  'utility' \
-  'completion' \
-  'prompt'
+plugins=(
+  # init
+  xdg
+
+  # prezto core
+  environment
+  terminal
+  editor
+  history
+  directory
+  spectrum
+  utility
+  completion
+  prompt
+
+  # prezto additional
+  git
+  osx
+  autosuggestions
+
+  # omz
+  shrink-path
+
+  # me
+  aliases
+  brew
+  cd-ls
+  iwd
+  osx
+  python
+  safe-rm
+  up
+  z
+  zfunctions
+
+  # final
+  fast-syntax-highlighting
+  history-substring-search
+)
+zstyle ':prezto:load' pmodule $plugins
 
 #
 # Autosuggestions
 #
 
 # Set the query found color.
-# zstyle ':prezto:module:autosuggestions:color' found ''
+zstyle ':prezto:module:autosuggestions:color' found 'fg=60'
 
 #
 # Completions
@@ -74,6 +100,10 @@ zstyle ':prezto:module:editor' key-bindings 'emacs'
 
 # Ignore submodules when they are 'dirty', 'untracked', 'all', or 'none'.
 # zstyle ':prezto:module:git:status:ignore' submodules 'all'
+
+# Ignore git aliases from prezto
+zstyle ':prezto:module:git:alias' skip 'yes'
+
 
 #
 # GNU Utility
@@ -116,7 +146,7 @@ zstyle ':prezto:module:editor' key-bindings 'emacs'
 # Set the prompt theme to load.
 # Setting it to 'random' loads a random theme.
 # Auto set to 'off' on dumb terminals.
-zstyle ':prezto:module:prompt' theme 'sorin'
+zstyle ':prezto:module:prompt' theme 'pure'
 
 # Set the working directory prompt display length.
 # By default, it is set to 'short'. Set it to 'long' (without '~' expansion)
@@ -225,3 +255,6 @@ zstyle ':prezto:module:prompt' theme 'sorin'
 # before deleting or overwriting files. Set to 'no' to disable this safer
 # behavior.
 # zstyle ':prezto:module:utility' safe-ops 'yes'
+
+# Turn off auto-correction
+zstyle ':prezto:module:utility' correct 'no'
