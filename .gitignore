@@ -33,3 +33,4 @@ fisher/
 **/zsh/zplugins/
 .oh-my-zsh/
 .zsh_custom/
+.prezto/
