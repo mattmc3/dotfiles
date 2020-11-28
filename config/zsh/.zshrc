@@ -8,7 +8,7 @@ if [[ -s "${ZDOTDIR:-$HOME}/.zprezto/init.zsh" ]]; then
 fi
 
 # OMZ
-# source "${ZDOTDIR:-$HOME}/zshrc.omz.zsh"
+# source "${ZDOTDIR:-$HOME}/.zohmyzshrc"
 
 # local dotfiles
 [[ -f ~/.config/dotfiles.local/zsh/zshrc.local.zsh ]] && . ~/.config/dotfiles.local/zsh/zshrc.local.zsh
