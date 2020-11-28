@@ -80,6 +80,7 @@ ZSH_COMPDUMP="${ZDOTDIR:-$HOME}/.zcompdump"
 # Add wisely, as too many plugins slow down shell startup.
 plugins=(
   # first
+  ohmyzsh
   xdg
 
   # omz
