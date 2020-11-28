@@ -1,6 +1,3 @@
-# just execute 'ZPROF=1 zsh' to run 'zprof' to get the performance details
-[[ $ZPROF -ne 1 ]] || zmodload zsh/zprof
-
 # If you come from bash you might have to change your $PATH.
 export PATH=$HOME/bin:/usr/local/bin:$PATH
 
@@ -179,8 +176,3 @@ typeset -gU cdpath fpath mailpath path
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
-
-# local dotfiles
-[[ -f ~/.config/dotfiles.local/zsh/zshrc.local.zsh ]] && . ~/.config/dotfiles.local/zsh/zshrc.local.zsh
-
-[[ $ZPROF -ne 1 ]] || zprof
