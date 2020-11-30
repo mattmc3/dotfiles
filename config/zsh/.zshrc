@@ -3,9 +3,11 @@
 alias zbench="for i in \$(seq 1 10); do; /usr/bin/time zsh -i -c exit; done"
 
 # zprezto
-if [[ -s "${ZDOTDIR:-$HOME}/.zprezto/init.zsh" ]]; then
-  source "${ZDOTDIR:-$HOME}/.zprezto/init.zsh"
+export ZPREZTODIR="${ZDOTDIR:-$HOME}/.zprezto"
+if [[ ! -d "$ZPREZTODIR" ]]; then
+  git clone --depth=1 --recursive https://github.com/sorin-ionescu/prezto.git "${ZDOTDIR:-$HOME}/.zprezto"
 fi
+source "$ZPREZTODIR/init.zsh"
 
 # OMZ
 # source "${ZDOTDIR:-$HOME}/.zohmyzshrc"
