@@ -6,6 +6,16 @@
 #
 # https://raw.githubusercontent.com/zimfw/zimfw/zsh-5.2/login_init.zsh
 #
+
+# Execute code that does not affect the current session in the background.
+{
+  # Compile the completion dump to increase startup speed.
+  zcompdump="${XDG_CACHE_HOME:-$HOME/.cache}/prezto/zcompdump"
+  if [[ -s "$zcompdump" && (! -s "${zcompdump}.zwc" || "$zcompdump" -nt "${zcompdump}.zwc") ]]; then
+    zcompile "$zcompdump"
+  fi
+} &!
+
 (
   local zdotdir dirs files d f
   zdotdir=${ZDOTDIR:-${HOME}}
@@ -17,6 +27,7 @@
     $ZGEN_DIR
     $ZSH
     $ZSH_CUSTOM
+    $ZPREZTODIR
   )
 
   files=(
