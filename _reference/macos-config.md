@@ -24,18 +24,6 @@ softwareupdate --install-rosetta --agree-to-license
 xcode-select --install
 ```
 
-## Editors
-
-Some GUI editors can be launched via command line, but they need their binaries available in `$PATH`. One easy way to do that is to symlink the apps in your `~/bin` assuming that is in your `$PATH`
-
-```shell
-# sublime
-ln -s /Applications/Sublime\ Text.app/Contents/SharedSupport/bin/subl ~/bin
-
-# vscode
-ln -s /Applications/Visual\ Studio\ Code.app/Contents/Resources/app/bin/code ~/bin
-```
-
 ## Misc
 
 ### Screenshots
@@ -45,6 +33,18 @@ MacOS saves screenshots to inconvienent places and creates a lot of clutter. You
 ```shell
 mkdir -p "$HOME/Screenshots"
 defaults write com.apple.screencapture location -string "$HOME/Screenshots"
+```
+
+### GUI Editors
+
+Some GUI editors can be launched via command line, but they need their binaries available in `$PATH`. One easy way to do that is to symlink the apps in your `~/bin` assuming that is in your `$PATH`
+
+```shell
+# sublime
+ln -s /Applications/Sublime\ Text.app/Contents/SharedSupport/bin/subl ~/bin
+
+# vscode
+ln -s /Applications/Visual\ Studio\ Code.app/Contents/Resources/app/bin/code ~/bin
 ```
 
 ## Desktop & Screen Saver
@@ -145,7 +145,7 @@ mysides list
 mysides add example file:///Users/Shared/example
 ```
 
-## Killall
+## Finalize setup
 
 In order to reset apps whose settings are changed, run this script:
 
