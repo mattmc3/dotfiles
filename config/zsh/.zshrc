@@ -12,6 +12,12 @@ source "$ZPREZTODIR/init.zsh"
 # OMZ
 # source "${ZDOTDIR:-$HOME}/.zohmyzshrc"
 
+# zshrc.d
+for _f in $ZDOTDIR/zshrc.d/*.zsh(.N); do
+  source $_f
+done
+unset _f
+
 # local dotfiles
 [[ -f ~/.config/dotfiles.local/zsh/zshrc.local.zsh ]] && . ~/.config/dotfiles.local/zsh/zshrc.local.zsh
 
