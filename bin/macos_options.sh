@@ -6,6 +6,14 @@
 # https://github.com/geerlingguy/dotfiles/blob/master/.osx
 
 
+# --- Symlinks ---
+# sublime
+ln -s /Applications/Sublime\ Text.app/Contents/SharedSupport/bin/subl ~/bin
+
+# vscode
+ln -s /Applications/Visual\ Studio\ Code.app/Contents/Resources/app/bin/code ~/bin
+
+
 # --- Dock ---
 # https://developer.apple.com/documentation/devicemanagement/dock
 
