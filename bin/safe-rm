@@ -1,4 +1,5 @@
 #!/bin/bash
+# https://github.com/kaelzhang/shell-safe-rm/blob/master/bin/rm.sh
 
 # You could modify these environment variables to change the default constants
 # Default to ~/.Trash on Mac, ~/.local/share/Trash/files on Linux.
@@ -417,4 +418,3 @@ done
 
 debug "EXIT_CODE $EXIT_CODE"
 exit $EXIT_CODE
-
