@@ -26,6 +26,7 @@ fi
 # path
 path=(
   $HOME/bin
+  /opt/homebrew/bin
   /usr/local/{sbin,bin}
   /usr/{sbin,bin}
   /{sbin,bin}
