@@ -11,7 +11,8 @@ fi
 # load a random theme each time oh-my-zsh is loaded, in which case,
 # to know which specific one was loaded, run: echo $RANDOM_THEME
 # See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
-ZSH_THEME="refined"
+# themes: refined, steeef, lambda, terminalparty
+ZSH_THEME="terminalparty"
 
 # Set list of themes to pick from when loading at random
 # Setting this variable when ZSH_THEME=random will cause zsh to load
@@ -109,7 +110,7 @@ plugins=(
   osx
   python
   safe-rm
-  tmux
+  # tmux
   todo-txt
   up
   zfunctions
@@ -124,47 +125,6 @@ source $ZSH/oh-my-zsh.sh
 # User configuration
 
 # export MANPATH="/usr/local/man:$MANPATH"
-
-# You may need to manually set your language environment
-export LANG=en_US.UTF-8
-
-# Preferred editor for local and remote sessions
-if [[ -n $SSH_CONNECTION ]]; then
-  export EDITOR='vim'
-else
-  export EDITOR='mvim'
-fi
-export VISUAL='code'
-
-# set other stuff
-export TZ="America/New_York"
-export LANG="en_US.UTF-8"
-export LANGUAGE="en"
-export LC_ALL="en_US.UTF-8"
-
-export CLICOLOR="1"
-export LSCOLORS="ExfxcxdxbxGxDxabagacad"
-export PAGER="less"
-
-if [[ "$OSTYPE" == darwin* ]]; then
-  export BROWSER='open'
-fi
-
-# path
-path=(
-  $HOME/bin
-  /usr/local/{sbin,bin}
-  /usr/{sbin,bin}
-  /{sbin,bin}
-  $HOME/.emacs.d/bin
-  /usr/local/share/npm/bin
-  /usr/local/opt/go/libexec/bin
-  $HOME/Projects/golang/bin
-  /usr/local/opt/ruby/bin
-)
-
-# ensure path arrays do not contain duplicates
-typeset -gU cdpath fpath mailpath path
 
 # Compilation flags
 # export ARCHFLAGS="-arch x86_64"
