@@ -88,6 +88,12 @@ defaults write com.apple.dock mineffect -string "scale"
 defaults write com.apple.dock orientation left
 ```
 
+Don’t show recent applications in Dock
+
+```shell
+defaults write com.apple.dock show-recents -bool false
+```
+
 ## Keyboard
 
 ### Use key repeat for press-and-hold
@@ -118,10 +124,10 @@ You can speed up key repeats with the following commands
 
 ```shell
 # normal minimum is 15 (225 ms)
-defaults write -g InitialKeyRepeat -int 10
+defaults write -g InitialKeyRepeat -int 35
 
 # normal minimum is 2 (30 ms)
-defaults write -g KeyRepeat -int 1
+defaults write -g KeyRepeat -int 2
 ```
 
 ## Fonts
