@@ -117,8 +117,11 @@ defaults delete -g ApplePressAndHoldEnabled
 You can speed up key repeats with the following commands
 
 ```shell
-defaults write -g InitialKeyRepeat -int 10 # normal minimum is 15 (225 ms)
-defaults write -g KeyRepeat -int 1 # normal minimum is 2 (30 ms)
+# normal minimum is 15 (225 ms)
+defaults write -g InitialKeyRepeat -int 10
+
+# normal minimum is 2 (30 ms)
+defaults write -g KeyRepeat -int 1
 ```
 
 ## Fonts
@@ -143,6 +146,12 @@ Modify the Finder sidebar with the [mysides] app.
 brew install --cask mysides
 mysides list
 mysides add example file:///Users/Shared/example
+```
+
+Keep folders on top when sorting by name
+
+```shell
+defaults write com.apple.finder _FXSortFoldersFirst -bool true
 ```
 
 ## Finalize setup
