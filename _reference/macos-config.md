@@ -24,6 +24,12 @@ softwareupdate --install-rosetta --agree-to-license
 xcode-select --install
 ```
 
+### XCode
+
+```shell
+sudo xcodebuild -license accept
+```
+
 ### Homebrew
 
 If you are on Apple Silicon (M1 ARM chipsets), you will need to install brew in a different location for native compilation. This may not always be true, but at the time of this writing it is.
