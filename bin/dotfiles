@@ -1,0 +1,57 @@
+#!/usr/bin/env zsh
+0=${(%):-%N}
+DOTFILES="${DOTFILES:-$HOME/.config/dotfiles}"
+
+function _dotfiles_usage() {
+    echo 'usage: `dotfiles <command> [options]`'
+    echo "commands: backup, install, uninstall"
+}
+
+function _dotfiles_backup() {
+    backup_dir="${DOTFILES}"/_bak/home_$(date +"%Y%m%d_%H%M%S")
+    mkdir -p "$backup_dir"
+    echo "backing up existing dotfiles from your home to ${backup_dir}..."
+    rsync -aL --include-from="${DOTFILES}/bin/dotfiles.rsync" "$HOME/" "$backup_dir"
+}
+
+function _dotfiles_install() {
+    _dotfiles_backup
+    cd "$DOTFILES"
+    stow -v --dotfiles --target=$HOME stow
+    stow -v --dotfiles --target=$HOME home
+    stow -v --target=$HOME/.config config
+    cd "$HOME"
+    ln -sf .config/dotfiles/bin
+}
+
+function _dotfiles_uninstall() {
+    _dotfiles_backup
+    cd "$DOTFILES"
+    stow -v -D --dotfiles --target=$HOME stow
+    stow -v -D --dotfiles --target=$HOME home
+    stow -v -D --target=$HOME/.config config
+    if [[ -L ~/bin && -d ~/bin ]]; then
+        command rm -rf ~/bin
+    fi
+}
+
+function main() {
+    local cmd="$1"
+
+    if [[ -z "${cmd}" ]]; then
+        _dotfiles_usage
+        return 1
+    fi
+    shift
+
+    if [[ ! -d "$DOTFILES" ]]; then
+        >&2 echo "\$DOTFILES directory not found"
+        return 1
+    elif functions "_dotfiles_${cmd}" > /dev/null ; then
+        "_dotfiles_${cmd}" "${@}"
+    else
+        >&2 echo "Command not found: '${cmd}'"
+        return 1
+    fi
+}
+main $@
