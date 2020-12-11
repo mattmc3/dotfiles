@@ -53,6 +53,7 @@ plugins=(
   aliases
   brew
   cd-ls
+  dotfiles
   iwd
   osx
   python
