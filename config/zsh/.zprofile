@@ -2,6 +2,16 @@
 # Executes commands at login pre-zshrc.
 #
 
+export DOTFILES=$HOME/.config/dotfiles
+
+#
+# Terminal colors
+#
+
+export CLICOLOR="1"
+#export LSCOLORS="ExfxcxdxbxGxDxabagacad"
+export LSCOLORS=GxFxCxDxBxegedabagaced
+
 #
 # Browser
 #
@@ -22,9 +32,10 @@ export PAGER='less'
 # Language
 #
 
-if [[ -z "$LANG" ]]; then
-  export LANG='en_US.UTF-8'
-fi
+export TZ="America/New_York"
+export LANG="en_US.UTF-8"
+export LANGUAGE="en"
+export LC_ALL="en_US.UTF-8"
 
 #
 # Paths
@@ -40,9 +51,20 @@ typeset -gU cdpath fpath mailpath path
 
 # Set the list of directories that Zsh searches for programs.
 path=(
-  /usr/local/{bin,sbin}
-  $path
+  $HOME/bin
+  /opt/homebrew/bin
+  /usr/local/{sbin,bin}
+  /usr/{sbin,bin}
+  /{sbin,bin}
+  $HOME/.emacs.d/bin
+  /usr/local/share/npm/bin
+  /usr/local/opt/go/libexec/bin
+  $HOME/Projects/golang/bin
+  /usr/local/opt/ruby/bin
 )
+
+# ensure path arrays do not contain duplicates
+typeset -gU cdpath fpath mailpath path
 
 #
 # Less

@@ -21,7 +21,10 @@ if [[ ! -d "$ZSH_CUSTOM" ]]; then
 fi
 
 # use prezto
-source "$ZPREZTODIR/init.zsh"
+# source "$ZPREZTODIR/init.zsh"
+
+# use OMZ
+source "$ZDOTDIR/.zohmyzshrc"
 
 # zshrc.d
 for _f in $ZDOTDIR/zshrc.d/*.zsh(.N); do
