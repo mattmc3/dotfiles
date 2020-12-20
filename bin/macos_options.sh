@@ -82,9 +82,19 @@ defaults write -g CGFontRenderingFontSmoothingDisabled -bool NO
 
 
 # --- Finder Preferences ---
-
 # Finder > View > Show Path Bar
 defaults write com.apple.finder ShowPathbar -bool true
+
+
+# --- Accessibility ---
+# Accessibility > Display > Cursor : Increase pointer size
+sudo defaults write com.apple.universalaccess mouseDriverCursorSize 1.8
+
+
+# --- Security & Privacy
+# Turn Firewall on
+sudo defaults write /Library/Preferences/com.apple.alf globalstate -int 1
+
 
 # --- Restart affected apps ---
 
