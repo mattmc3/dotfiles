@@ -68,7 +68,7 @@
 
 	# push {{
 	# push a new branch to the remote
-	push-branch = !git push --set-upstream ${1-origin} $(git rev-parse --abbrev-ref HEAD)
+	pushup = !git push --set-upstream ${1-origin} $(git rev-parse --abbrev-ref HEAD)
 	# }}
 
 	# status {{
