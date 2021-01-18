@@ -32,7 +32,10 @@
 	whoami = !git config user.name && git config user.email
 
 	# branch {{
-	branch-name = !git rev-parse --abbrev-ref HEAD
+    # https://stackoverflow.com/questions/28666357/git-how-to-get-default-branch
+    default-branch = !basename $(git symbolic-ref --short refs/remotes/origin/HEAD)
+
+	branch-name = !git branch --show-current
 	# https://stackoverflow.com/questions/7726949/remove-tracking-branches-no-longer-on-remote
 	branch-cleanup = "!git checkout master && git fetch -p && git branch -vv | awk '/: gone]/{print $1}' | xargs git branch -d"
 	# https://stackoverflow.com/questions/67699/how-to-clone-all-remote-branches-in-git
@@ -88,6 +91,7 @@
 	# https://haacked.com/archive/2014/07/28/github-flow-aliases/
 	up = !git pull --rebase --prune $@ && git submodule update --init --recursive
 	# checkpoint = !git add -A && git commit -m 'Checkpoint'
+    undo = reset --soft HEAD~1
 
 	# wipe = !git add -A && git commit -qm 'WIPE SAVEPOINT' && git reset HEAD~1 --hard
 	bclean = "!f() { git branch --merged ${1-master} | grep -v " ${1-master}$" | xargs git branch -d; }; f"
