@@ -1,0 +1,9 @@
+[submodule "local"]
+	path = local
+	url = git@github.com:mattmc3/dotfiles.local
+[submodule "zsh"]
+	path = zsh
+	url = https://github.com/mattmc3/zdotdir
+[submodule "fish"]
+	path = fish
+	url = https://github.com/mattmc3/fishconf
