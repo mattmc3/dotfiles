@@ -1,9 +1,14 @@
-" ~/.config/nvim/init.vim
+" ~/.vimrc
 " author: mattmc3
 " https://github.com/mattmc3/dotfiles
-
-" references:
+"
+" Notes:
+" No plugins in this config. Plugins are for nvim, not vim
+"
+" References:
 " http://stevelosh.com/blog/2010/09/coming-home-to-vim/#making-vim-more-useful
+" https://github.com/fabi1cazenave/cua-mode.vim/blob/master/plugin/cua-mode.vim
+" https://github.com/tpope/vim-sensible/blob/master/plugin/sensible.vim
 
 "
 " General settings
@@ -22,39 +27,7 @@ set lazyredraw                  " don't redraw the screen on macros, or other no
 set shortmess+=I                " no vim welcome screen
 set virtualedit+=block          " allow the cursor to go anywhere in visual block mode
 set visualbell                  " don't beep at me
-set cursorline                  " show where the cursor is
 set backspace=indent,eol,start  " define what backspace does
-
-"
-" Plugins
-"
-" To install:
-" curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-if has("win32")
-    let plug_path = "~\\vimfiles\\plugged"
-else
-    let plug_path = "~/.local/share/nvim/site/plugged"
-endif
-
-call plug#begin(plug_path)
-" Plug 'bkad/CamelCaseMotion'
-" Plug 'justinmk/vim-sneak'
-Plug 'ctrlpvim/ctrlp.vim'
-Plug 'easymotion/vim-easymotion'
-Plug 'haya14busa/incsearch.vim'
-Plug 'keitanakamura/neodark.vim'
-Plug 'michaeljsmith/vim-indent-object'
-Plug 'nanotech/jellybeans.vim', { 'as': 'jellybeans' }
-Plug 'neoclide/coc.nvim', {'branch': 'release'}
-Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
-Plug 'terryma/vim-multiple-cursors'
-Plug 'tpope/vim-commentary'
-Plug 'tpope/vim-sensible'
-Plug 'tpope/vim-surround'
-Plug 'vim-airline/vim-airline'
-Plug 'xuyuanp/nerdtree-git-plugin'
-call plug#end()
-
 
 "
 " More settings
@@ -62,7 +35,8 @@ call plug#end()
 
 " theme
 set background=dark                 " tell nvim the color scheme will be a dark one
-colorscheme jellybeans              " set the color scheme (builtin: evening, elflord)
+colorscheme desert                  " set the color scheme (builtin: evening, elflord)
+syntax on
 
 " editor
 " to get the postscript name, use ⌘-i in fontbook
@@ -72,7 +46,7 @@ endif
 set list                            " needed for listchars
 set listchars=tab:»\ ,trail:·       " Display tabs and trailing spaces visually
 set number                          " Enable line numbers
-set relativenumber                  " Show relative line numbers
+" set relativenumber                  " Show relative line numbers
 set mouse=a                         " Enable mouse integration
 set title                           " Sets the terminal to show the buffer title
 set showcmd                         " show commands as I type thiem
@@ -119,11 +93,17 @@ nnoremap <C-e> $
 inoremap <M-b> <Esc>Bi
 inoremap <M-f> lWi
 
-" CUA shortcuts
-inoremap <M-Right> <ESC>E
-noremap <M-Right> E
-inoremap <M-Left> <ESC>B
-noremap <M-Left> B
+""" CUA shortcuts
+" meta(alt)-left/right moves across words
+map <M-Left>  B
+map <M-Right> W
+map <M-Up>    {
+map <M-Down>  }
+
+" inoremap <M-Right> <ESC>E
+" noremap <M-Right> E
+" inoremap <M-Left> <ESC>B
+" noremap <M-Left> B
 nnoremap <D-s> :w<CR>
 nnoremap <D-z> :u<CR>
 inoremap <D-z> <C-o>:u<C-r>
