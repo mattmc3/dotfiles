@@ -78,6 +78,10 @@ Library/KeyBindings/DefaultKeyBinding.dict
 .config/npm/
 .config/npm/***
 
+# npm
+.config/oni2/
+.config/oni2/***
+
 # python
 .config/pep8
 .config/pycodestyle

@@ -5,27 +5,25 @@ My dotfiles
 ## Install
 
 ```shell
-export DOTFILES=~/.dotfiles
+export DOTFILES=~/.config/dotfiles
 git clone --recursive git@github.com:mattmc3/dotfiles.git $DOTFILES
 cd $DOTFILES
-make all
+make install
 ```
 
 ## Intro
 
 This repo is for storing my public config files, canonically called "dotfiles".
-Having dotfiles in a repo makes setup on a new machine just a simple `git clone`
-away. Some of the techniques and code are based on concepts from
-[this article][dotfiles-getting-started] and the zillions of other
-[dotfile repos on GitHub][github-dotfiles].
+Having dotfiles in a repo makes setup on a new machine just a simple `git clone` away.
+Some of the techniques and code are based on concepts from [this article][dotfiles-getting-started] and the zillions of other [dotfile repos on GitHub][github-dotfiles].
 
 ## What's here
 
 In all the dotfiles repos, in all of GitHub, in all the world, you walked into
 mine. What makes this one so special?!
 
-- Simple and minimal setup leveraging using [stow][stow].
 - [rsync][rsync] magic to back up your existing config.
+- Simple and minimal setup by favoring symlinks in ~/.config
 - Pairs nicely with a private dotfiles.local repo for configs you don't want to
   share with the world.
 
@@ -34,15 +32,13 @@ mine. What makes this one so special?!
 ### Prereqs
 
 - git
-- [stow][stow]
-- [zsh][zsh]
 - rsync (for backups)
 
 ## How to use
 
-This project uses a makefile to do its work, because... why not? Run
-`make help` for details. Or, skip the makefile and run `stow` yourself to get
-started.
+This project uses a makefile to do its work, because... why not?
+Run `make help` for details.
+Or, skip the makefile and run the `dotfiles` script yourself to get started.
 
 ### Commands
 
@@ -63,13 +59,11 @@ make backup
 **Install these dotfiles:**
 
 ```shell
-# install ~ and ~/.config dotfiles
-make home
-make config
+make install
 ```
 
-If you decide you want to revert back, you'll want to copy your files
-out of the backup location. Luckily, `rsync` makes everything smooth as silk.
+If you decide you want to revert back, you'll want to copy your files out of the backup location.
+Luckily, `rsync` makes everything smooth as silk.
 
 ```shell
 # rsync can help you revert!
@@ -79,44 +73,7 @@ REVERT_DIR="$DOTFILES/_bak/home_CCYYMMDD_HHMMSS"; rsync -av --dry-run "$HOME/" "
 ```
 
 If you want to remove all these dotfiles, `make uninstall` is your friend.
-However, if you do this, remember that your shell might not work without
-replacing the files.
-
-## Performance
-
-A snappy shell is very important. My dotfiles include benchmark scripts in the
-bin directory that run bash/fish/zsh 10 times and presents the timings.
-
-The latest benchmark run shows that we load a new shell pretty fast.
-
-```zsh
-% # 2.5 GHz i7 MacBook Pro
-% for i in $(seq 1 10); do; /usr/bin/time zsh -i -c exit; done
-        0.06 real         0.03 user         0.02 sys
-        0.06 real         0.03 user         0.02 sys
-        0.06 real         0.03 user         0.02 sys
-        0.06 real         0.03 user         0.02 sys
-        0.06 real         0.03 user         0.02 sys
-        0.06 real         0.03 user         0.02 sys
-        0.06 real         0.03 user         0.02 sys
-        0.06 real         0.03 user         0.02 sys
-        0.05 real         0.03 user         0.02 sys
-        0.06 real         0.03 user         0.02 sys
-```
-
-```fish
-><> for i in (seq 1 10); /usr/bin/time fish -i -c exit; end
-        0.02 real         0.01 user         0.00 sys
-        0.01 real         0.01 user         0.00 sys
-        0.02 real         0.01 user         0.00 sys
-        0.02 real         0.01 user         0.00 sys
-        0.02 real         0.01 user         0.00 sys
-        0.01 real         0.01 user         0.00 sys
-        0.02 real         0.01 user         0.00 sys
-        0.02 real         0.01 user         0.00 sys
-        0.01 real         0.01 user         0.00 sys
-        0.02 real         0.01 user         0.00 sys
-```
+However, if you do this, remember that your shell might not work without replacing the files.
 
 [dotfiles-getting-started]:  https://medium.com/@webprolific/getting-started-with-dotfiles-43c3602fd789#.vh7hhm6th
 [fish]:                      https://fishshell.com/

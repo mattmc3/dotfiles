@@ -14,15 +14,7 @@ uninstall:
 
 .PHONY: help
 help:
-	@echo "help"
-	@echo "    shows this message"
-	@echo ""
-	@echo "backup"
-	@echo "    backup dotfiles"
-	@echo ""
-	@echo "install"
-	@echo "    stows dotfiles"
-	@echo ""
-	@echo "uninstall"
-	@echo "    unstows dotfiles"
-	@echo ""
+	@echo "help       shows this message"
+	@echo "backup     backup dotfiles"
+	@echo "install    symlinks dotfiles"
+	@echo "uninstall  un-symlinks dotfiles"

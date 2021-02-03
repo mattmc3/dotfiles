@@ -1,57 +1,156 @@
 #!/usr/bin/env zsh
-0=${(%):-%N}
-DOTFILES="${DOTFILES:-$HOME/.config/dotfiles}"
 
-function _dotfiles_usage() {
+() {
+  typeset -g thisdir=${${(%):-%x}:A:h}
+  typeset -gx DOTFILES="${DOTFILES:-$HOME/.config/dotfiles}"
+  typeset -gHa _opts=( local_options extended_glob glob_dots glob_star_short rc_quotes null_glob )
+  autoload -U colors && colors
+}
+
+function _help() {
     echo 'usage: `dotfiles <command> [options]`'
+    echo "options: -h|--help"
     echo "commands: backup, install, uninstall"
 }
 
-function _dotfiles_backup() {
-    backup_dir="${DOTFILES}"/_bak/home_$(date +"%Y%m%d_%H%M%S")
-    mkdir -p "$backup_dir"
-    echo "backing up existing dotfiles from your home to ${backup_dir}..."
-    rsync -aL --include-from="${DOTFILES}/bin/dotfiles.rsync" "$HOME/" "$backup_dir"
+function _backup() {
+  backup_dir=$HOME/.config/backups/$(date +"%Y%m%d_%H%M%S")
+  mkdir -p "$backup_dir"
+  echo "backing up existing dotfiles from your home to ${backup_dir}..."
+  rsync -aL --include-from="$thisdir/dotfiles.rsync" "$HOME/" "$backup_dir"
 }
 
-function _dotfiles_install() {
-    _dotfiles_backup
-    cd "$DOTFILES"
-    stow -v --dotfiles --target=$HOME stow
-    stow -v --dotfiles --target=$HOME home
-    stow -v --target=$HOME/.config config
-    cd "$HOME"
-    ln -sf .config/dotfiles/bin
+function _linkfiles() {
+  emulate -L zsh; setopt $_opts
+
+  local appdir="$DOTFILES/$1"
+  local target="$2"
+  local f src
+
+  [[ -d "$target" ]] || mkdir -p "$target"
+  cd "$target"
+
+  for f in "$appdir"/*(.N); do
+    src="${f#$target/}"
+    echo "linking $src to ~${target#$HOME}"
+    ln -sf "$src" "$target"
+  done
 }
 
-function _dotfiles_uninstall() {
-    _dotfiles_backup
-    cd "$DOTFILES"
-    stow -v -D --dotfiles --target=$HOME stow
-    stow -v -D --dotfiles --target=$HOME home
-    stow -v -D --target=$HOME/.config config
-    if [[ -L ~/bin && -d ~/bin ]]; then
-        command rm -rf ~/bin
+function _linkdir() {
+  emulate -L zsh; setopt $_opts
+  echo "linking $1 to ~${2#$HOME}"
+  local src="$DOTFILES/$1"
+  local target="$2"
+  src="${src#$target/}"
+  cd "$target"
+  ln -sf "$src" "$target"
+}
+
+# function _unlinkdir() {
+#   local app="$1"
+#   local linkdir="$2/$app"
+#   if [[ ! -L "$linkdir" ]]; then
+#     >&2 echo "dotfiles symlink does not exist" && return 1
+#   fi
+#   echo "unlinking ~${linkdir#$HOME}"
+#   command rm "$linkdir"
+# }
+
+function _addremove() {
+  local action="$1"; shift
+  [[ "$1" = "--no-backup" ]] && shift || _backup
+
+  local app f failures
+  failures=0
+  for app in $@; do
+    if [[ ! -d "$DOTFILES/$app" ]]; then
+      >&2 echo "dotfiles: unable to find app - $app"
+      (( failures = failures + 1 ))
+      continue
     fi
+    case "$app" in
+      home)
+        _linkfiles "$app" "$HOME"
+        ;;
+      config)
+        _linkfiles "$app" "$HOME/.config"
+        ;;
+      oni2)
+        _linkfiles "$app" "$HOME/.config/$app"
+        ;;
+      bin)
+        _linkdir "$app" "$HOME"
+        ;;
+      *)
+        _linkdir "$app" "$HOME/.config"
+        ;;
+    esac
+  done
+  return $failures
+}
+
+function _list() {
+  emulate -L zsh; setopt $_opts
+  local apps=($DOTFILES/*(/))
+  local a appname symlinkdir
+  for a in $apps; do
+    appname=${a:t}
+    case $appname in
+      .*|_*|~*)
+        continue
+        ;;
+      home|config|oni2)
+        symlinkdir=
+        ;;
+      bin)
+        symlinkdir=$HOME
+        ;;
+      *)
+        symlinkdir=$HOME/.config
+        ;;
+    esac
+    if [[ -z "$symlinkdir" ]]; then
+      printf "%-15s | %s\n" $appname "${fg[cyan]}check files${reset_color}"
+    else
+      local basedir="$symlinkdir/$appname"
+      if [[ -L $basedir ]] && [[ ${basedir:A} = "$DOTFILES/$appname" ]]; then
+        printf "%-15s | %s\n" $appname "${fg[green]}directory symlinked${reset_color}"
+      else
+        printf "%-15s | %s\n" $appname "${fg[red]}directory not symlinked${reset_color}"
+      fi
+    fi
+  done
 }
 
 function main() {
-    local cmd="$1"
+  if [[ -z "$1" ]]; then
+    _dotfiles_help
+    return 1
+  fi
+  local cmd="$1"; shift
 
-    if [[ -z "${cmd}" ]]; then
-        _dotfiles_usage
-        return 1
-    fi
-    shift
+  if [[ ! -d "$DOTFILES" ]]; then
+    >&2 echo "dotfiles: \$DOTFILES directory not found: $DOTFILES" && return 1
+  fi
 
-    if [[ ! -d "$DOTFILES" ]]; then
-        >&2 echo "\$DOTFILES directory not found"
-        return 1
-    elif functions "_dotfiles_${cmd}" > /dev/null ; then
-        "_dotfiles_${cmd}" "${@}"
-    else
-        >&2 echo "Command not found: '${cmd}'"
-        return 1
-    fi
+  case "$cmd" in
+    -h|--help)
+      _help
+      ;;
+    backup)
+      _backup
+      ;;
+    list)
+      _list
+      ;;
+    install|uninstall)
+      _addremove "$cmd" "$@"
+      ;;
+    *)
+      >&2 echo "dotfiles: command not found '${cmd}'"
+      _help
+      return 1
+  esac
 }
 main $@
