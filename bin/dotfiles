@@ -62,14 +62,23 @@ function _addremove() {
   [[ "$1" = "--no-backup" ]] && shift || _backup
 
   local app f failures
+  local apps=($@)
+  if [[ $# -eq 0 ]]; then
+    apps=($DOTFILES/*(/))
+    apps=(${apps:t})
+  fi
+
   failures=0
-  for app in $@; do
+  for app in $apps; do
     if [[ ! -d "$DOTFILES/$app" ]]; then
       >&2 echo "dotfiles: unable to find app - $app"
       (( failures = failures + 1 ))
       continue
     fi
     case "$app" in
+      .*|_*|~*)
+        continue
+        ;;
       home)
         _linkfiles "$app" "$HOME"
         ;;
