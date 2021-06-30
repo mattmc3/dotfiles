@@ -18,7 +18,7 @@ set noswapfile                  " No need for this on a modern system
 set hidden                      " allow me to have buffers with unsaved changes.
 set autoread                    " when a file has changed on disk, just load it. Don't ask.
 set autowrite                   " autosaving files is a nice feature
-set lazyredraw                  " don't redraw the screen on macros, or other non-typed operations 
+set lazyredraw                  " don't redraw the screen on macros, or other non-typed operations
 set shortmess+=I                " no vim welcome screen
 set virtualedit+=block          " allow the cursor to go anywhere in visual block mode
 set visualbell                  " don't beep at me
@@ -47,16 +47,31 @@ Plug 'terryma/vim-multiple-cursors'
 Plug 'ctrlpvim/ctrlp.vim'
 Plug 'Xuyuanp/nerdtree-git-plugin'
 Plug 'haya14busa/incsearch.vim'
+Plug 'cweagans/vim-taskpaper'
+Plug 'liuchengxu/vim-which-key'
 call plug#end()
 
+" Configure which-key plugin
+let g:mapleader = "\<Space>"
+let g:maplocalleader = ','
+nnoremap <silent> <leader>      :<c-u>WhichKey '<Space>'<CR>
+nnoremap <silent> <localleader> :<c-u>WhichKey  ','<CR>
 
-"
-" More settings
-"
+" Configure netrw
+" https://shapeshed.com/vim-netrw/
+let g:netrw_banner = 0
+let g:netrw_liststyle = 3
+" let g:netrw_browse_split = 4
+" let g:netrw_altv = 1
+let g:netrw_winsize = 25
+"augroup ProjectDrawer
+"  autocmd!
+"  autocmd VimEnter * :Vexplore
+"augroup END
 
 " theme
 set background=dark                 " tell nvim the color scheme will be a dark one
-colorscheme jellybeans              " set the color scheme (builtin: evening, elflord) 
+colorscheme jellybeans              " set the color scheme (builtin: evening, elflord)
 
 " editor
 " to get the postscript name, use ⌘-i in fontbook
@@ -66,7 +81,7 @@ endif
 set list                            " needed for listchars
 set listchars=tab:»\ ,trail:·       " Display tabs and trailing spaces visually
 set number                          " Enable line numbers
-set relativenumber                  " Show relative line numbers
+"set relativenumber                  " Show relative line numbers
 set mouse=a                         " Enable mouse integration
 set title                           " Sets the terminal to show the buffer title
 set showcmd                         " show commands as I type thiem
@@ -89,8 +104,6 @@ set smartindent                     " intellegently dedent / indent new lines ba
 "
 
 " space makes a nice leader key
-nnoremap <SPACE> <Nop>
-let mapleader = " "
 nnoremap <Leader>ve :e $MYVIMRC<CR>
 nnoremap <Leader>vr :source $MYVIMRC<CR>
 
@@ -103,7 +116,7 @@ nnoremap U <C-r>
 " set langmap=nh,NH,ej,EJ,il,IL,uk,UK,je,JE,li,LI,hu,HU,nh,kn,KN
 " Make tn get us out of insert mode because that's handy.
 " inoremap tn <ESC>
-imap ii <ESC>
+imap jk <ESC>
 
 " Emacs shortcuts
 inoremap <C-a> <ESC>I
@@ -128,13 +141,13 @@ set incsearch  " live incremental searching
 set showmatch  " live match highlighting
 set hlsearch   " highlight matches
 set gdefault   " use the `g` flag by default.
+
 " make search use normal PERL regex
-nnoremap / /\v
-vnoremap / /\v
+" nnoremap / /\v
+" vnoremap / /\v
+
 " This unsets the "last search pattern" register by hitting return
 nnoremap <CR> :noh<CR><CR>:<backspace>
 
-
 " Save on focus lost
 au FocusLost * :wa
-
