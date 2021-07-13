@@ -8,7 +8,6 @@
 "
 " General settings
 "
-set clipboard+=unnamed          " use the OS clipboard
 set nocompatible                " no need to cater to vi
 set modelines=0                 " prevent security exploits - no need to execute code on file open
 set encoding=utf-8              " utf-8 is the encoding we want to use for text files.
@@ -38,18 +37,21 @@ endif
 
 call plug#begin(plug_path)
 Plug 'tpope/vim-sensible'
-Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
-Plug 'neoclide/coc.nvim', {'branch': 'release'}
-Plug 'KeitaNakamura/neodark.vim'
 Plug 'nanotech/jellybeans.vim', { 'as': 'jellybeans' }
 Plug 'vim-airline/vim-airline'
 Plug 'terryma/vim-multiple-cursors'
 Plug 'ctrlpvim/ctrlp.vim'
-Plug 'Xuyuanp/nerdtree-git-plugin'
+Plug 'easymotion/vim-easymotion'
 Plug 'haya14busa/incsearch.vim'
 Plug 'cweagans/vim-taskpaper'
 Plug 'liuchengxu/vim-which-key'
+Plug 'kyazdani42/nvim-web-devicons'
+Plug 'kyazdani42/nvim-tree.lua'
 call plug#end()
+
+" configure nvim-tree
+let g:nvim_tree_disable_netrw = 0 "1 by default, disables netrw
+nnoremap <C-n> :NvimTreeToggle<CR>
 
 " Configure which-key plugin
 let g:mapleader = "\<Space>"
@@ -75,9 +77,18 @@ colorscheme jellybeans              " set the color scheme (builtin: evening, el
 
 " editor
 " to get the postscript name, use ⌘-i in fontbook
-if has('gui_running')
-    set guifont=MesloLGSForPowerline-Regular:h13
-endif
+" to see which font is used, do ':set guifont?'
+try
+    if has('gui_running')
+        set guifont=MesloLGSForPowerline-Regular:h13
+    endif
+catch /^Vim\%((\a\+)\)\=:E518/
+    if has('gui_vimr')
+        " VimR has disabled support for guifont
+    else
+        throw v:exception
+    endif
+endtry
 set list                            " needed for listchars
 set listchars=tab:»\ ,trail:·       " Display tabs and trailing spaces visually
 set number                          " Enable line numbers
@@ -103,20 +114,20 @@ set smartindent                     " intellegently dedent / indent new lines ba
 " Key bindings
 "
 
-" space makes a nice leader key
+" Add leader shortcuts
 nnoremap <Leader>ve :e $MYVIMRC<CR>
 nnoremap <Leader>vr :source $MYVIMRC<CR>
 
 " Make U be redo.
 nnoremap U <C-r>
 
-" Colemak
+""" Colemak
 " set langmap=je,JE,li,LI,nj,NJ,ek,EK,il,IL,kn,KN
 " Arrow with neiu, and then make H-U, J->E, K->N, and L->I.
 " set langmap=nh,NH,ej,EJ,il,IL,uk,UK,je,JE,li,LI,hu,HU,nh,kn,KN
 " Make tn get us out of insert mode because that's handy.
 " inoremap tn <ESC>
-imap jk <ESC>
+imap jj <ESC>
 
 " Emacs shortcuts
 inoremap <C-a> <ESC>I
@@ -126,21 +137,25 @@ nnoremap <C-e> $
 inoremap <M-b> <Esc>Bi
 inoremap <M-f> lWi
 
-" CUA shortcuts
-inoremap <M-Right> <ESC>E
+" CUA and Emacs shortcuts
+inoremap <M-Right> <C-o>E
 noremap <M-Right> E
-inoremap <M-Left> <ESC>B
+inoremap <M-Left> <C-o>B
 noremap <M-Left> B
 nnoremap <C-s> :w<CR>
 
-
+""" Search
 " Make search more sane
 set ignorecase " case insensitive search
-set smartcase  " If there are uppercase letters, become case-sensitive.
+set smartcase  " if there are uppercase letters, become case-sensitive.
 set incsearch  " live incremental searching
 set showmatch  " live match highlighting
 set hlsearch   " highlight matches
 set gdefault   " use the `g` flag by default.
+
+" make escape clear the search
+nnoremap <esc> :let @/ = ""<return><esc>
+nnoremap <esc>^[ <esc>^[
 
 " make search use normal PERL regex
 " nnoremap / /\v
@@ -149,5 +164,17 @@ set gdefault   " use the `g` flag by default.
 " This unsets the "last search pattern" register by hitting return
 nnoremap <CR> :noh<CR><CR>:<backspace>
 
-" Save on focus lost
-au FocusLost * :wa
+""" Clipboard
+" 'dd' cuts a line and replaces the clipboard. We can remap d to use the
+" blackhole register instead and then it won't nuke the clipboard when you
+" delete a line. You can still easily cut a line the the clipboard with 'Vx'
+" https://stackoverflow.com/questions/11993851/how-to-delete-not-cut-in-vim/11993928
+set clipboard+=unnamed
+nnoremap d "_d
+vnoremap d "_d
+
+""" Autosave
+" https://vi.stackexchange.com/questions/74/is-it-possible-to-make-vim-auto-save-files
+" save when idle for a bit
+autocmd CursorHold * update
+
