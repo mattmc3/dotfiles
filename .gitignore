@@ -28,6 +28,8 @@ fisher/
 !.gitignore
 !.github/
 !.github/**
+!.config/git
+!.config/git/*
 
 # npm
 !.config/npm
