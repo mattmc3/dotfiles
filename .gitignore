@@ -13,19 +13,53 @@
 !.bash_profile
 !.bashrc
 
+# doom
+!.config/doom
+!.config/doom/*
+
+# fish
+!.config/fish
+!.config/fish/**
+fish_variables
+fisher/
+#!.config/fish/**/*
+
 # git
 !.gitignore
 !.github/
 !.github/**
 
-# fish
-!.config/fish/*
-!.config/fish/functions/*.fish
-#!.config/fish/**/*
+# npm
+!.config/npm
+!.config/npm/*
+
+# nvim
+!.config/nvim
+!.config/nvim/**
+
+# powershell
+!.config/powershell
+!.config/powershell/*
+
+# readline
+!.config/readline
+!.config/readline/*
 
 # screen
 !.config/screen
 !.config/screen/*
+
+# starship
+!.config/starship
+!.config/starship/*
+
+# tmux
+!.config/tmux
+!.config/tmux/*
+
+# todo-txt
+!.config/todo-txt
+!.config/todo-txt/*
 
 # vim
 !.vimrc
@@ -38,6 +72,8 @@
 
 # zsh
 !.zshenv
+!.config/zsh
+!.config/zsh/**
 
 # final
 *_history*
