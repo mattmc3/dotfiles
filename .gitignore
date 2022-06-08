@@ -9,29 +9,37 @@
 .config/*/
 # .config/**/
 
-# Bash
+# bash
 !.bash_profile
 !.bashrc
 
-# Git
+# git
 !.gitignore
 !.github/
 !.github/**
 
-# Fish
+# fish
 !.config/fish/*
 !.config/fish/functions/*.fish
 #!.config/fish/**/*
 
-# Vim
+# screen
+!.config/screen
+!.config/screen/*
+
+# vim
 !.vimrc
 !.config/vim/
 !.config/vim/*
 
-# Zsh
+# wget
+!.config/wget
+!.config/wget/*
+
+# zsh
 !.zshenv
 
-# Final
+# final
 *_history*
 .DS_Store
 
