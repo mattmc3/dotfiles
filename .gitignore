@@ -1,0 +1,31 @@
+# Ignore everything by default.
+*
+
+# Add back items as needed.
+
+# Config - include base ~/.config and every file in its root, but not dirs unless explicit.
+!.config/
+!.config/*
+.config/*/
+# .config/**/
+
+# Bash
+!.bash_profile
+!.bashrc
+
+# Fish
+!.config/fish/*
+!.config/fish/functions/*.fish
+#!.config/fish/**/*
+
+# Vim
+!.vimrc
+!.config/vim/
+!.config/vim/*
+
+# Zsh
+!.zshenv
+
+# Final
+.DS_Store
+
