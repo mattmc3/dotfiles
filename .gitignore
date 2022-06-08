@@ -13,6 +13,11 @@
 !.bash_profile
 !.bashrc
 
+# Git
+!.gitignore
+!.github/
+!.github/**
+
 # Fish
 !.config/fish/*
 !.config/fish/functions/*.fish
@@ -27,5 +32,6 @@
 !.zshenv
 
 # Final
+*_history*
 .DS_Store
 
