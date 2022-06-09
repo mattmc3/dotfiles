@@ -1,0 +1,12 @@
+#!/usr/bin/env zsh
+if [[ -o interactive ]]; then
+  echo "interactive shell"
+else
+  echo "not interactive shell"
+fi
+
+if [[ -o login ]]; then
+  echo "login shell"
+else
+  echo "not login shell"
+fi
