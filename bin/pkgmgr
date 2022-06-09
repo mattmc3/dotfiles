@@ -1,0 +1,159 @@
+#!/usr/bin/env bash
+
+app_exists() {
+  type $1 > /dev/null 2>&1
+  return $?
+}
+
+ensure_fn_exists() {
+  declare -f -F $1 > /dev/null
+  return $?
+}
+
+apm_export() {
+  apm list --installed --bare | grep -v 'node_modules' | grep . | sort -f
+}
+
+apm_import() {
+  awk -F'@' '{print $1}' "$1" |
+    xargs -I % sh -c '[ ! -d "$HOME/.atom/packages/%" ] && apm install % --compatible || echo "already installed: %"'
+}
+
+gem_export() {
+  gem list --local
+}
+
+gem_import() {
+  awk '{ print $1 }' "$1" | xargs gem install --conservative
+}
+
+brew_export() {
+  # brew is a pain... it dumps to a forced Brewfile, and is not consistently
+  # sorted, making version controling your Brewfile tricky. #FixedIt
+  brew update > /dev/null
+  brew bundle dump --force
+  brewfile="Brewfile"
+  brewfile_tmp="Brewfile.tmp"
+  grep '^tap\ '  "$brewfile" | sort  > "$brewfile_tmp"
+  grep '^brew\ ' "$brewfile" | sort >> "$brewfile_tmp"
+  grep '^cask\ ' "$brewfile" | sort >> "$brewfile_tmp"
+  grep '^mas\ '  "$brewfile" | sort >> "$brewfile_tmp"
+  cat "$brewfile_tmp"
+  rm "$brewfile_tmp" "$brewfile"
+}
+
+brew_import() {
+  brew bundle --file="$1"
+}
+
+macosapps_import() {
+  echo "No good way currently to import macos apps"
+}
+
+macosapps_export() {
+  # get a list of the mac apps installed. Apps are really directories, so
+  # don't descend into it.
+  find /Applications -type d -not \( -path '*.app/*' -prune \) -name '*.app' | cut -d'/' -f3- | sort -f
+}
+
+pip_export() {
+  pip$1 freeze
+}
+
+pip_import() {
+  pip$2 install -r "$1"
+}
+
+npm_export() {
+  npm ls -g --depth=0
+}
+
+npm_import() {
+  awk 'NR>1{ print $2 }' "$1" | awk -F'@' '{ print $1 }' | xargs npm install -g
+}
+
+code_export() {
+  code --list-extensions
+}
+
+code_import() {
+  cat "$1" | xargs -L 1 code --install-extension
+}
+
+azuredatastudio_export() {
+  azuredatastudio --list-extensions
+}
+
+usage() {
+  echo "pkgmgr"
+  echo "Export/Import package lists for various utilities"
+  echo ""
+  echo "Usage:"
+  echo "  pkgmgr import <app> <filepath>"
+  echo "  pkgmgr export <app>"
+  echo "  pkgmrg list"
+  echo "  pkgmrg help"
+}
+
+main() {
+  local cmd="$1"
+
+  if [[ "$cmd" == "" ]]; then
+    echo "Error: expecting command" >&2
+    usage && exit 1
+  fi
+
+  if [[ "$cmd" == "help" ]]; then
+    usage && exit 0
+  fi
+
+  if [[ "$cmd" == "list" ]]; then
+    echo "apm"
+    echo "azuredatastudio"
+    echo "brew"
+    echo "code"
+    echo "gem"
+    echo "macosapps"
+    echo "npm"
+    echo "pip"
+    exit 0
+  fi
+
+  if [[ $cmd != "import" ]] && [[ $cmd != "export" ]]; then
+    echo "Error: unexpected command: $cmd" >&2
+    usage && exit 1
+  fi
+
+  local app="$2"
+  if [[ "$app" == "" ]]; then
+    echo "Error: expecting app" >&2
+    usage && exit 1
+  fi
+
+  # pip2/3 support...
+  local subargs=
+  if [[ "$app" == pip* ]]; then
+    subargs=${app##*pip}
+    app=pip
+  fi
+
+  applist=( apm azuredatastudio brew code gem npm pip )
+  if [[ " ${applist[@]} " =~ " ${app} " ]]; then
+    app_exists "$app" || {
+      echo "Cannot find app $app" >&2
+      exit 1
+    }
+  fi
+
+  if [[ $cmd == "import" ]]; then
+    filepath="$3"
+    [[ -f "$filepath" ]] || {
+      echo "import packages file not found: $filepath" >&2
+      exit 1
+    }
+    ${app}_import "$filepath" $subargs
+  else
+    ${app}_export $subargs
+  fi
+}
+main $@
