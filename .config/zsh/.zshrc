@@ -19,7 +19,6 @@ source $ZDOTDIR/.zsh_plugins.zsh
 
 # local settings
 [[ -f $ZDOTDIR/.zshrc.local ]] && source $ZDOTDIR/.zshrc.local
-[[ -f $ZDOTDIR/functions.local ]] && autoload-dir $ZDOTDIR/functions.local
 
 # done profiling
 [[ ${ZPROFRC:-0} -eq 0 ]] || { unset ZPROFRC && zprof }
