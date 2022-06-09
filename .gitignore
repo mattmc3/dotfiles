@@ -20,9 +20,6 @@
 # fish
 !.config/fish
 !.config/fish/**
-fish_variables
-fisher/
-#!.config/fish/**/*
 
 # git
 !.gitignore
