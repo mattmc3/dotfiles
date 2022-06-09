@@ -1,0 +1,28 @@
+# https://github.com/starship/starship/discussions/1908
+
+[character]
+success_symbol = "[❯](bold green)"
+error_symbol = "[✗](bold red)"
+vicmd_symbol = "[❮](bold green)"
+
+[status]
+disabled = false
+
+[shell]
+bash_indicator = "$"
+zsh_indicator = "%"
+xonsh_indicator = "🐚"
+fish_indicator = "🐟"
+powershell_indicator = "❯_"
+format = "$indicator(bold green) "
+disabled = false
+
+[custom.zsh]
+symbol = "%"
+when = '[ "$STARSHIP_SHELL" == "zsh" ]'
+shell = ["bash", "--noprofile", "--norc"]
+
+[custom.xonsh]
+symbol = '\(🐍 xsh\)'
+when = '[ "$STARSHIP_SHELL" == "xonsh" ]'
+shell = ["bash", "--noprofile", "--norc"]
