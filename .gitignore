@@ -13,9 +13,16 @@
 !.bash_profile
 !.bashrc
 
-# doom
+# doom emacs
 !.config/doom
 !.config/doom/**
+
+# emacs - we don't want to save the emacs folder since it's probably a symlink to
+# a distro, so instead add the distro customizations
+.config/emacs
+!.config/rational-emacs
+!.config/rational-emacs/**
+.config/rational-emacs/*~
 
 # fish
 !.config/fish
@@ -26,11 +33,11 @@
 !.github/
 !.github/**
 !.config/git
-!.config/git/*
+!.config/git/**
 
 # npm
 !.config/npm
-!.config/npm/*
+!.config/npm/**
 
 # nvim
 !.config/nvim
@@ -38,36 +45,36 @@
 
 # powershell
 !.config/powershell
-!.config/powershell/*
+!.config/powershell/**
 
 # readline
 !.config/readline
-!.config/readline/*
+!.config/readline/**
 
 # screen
 !.config/screen
-!.config/screen/*
+!.config/screen/**
 
 # starship
 !.config/starship
-!.config/starship/*
+!.config/starship/**
 
 # tmux
 !.config/tmux
-!.config/tmux/*
+!.config/tmux/**
 
 # todo-txt
 !.config/todo-txt
-!.config/todo-txt/*
+!.config/todo-txt/**
 
 # vim
 !.vimrc
 !.config/vim/
-!.config/vim/*
+!.config/vim/**
 
 # wget
 !.config/wget
-!.config/wget/*
+!.config/wget/**
 
 # zsh
 !.zshenv
