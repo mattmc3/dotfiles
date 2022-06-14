@@ -12,6 +12,10 @@ trim_trailing_whitespace = true
 [{makefile,Makefile,MAKEFILE}]
 indent_style = tab
 
+[bin/*]
+indent_style = space
+indent_size = 2
+
 [*.{md,markdown}]
 # don't trim end spacing because Markdown uses that
 indent_style = space
