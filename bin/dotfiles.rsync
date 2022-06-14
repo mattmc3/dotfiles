@@ -1,0 +1,170 @@
+# header #######################################################################
+- .DS_Store
+- .git/
+
+# dirs
+.config/
+
+# common includes
+.aliases
+.bash_aliases
+
+# shell includes
+.includes/
+.includes/***
+
+# atom
+.atom/
+.atom/*.cson
+.atom/*.coffee
+.atom/*.less
+.atom/*.json
+.config/
+.config/atom/
+.config/atom/*.cson
+.config/atom/*.coffee
+.config/atom/*.less
+.config/atom/*.json
+
+# azure-data-studio
+Library/
+Library/Application Support/
+Library/Application Support/azuredatastudio/
+Library/Application Support/azuredatastudio/User/
+- Library/Application Support/azuredatastudio/User/workspaceStorage/
+Library/Application Support/azuredatastudio/User/***
+
+# bin
+bin/
+bin/***
+
+# bash
+.bash_login
+.bash_logout
+.bashrc
+.profile
+.bash_profile
+
+# doom-emacs
+.doom.d/
+.doom.d/***
+.config/doom/***
+
+# editor config
+.editorconfig
+
+# emacs
+.emacs.d/
+.emacs.d/***
+.config/emacs/***
+
+# fish
+.config/fish/***
+
+# git
+.gitconfig
+.config/git
+.config/git/***
+
+# macos
+Library/
+Library/KeyBindings/
+Library/KeyBindings/DefaultKeyBinding.dict
+
+# neovim
+.config/nvim/
+.config/nvim/***
+
+# npm
+.config/npm/
+.config/npm/***
+
+# oni2
+.config/oni2/
+.config/oni2/***
+
+# python
+.config/pep8
+.config/pycodestyle
+
+# readline
+.inputrc
+.config/readline/
+.config/readline/***
+
+# screen
+.screenrc
+.config/screen/
+.config/screen/***
+
+# spacemacs
+.spacemacs
+.spacemacs.d/
+.spacemacs.d/***
+
+# sublime-text
+Library/
+Library/Application Support/
+Library/Application Support/Sublime Text 3/
+Library/Application Support/Sublime Text 3/Packages/
+Library/Application Support/Sublime Text 3/Packages/User/
+Library/Application Support/Sublime Text 3/Packages/User/***
+
+# taskpaper
+Library/
+Library/Application Support/
+Library/Application Support/TaskPaper/
+Library/Application Support/TaskPaper/Configurations/
+Library/Application Support/TaskPaper/Configurations/***
+Library/Application Support/TaskPaper/StyleSheets/
+Library/Application Support/TaskPaper/StyleSheets/***
+Library/Containers/
+Library/Containers/com.hogbaysoftware.TaskPaper3/
+Library/Containers/com.hogbaysoftware.TaskPaper3/Data/
+Library/Containers/com.hogbaysoftware.TaskPaper3/Data/Library/
+Library/Containers/com.hogbaysoftware.TaskPaper3/Data/Library/Application Support/
+Library/Containers/com.hogbaysoftware.TaskPaper3/Data/Library/Application Support/TaskPaper/
+Library/Containers/com.hogbaysoftware.TaskPaper3/Data/Library/Application Support/TaskPaperConfigurations/
+Library/Containers/com.hogbaysoftware.TaskPaper3/Data/Library/Application Support/TaskPaperConfigurations/***
+Library/Containers/com.hogbaysoftware.TaskPaper3/Data/Library/Application Support/TaskPaper/StyleSheets/
+Library/Containers/com.hogbaysoftware.TaskPaper3/Data/Library/Application Support/TaskPaper/StyleSheets/***
+
+# tmux
+.tmux.conf
+.config/tmux/
+.config/tmux/***
+
+# todo-txt
+.config/todo-txt/
+.config/todo-txt/***
+
+# vim
+.vimrc
+.vim/
+.vim/***
+
+# vscode
+Library/
+Library/Application Support/
+Library/Application Support/Code/
+Library/Application Support/Code/User/
+- Library/Application Support/Code/User/workspaceStorage/
+Library/Application Support/Code/User/***
+
+# zsh
+.zshenv
+.zprofile
+.zshrc
+.zlogin
+.zlogout
+.zsh/
+.zsh/***
+.config/zsh/
+.config/zsh/***
+
+# footer #######################################################################
+# exclude any directories we haven't already included
+- */
+
+# exclude any files we haven't explicitly included
+- *

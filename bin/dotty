@@ -1,0 +1,53 @@
+#!/usr/bin/env zsh
+
+0=${(%):-%x}
+zmodload zsh/zutil
+SCRIPT_DIR=${0:A:h}
+
+function _dotty_backup {
+  local flag_dryrun
+  zparseopts -D -F -K -- \
+    {n,-dry-run}=flag_dryrun ||
+    return 1
+
+  local backup_dir=${SCRIPT_DIR:h}/_bak/dotfiles_$(date +"%Y%m%d_%H%M%S")
+  [[ -n "$flag_dryrun" ]] || mkdir -p "$backup_dir"
+  echo "backing up existing dotfiles from your home to ${backup_dir}..."
+  rsync -aLv $flag_dryrun --include-from="$SCRIPT_DIR/dotfiles.rsync" "$HOME/" "$backup_dir"
+}
+
+function _dotty_help {
+  local usage=(
+    "dotf [-h|--help]"
+    "dotf backup [-n|--dry-run]"
+    "dotf install"
+    "dotf uninstall"
+  )
+  print -l $usage
+}
+
+function _dotty {
+  local flag_help
+
+  # -D pulls parsed flags out of $@
+  # -F says fail if we find a flag that wasn't defined
+  # -K allows us to set default values without zparseopts overwriting them
+  zmodload zsh/zutil
+  zparseopts -D -F -K -- \
+    {h,-help}=flag_help ||
+    return 1
+
+  [[ -z "$flag_help" ]] || { _dotty_help && return }
+
+  local cmd="$1"
+  if (( $+functions[_dotty_${cmd}] )); then
+    shift
+    _dotty_${cmd} "$@"
+    return $?
+  else
+    echo >&2 "dotty: command not found '${cmd}'" && return 1
+  fi
+}
+
+_dotty "$@"
+unset SCRIPT_DIR
