@@ -34,7 +34,7 @@ This repo is for storing my public config files, canonically called "dotfiles". 
 
 ## Resources
 
-- [Managing dotfiles with a bare git repo](https://www.atlassian.com/git/tutorials/dotfiles))
+- [Managing dotfiles with a bare git repo](https://www.atlassian.com/git/tutorials/dotfiles)
 - [Managing dotfiles with GNU Stow](https://venthur.de/2021-12-19-managing-dotfiles-with-stow.html)
 
 [dotfiles-getting-started]:  https://medium.com/@webprolific/getting-started-with-dotfiles-43c3602fd789#.vh7hhm6th
