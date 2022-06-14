@@ -9,6 +9,10 @@
 .config/*/
 # .config/**/
 
+# bin
+!bin/
+!bin/**
+
 # bash
 !.bash_profile
 !.bashrc
