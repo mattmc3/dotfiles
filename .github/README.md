@@ -4,7 +4,9 @@ My dotfiles
 
 ## Install
 
-These dotfiles use a bare repo.
+### Bare repo method
+
+To use these dotfiles with a bare repo:
 
 First, alias `dotf`:
 
@@ -22,6 +24,12 @@ git clone --bare git@github.com:mattmc/dotfiles $HOME/.dotfiles.git
 
 Now, you can use the `dotf` command in place of `git` commands.
 
+### GNU Stow method
+
+```shell
+stow --verbose --dotfiles --target=$HOME/.config .config
+```
+
 ## Intro
 
 This repo is for storing my public config files, canonically called "dotfiles". Having dotfiles in a repo makes setup on a new machine just a simple `git clone` away. Some of the techniques and code are based on concepts from [this article][dotfiles-getting-started], [this article on bare repos](https://www.atlassian.com/git/tutorials/dotfiles), and the zillions of other [dotfile repos on GitHub][github-dotfiles].
@@ -31,6 +39,7 @@ This repo is for storing my public config files, canonically called "dotfiles". 
 ### Prereqs
 
 - git
+- stow (if using that method)
 
 ## Resources
 
