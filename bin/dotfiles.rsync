@@ -55,10 +55,13 @@ bin/***
 
 # emacs
 .emacs.d/
+- .emacs.d/elpa
 .emacs.d/***
+- .config/emacs/elpa
 .config/emacs/***
 
 # fish
+- .config/fish/fisher/
 .config/fish/***
 
 # git
@@ -109,6 +112,10 @@ Library/Application Support/Sublime Text 3/
 Library/Application Support/Sublime Text 3/Packages/
 Library/Application Support/Sublime Text 3/Packages/User/
 Library/Application Support/Sublime Text 3/Packages/User/***
+Library/Application Support/Sublime Text/
+Library/Application Support/Sublime Text/Packages/
+Library/Application Support/Sublime Text/Packages/User/
+Library/Application Support/Sublime Text/Packages/User/***
 
 # taskpaper
 Library/
@@ -149,6 +156,9 @@ Library/Application Support/
 Library/Application Support/Code/
 Library/Application Support/Code/User/
 - Library/Application Support/Code/User/workspaceStorage/
+- Library/Application Support/Code/User/globalStorage/
+- Library/Application Support/Code/User/History/
+- Library/Application Support/Code/User/sync/
 Library/Application Support/Code/User/***
 
 # zsh
@@ -160,6 +170,7 @@ Library/Application Support/Code/User/***
 .zsh/
 .zsh/***
 .config/zsh/
+- .config/zsh/.antidote
 .config/zsh/***
 
 # footer #######################################################################

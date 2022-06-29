@@ -2,7 +2,21 @@
 
 0=${(%):-%x}
 zmodload zsh/zutil
-SCRIPT_DIR=${0:A:h}
+DOTFILES=${DOTFILES:-$HOME/.config/dotfiles}
+
+if [[ ! -d $DOTFILES ]]; then
+  git clone --recursive git@github.com:mattmc3/dotfiles.git $DOTFILES
+fi
+
+function _dotty_install {
+  _dotty_backup
+  cd $DOTFILES
+  stow -v --dotfiles --target=$HOME/.config .config
+  cd $HOME
+  for f in bin .bashrc .bash_profile .vimrc .zshenv; do
+    ln -sf ${DOTFILES##$HOME/}/$f $HOME/$f
+  done
+}
 
 function _dotty_backup {
   local flag_dryrun
@@ -10,18 +24,17 @@ function _dotty_backup {
     {n,-dry-run}=flag_dryrun ||
     return 1
 
-  local backup_dir=${SCRIPT_DIR:h}/_bak/dotfiles_$(date +"%Y%m%d_%H%M%S")
+  local backup_dir=${DOTFILES}/_bak/dotfiles_$(date +"%Y%m%d_%H%M%S")
   [[ -n "$flag_dryrun" ]] || mkdir -p "$backup_dir"
   echo "backing up existing dotfiles from your home to ${backup_dir}..."
-  rsync -aLv $flag_dryrun --include-from="$SCRIPT_DIR/dotfiles.rsync" "$HOME/" "$backup_dir"
+  rsync -aLv $flag_dryrun --include-from="$DOTFILES/bin/dotfiles.rsync" "$HOME/" "$backup_dir"
 }
 
 function _dotty_help {
   local usage=(
-    "dotf [-h|--help]"
-    "dotf backup [-n|--dry-run]"
-    "dotf install"
-    "dotf uninstall"
+    "dotty [-h|--help]"
+    "dotty backup [-n|--dry-run]"
+    "dotty install"
   )
   print -l $usage
 }
@@ -50,4 +63,3 @@ function _dotty {
 }
 
 _dotty "$@"
-unset SCRIPT_DIR
