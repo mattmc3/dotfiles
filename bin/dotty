@@ -11,10 +11,11 @@ fi
 function _dotty_install {
   _dotty_backup
   cd $DOTFILES
-  stow -v --dotfiles --target=$HOME/.config .config
+  stow --verbose --dotfiles --target=$HOME/.config .config
+
   cd $HOME
   for f in bin .bashrc .bash_profile .vimrc .zshenv; do
-    ln -sf ${DOTFILES##$HOME/}/$f $HOME/$f
+    [[ -e $HOME/$f ]] || ln -sf ${DOTFILES##$HOME/}/$f $HOME/$f
   done
 }
 
