@@ -4,31 +4,19 @@ My dotfiles
 
 ## Install
 
-### Bare repo method
+### GNU Stow
 
-To use these dotfiles with a bare repo:
-
-First, alias `dotf`:
+The bin directory contains a `stow-dotfiles` script. At its core, it essentially runs:
 
 ```shell
-alias dotf='git --git-dir=$HOME/.dotfiles.git/ --work-tree=$HOME'
+stow -v --dotfiles --target=$HOME bash
+stow -v --dotfiles --target=$HOME bin
+stow -v --dotfiles --target=$HOME vim
+stow -v --dotfiles --target=$HOME zsh
+stow -v --dotfiles --target=$HOME/.config config
 ```
 
-Next, back up anything that might get overwritten by the repo and remove those files and dirs.
-
-Then, clone the bare repo:
-
-```shell
-git clone --bare git@github.com:mattmc/dotfiles $HOME/.dotfiles.git
-```
-
-Now, you can use the `dotf` command in place of `git` commands.
-
-### GNU Stow method
-
-```shell
-stow --verbose --dotfiles --target=$HOME/.config .config
-```
+Certain legacy apps don't properly use .config, so anything that doesn't has a simple wrapper in `$HOME` that then sources the real files from `~/.config`.
 
 ## Intro
 
