@@ -7,7 +7,7 @@ Reference for common stuff I never remember in git
 ### add a submodule
 
 ```zsh
-cd ~/.dotfiles
+cd $DOTFILES
 git submodule add git@github.com:mattmc3/zdotdir.git ./config/zsh
 git submodule add git@github.com:mattmc3/fishconf.git ./config/fish
 ```
