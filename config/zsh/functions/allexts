@@ -1,2 +1,0 @@
-#!/usr/bin/env zsh
-find . -not \( -path '*/.git/*' -prune \) -type f -name '*.*' | sed 's|.*\.|\.|' | sort | uniq -c
