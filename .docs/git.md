@@ -2,6 +2,16 @@
 
 Reference for common stuff I never remember in git
 
+## Fix a commit
+
+### Accidental local commit
+
+Undo previous local commit:
+
+```zsh
+git reset --soft HEAD~1
+```
+
 ## submodules
 
 ### add a submodule
