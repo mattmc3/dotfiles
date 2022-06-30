@@ -12,7 +12,7 @@ trim_trailing_whitespace = true
 [{makefile,Makefile,MAKEFILE}]
 indent_style = tab
 
-[bin/*]
+[**/bin/*]
 indent_style = space
 indent_size = 2
 
