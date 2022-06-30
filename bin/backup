@@ -1,0 +1,9 @@
+#!/usr/bin/env zsh
+
+0=${(%):-%x}
+rsync_file=${0:A:h}/backup.rsync
+
+BACKUP_DIR=${BACKUP_DIR:-$HOME/.bak}
+mkdir -p $BACKUP_DIR
+echo "backing up to ${BACKUP_DIR}..."
+rsync -aLv --include-from="$rsync_file" "$HOME/" ${BACKUP_DIR}/$(date +"%Y%m%d_%H%M%S")
