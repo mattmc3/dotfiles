@@ -71,6 +71,20 @@ config_work.local example:
     email = email@work.com
 ```
 
+## branches
+
+Prune branches
+
+```zsh
+local curbranch=$(git rev-parse --abbrev-ref HEAD)
+if [[ $curbranch != 'master' ]] || [[ $curbranch != 'main' ]]; then
+  >&2 echo "This command requires you to be on the main branch."
+  >&2 echo "please run: git checkout main"
+  return 1
+fi
+git fetch -p && git branch -vv | awk '/: gone]/{print \$1}' | xargs git branch -d
+```
+
 ## Resources
 
 * [Detached HEAD](https://stackoverflow.com/questions/18770545/why-is-my-git-submodule-head-detached-from-master)
