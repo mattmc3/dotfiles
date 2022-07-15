@@ -49,6 +49,7 @@ for _p in reversed(_my_paths):
         $PATH.insert(0, _p)
 
 ### history
+$XONSH_HISTORY_FILE = f"{$XDG_DATA_HOME}/xonsh/xonsh-history.sqlite"
 $XONSH_HISTORY_BACKEND = 'sqlite'
 
 ### variables
