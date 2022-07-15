@@ -53,7 +53,8 @@ $XONSH_HISTORY_FILE = f"{$XDG_DATA_HOME}/xonsh/xonsh-history.sqlite"
 $XONSH_HISTORY_BACKEND = 'sqlite'
 
 ### variables
-$DOTFILES=p"~/.config/dotfiles"
+$DOTFILES = p"~/.config/dotfiles"
+$IWD = $PWD
 
 ### colors and styles
 $XONSH_COLOR_STYLE = 'stata-dark'
@@ -115,6 +116,7 @@ _my_aliases = {
     'xsh': 'xonsh',
 
     # quick dirs
+    'iwd': 'cd $IWD',
     'proj': 'cd ~/Projects',
     'dotf': 'cd $DOTFILES',
     'dotfl': 'cd $DOTFILES.local',
