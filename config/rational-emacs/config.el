@@ -30,11 +30,15 @@
 ;; On a Mac, fonts can be found in the FontBook app
 (ignore-errors (set-frame-font "MesloLGL Nerd Font 13"))
 
+;; Use a nice dark theme
 (rational-package-install-package 'modus-themes)
 (load-theme 'modus-vivendi t)
 
 ;; Use tab line
 (global-tab-line-mode 1)
+
+;; Make the cursor a bar, not a blinking box
+(setq-default cursor-type 'bar)
 
 ;; We have version control nowadays.
 (setq make-backup-files nil
