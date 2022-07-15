@@ -1,5 +1,9 @@
 ### XDG variables
-$XDG_CACHE_HOME = f"{$HOME}/.cache"
+$XDG_CONFIG_HOME = f"{$HOME}/.config"
+$XDG_DATA_HOME   = f"{$HOME}/.local/share"
+$XDG_CACHE_HOME  = f"{$HOME}/.cache"
+$XDG_RUNTIME_DIR = f"{$HOME}/.xdg"
+
 $XDG_DESKTOP_DIR = f"{$HOME}/Desktop"
 $XDG_DOCUMENTS_DIR = f"{$HOME}/Documents"
 $XDG_DOWNLOAD_DIR = f"{$HOME}/Downloads"
