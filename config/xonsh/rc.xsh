@@ -143,9 +143,11 @@ aliases.update(_my_aliases)
 
 
 ### xontribs
+# xpip install xontrib-whatever
 _xontribs = [
-    'default_cmd',
+    'default_command',
     'up',
+    'omx_macos',
 ]
 if _xontribs:
     xontrib load @(_xontribs)
