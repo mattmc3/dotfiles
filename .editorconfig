@@ -33,6 +33,10 @@ indent_size = 2
 indent_style = space
 indent_size = 4
 
+[*.{py,xsh}]
+indent_style = space
+indent_size = 4
+
 [*.json]
 indent_style = space
 indent_size = 4
