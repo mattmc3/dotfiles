@@ -81,6 +81,11 @@ def describe(fn):
     import inspect
     print(inspect.getsource(fn))
 
+$XONSH_FUNC_DIR = pf'{$XONSH_CONFIG_DIR}/functions'
+for f in pg`$XONSH_FUNC_DIR/*.xsh`:
+    if not f.is_dir():
+        source @(f)
+
 ### aliases
 _my_aliases = {
     # shadow built-ins
