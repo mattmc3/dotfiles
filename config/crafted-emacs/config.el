@@ -1,37 +1,37 @@
-;;; config.el -- Example Rational Emacs user customization file -*- lexical-binding: t; -*-
+;;; config.el -- Example Crafted Emacs user customization file -*- lexical-binding: t; -*-
 
 ;;; Commentary:
 ;;
-;; Rational Emacs supports user customization through a `config.el' file.
+;; Crafted Emacs supports user customization through a `config.el' file.
 ;;
 
 ;;; Code:
-;; Rational Emacs offers the following modules:
+;; Crafted Emacs offers the following modules:
 ;; Comment out everything you don't want to use.
-(require 'rational-defaults)    ; Sensible default settings for Emacs
-(require 'rational-use-package) ; Configuration for `use-package`
-(require 'rational-updates)     ; Tools to upgrade Rational Emacs
-(require 'rational-completion)  ; selection framework based on `vertico`
-(require 'rational-ui)          ; Better UI experience (modeline etc.)
-(require 'rational-windows)     ; Window management configuration
-(require 'rational-editing)     ; Whitspace trimming, auto parens etc.
-;(require 'rational-evil)        ; An `evil-mode` configuration
-(require 'rational-org)         ; org-appear, clickable hyperlinks etc.
-(require 'rational-project)     ; built-in alternative to projectile
-(require 'rational-speedbar)    ; built-in file-tree
-(require 'rational-screencast)  ; show current command and binding in modeline
-(require 'rational-compile)     ; automatically compile some emacs lisp files
+(require 'crafted-defaults)    ; Sensible default settings for Emacs
+(require 'crafted-use-package) ; Configuration for `use-package`
+(require 'crafted-updates)     ; Tools to upgrade Crafted Emacs
+(require 'crafted-completion)  ; selection framework based on `vertico`
+(require 'crafted-ui)          ; Better UI experience (modeline etc.)
+(require 'crafted-windows)     ; Window management configuration
+(require 'crafted-editing)     ; Whitspace trimming, auto parens etc.
+;(require 'crafted-evil)        ; An `evil-mode` configuration
+(require 'crafted-org)         ; org-appear, clickable hyperlinks etc.
+(require 'crafted-project)     ; built-in alternative to projectile
+(require 'crafted-speedbar)    ; built-in file-tree
+(require 'crafted-screencast)  ; show current command and binding in modeline
+(require 'crafted-compile)     ; automatically compile some emacs lisp files
 
 ;; Set further font and theme customizations
 ;; (custom-set-variables
-;;    '(rational-ui-default-font
+;;    '(crafted-ui-default-font
 ;;      '(:font "JetBrains Mono" :weight light :height 185)))
 
 ;; On a Mac, fonts can be found in the FontBook app
 (ignore-errors (set-frame-font "MesloLGL Nerd Font 13"))
 
 ;; Use a nice dark theme
-(rational-package-install-package 'modus-themes)
+(crafted-package-install-package 'modus-themes)
 (load-theme 'modus-vivendi t)
 
 ;; Use tab line
@@ -69,7 +69,7 @@ function that sets `deactivate-mark' to t."
 (global-set-key (kbd "s-b") 'speedbar)
 
 ;; Use multi-cursor editing.
-(rational-package-install-package 'multiple-cursors)
+(crafted-package-install-package 'multiple-cursors)
 (global-set-key (kbd "C->") 'mc/mark-next-like-this)
 (global-set-key (kbd "s-d") 'mc/mark-next-like-this-word)
 (global-set-key (kbd "s-L") 'mc/edit-ends-of-lines)
@@ -130,6 +130,6 @@ function that sets `deactivate-mark' to t."
      ))
 
 ;; To not load `custom.el' after `config.el', uncomment this line.
-(setq rational-load-custom-file nil)
+(setq crafted-load-custom-file nil)
 
 ;;; config.el ends here
