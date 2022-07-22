@@ -1,5 +1,16 @@
 # Emacs
 
+## Install
+
+### Emacs Mac Port
+
+* [Emacs Mac port](https://github.com/railwaycat/homebrew-emacsmacport)
+
+```
+brew tap railwaycat/emacsmacport
+brew install emacs-mac --with-native-comp --with-emacs-sexy-icon --with-starter
+```
+
 ## Prelude
 
 ```zsh
