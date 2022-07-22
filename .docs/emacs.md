@@ -8,7 +8,7 @@
 
 ```sh
 brew tap railwaycat/emacsmacport
-brew install emacs-mac --with-native-comp --with-emacs-sexy-icon --with-starter
+brew install emacs-mac --with-native-comp --with-emacs-big-sur-icon --with-starter
 ```
 
 Install in `/Applications`:
