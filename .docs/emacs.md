@@ -6,9 +6,15 @@
 
 * [Emacs Mac port](https://github.com/railwaycat/homebrew-emacsmacport)
 
-```
+```sh
 brew tap railwaycat/emacsmacport
 brew install emacs-mac --with-native-comp --with-emacs-sexy-icon --with-starter
+```
+
+Install in `/Applications`:
+
+```sh
+osascript -e 'tell application "Finder" to make alias file to POSIX file "/opt/homebrew/opt/emacs-mac/Emacs.app" at POSIX file "/Applications"'
 ```
 
 ## Prelude
