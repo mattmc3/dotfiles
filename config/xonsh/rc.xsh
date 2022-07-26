@@ -1,16 +1,16 @@
 ### XDG variables
-$XDG_CONFIG_HOME = f"{$HOME}/.config"
-$XDG_DATA_HOME   = f"{$HOME}/.local/share"
-$XDG_CACHE_HOME  = f"{$HOME}/.cache"
-$XDG_RUNTIME_DIR = f"{$HOME}/.xdg"
+$XDG_CONFIG_HOME = "~/.config"
+$XDG_DATA_HOME   = "~/.local/share"
+$XDG_CACHE_HOME  = "~/.cache"
+$XDG_RUNTIME_DIR = "~/.xdg"
 
-$XDG_DESKTOP_DIR = f"{$HOME}/Desktop"
-$XDG_DOCUMENTS_DIR = f"{$HOME}/Documents"
-$XDG_DOWNLOAD_DIR = f"{$HOME}/Downloads"
-$XDG_MUSIC_DIR = f"{$HOME}/Music"
-$XDG_PICTURES_DIR = f"{$HOME}/Pictures"
-$XDG_VIDEOS_DIR = f"{$HOME}/Videos"
-$XDG_PROJECTS_DIR = f"{$HOME}/Projects"
+$XDG_DESKTOP_DIR = "~/Desktop"
+$XDG_DOCUMENTS_DIR = "~/Documents"
+$XDG_DOWNLOAD_DIR = "~/Downloads"
+$XDG_MUSIC_DIR = "~/Music"
+$XDG_PICTURES_DIR = "~/Pictures"
+$XDG_VIDEOS_DIR = "~/Videos"
+$XDG_PROJECTS_DIR = "~/Projects"
 
 ### path
 _my_paths = [
@@ -74,13 +74,6 @@ $STARSHIP_CONFIG = fp"$DOTFILES/config/starship/xonsh.toml"
 execx($(starship init xonsh))
 
 ### functions
-def _up(args):
-    """Go up any number of directories"""
-    if not args or len(args) < 1:
-        args = [1]
-    balloons = ('../' * int(args[0]))
-    cd @(balloons)
-
 def _juno(args):
     """Jupyter notebook"""
     if not args or len(args) < 1:
@@ -135,9 +128,8 @@ _my_aliases = {
     'xdot': 'cd ~/.config/xonsh',
     'zdot': 'cd ~/.config/zsh',
 
-	# function aliases
-	'up': _up,
-	'xbench': _xbench,
+    # function aliases
+    'xbench': _xbench,
 }
 aliases.update(_my_aliases)
 
