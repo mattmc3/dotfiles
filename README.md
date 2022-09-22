@@ -9,10 +9,7 @@ My dotfiles
 The bin directory contains a `stow-dotfiles` script. At its core, it essentially runs:
 
 ```shell
-stow -v --dotfiles --target=$HOME bash
-stow -v --dotfiles --target=$HOME bin
-stow -v --dotfiles --target=$HOME vim
-stow -v --dotfiles --target=$HOME zsh
+stow -v --dotfiles --target=$HOME home
 stow -v --dotfiles --target=$HOME/.config config
 ```
 
