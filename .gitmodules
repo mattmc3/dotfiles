@@ -1,6 +1,0 @@
-[submodule "config/zsh"]
-	path = config/zsh
-	url = git@github.com:mattmc3/zdotdir.git
-[submodule "config/fish"]
-	path = config/fish
-	url = git@github.com:mattmc3/fishconf.git
