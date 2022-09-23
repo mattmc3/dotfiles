@@ -3,12 +3,13 @@
 .DEFAULT_GOAL := help
 
 stow:
-	stow --verbose --dotfiles --target=$$HOME home 2>&1 | grep -v 'Absolute/relative mismatch'
-	stow --verbose --dotfiles --target=$$HOME/.config config 2>&1 | grep -v 'Absolute/relative mismatch'
+	mkdir -p $$HOME/.config/zsh
+	stow --verbose --dotfiles --target=$$HOME home
+	stow --verbose --dotfiles --target=$$HOME/.config config
 
 unstow:
-	stow -D --verbose --dotfiles --target=$$HOME home 2>&1 | grep -v 'Absolute/relative mismatch'
-	stow -D --verbose --dotfiles --target=$$HOME/.config config 2>&1 | grep -v 'Absolute/relative mismatch'
+	stow -D --verbose --dotfiles --target=$$HOME home
+	stow -D --verbose --dotfiles --target=$$HOME/.config config
 
 submodules:
 	git submodule update --recursive --remote

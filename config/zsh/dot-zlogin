@@ -1,0 +1,2 @@
+# vi: ft=zsh
+[ -f $ZSH_CUSTOM/rcs/zlogin.zsh ] && . $ZSH_CUSTOM/rcs/zlogin.zsh

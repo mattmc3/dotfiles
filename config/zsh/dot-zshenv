@@ -1,0 +1,4 @@
+# vi: ft=zsh
+export ZDOTDIR=~/.config/zsh
+export ZSH_CUSTOM=$ZDOTDIR/zsh_custom
+[ -f $ZSH_CUSTOM/rcs/zshenv.zsh ] && . $ZSH_CUSTOM/rcs/zshenv.zsh
