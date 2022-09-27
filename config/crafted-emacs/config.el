@@ -19,7 +19,6 @@
 ;; So, if you prefer Vim-style keybindings over vanilla Emacs keybindings
 ;; remove the comment in the line about `crafted-evil' below.
 (require 'crafted-defaults)    ; Sensible default settings for Emacs
-(require 'crafted-use-package) ; Configuration for `use-package`
 (require 'crafted-updates)     ; Tools to upgrade Crafted Emacs
 (require 'crafted-completion)  ; selection framework based on `vertico`
 (require 'crafted-ui)          ; Better UI experience (modeline etc.)
@@ -30,7 +29,7 @@
 (require 'crafted-project)     ; built-in alternative to projectile
 (require 'crafted-speedbar)    ; built-in file-tree
 (require 'crafted-screencast)  ; show current command and binding in modeline
-(require 'crafted-compile)     ; automatically compile some emacs lisp files
+;;(require 'crafted-compile)     ; automatically compile some emacs lisp files
 
 ;; Set the default face. The default face is the basis for most other
 ;; faces used in Emacs. A "face" is a configuration including font,
