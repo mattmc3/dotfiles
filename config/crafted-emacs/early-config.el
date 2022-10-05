@@ -10,8 +10,8 @@
 ;;                     (top . 100)))
 
 (setq default-frame-alist
-      '((height . 30)
-        (width . 100)
+      '((height . 40)
+        (width . 120)
         (left . 150)
         (top . 100)
         (vertical-scroll-bars . nil)
