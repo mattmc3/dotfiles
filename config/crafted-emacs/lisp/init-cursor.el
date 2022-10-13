@@ -1,11 +1,5 @@
-;; -*- lexical-binding: t -*-
-
+;;; init-cursor.el --- Make the cursor better -*- lexical-binding: t -*-
 ;;; Commentary:
-
-;;
-;; Cursor.
-;;
-
 ;;; Code:
 
 ;; Make the cursor a bar, not a blinking box

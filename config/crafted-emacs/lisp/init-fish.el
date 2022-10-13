@@ -1,13 +1,7 @@
-;; -*- lexical-binding: t -*-
-
+;;; init-fish.el --- Fish shell syntax -*- lexical-binding: t -*-
 ;;; Commentary:
-
-;;
-;; Fish shell syntax.
-;;
-
 ;;; Code:
 
-(crafted-package-install-package 'fish-mode)
+(use-package fish-mode)
 
 (provide 'init-fish)

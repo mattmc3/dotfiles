@@ -1,12 +1,11 @@
-;; -*- lexical-binding: t -*-
-
+;;; init-commenting.el --- Better commenting -*- lexical-binding: t -*-
 ;;; Commentary:
-
-;;
-;; Commenting
-;;
-
 ;;; Code:
+
+;; This package works with or without evil, but does not maintain the selection
+;; after commenting, so we don't use it anymore.
+;; (use-package evil-nerd-commenter
+;;   :bind ("s-/" . evilnc-comment-or-uncomment-lines))
 
 ;; Better commenting
 (defun my/comment-or-uncomment-region-or-line ()
