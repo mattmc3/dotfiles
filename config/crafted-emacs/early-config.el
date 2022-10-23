@@ -10,7 +10,7 @@
 ;;                     (top . 100)))
 
 (setq default-frame-alist
-      '((height . 40)
+      '((height . 35)
         (width . 120)
         (left . 150)
         (top . 100)
