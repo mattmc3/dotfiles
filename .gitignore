@@ -34,6 +34,7 @@ fisher/
 .zprezto*/
 .zsh_sessions/
 .zcompcache/
+.antidote/
 
 # ignore test files
 foo*
