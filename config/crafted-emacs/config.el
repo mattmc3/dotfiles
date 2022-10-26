@@ -28,17 +28,18 @@
 ;; (require 'crafted-evil)        ; An `evil-mode` configuration
 (require 'crafted-org)         ; org-appear, clickable hyperlinks etc.
 (require 'crafted-project)     ; built-in alternative to projectile
-;; (require 'crafted-speedbar)    ; built-in file-tree
+(require 'crafted-speedbar)    ; built-in file-tree
 (require 'crafted-screencast)  ; show current command and binding in modeline
 ;; (require 'crafted-compile)     ; automatically compile some emacs lisp files
+(require 'crafted-major-modes) ; install major modes when opening files by extension
 
 ;;; Package Management
 (add-to-list 'load-path (expand-file-name "lisp" crafted-config-path))
 
+(require 'init-defaults)
 (require 'init-package)
 (require 'init-commenting)
 (require 'init-cursor)
-(require 'init-fish)
 (require 'init-mouse)
 (require 'init-multicursor)
 (require 'init-org)
@@ -47,8 +48,11 @@
 (require 'init-tabs)
 (require 'init-theme)
 (require 'init-scrolling)
+;;(require 'sr-speedbar)
+;;(require 'init-treeview)
 ;;(require 'init-xah-fly-keys)
 ;;(require 'init-meow)
+;;(require 'init-dired-sidebar)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
@@ -56,17 +60,5 @@
 ;; (setq crafted-load-custom-file nil)
 
 (customize-set-variable 'crafted-startup-inhibit-splash t)
-
-;; We have version control nowadays.
-(setq make-backup-files nil
-      auto-save-default nil
-      create-lockfiles nil)
-
-;; Speedbar
-(setq-default speedbar-use-images t)
-(global-set-key (kbd "s-b") 'speedbar)
-
-;; Make ESC behave more like it does in other editors
-(define-key key-translation-map (kbd "ESC") (kbd "C-g"))
 
 ;;; config.el ends here
