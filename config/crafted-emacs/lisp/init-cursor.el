@@ -1,4 +1,4 @@
-;;; init-cursor.el --- Make the cursor better -*- lexical-binding: t -*-
+;;; init-cursor.el -*- lexical-binding: t -*-
 ;;; Commentary:
 ;;; Code:
 

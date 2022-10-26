@@ -1,4 +1,4 @@
-;;; init-commenting.el --- Better commenting -*- lexical-binding: t -*-
+;;; init-commenting.el -*- lexical-binding: t -*-
 ;;; Commentary:
 ;;; Code:
 

@@ -1,4 +1,4 @@
-;; -*- lexical-binding: t -*-
+;; init-mouse.el -*- lexical-binding: t -*-
 
 ;;; Commentary:
 

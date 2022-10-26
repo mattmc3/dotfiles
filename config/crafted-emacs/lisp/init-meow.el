@@ -1,4 +1,4 @@
-;; -*- lexical-binding: t -*-
+;;; init-meow.el -*- lexical-binding: t; -*-
 
 ;;; Commentary:
 
