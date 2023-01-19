@@ -25,6 +25,10 @@ trim_trailing_whitespace = false
 indent_style = space
 indent_size = 2
 
+[dot-*]
+indent_style = space
+indent_size = 2
+
 [.bash*]
 indent_style = space
 indent_size = 2

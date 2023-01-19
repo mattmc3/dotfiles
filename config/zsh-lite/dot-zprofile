@@ -1,2 +1,0 @@
-# vi: ft=zsh
-[ -f $ZSH_CUSTOM/rcs/zprofile.zsh ] && . $ZSH_CUSTOM/rcs/zprofile.zsh

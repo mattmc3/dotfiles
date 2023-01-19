@@ -1,4 +1,0 @@
-# vi: ft=zsh
-[[ -e ${ZSH_CUSTOM:-$ZDOTDIR/zsh_custom} ]] ||
-  git clone git@github.com:mattmc3/zsh_custom $ZSH_CUSTOM
-[ -f $ZSH_CUSTOM/rcs/zshrc.zsh ] && . $ZSH_CUSTOM/rcs/zshrc.zsh
