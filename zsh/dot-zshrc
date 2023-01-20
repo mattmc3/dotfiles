@@ -45,7 +45,8 @@ alias untar="tar -xf"
 
 #region zfunctions
 
-fpath=($ZDOTDIR/functions $fpath)
+ZFUNCDIR=$ZDOTDIR/functions
+fpath=($ZFUNCDIR $ZDOTDIR/completions $fpath)
 autoload -Uz $fpath[1]/*(.:t)
 
 #endregion
@@ -81,6 +82,12 @@ for _idx ({1..9}); do
   _up+='/..'
 done
 unset _idx _up
+
+#endregion
+
+#region editor
+
+editor_mmc_setup
 
 #endregion
 
@@ -132,9 +139,7 @@ alias iwd='cd $IWD'
 #endregion
 
 #region plugins
-
 ZPLUGINDIR=$ZDOTDIR/plugins
-
 repos=(
   mattmc3/zman
   ohmyzsh/ohmyzsh
@@ -149,17 +154,26 @@ repos=(
 )
 plugin-clone $repos
 
-path+=($ZPLUGINDIR/zsh-bench)
+omz_plugins=(
+  extract
+  fancy-ctrl-z
+  magic-enter
+)
+plugin-source --dir $ZDOTDIR/plugins/ohmyzsh/plugins $omz_plugins
 
 plugins=(
   zman
-  gitstatus
   zsh-autosuggestions
   zsh-history-substring-search
   zsh-defer
   fast-syntax-highlighting
 )
 plugin-source $plugins
+
+path+=($ZPLUGINDIR/zsh-bench)
+
+MAGIC_ENTER_GIT_COMMAND="ls; git status -sb"
+MAGIC_ENTER_OTHER_COMMAND="ls"
 
 #endregion
 
@@ -169,8 +183,10 @@ setopt complete_in_word        auto_list               no_menu_complete  \
        always_to_end           auto_param_slash        no_flow_control   \
        auto_menu               extended_glob
 
-ZSH_COMPDUMP=$XDG_CACHE_HOME/zsh/compdump
+compstyle_mmc_setup
+
 autoload -Uz compinit
+ZSH_COMPDUMP=$XDG_CACHE_HOME/zsh/compdump
 _comp_files=($ZSH_COMPDUMP(Nmh-20))
 if (( $#_comp_files )); then
   compinit -i -C -d $ZSH_COMPDUMP
@@ -184,8 +200,9 @@ unset _comp_files
 
 #region prompt
 
+source $ZPLUGINDIR/gitstatus/gitstatus.prompt.zsh
 autoload -Uz promptinit && promptinit
-prompt lite
+prompt mmc
 
 #endregion
 

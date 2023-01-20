@@ -1,4 +1,4 @@
-function lite_prompt_pwd {
+function mmc_prompt_pwd {
   setopt local_options extended_glob
 
   local current_pwd="${PWD/#$HOME/~}"
@@ -14,21 +14,21 @@ function lite_prompt_pwd {
   print "$ret_directory"
 }
 
-function prompt_lite_venv {
-  _prompt_lite_venv=""
+function prompt_mmc_venv {
+  _prompt_mmc_venv=""
   if [[ -n $VIRTUAL_ENV ]]; then
-    _prompt_lite_venv=" [${VIRTUAL_ENV##*/}]"
+    _prompt_mmc_venv=" [${VIRTUAL_ENV##*/}]"
   fi
 }
 
-function prompt_lite_gitstatus {
+function prompt_mmc_gitstatus {
   typeset -g  GITSTATUS_PROMPT=''
   typeset -gi GITSTATUS_PROMPT_LEN=0
 
   (( ! $+functions[gitstatus_query] )) && return 1
 
   # Pull the updated state from gitstatus
-  gitstatus_query 'lite_prompt'        || return 1  # error
+  gitstatus_query 'mmc_prompt'        || return 1  # error
   [[ $VCS_STATUS_RESULT == 'ok-sync' ]] || return 0  # not a git repo
 
   local p
@@ -71,13 +71,13 @@ function prompt_lite_gitstatus {
   GITSTATUS_PROMPT_LEN="${(m)#${${GITSTATUS_PROMPT//\%\%/x}//\%(f|<->F)}}"
 }
 
-function prompt_lite_precmd {
-  _prompt_lite_pwd=$(lite_prompt_pwd)
-  prompt_lite_venv
-  prompt_lite_gitstatus
+function prompt_mmc_precmd {
+  _prompt_mmc_pwd=$(mmc_prompt_pwd)
+  prompt_mmc_venv
+  prompt_mmc_gitstatus
 }
 
-function prompt_lite_setup {
+function prompt_mmc_setup {
   # When loaded through the prompt command, these prompt_* options will be
   # enabled simply by exporting this array.
   prompt_opts=(cr percent sp subst)
@@ -87,31 +87,31 @@ function prompt_lite_setup {
 
   # If gitstatus exists, we want to have a job running to track git in the background
   if (( $+functions[gitstatus_start] )); then
-    gitstatus_stop 'lite_prompt' && gitstatus_start -s -1 -u -1 -c -1 -d -1 'lite_prompt'
+    gitstatus_stop 'mmc_prompt' && gitstatus_start -s -1 -u -1 -c -1 -d -1 'mmc_prompt'
   fi
 
   # Add hook for updating info when we need it
-  add-zsh-hook precmd prompt_lite_precmd
+  add-zsh-hook precmd prompt_mmc_precmd
 
   # Set editor-info parameters.
   # zstyle ':prezto:module:editor:info:completing' format '%B%F{7}...%f%b'
 
-  _prompt_lite_pwd=''
-  _prompt_lite_venv=''
+  _prompt_mmc_pwd=''
+  _prompt_mmc_venv=''
 
   # Define prompts.
-  PROMPT='${SSH_TTY:+"%F{10}%n@%m%f "}%F{10}${_prompt_lite_pwd}%f${_prompt_lite_venv}%(!. %B%F{1}#%f%b.) %(?:%F{12}:%F{9})%#%f '
+  PROMPT='${SSH_TTY:+"%F{10}%n@%m%f "}%F{10}${_prompt_mmc_pwd}%f${_prompt_mmc_venv}%(!. %B%F{1}#%f%b.) %(?:%F{12}:%F{9})%#%f '
   RPROMPT='${editor_info[overwrite]}${VIM:+" %B%F{6}V%f%b"}${GITSTATUS_PROMPT}'
   SPROMPT='zsh: correct %F{1}%R%f to %F{2}%r%f [nyae]? '
 }
 
-function prompt_lite_preview {
+function prompt_mmc_preview {
   local +h PROMPT=''
   local +h RPROMPT=''
   local +h SPROMPT=''
 
   editor-info 2>/dev/null
-  prompt_preview_theme 'lite'
+  prompt_preview_theme 'mmc'
 }
 
-prompt_lite_setup "$@"
+prompt_mmc_setup "$@"
