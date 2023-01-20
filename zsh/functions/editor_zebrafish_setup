@@ -1,21 +1,6 @@
-#
-# Requirements
-#
-
-# Return if requirements are not found.
-if [[ "$TERM" == 'dumb' ]]; then
-  return 1
-fi
-
-#
-# Options
-#
+[[ "$TERM" != 'dumb' ]] || return 1
 
 setopt no_flow_control  # Allow the usage of ^Q/^S in the context of zsh.
-
-#
-# Variables
-#
 
 # Treat these characters as part of a word.
 WORDCHARS='*?_-.[]~&;!#$%^(){}<>'
@@ -68,10 +53,6 @@ key_info+=(
   'ControlPageUp'   '\e[5;5~'
   'ControlPageDown' '\e[6;5~'
 )
-
-#
-# Functions
-#
 
 function is-term-family {
   if [[ $TERM = $1 || $TERM = $1-* ]]; then
@@ -171,16 +152,8 @@ function symmetric-ctrl-z {
 }
 zle -N symmetric-ctrl-z
 
-#
-# Init
-#
-
 # Reset to default key bindings
 bindkey -d
-
-#
-# Keybinds
-#
 
 # Global keybinds
 local -A global_keybinds

@@ -1,3 +1,5 @@
+#!/bin/zsh
+
 # load zprof first if we need to profile
 [[ ${ZPROFRC:-0} -eq 0 ]] || zmodload zsh/zprof
 alias zprofrc="ZPROFRC=1 zsh"
@@ -87,7 +89,7 @@ unset _idx _up
 
 #region editor
 
-editor_mmc_setup
+(( $+functions[editor_mmc_setup] )) && editor_mmc_setup
 
 #endregion
 
@@ -139,41 +141,44 @@ alias iwd='cd $IWD'
 #endregion
 
 #region plugins
-ZPLUGINDIR=$ZDOTDIR/plugins
-repos=(
-  mattmc3/zman
-  ohmyzsh/ohmyzsh
-  romkatv/gitstatus
-  romkatv/zsh-bench
-  romkatv/zsh-defer
-  sindresorhus/pure
-  zdharma-continuum/fast-syntax-highlighting
-  zsh-users/zsh-autosuggestions
-  zsh-users/zsh-completions
-  zsh-users/zsh-history-substring-search
-)
-plugin-clone $repos
 
-omz_plugins=(
-  extract
-  fancy-ctrl-z
-  magic-enter
-)
-plugin-source --dir $ZDOTDIR/plugins/ohmyzsh/plugins $omz_plugins
+if (( $+functions[plugin-clone] )); then
+  ZPLUGINDIR=$ZDOTDIR/plugins
+  repos=(
+    mattmc3/zman
+    ohmyzsh/ohmyzsh
+    romkatv/gitstatus
+    romkatv/zsh-bench
+    romkatv/zsh-defer
+    sindresorhus/pure
+    zdharma-continuum/fast-syntax-highlighting
+    zsh-users/zsh-autosuggestions
+    zsh-users/zsh-completions
+    zsh-users/zsh-history-substring-search
+  )
+  plugin-clone $repos
 
-plugins=(
-  zman
-  zsh-autosuggestions
-  zsh-history-substring-search
-  zsh-defer
-  fast-syntax-highlighting
-)
-plugin-source $plugins
+  omz_plugins=(
+    extract
+    fancy-ctrl-z
+    magic-enter
+  )
+  plugin-source --dir $ZDOTDIR/plugins/ohmyzsh/plugins $omz_plugins
 
-path+=($ZPLUGINDIR/zsh-bench)
+  plugins=(
+    zman
+    zsh-autosuggestions
+    zsh-history-substring-search
+    zsh-defer
+    fast-syntax-highlighting
+  )
+  plugin-source $plugins
 
-MAGIC_ENTER_GIT_COMMAND="ls; git status -sb"
-MAGIC_ENTER_OTHER_COMMAND="ls"
+  path+=($ZPLUGINDIR/zsh-bench)
+
+  MAGIC_ENTER_GIT_COMMAND="ls; git status -sb"
+  MAGIC_ENTER_OTHER_COMMAND="ls"
+fi
 
 #endregion
 
@@ -183,7 +188,7 @@ setopt complete_in_word        auto_list               no_menu_complete  \
        always_to_end           auto_param_slash        no_flow_control   \
        auto_menu               extended_glob
 
-compstyle_mmc_setup
+(( $+functions[compstyle_mmc_setup] )) && compstyle_mmc_setup
 
 autoload -Uz compinit
 ZSH_COMPDUMP=$XDG_CACHE_HOME/zsh/compdump
@@ -200,9 +205,11 @@ unset _comp_files
 
 #region prompt
 
-source $ZPLUGINDIR/gitstatus/gitstatus.prompt.zsh
 autoload -Uz promptinit && promptinit
-prompt mmc
+if (( $+functions[prompt_mmc_setup] )); then
+  source $ZPLUGINDIR/gitstatus/gitstatus.prompt.zsh
+  prompt mmc
+fi
 
 #endregion
 
