@@ -1,4 +1,3 @@
-# vi: ft=zsh
-# export ZDOTDIR=~/.config/zsh; [ -f $ZDOTDIR/.zshenv ] && . $ZDOTDIR/.zshenv
-export ZDOTDIR=~/.config/zsh-lite
-source $ZDOTDIR/.zshenv
+#!/bin/zsh
+export ZDOTDIR=~/.zsh
+[ -f $ZDOTDIR/.zshenv ] && source $ZDOTDIR/.zshenv

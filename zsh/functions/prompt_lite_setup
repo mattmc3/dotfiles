@@ -94,7 +94,7 @@ function prompt_lite_setup {
   add-zsh-hook precmd prompt_lite_precmd
 
   # Set editor-info parameters.
-  zstyle ':prezto:module:editor:info:completing' format '%B%F{7}...%f%b'
+  # zstyle ':prezto:module:editor:info:completing' format '%B%F{7}...%f%b'
 
   _prompt_lite_pwd=''
   _prompt_lite_venv=''

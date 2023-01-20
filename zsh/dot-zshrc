@@ -1,0 +1,196 @@
+# load zprof first if we need to profile
+[[ ${ZPROFRC:-0} -eq 0 ]] || zmodload zsh/zprof
+alias zprofrc="ZPROFRC=1 zsh"
+
+#region env
+
+setopt auto_resume             long_list_jobs          no_hup           \
+       combining_chars         no_beep                 no_mail_warning  \
+       extended_glob           no_bg_nice              notify           \
+       interactive_comments    no_check_jobs           rc_quotes
+
+DOTFILES=~/.config/dotfiles
+
+#endregion
+
+#region aliases
+
+# mask built-ins with better defaults
+alias mkdir='mkdir -p'
+alias ping='ping -c 5'
+alias type='type -a'
+alias vi=vim
+if [[ "$OSTYPE" == darwin* ]]; then
+  alias ls="ls -G"
+else
+  alias ls="ls --group-directories-first --color=auto"
+fi
+alias grep="grep --color=auto --exclude-dir={.git,.svn}"
+
+# more ways to ls
+alias ll='ls -lh'
+alias la='ls -lAh'
+alias ldot='ls -ld .*'
+
+# fix typos
+alias quit='exit'
+alias cd..='cd ..'
+alias zz='exit'
+
+# tar sux
+alias tarls="tar -tvf"
+alias untar="tar -xf"
+
+#endregion
+
+#region zfunctions
+
+fpath=($ZDOTDIR/functions $fpath)
+autoload -Uz $fpath[1]/*(.:t)
+
+#endregion
+
+#region history
+
+setopt append_history          hist_ignore_all_dups    hist_verify         \
+       extended_history        hist_ignore_dups        inc_append_history  \
+       hist_expire_dups_first  hist_ignore_space       no_share_history    \
+       hist_find_no_dups       hist_no_store                               \
+       hist_save_no_dups       hist_reduce_blanks
+
+HISTFILE=$XDG_DATA_HOME/zsh/history
+[[ -f $HISTFILE ]] || { mkdir -p $HISTFILE:h && touch $HISTFILE }
+SAVEHIST=20000
+HISTSIZE=100000
+
+alias hist='fc -li'
+
+#endregion
+
+#region directory
+
+setopt auto_pushd      extended_glob   pushd_minus     pushd_to_home  \
+       cdable_vars     multios         pushd_silent    no_clobber
+
+alias -- -='cd -'
+alias dirh='dirs -v'
+_up=".."
+for _idx ({1..9}); do
+  alias "$_idx"="cd -${_idx}"
+  alias -g "..$_idx"="$_up"
+  _up+='/..'
+done
+unset _idx _up
+
+#endregion
+
+#region utils
+
+# macOS commands everywhere
+if [[ "$OSTYPE" == darwin* ]]; then
+  # if there's a Linux command that should work on MacOS, alias it here
+elif [[ "$OSTYPE" == cygwin* ]]; then
+  alias open='cygstart'
+  alias pbcopy='tee > /dev/clipboard'
+  alias pbpaste='cat /dev/clipboard'
+elif [[ "$OSTYPE" == linux-android ]]; then
+  alias open='termux-open'
+  alias pbcopy='termux-clipboard-set'
+  alias pbpaste='termux-clipboard-get'
+else
+  alias open='xdg-open'
+  if [[ -n $DISPLAY ]]; then
+    if (( $+commands[xclip] )); then
+      alias pbcopy='xclip -selection clipboard -in'
+      alias pbpaste='xclip -selection clipboard -out'
+    elif (( $+commands[xsel] )); then
+      alias pbcopy='xsel --clipboard --input'
+      alias pbpaste='xsel --clipboard --output'
+    fi
+  else
+    if (( $+commands[wl-copy] && $+commands[wl-paste] )); then
+      alias pbcopy='wl-copy'
+      alias pbpaste='wl-paste'
+    fi
+  fi
+fi
+
+# Use built-in paste magic.
+autoload -Uz bracketed-paste-url-magic
+zle -N bracketed-paste bracketed-paste-url-magic
+autoload -Uz url-quote-magic
+zle -N self-insert url-quote-magic
+
+# Load more specific 'run-help' function from $fpath.
+(( $+aliases[run-help] )) && unalias run-help && autoload -Uz run-help
+alias help=run-help
+
+# Set initial working directory.
+IWD=${IWD:-$PWD}
+alias iwd='cd $IWD'
+
+#endregion
+
+#region plugins
+
+ZPLUGINDIR=$ZDOTDIR/plugins
+
+repos=(
+  mattmc3/zman
+  ohmyzsh/ohmyzsh
+  romkatv/gitstatus
+  romkatv/zsh-bench
+  romkatv/zsh-defer
+  sindresorhus/pure
+  zdharma-continuum/fast-syntax-highlighting
+  zsh-users/zsh-autosuggestions
+  zsh-users/zsh-completions
+  zsh-users/zsh-history-substring-search
+)
+plugin-clone $repos
+
+path+=($ZPLUGINDIR/zsh-bench)
+
+plugins=(
+  zman
+  gitstatus
+  zsh-autosuggestions
+  zsh-history-substring-search
+  zsh-defer
+  fast-syntax-highlighting
+)
+plugin-source $plugins
+
+#endregion
+
+#region completions
+
+setopt complete_in_word        auto_list               no_menu_complete  \
+       always_to_end           auto_param_slash        no_flow_control   \
+       auto_menu               extended_glob
+
+ZSH_COMPDUMP=$XDG_CACHE_HOME/zsh/compdump
+autoload -Uz compinit
+_comp_files=($ZSH_COMPDUMP(Nmh-20))
+if (( $#_comp_files )); then
+  compinit -i -C -d $ZSH_COMPDUMP
+else
+  compinit -i -d $ZSH_COMPDUMP
+  touch $ZSH_COMPDUMP
+fi
+unset _comp_files
+
+#endregion
+
+#region prompt
+
+autoload -Uz promptinit && promptinit
+prompt lite
+
+#endregion
+
+# local overrides
+[[ ! -f $DOTFILES.local/zsh/zshrc_local.zsh ]] || source $DOTFILES.local/zsh/zshrc_local.zsh
+
+# done profiling
+[[ ${ZPROFRC:-0} -eq 0 ]] || { unset ZPROFRC && zprof }

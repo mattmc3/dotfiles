@@ -29,6 +29,10 @@ indent_size = 2
 indent_style = space
 indent_size = 2
 
+[**/zsh*/functions/*]
+indent_style = space
+indent_size = 2
+
 [.bash*]
 indent_style = space
 indent_size = 2
