@@ -89,7 +89,7 @@ unset _idx _up
 
 #region editor
 
-(( $+functions[editor_mmc_setup] )) && editor_mmc_setup
+(( $+functions[editor_zebrafish_setup] )) && editor_zebrafish_setup
 
 #endregion
 
@@ -188,7 +188,7 @@ setopt complete_in_word        auto_list               no_menu_complete  \
        always_to_end           auto_param_slash        no_flow_control   \
        auto_menu               extended_glob
 
-(( $+functions[compstyle_mmc_setup] )) && compstyle_mmc_setup
+(( $+functions[compstyle_zebrafish_setup] )) && compstyle_zebrafish_setup
 
 autoload -Uz compinit
 ZSH_COMPDUMP=$XDG_CACHE_HOME/zsh/compdump
@@ -206,9 +206,9 @@ unset _comp_files
 #region prompt
 
 autoload -Uz promptinit && promptinit
-if (( $+functions[prompt_mmc_setup] )); then
+if (( $+functions[prompt_zebrafish_setup] )); then
   source $ZPLUGINDIR/gitstatus/gitstatus.prompt.zsh
-  prompt mmc
+  prompt zebrafish
 fi
 
 #endregion
