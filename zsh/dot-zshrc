@@ -51,6 +51,13 @@ ZFUNCDIR=$ZDOTDIR/functions
 fpath=($ZFUNCDIR $ZDOTDIR/completions $fpath)
 autoload -Uz $fpath[1]/*(.:t)
 
+if [[ "$OSTYPE" == darwin* ]]; then
+  # https://github.com/ohmyzsh/ohmyzsh/tree/master/plugins/macos
+  # https://github.com/sorin-ionescu/prezto/tree/master/modules/osx
+  fpath=($ZFUNCDIR/macos $fpath)
+  autoload -Uz $fpath[1]/*(.:t)
+fi
+
 #endregion
 
 #region history
@@ -97,7 +104,15 @@ unset _idx _up
 
 # macOS commands everywhere
 if [[ "$OSTYPE" == darwin* ]]; then
-  # if there's a Linux command that should work on MacOS, alias it here
+  # canonical hex dump
+  (( $+commands[hd] )) || alias hd="hexdump -C"
+
+  # macOS has no 'md5sum', so use 'md5' as a fallback
+  (( $+commands[md5sum] )) || alias md5sum="md5"
+
+  # macOS has no 'sha1sum', so use 'shasum' as a fallback
+  (( $+commands[sha1sum] )) || alias sha1sum="shasum"
+
 elif [[ "$OSTYPE" == cygwin* ]]; then
   alias open='cygstart'
   alias pbcopy='tee > /dev/clipboard'

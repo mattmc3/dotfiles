@@ -1,0 +1,4 @@
+#!/bin/zsh
+
+[[ "$OSTYPE" == darwin* ]] || return 1
+dscacheutil -flushcache && sudo killall -HUP mDNSResponder

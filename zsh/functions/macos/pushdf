@@ -1,0 +1,3 @@
+#!/bin/zsh
+##? pushes directory to the current Finder directory
+alias pushdf='pushd "$(pfd)"'
