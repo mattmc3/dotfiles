@@ -1,0 +1,46 @@
+#!/bin/zsh
+# .zstylerc - Set Zstyles.
+
+#
+# General
+#
+
+# Set repos to clone
+zstyle ':zebrafish:clone' plugins \
+  mattmc3/zman \
+  ohmyzsh/ohmyzsh \
+  romkatv/gitstatus \
+  romkatv/zsh-bench \
+  romkatv/zsh-defer \
+  sindresorhus/pure \
+  zdharma-continuum/fast-syntax-highlighting \
+  zsh-users/zsh-autosuggestions \
+  zsh-users/zsh-completions \
+  zsh-users/zsh-history-substring-search
+
+# Set plugins to load
+zstyle ':zebrafish:load' plugins \
+  'environment' \
+  'terminal' \
+  'editor' \
+  'history' \
+  'directory' \
+  'colors' \
+  'utility' \
+  'completion' \
+  'history-substring-search' \
+  'prompt'
+
+#
+# Prompt
+#
+
+# Set the prompt theme to load.
+zstyle ':zebrafish:plugin:prompt' theme 'pure'
+
+#
+# Editor
+#
+
+# Set this to whatever you want to use to edit a command
+zstyle :zle:edit-command-line editor hx

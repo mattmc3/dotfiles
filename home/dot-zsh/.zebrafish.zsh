@@ -9,7 +9,7 @@ ZEBRAFISH_VERSION="2.0.0"
 [[ ${ZF_PROF:-0} -eq 0 ]] || zmodload zsh/zprof
 alias zf-prof="ZF_PROF=1 zsh"
 
-function zebrafish_environment {
+function zebrafish_environment_plugin {
   # XDG base dir support.
   export XDG_CONFIG_HOME=${XDG_CONFIG_HOME:-~/.config}
   export XDG_CACHE_HOME=${XDG_CACHE_HOME:-~/.cache}
@@ -35,11 +35,11 @@ function zebrafish_environment {
   # use `< file` to quickly view the contents of any file.
   export READNULLCMD=${READNULLCMD:-$PAGER}
 
-  # Remove lag
-  export KEYTIMEOUT=1
+  # Mark the plugin as loaded.
+  zstyle ":zebrafish:plugin:environment" loaded 'yes'
 }
 
-function zebrafish_history {
+function zebrafish_history_plugin {
   setopt APPEND_HISTORY          # Append to history file.
   setopt EXTENDED_HISTORY        # Write the history file in the ':start:elapsed;command' format.
   setopt NO_HIST_BEEP            # Don't beep when attempting to access a missing history entry.
@@ -59,15 +59,18 @@ function zebrafish_history {
   HISTFILE=${XDG_DATA_HOME:=$HOME/.local/share}/zsh/history
   [[ -f $HISTFILE ]] || { mkdir -p $HISTFILE:h && touch $HISTFILE }
 
-  # you can set $SAVEHIST and $HISTSIZE to anything greater than the ZSH defaults
+  # you can set $SAVEHIST and $HISTSIZE to anything greater than the Zsh defaults
   # (1000 and 2000 respectively), but if not we make them way bigger.
   [[ $SAVEHIST -gt 1000 ]] || SAVEHIST=20000
   [[ $HISTSIZE -gt 2000 ]] || HISTSIZE=100000
 
   alias hist='fc -li'
+
+  # Mark the plugin as loaded.
+  zstyle ":zebrafish:plugin:history" loaded 'yes'
 }
 
-function zebrafish_directory {
+function zebrafish_directory_plugin {
   setopt AUTO_CD              # If a command isn't valid, but is a directory, cd to that dir.
   setopt AUTO_PUSHD           # Make cd push the old directory onto the dirstack.
   setopt PUSHD_IGNORE_DUPS    # Don’t push multiple copies of the same directory onto the dirstack.
@@ -91,15 +94,20 @@ function zebrafish_directory {
     alias -g "..$index"="$dotdots"
     dotdots+='/..'
   done
+
+  # Mark the plugin as loaded.
+  zstyle ":zebrafish:plugin:directory" loaded 'yes'
 }
 
-function zebrafish_editor {
+function zebrafish_editor_plugin {
   [[ "$TERM" != 'dumb' ]] || return 1
 
   setopt NO_FLOW_CONTROL    # Allow the usage of ^Q/^S in the context of zsh.
 
   # Treat these characters as part of a word.
   WORDCHARS='*?_-.[]~&;!#$%^(){}<>'
+
+  #region key_info
 
   # Use human-friendly identifiers.
   zmodload zsh/terminfo
@@ -148,6 +156,10 @@ function zebrafish_editor {
     'ControlPageDown' '\e[6;5~'
   )
 
+  #endregion
+
+  #region Zle functions
+
   # Enables terminal application mode
   function zle-line-init {
     # The terminal must be in application mode when ZLE is active for $terminfo
@@ -170,14 +182,14 @@ function zebrafish_editor {
   }
   zle -N zle-line-finish
 
-  # Resets the prompt when the keymap changes
-  function zle-keymap-select {
-    zle update-cursor-style
-
-    zle reset-prompt
-    zle -R
+  # Inserts 'sudo ' at the beginning of the line.
+  function prepend-sudo {
+    if [[ "$BUFFER" != su(do|)\ * ]]; then
+      BUFFER="sudo $BUFFER"
+      (( CURSOR += 5 ))
+    fi
   }
-  zle -N zle-keymap-select
+  zle -N prepend-sudo
 
   # Expand .... to ../..
   function expand-dot-to-parent-directory-path {
@@ -201,22 +213,53 @@ function zebrafish_editor {
   }
   zle -N symmetric-ctrl-z
 
-  # Reset to default key bindings
-  bindkey -d
+  # Toggle the comment character at the start of the line.
+  # Zsh also has pound-insert, but it accepts the line rather than toggles the comment
+  function pound-toggle {
+    if [[ "$BUFFER" = '#'* ]]; then
+      # Because of an oddity in how zsh handles the cursor when the buffer size
+      # changes, we need to make this check before we modify the buffer and let
+      # zsh handle moving the cursor back if it's past the end of the line.
+      if [[ $CURSOR != $#BUFFER ]]; then
+        (( CURSOR -= 1 ))
+      fi
+      BUFFER="${BUFFER:1}"
+    else
+      BUFFER="#$BUFFER"
+      (( CURSOR += 1 ))
+    fi
+  }
+  zle -N pound-toggle
 
-  # Global keybinds
-  local -A global_keybinds
-  global_keybinds=(
+  # Allow command line editing in an external editor.
+  autoload -Uz edit-command-line
+  zle -N edit-command-line
+
+  #endregion
+
+  #region bindkey
+
+  # Define keybinds
+  local -A emacs_keybinds=(
     "$key_info[Home]"      beginning-of-line
     "$key_info[End]"       end-of-line
     "$key_info[Delete]"    delete-char
     "$key_info[Backspace]" backward-delete-char
     "$key_info[Control]W"  backward-kill-word
+    "$key_info[Control] "  glob-alias
+    "$key_info[Control]Z"  symmetric-ctrl-z
+    "$key_info[BackTab]"   reverse-menu-complete
     '.'                    expand-dot-to-parent-directory-path
+    ' '                    magic-space
+    "$key_info[Escape];"   pound-toggle
+    "$key_info[Control]X$key_info[Control]S" prepend-sudo
+    "$key_info[Control]X$key_info[Control]E" edit-command-line
   )
 
-  # Special case for ControlLeft and ControlRight because they have multiple
-  # possible binds.
+  # Reset to default key bindings
+  bindkey -d
+
+  # Special case for Modifier-Left/Right because they have multiple possible binds.
   for key in "${(s: :)key_info[ControlLeft]}" "${(s: :)key_info[AltLeft]}"; do
     bindkey -M emacs "$key" emacs-backward-word
   done
@@ -224,22 +267,24 @@ function zebrafish_editor {
     bindkey -M emacs "$key" emacs-forward-word
   done
 
-  # Apply key binds to the emacs keymap
-  for key bind in ${(kv)global_keybinds}; do
+  # Apply emacs-style key binds.
+  for key bind in ${(kv)emacs_keybinds}; do
     bindkey -M emacs "$key" "$bind"
   done
 
   # Do not expand .... to ../.. during incremental search.
   bindkey -M isearch . self-insert 2> /dev/null
 
-  # C-z bg/fg toggle
-  bindkey '^Z' symmetric-ctrl-z
-
   # Emacs keybindings
   bindkey -e
+
+  #endregion
+
+  # Mark the plugin as loaded.
+  zstyle ":zebrafish:plugin:editor" loaded 'yes'
 }
 
-function zebrafish_color {
+function zebrafish_color_plugin {
   local prefix cache
 
   # Cache results of running dircolors for 20 hours, so it should almost
@@ -248,16 +293,16 @@ function zebrafish_color {
     if (( $+commands[${prefix}dircolors] )); then
       local dircolors_cache=${XDG_CACHE_HOME:=$HOME/.cache}/zebrafish/${prefix}dircolors.zsh
       mkdir -p ${dircolors_cache:h}
-      local cache=($dircolors_cache(Nmh-20))
 
+      local cache=($dircolors_cache(Nmh-20))
       (( $#cache )) || ${prefix}dircolors --sh >| $dircolors_cache
+
       source "${dircolors_cache}"
-      alias ${prefix}ls="${aliases[${prefix}ls]:-${prefix}ls} --group-directories-first --color=auto"
+      alias ${prefix}ls="${aliases[${prefix}ls]:-${prefix}ls} --color=auto"
     fi
   done
 
   if [[ "$OSTYPE" == darwin* ]]; then
-    export CLICOLOR=1
     alias ls="${aliases[ls]:-ls} -G"
   fi
 
@@ -273,9 +318,12 @@ function zebrafish_color {
   export LESS_TERMCAP_se=$'\e[0m'          # se:=end standout-mode
   export LESS_TERMCAP_ue=$'\e[0m'          # ue:=end underline-mode
   export LESS_TERMCAP_me=$'\e[0m'          # me:=end modes
+
+  # Mark the plugin as loaded.
+  zstyle ":zebrafish:plugin:color" loaded 'yes'
 }
 
-function zebrafish_utility {
+function zebrafish_utility_plugin {
   # General options.
   setopt EXTENDED_GLOB         # Use more awesome globbing features.
   setopt GLOB_DOTS             # Include dotfiles when globbing.
@@ -303,9 +351,12 @@ function zebrafish_utility {
   # Load more specific 'run-help' function from $fpath.
   (( $+aliases[run-help] )) && unalias run-help && autoload -Uz run-help
   alias help=run-help
+
+  # Mark the plugin as loaded.
+  zstyle ":zebrafish:plugin:utility" loaded 'yes'
 }
 
-function zebrafish_completion {
+function zebrafish_completion_plugin {
   # Completion options.
   setopt COMPLETE_IN_WORD     # Complete from both ends of a word.
   setopt ALWAYS_TO_END        # Move cursor to the end of a completed word.
@@ -343,9 +394,12 @@ function zebrafish_completion {
       zcompile "$ZSH_COMPDUMP"
     fi
   } &!
+
+  # Mark the plugin as loaded.
+  zstyle ":zebrafish:plugin:completion" loaded 'yes'
 }
 
-function zebrafish_compstyle {
+function compstyle_zebrafish_setup {
   # Defaults.
   zstyle ':completion:*:default' list-colors ${(s.:.)LS_COLORS}
   zstyle ':completion:*:default' list-prompt '%S%M matches%s'
@@ -414,13 +468,25 @@ function zebrafish_compstyle {
   zstyle ':completion:*:man:*'      menu yes select
 }
 
-function zebrafish_prompt {
+function zebrafish_prompt_plugin {
   # Zsh prompt options.
   setopt PROMPT_SUBST    # expand parameters in prompt variables
   autoload -Uz promptinit && promptinit
+
+  # Load the prompt theme.
+  local -a prompt_argv
+  zstyle -a ':zebrafish:plugin:prompt' theme 'prompt_argv'
+  if [[ "$TERM" == (dumb|linux|*bsd*) ]] || (( $#prompt_argv < 1 )); then
+    prompt 'off'
+  else
+    prompt "$prompt_argv[@]"
+  fi
+
+  # Mark the plugin as loaded.
+  zstyle ":zebrafish:plugin:prompt" loaded 'yes'
 }
 
-# Zsh config dir.
+# Set Zsh home dir.
 _zhome=${ZDOTDIR:-${XDG_CONFIG_HOME:=$HOME/.config}/zsh}
 
 # Autoload functions directory.
@@ -430,16 +496,19 @@ if [[ -d $_zfuncdir ]]; then
   autoload -Uz $fpath[1]/*(.:t)
 fi
 
+# Read zstyles.
+[[ -s $_zhome/.zstylerc ]] && source $_zhome/.zstylerc
+
 # TODO: plugins
-zebrafish_environment
-zebrafish_history
-zebrafish_directory
-zebrafish_editor
-zebrafish_color
-zebrafish_utility
-zebrafish_completion
-zebrafish_compstyle
-zebrafish_prompt
+zebrafish_environment_plugin
+zebrafish_history_plugin
+zebrafish_directory_plugin
+zebrafish_editor_plugin
+zebrafish_color_plugin
+zebrafish_utility_plugin
+zebrafish_completion_plugin
+compstyle_zebrafish_setup
+zebrafish_prompt_plugin
 
 # Source anything in conf.d.
 for _rcfile in $_zhome/conf.d/*.zsh(N); do

@@ -22,7 +22,3 @@ export LESS='-g -i -M -R -S -w -z-4'
 
 # Use `< file` to quickly view the contents of any file.
 READNULLCMD=$PAGER
-
-if [[ "$OSTYPE" == darwin* ]]; then
-  export SHELL_SESSIONS_DISABLE=1
-fi

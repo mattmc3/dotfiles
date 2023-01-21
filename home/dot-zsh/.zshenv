@@ -1,5 +1,5 @@
 #!/bin/zsh
-export ZDOTDIR=${ZDOTDIR:-~/.config/zsh}
+export ZDOTDIR=${ZDOTDIR:-~/.zsh}
 
 export XDG_CONFIG_HOME=~/.config
 export XDG_CACHE_HOME=~/.cache
