@@ -4,16 +4,18 @@
 [[ ${ZPROFRC:-0} -eq 0 ]] || zmodload zsh/zprof
 alias zprofrc="ZPROFRC=1 zsh"
 
-#region env
+# Use Zebrafish to drive config
+source $ZDOTDIR/.zebrafish
 
-setopt auto_resume             long_list_jobs          no_hup           \
-       combining_chars         no_beep                 no_mail_warning  \
-       extended_glob           no_bg_nice              notify           \
-       interactive_comments    no_check_jobs           rc_quotes
-
-DOTFILES=~/.config/dotfiles
-
-#endregion
+# Add zfuncdir sub directories.
+ZFUNCDIR=$ZDOTDIR/functions
+for _subdir in $ZFUNCDIR/*(/N); do
+  if [[ "$_subdir:t" == macos ]] && [[ "$OSTYPE" != darwin* ]]; then
+    continue
+  fi
+  fpath=($_subdir $fpath)
+  autoload -Uz $fpath[1]/*(.:t)
+done
 
 #region aliases
 
@@ -42,61 +44,6 @@ alias zz='exit'
 # tar sux
 alias tarls="tar -tvf"
 alias untar="tar -xf"
-
-#endregion
-
-#region zfunctions
-
-ZFUNCDIR=$ZDOTDIR/functions
-fpath=($ZFUNCDIR $ZDOTDIR/completions $fpath)
-autoload -Uz $fpath[1]/*(.:t)
-
-if [[ "$OSTYPE" == darwin* ]]; then
-  # https://github.com/ohmyzsh/ohmyzsh/tree/master/plugins/macos
-  # https://github.com/sorin-ionescu/prezto/tree/master/modules/osx
-  fpath=($ZFUNCDIR/macos $fpath)
-  autoload -Uz $fpath[1]/*(.:t)
-fi
-
-#endregion
-
-#region history
-
-setopt append_history          hist_ignore_all_dups    hist_verify         \
-       extended_history        hist_ignore_dups        inc_append_history  \
-       hist_expire_dups_first  hist_ignore_space       no_share_history    \
-       hist_find_no_dups       hist_no_store                               \
-       hist_save_no_dups       hist_reduce_blanks
-
-HISTFILE=$XDG_DATA_HOME/zsh/history
-[[ -f $HISTFILE ]] || { mkdir -p $HISTFILE:h && touch $HISTFILE }
-SAVEHIST=20000
-HISTSIZE=100000
-
-alias hist='fc -li'
-
-#endregion
-
-#region directory
-
-setopt auto_pushd      extended_glob   pushd_minus     pushd_to_home  \
-       cdable_vars     multios         pushd_silent    no_clobber
-
-alias -- -='cd -'
-alias dirh='dirs -v'
-_up=".."
-for _idx ({1..9}); do
-  alias "$_idx"="cd -${_idx}"
-  alias -g "..$_idx"="$_up"
-  _up+='/..'
-done
-unset _idx _up
-
-#endregion
-
-#region editor
-
-(( $+functions[editor_zebrafish_setup] )) && editor_zebrafish_setup
 
 #endregion
 
@@ -139,16 +86,6 @@ else
   fi
 fi
 
-# Use built-in paste magic.
-autoload -Uz bracketed-paste-url-magic
-zle -N bracketed-paste bracketed-paste-url-magic
-autoload -Uz url-quote-magic
-zle -N self-insert url-quote-magic
-
-# Load more specific 'run-help' function from $fpath.
-(( $+aliases[run-help] )) && unalias run-help && autoload -Uz run-help
-alias help=run-help
-
 # Set initial working directory.
 IWD=${IWD:-$PWD}
 alias iwd='cd $IWD'
@@ -182,6 +119,7 @@ if (( $+functions[plugin-clone] )); then
 
   plugins=(
     zman
+    pure
     zsh-autosuggestions
     zsh-history-substring-search
     zsh-defer
@@ -193,37 +131,6 @@ if (( $+functions[plugin-clone] )); then
 
   MAGIC_ENTER_GIT_COMMAND="ls; git status -sb"
   MAGIC_ENTER_OTHER_COMMAND="ls"
-fi
-
-#endregion
-
-#region completions
-
-setopt complete_in_word        auto_list               no_menu_complete  \
-       always_to_end           auto_param_slash        no_flow_control   \
-       auto_menu               extended_glob
-
-(( $+functions[compstyle_zebrafish_setup] )) && compstyle_zebrafish_setup
-
-autoload -Uz compinit
-ZSH_COMPDUMP=$XDG_CACHE_HOME/zsh/compdump
-_comp_files=($ZSH_COMPDUMP(Nmh-20))
-if (( $#_comp_files )); then
-  compinit -i -C -d $ZSH_COMPDUMP
-else
-  compinit -i -d $ZSH_COMPDUMP
-  touch $ZSH_COMPDUMP
-fi
-unset _comp_files
-
-#endregion
-
-#region prompt
-
-autoload -Uz promptinit && promptinit
-if (( $+functions[prompt_zebrafish_setup] )); then
-  source $ZPLUGINDIR/gitstatus/gitstatus.prompt.zsh
-  prompt zebrafish
 fi
 
 #endregion
