@@ -135,6 +135,14 @@ fi
 
 #endregion
 
+# TODO:
+# - add PS2 to prompt
+# - zf - generate core plugins
+# - zf - support omz plugins
+# - zf - support path/fpath plugins
+# - zf - support .zebrafishrc
+# - macos everywhere like zsh-utils
+
 # local overrides
 [[ ! -f $DOTFILES.local/zsh/zshrc_local.zsh ]] || source $DOTFILES.local/zsh/zshrc_local.zsh
 
