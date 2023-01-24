@@ -1,6 +1,29 @@
 #!/bin/zsh
 
 #
+# Options
+#
+
+typeset -ga zopts_general=(
+  COMBINING_CHARS       # Combine 0-len chars with base chars (eg: accents).
+  INTERACTIVE_COMMENTS  # Enable comments in interactive shell.
+  RC_QUOTES             # Allow 'Hitchhiker''s Guide' instead of 'Hitchhiker'\''s Guide'.
+  NO_MAIL_WARNING       # Don't print a warning message if a mail file has been accessed.
+)
+
+typeset -ga zopts_jobs=(
+  LONG_LIST_JOBS       # List jobs in the long format by default.
+  AUTO_RESUME          # Attempt to resume existing job before creating a new process.
+  NOTIFY               # Report status of background jobs immediately.
+  NO_BG_NICE           # Don't run all background jobs at a lower priority.
+  NO_HUP               # Don't kill jobs on shell exit.
+  NO_CHECK_JOBS        # Don't report on jobs when shell exit.
+)
+
+setopt $zopts_general $zopts_jobs
+
+
+#
 # XDG base dirs
 #
 

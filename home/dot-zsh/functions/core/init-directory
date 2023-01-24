@@ -14,6 +14,7 @@ typeset -ga zopts_directory=(
   CDABLE_VARS          # Change directory to a path stored in a variable.
   MULTIOS              # Write to multiple descriptors.
   EXTENDED_GLOB        # Use extended globbing syntax.
+  GLOB_DOTS            # Include dotfiles in globbing results.
   NO_CLOBBER           # Do not overwrite files with > and >>. Use >| to bypass.
 )
 setopt $zopts_directory
