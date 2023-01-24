@@ -1,0 +1,3 @@
+#!/bin/zsh
+##? Lists the ten most used commands.
+history 0 | awk '{print \$2}' | sort | uniq -c | sort -n -r | head
