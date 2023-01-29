@@ -1,5 +1,0 @@
-#!/bin/zsh
-
-[[ "$OSTYPE" == darwin* ]] || return 1
-
-defaults write com.apple.finder AppleShowAllFiles -bool true && killall Finder

@@ -1,3 +1,0 @@
-#!/bin/zsh
-##? rmdsstore - Remove .DS_Store files recursively in a directory, default .
-find "${@:-.}" -type f -name .DS_Store -delete

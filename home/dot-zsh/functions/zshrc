@@ -1,2 +1,0 @@
-#!/bin/zsh
-${EDITOR:-vim} "${ZDOTDIR:-$HOME}"/.zshrc

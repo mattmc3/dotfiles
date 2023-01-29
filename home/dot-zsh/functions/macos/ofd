@@ -1,2 +1,0 @@
-# open the current directory in a Finder window
-open "$PWD"

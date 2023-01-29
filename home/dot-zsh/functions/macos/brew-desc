@@ -1,2 +1,0 @@
-#!/bin/zsh
-brew leaves | xargs brew desc --eval-all
