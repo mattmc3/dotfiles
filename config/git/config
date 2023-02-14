@@ -180,3 +180,5 @@
 	HEAD = 14 normal dim
 [init]
 	defaultBranch = main
+[commit]
+	gpgsign = true
