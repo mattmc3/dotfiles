@@ -1,7 +1,7 @@
 # Watch out for configs that land in ~/.gitconfig still
 
 [user]
-	# The values in the [user] section are set in $DOTFILES.local
+	# The values in the [user] section are set in $DOTFILES/local
 	# https://stackoverflow.com/questions/42553685/setting-git-username-and-email-without-using-gitconfig
 [include]
 	path = ~/.config/dotfiles.local/git/config.local

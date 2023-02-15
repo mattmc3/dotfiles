@@ -122,7 +122,7 @@ _my_aliases = {
     'iwd': 'cd $IWD',
     'proj': 'cd ~/Projects',
     'dotf': 'cd $DOTFILES',
-    'dotfl': 'cd $DOTFILES.local',
+    'dotfl': 'cd $DOTFILES/local',
     'bdot': 'cd ~/.config/bash',
     'fdot': 'cd ~/.config/fish',
     'xdot': 'cd ~/.config/xonsh',
