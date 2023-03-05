@@ -1,19 +1,20 @@
 #!/bin/sh
 
-printerr() {
+print_err() {
   printf '%s\n' "$my_name: Error: $1" >&2
-  exit ${2:-2}
+  exit ${2:-1}
 }
 
 init() {
   if ! command -v fzf >/dev/null; then
-    printerr "Command not found 'fzf'. Install from https://github.com/junegunn/fzf."
+    print_err "Command not found 'fzf'. Install from https://github.com/junegunn/fzf."
   fi
   iterm2dir=$XDG_CACHE_HOME/palette/iterm2cs
   if ! test -d "$iterm2dir"; then
     git clone --depth 1 --quiet https://github.com/mbadolato/iTerm2-Color-Schemes $iterm2dir 2>/dev/null
     regen_theme_files
   fi
+  unset iterm2dir
 }
 
 regen_theme_files() {
@@ -27,6 +28,7 @@ regen_theme_files() {
       {print colors[$3+1],"\""$4"\""}
       ' > "${my_workdir}/themes/$(basename "$file" .conf).sh"
   done
+  unset file
 }
 
 palette_update() {
@@ -40,11 +42,12 @@ palette_choose() {
   result=$(palette_list | fzf --layout=reverse-list --preview "palette preview ${my_workdir}/themes/{}.sh" --query="$@")
   [[ $? -eq 0 ]] || return 1
   palette_print "${my_workdir}/themes/${result}.sh"
+  unset result
 }
 
 palette_print() {
   if ! test -f "$1"; then
-    printerr "Color scheme file not found '$1'."
+    print_err "Color scheme file not found '$1'."
   fi
   source "$1"
 
@@ -60,26 +63,29 @@ palette_print() {
     printf ",\n${rgb_fmt}" 0 0 0 0 0 0
   done
   printf '\n%s\n' ']'
+  unset rgb_fmt num rgb
 }
 
 palette_preview() {
   if ! test -f "$1"; then
-    printerr "Color scheme file not found '$1'."
+    print_err "Color scheme file not found '$1'."
   fi
   source "$1"
 
-  for color_name in red yellow green blue magenta cyan white black
+  for color_name in red green yellow blue magenta cyan white black
   do
     rgb="$(eval echo $(echo "\$$color_name"))"
     set -- $(echo "$rgb" | awk -F '[\(\),]' '{print $2, $3, $4}')
     printf "\x1b[38;2;%s;%s;%sm%-10s\x1b[0m rgb(%3s, %3s, %3s)\n" $1 $2 $3 $color_name $1 $2 $3
   done
+  unset color_name rgb
 }
 
 palette_list() {
-  for x in "${my_workdir}"/themes/*.sh; do
-    basename "$x" .sh
+  for file in "${my_workdir}"/themes/*.sh; do
+    basename "$file" .sh
   done
+  unset file
 }
 
 # declare vars
@@ -112,7 +118,7 @@ while test "${1#-}" != "$1"; do
       break
       ;;
     *)
-      printerr "invalid option $1"
+      print_err "invalid option $1"
       ;;
   esac
 done
@@ -125,7 +131,7 @@ else
 fi
 
 if ! typeset -f "palette_${my_cmd}" >/dev/null; then
-  printerr "Subcommand not found '$my_cmd'."
+  print_err "Subcommand not found '$my_cmd'."
 else
   my_name="$my_name $my_cmd"
   "palette_${my_cmd}" "$@"
