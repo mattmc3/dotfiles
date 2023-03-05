@@ -7,7 +7,7 @@ format = """$python$directory$character"""
 right_format = """$status$all$git_branch$git_status"""
 
 [character]
-success_symbol = "[»](blue)"
+success_symbol = "[»](cyan)"
 error_symbol = "[»](red)"
 vicmd_symbol = "[⪻](yellow)"
 
@@ -15,7 +15,7 @@ vicmd_symbol = "[⪻](yellow)"
 format = '\($virtualenv\) '
 
 [directory]
-style = "green"
+style = "blue"
 truncation_length = 1
 truncation_symbol = ""
 fish_style_pwd_dir_length = 1
@@ -25,19 +25,19 @@ fish_style_pwd_dir_length = 1
 format = ' [$branch]($style)'
 style = 'bold green'
 
-[git_status]
-format = '$all_status$ahead_behind'
-ahead = ' [⬆](bold purple)'
-behind = ' [⬇](bold purple)'
-staged = ' [✚](green)'
-deleted = ' [✖](red)'
-renamed = ' [➜](purple)'
-stashed = ' [✭](cyan)'
-untracked = ' [◼](white)'
-modified = ' [✱](blue)'
-conflicted = ' [═](yellow)'
-diverged = ' ⇕'
-up_to_date = ''
+# [git_status]
+# format = '$all_status$ahead_behind'
+# ahead = ' [⬆](bold purple)'
+# behind = ' [⬇](bold purple)'
+# staged = ' [✚](green)'
+# deleted = ' [✖](red)'
+# renamed = ' [➜](purple)'
+# stashed = ' [✭](cyan)'
+# untracked = ' [◼](white)'
+# modified = ' [✱](blue)'
+# conflicted = ' [═](yellow)'
+# diverged = ' ⇕'
+# up_to_date = ''
 
 [cmd_duration]
 format = ' [$duration]($style)'
