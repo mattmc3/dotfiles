@@ -1,4 +1,7 @@
 #!/bin/sh
+# Author:    mattmc3
+# Copyright: 2023
+# License:   MIT
 
 print_err() {
   printf '%s\n' "$my_name: Error: $1" >&2
