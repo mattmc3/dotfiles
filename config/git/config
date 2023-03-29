@@ -9,7 +9,6 @@
 	excludesfile = ~/.config/git/gitignore
 	editor = subl -n -w
 	fileMode = false
-	pager = delta
 [interactive]
 	diffFilter = delta --color-only
 [add.interactive]
@@ -68,9 +67,9 @@
 	# }}
 
 	# log {{
-	log-pretty = log --all --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)%an <%ae>%Creset' --abbrev-commit --date=relative
-	lg = log-pretty
-	log-short = log --oneline --decorate --graph --all
+	log-pretty = log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold green)(%ar)%C(reset) %C(white)%s%C(reset) %C(dim white)- %an%C(reset)%C(auto)%d%C(reset)' --all
+	lg = log-short
+	log-short = log --all --decorate --oneline --graph
 	# }}
 
 	# pull all branches
