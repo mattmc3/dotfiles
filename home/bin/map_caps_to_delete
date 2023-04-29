@@ -1,0 +1,10 @@
+#!/bin/zsh
+
+# http://homeowmorphism.com/2017/05/27/Remap-CapsLock-Backspace-Sierra
+# https://developer.apple.com/library/archive/technotes/tn2450/_index.html
+
+# map caps (39) to delete (2A)
+hidutil property --set '{"UserKeyMapping":[{"HIDKeyboardModifierMappingSrc":0x700000039,"HIDKeyboardModifierMappingDst":0x70000002A}]}'
+
+# undo changes with:
+# hidutil property --set '{"UserKeyMapping":[]}'
