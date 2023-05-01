@@ -10,15 +10,6 @@ ensure_fn_exists() {
   return $?
 }
 
-apm_export() {
-  apm list --installed --bare | grep -v 'node_modules' | grep . | sort -f
-}
-
-apm_import() {
-  awk -F'@' '{print $1}' "$1" |
-    xargs -I % sh -c '[ ! -d "$HOME/.atom/packages/%" ] && apm install % --compatible || echo "already installed: %"'
-}
-
 gem_export() {
   gem list --local
 }
@@ -108,7 +99,6 @@ main() {
   fi
 
   if [[ "$cmd" == "list" ]]; then
-    echo "apm"
     echo "azuredatastudio"
     echo "brew"
     echo "code"
@@ -137,7 +127,7 @@ main() {
     app=pip
   fi
 
-  applist=( apm azuredatastudio brew code gem npm pip )
+  applist=( azuredatastudio brew code gem npm pip )
   if [[ " ${applist[@]} " =~ " ${app} " ]]; then
     app_exists "$app" || {
       echo "Cannot find app $app" >&2
