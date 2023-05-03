@@ -56,7 +56,9 @@ export PAGER='less'
 
 # aliases ------------------------------------------------------------------ {{{
 alias ls='ls -G'
-alias grep='grep --color=auto --exclude-dir={.bzr,CVS,.git,.hg,.svn}'
+alias grep='grep --color=auto --exclude-dir={.git,.hg,.svn}'
+export GNUPGHOME=$XDG_DATA_HOME/gnupg
+alias gpg='gpg --homedir "$GNUPGHOME"'
 
 alias reload="source ~/.bashrc"
 alias rm='safe-rm'
