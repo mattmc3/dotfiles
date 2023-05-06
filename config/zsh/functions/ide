@@ -1,0 +1,3 @@
+#!/bin/zsh
+##? ide - edit file or folder in IDE
+${VISUAL:-vim} ${@:-.}

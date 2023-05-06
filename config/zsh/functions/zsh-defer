@@ -1,0 +1,11 @@
+#!/bin/zsh
+
+##? zsh-defer - wrap romkatv/zsh-defer
+#function zsh-defer {
+  [[ -f $REPO_HOME/romkatv/zsh-defer/zsh-defer.plugin.zsh ]] || {
+    echo >&2 "zsh-defer plugin not found"
+    return 1
+  }
+  source $REPO_HOME/romkatv/zsh-defer/zsh-defer.plugin.zsh
+  zsh-defer "$@"
+#}
