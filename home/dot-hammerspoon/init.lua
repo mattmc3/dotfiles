@@ -122,7 +122,7 @@ releasedF18 = function()
   -- hs.alert.show('out')
   if not k.triggered then
     hs.eventtap.keyStroke({}, 'ESCAPE')
-    hs.alert.show('ESCAPE')
+    -- hs.alert.show('ESCAPE')
   end
 end
 
