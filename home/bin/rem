@@ -22,3 +22,5 @@ else:
         'usage: %s file(s)\n'
         '       move file(s) to Trash\n' % os.path.basename(sys.argv[0]))
     sys.exit(64) # matches what rm does on my system
+
+# vim: ft=python sw=4 ts=4 et
