@@ -24,17 +24,19 @@ fish_variables
 fisher/
 
 # zsh
+.antidote/
+.oh-my-zsh/
+.zcompcache/
+.zdirs
+.zprezto/
+.zsh_custom/
+.custom/
+.zsh_history
+.zsh_sessions/
+*.local.zsh
 *.zcompdump*
 *.zwc
-.zdirs
-**/zsh/zplugins/
-.oh-my-zsh/
-.zsh_custom/
-.zprezto/
-.zprezto*/
-.zsh_sessions/
-.zcompcache/
-.antidote/
+*.zwc.old
 
 # ignore test files
 foo*

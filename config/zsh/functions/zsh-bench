@@ -1,5 +1,0 @@
-#!/bin/zsh
-function zsh-bench {
-  $REPO_HOME/romkatv/zsh-bench/zsh-bench "$@"
-}
-zsh-bench "$@"
