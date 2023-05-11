@@ -33,6 +33,7 @@ fisher/
 .custom/
 .zsh_history
 .zsh_sessions/
+.zsh_plugins.zsh
 *.local.zsh
 *.zcompdump*
 *.zwc
