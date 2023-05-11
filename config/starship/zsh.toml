@@ -1,43 +1,54 @@
 add_newline = false
 
+# A minimal left prompt
+format = """$python$directory$character"""
+
+# move the rest of the prompt to the right
+#right_format = """$status$git_branch${custom.git_status_dirty}$git_status"""
+right_format = """$status$cmd_duration$git_branch$git_status${custom.git_status_dirty}"""
+
 [character]
-success_symbol = "[%%](purple)"
-error_symbol = "[%%](red)"
-vicmd_symbol = "[vi%%](bold green)"
+success_symbol = "[❯](purple)[❯](cyan)"
+error_symbol = "[❯](yellow)[❯](red)"
+vicmd_symbol = "[❮](purple)[❮](cyan)"
+# success_symbol = "[⨠](purple)"
+# error_symbol = "[⨠](red)"
+# vicmd_symbol = "[⪻](yellow)"
+
+[python]
+format = '\($virtualenv\) '
 
 [directory]
 style = "blue"
-repo_root_style = "blue"
-truncate_to_repo = false
-truncation_length = 0
-disabled = false
+truncation_length = 1
+truncation_symbol = ""
+fish_style_pwd_dir_length = 1
 
-[cmd_duration]
-format = "[$duration](yellow)"
-
+# right prompt uses left space padding
 [git_branch]
-style = "bright-black"
-format = "[$branch]($style)"
+format = ' [$branch]($style)'
+style = 'green'
 
 [git_status]
-format = "[[(*$conflicted$untracked$modified$staged$renamed$deleted)](218) ($ahead_behind$stashed)]($style) "
+format = '([\[$ahead_behind$stashed\]]($style))'
 style = "cyan"
-conflicted = "​"
-untracked = "​"
-modified = "​"
-staged = "​"
-renamed = "​"
-deleted = "​"
 stashed = "≡"
 ahead = "⇡${count}"
-diverged = "⇕⇡${ahead_count}⇣${behind_count}"
 behind = "⇣${count}"
 
-[git_state]
-format = '\([$state( $progress_current/$progress_total)]($style)\) '
-style = "bright-black"
+[custom.git_status_dirty]
+when = 'test -n "$(git status --porcelain 2>/dev/null)"'
+symbol = "•"
+style = "white"
+format="[$symbol]($style)"
+shell = ["sh"]
+
+[cmd_duration]
+format = ' [$duration]($style)'
+
+[line_break]
+disabled = true
 
 [status]
-style = "red"
-format = '[\[$int\]]($style) '
 disabled = false
+symbol = ' ✘'
