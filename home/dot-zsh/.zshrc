@@ -14,20 +14,7 @@ if [[ ! -d $ANTIDOTE_HOME/mattmc3/antidote ]]; then
 fi
 zstyle ':antidote:bundle' use-friendly-names 'yes'
 source $ANTIDOTE_HOME/mattmc3/antidote/antidote.zsh
-
-# dynamically load bundles
-source <(antidote init)
-antidote bundle <<EOBUNDLES
-mattmc3/zfunctions
-belak/zsh-utils path:history
-belak/zsh-utils path:editor
-belak/zsh-utils path:utility
-zsh-users/zsh-completions path:src kind:fpath
-belak/zsh-utils path:completion
-zsh-users/zsh-autosuggestions kind:defer
-zdharma-continuum/fast-syntax-highlighting kind:defer
-zsh-users/zsh-history-substring-search kind:defer
-EOBUNDLES
+antidote load ${ZDOTDIR:-~}/.zsh_plugins.txt
 
 # Prompt
 export STARSHIP_CONFIG=${XDG_CONFIG_HOME:=~/.config}/starship/hydro.toml
