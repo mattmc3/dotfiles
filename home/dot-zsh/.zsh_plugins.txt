@@ -1,5 +1,6 @@
 mattmc3/zfunctions
 belak/zsh-utils path:editor
+belak/zsh-utils path:history
 belak/zsh-utils path:utility
 zsh-users/zsh-completions path:src kind:fpath
 belak/zsh-utils path:completion
