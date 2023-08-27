@@ -1,0 +1,3 @@
+--target=$HOME
+--dotfiles
+--verbose
