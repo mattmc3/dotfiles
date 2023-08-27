@@ -14,7 +14,7 @@ export XDG_RUNTIME_DIR=~/.xdg
 export XDG_PROJECTS_DIR=~/Projects
 
 # Custom
-export DOTFILES=$XDG_CONFIG_HOME/dotfiles
+export DOTFILES=~/.dotfiles
 export GLOBALGOPATH=$XDG_PROJECTS_DIR/golang
 export GNUPGHOME=$XDG_DATA_HOME/gnupg
 export REPO_HOME=$XDG_CACHE_HOME/repos
