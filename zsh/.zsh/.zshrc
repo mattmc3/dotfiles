@@ -72,7 +72,6 @@ zsh_plugins=(
 
   # custom
   python
-  string
 
   # utils
   mattmc3/zman
