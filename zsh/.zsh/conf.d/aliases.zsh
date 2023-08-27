@@ -8,17 +8,6 @@
 # - https://github.com/ohmyzsh/ohmyzsh/blob/master/plugins/common-aliases/common-aliases.plugin.zsh
 #
 
-# directory aliases
-alias dirh='dirs -v'
-if [[ -n "$ZSH_VERSION" ]]; then
-  alias -- -='cd -'
-  for index in {1..9}; do
-    alias "$index"="cd +${index}"
-    alias -g "..$index"=$(printf '../%.0s' {1..$index})
-  done
-  unset index
-fi
-
 # single character shortcuts - be sparing!
 alias _=sudo
 alias l=ls
@@ -32,11 +21,8 @@ alias grep="command grep --exclude-dir={.git,.vscode}"
 export GNUPGHOME=${XDG_DATA_HOME:=~/.local/share}/gnupg
 alias gpg="command gpg --homedir \"\$GNUPGHOME\""
 
-# brew
-alias brewup="brew update && brew upgrade && brew cleanup"
-
 # directories
-alias secrets="cd ${XDG_DATA_HOME:=~/.local/share}/secrets"
+alias secrets="cd ${XDG_DATA_HOME:-~/.local/share}/secrets"
 
 # more ways to ls
 alias ll='ls -lh'
@@ -84,9 +70,8 @@ alias zbench='for i in {1..10}; do /usr/bin/time zsh -lic exit; done'
 alias cls="clear && printf '\e[3J'"
 
 # print things
-alias print-fpath='for fp in $fpath; do echo $fp; done; unset fp'
-alias print-path='echo $PATH | tr ":" "\n"'
-alias print-functions='print -l ${(k)functions[(I)[^_]*]} | sort'
+alias println="printf '%s\n'"
+alias printfuncs='print -l ${(k)functions[(I)[^_]*]} | sort'
 
 # auto-orient images based on exif tags
 alias autorotate="jhead -autorot"
@@ -97,26 +82,9 @@ alias iwd='cd $IWD'
 
 # dotfiles
 alias dotf='cd "$DOTFILES"'
-alias dotfed='cd "$DOTFILES" && ${VISUAL:-${EDITOR:-vim}} .'
-alias dotfl="cd \$DOTFILES/local"
-alias fdot='cd ${XDG_CONFIG_HOME:=$HOME/.config}/fish'
-alias fconf=fdot
+alias dotfl="cd \$DOTFILES.local"
+alias fdot='cd ~/.config/fish'
 alias zdot='cd $ZDOTDIR'
 
 # java
 alias setjavahome="export JAVA_HOME=\`/usr/libexec/java_home\`"
-
-# python
-alias py2='python2'
-alias py3='python3'
-alias py='python3'
-alias pip2update="pip2 list --outdated | cut -d ' ' -f1 | xargs -n1 pip2 install -U"
-alias pip3update="pip3 list --outdated | cut -d ' ' -f1 | xargs -n1 pip3 install -U"
-alias pipup="pip3 list --outdated | cut -d ' ' -f1 | xargs -n1 pip3 install -U"
-alias pyfind='find . -name "*.py"'
-alias pygrep='grep --include="*.py"'
-alias pyva="source .venv/bin/activate"
-
-# todo-txt
-alias t="todo.sh"
-alias todos="$VISUAL $HOME/Desktop/todo.txt"
