@@ -1,4 +1,4 @@
-#!/usr/bin/env zsh
+#!/bin/zsh
 
 ##? string-length - print string lengths
 ##? usage: string length [STRING...]
@@ -88,7 +88,7 @@ function string-split0 {
 }
 
 ##? string-sub - extract substrings
-##? usage: string sub [-s start] [-e end] [STRINGS...]
+##? usage: string sub [-s start] [-e end] [STRING...]
 function string-sub {
   (( $# )) || return 1
   local -A opts=(-s 1 -e '-1')
@@ -100,7 +100,7 @@ function string-sub {
 }
 
 ##? string-sub0 - extract substrings using 0-based indexing
-##? usage: string sub0 [-o offset] [-l len] [STRINGS...]
+##? usage: string sub0 [-o offset] [-l len] [STRING...]
 function string-sub0 {
   (( $# )) || return 1
   local -A opts=(-o 0)
@@ -112,7 +112,7 @@ function string-sub0 {
 }
 
 ##? string-pad - pad strings to a fixed width
-##? usage: string pad [-r] [-c padchar] [-w width] [STRINGS...]
+##? usage: string pad [-r] [-c padchar] [-w width] [STRING...]
 function string-pad {
   (( $# )) || return 1
   local s rl padexp
@@ -129,7 +129,7 @@ function string-pad {
 }
 
 ##? string-shorten - shorten strings to a max width, with an ellipsis
-##? usage: string shorten [-c] [-m max] [STRINGS...]
+##? usage: string shorten [-c] [-m max] [STRING...]
 function string-shorten {
   (( $# )) || return 1
   local -A opts=(-c …)
@@ -151,7 +151,7 @@ function string-shorten {
 }
 
 ##? string-repeat - multiply a string
-##? usage: string repeat [-n count] [-m max] [-N][STRING ...]
+##? usage: string repeat [-n count] [-m max] [-N] [STRING...]
 function string-repeat {
   (( $# )) || return 1
   local s n
@@ -192,3 +192,4 @@ function string {
     echo >&2 "string: Subcommand '$1' is not valid." && return 1
   fi
 }
+string "$@"
