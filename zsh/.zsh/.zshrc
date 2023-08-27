@@ -41,6 +41,14 @@ path_plugins=(
   romkatv/zsh-bench
 )
 
+macos_plugins=()
+if [[ $OSTYPE == darwin* ]]; then
+  macos_plugins=(
+    mattmc3/zephyr/plugins/homebrew
+    mattmc3/zephyr/plugins/macos
+  )
+fi
+
 zsh_plugins=(
   # oh-my-zsh
   ohmyzsh/ohmyzsh/plugins/extract
@@ -49,6 +57,7 @@ zsh_plugins=(
 
   # zephyr
   mattmc3/zephyr/plugins/zfunctions
+  $macos_plugins
   mattmc3/zephyr/plugins/clipboard
   mattmc3/zephyr/plugins/environment
   mattmc3/zephyr/plugins/terminal
@@ -58,9 +67,12 @@ zsh_plugins=(
   mattmc3/zephyr/plugins/color
   mattmc3/zephyr/plugins/utility
   mattmc3/zephyr/plugins/completion
-  mattmc3/zephyr/plugins/macos
   mattmc3/zephyr/plugins/confd
   mattmc3/zephyr/plugins/prompt
+
+  # custom
+  python
+  string
 
   # utils
   mattmc3/zman
