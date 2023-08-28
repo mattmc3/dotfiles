@@ -86,5 +86,11 @@ alias dotfl="cd \$DOTFILES.local"
 alias fdot='cd ~/.config/fish'
 alias zdot='cd $ZDOTDIR'
 
+# bare repos
+alias dotfiles="GIT_WORK_TREE=~ GIT_DIR=~/.dotfiles"
+alias dotloc="GIT_WORK_TREE=~ GIT_DIR=~/.dotfiles.local"
+# alias dotloc='command git --git-dir=$HOME/.dotfiles.local --work-tree=$HOME'
+# alias dotty='command git --git-dir=$HOME/.dotfiles --work-tree=$HOME'
+
 # java
 alias setjavahome="export JAVA_HOME=\`/usr/libexec/java_home\`"
