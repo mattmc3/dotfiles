@@ -3,12 +3,14 @@
 .DEFAULT_GOAL := help
 
 stow:
-	stow --verbose --dotfiles --target=$$HOME home
-	stow --verbose --dotfiles --target=$$HOME/.config config
+	stow home
+	stow zsh
+	stow --target=$$HOME/.config config
 
 unstow:
-	stow -D --verbose --dotfiles --target=$$HOME home
-	stow -D --verbose --dotfiles --target=$$HOME/.config config
+	stow -D home
+	stow -D zsh
+	stow -D --target=$$HOME/.config config
 
 submodules:
 	git submodule update --recursive --remote
