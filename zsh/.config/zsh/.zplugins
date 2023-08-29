@@ -1,0 +1,48 @@
+#
+# .zsh_plugins.txt - antidote plugins file
+#
+
+# path utils
+romkatv/zsh-bench      kind:path
+
+# prompts
+sindresorhus/pure      kind:fpath
+romkatv/powerlevel10k  kind:fpath
+
+# fpath
+zsh-users/zsh-completions kind:fpath path:src
+
+# zephyr
+mattmc3/zephyr path:plugins/zfunctions
+mattmc3/zephyr path:plugins/clipboard
+mattmc3/zephyr path:plugins/environment
+mattmc3/zephyr path:plugins/terminal
+mattmc3/zephyr path:plugins/editor
+mattmc3/zephyr path:plugins/history
+mattmc3/zephyr path:plugins/directory
+mattmc3/zephyr path:plugins/color
+mattmc3/zephyr path:plugins/utility
+mattmc3/zephyr path:plugins/completion
+mattmc3/zephyr path:plugins/confd
+mattmc3/zephyr path:plugins/prompt
+
+# macOS
+mattmc3/zephyr path:plugins/homebrew  conditional:is-macos
+mattmc3/zephyr path:plugins/macos     conditional:is-macos
+
+# oh-my-zsh
+ohmyzsh/ohmyzsh path:plugins/extract
+ohmyzsh/ohmyzsh path:plugins/magic-enter
+ohmyzsh/ohmyzsh path:plugins/fancy-ctrl-z
+
+# custom
+mattmc3/zsh_custom path:plugins/python
+
+# regular plugins
+mattmc3/zman
+ajeetdsouza/zoxide
+zdharma-continuum/fast-syntax-highlighting
+zsh-users/zsh-autosuggestions
+zsh-users/zsh-history-substring-search
+
+# vi: ft=properties
