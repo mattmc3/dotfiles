@@ -1,25 +1,33 @@
 #!/bin/zsh
 
+# https://github.com/mathiasbynens/dotfiles/blob/main/.macos
+
 setopt extended_glob interactive_comments
 
-# ssh
-echo "make a new ssh key..."
-echo "ssh-keygen -t ed25519 -C "your_email@example.com""
-echo "pbcopy < ~/.ssh/github_mattmc3.pub"
-echo "---------"
+#
+# Menu bar
+#
 
-# hostname
-echo "sudo scutil --set ComputerName"
-echo "sudo scutil --set HostName"
+# Show volume in menu bar
+defaults write com.apple.systemuiserver.plist NSStatusItem\ Visible\ com.apple.menuextra.volume -bool true
+defaults write com.apple.systemuiserver.plist menuExtras -array-add "/System/Library/CoreServices/Menu Extras/Volume.menu"
+defaults write com.apple.systemuiserver.plist menuExtras -array-add "/System/Library/CoreServices/Menu Extras/Bluetooth.menu"
 
-# gpg
-: ${GNUPGHOME:=~/.local/share/gnupg}
-if [[ ! -d $GNUPGHOME ]]; then
-  mkdir -p $GNUPGHOME
-  chmod 700 $GNUPGHOME
-fi
+killall SystemUIServer
 
-command gpg --homedir "$GNUPGHOME" --full-generate-key
+#
+# Trackpad
+#
+
+# App Expose 3 finger swipe???
+
+#
+# Safari
+#
+
+defaults write com.apple.Safari HomePage -string "about:blank"
+
+#killall cfprefsd
 
 #
 # Dock
@@ -47,6 +55,8 @@ defaults write com.apple.dock show-recents -bool false
 # Remove icons from doc
 # clear items
 defaults write com.apple.dock persistent-apps -array
+defaults write com.apple.dock persistent-others -array
+
 # add back items
 dockapps=(
   Safari
@@ -67,7 +77,9 @@ for dockitem in $dockapps; do
   [ -n "$dockitem" ] || continue
   defaults write com.apple.dock persistent-apps -array-add '<dict><key>tile-data</key><dict><key>file-data</key><dict><key>_CFURLString</key><string>'$dockitem'</string><key>_CFURLStringType</key><integer>0</integer></dict></dict></dict>'
 done
-killall Dock
+
+# Reset dock
+#killall Dock
 
 #
 # Finder
