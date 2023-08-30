@@ -1,5 +1,5 @@
 # makefile
-.PHONY: help submodules stow
+.PHONY: help submodules stow unstow
 .DEFAULT_GOAL := help
 
 stow:
