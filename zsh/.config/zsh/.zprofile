@@ -13,8 +13,14 @@ export XDG_STATE_HOME=~/.local/state
 export XDG_RUNTIME_DIR=~/.xdg
 export XDG_PROJECTS_DIR=~/Projects
 
+for _xdgdir in XDG_{CONFIG,CACHE,DATA,STATE}_HOME XDG_{RUNTIME,PROJECTS}_DIR; do
+  [[ -e ${(P)_xdgdir} ]] || mkdir -p ${(P)_xdgdir}
+done
+unset _xdgdir
+
+
 # Custom
-export DOTFILES=~/.dotfiles
+export DOTFILES=~/.config/dotfiles
 export GLOBALGOPATH=$XDG_PROJECTS_DIR/golang
 export GNUPGHOME=$XDG_DATA_HOME/gnupg
 export REPO_HOME=$XDG_CACHE_HOME/repos
