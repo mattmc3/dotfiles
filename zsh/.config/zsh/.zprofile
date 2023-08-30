@@ -3,28 +3,39 @@
 # .zprofile - execute login commands pre-zshrc
 #
 
-#region Paths
+export DOTFILES=~/.config/dotfiles
 
-# XDG
+#region XDG
+#
+
+# XDG base dirs
 export XDG_CONFIG_HOME=~/.config
 export XDG_CACHE_HOME=~/.cache
 export XDG_DATA_HOME=~/.local/share
 export XDG_STATE_HOME=~/.local/state
+
+# XDG user dirs
 export XDG_RUNTIME_DIR=~/.xdg
 export XDG_PROJECTS_DIR=~/Projects
 
-for _xdgdir in XDG_{CONFIG,CACHE,DATA,STATE}_HOME XDG_{RUNTIME,PROJECTS}_DIR; do
-  [[ -e ${(P)_xdgdir} ]] || mkdir -p ${(P)_xdgdir}
+# Fish-like zsh dirs
+export __zsh_config_dir=$XDG_CONFIG_HOME/zsh
+export __zsh_user_data_dir=$XDG_DATA_HOME/zsh
+export __zsh_cache_dir=$XDG_CACHE_HOME/zsh
+
+# ensure dirs exist
+for _zdir in XDG_{CONFIG,CACHE,DATA,STATE}_HOME \
+             XDG_{RUNTIME,PROJECTS}_DIR \
+             __zsh_{config,cache,user_data}_dir
+do
+  [[ -e ${(P)_zdir} ]] || echo mkdir -p ${(P)_zdir}
 done
-unset _xdgdir
 
+#
+#endregion
 
-# Custom
-export DOTFILES=~/.config/dotfiles
-export GLOBALGOPATH=$XDG_PROJECTS_DIR/golang
-export GNUPGHOME=$XDG_DATA_HOME/gnupg
-export REPO_HOME=$XDG_CACHE_HOME/repos
-export LESSHISTFILE=$XDG_CACHE_HOME/less/history
+#region Paths
+#
 
 # Ensure path arrays do not contain duplicates.
 typeset -gU fpath path cdpath
@@ -59,14 +70,20 @@ path=(
   $path
 )
 
+#
 #endregion
 
+#region Editors
+#
 export EDITOR=vim
 export VISUAL=code
 export PAGER=less
-if [[ "$OSTYPE" == darwin* ]]; then
-  export BROWSER='open'
-fi
+[[ "$OSTYPE" == darwin* ]] && export BROWSER='open'
+#
+#endregion
+
+#region Misc
+#
 
 # Regional settings
 export LANG='en_US.UTF-8'
@@ -79,3 +96,6 @@ export SHELL_SESSIONS_DISABLE=1
 
 # Use `< file` to quickly view the contents of any file.
 [[ -z "$READNULLCMD" ]] || READNULLCMD=$PAGER
+
+#
+#endregion
