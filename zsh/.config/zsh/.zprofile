@@ -34,6 +34,26 @@ done
 #
 #endregion
 
+#region homebrew
+#
+if [[ -e $HOME/brew/bin/brew ]]; then
+  export HOMEBREW_PREFIX="$HOME/brew";
+elif [[ -e /opt/homebrew/bin/brew ]]; then
+  export HOMEBREW_PREFIX="/opt/homebrew";
+elif [[ -e /usr/local/bin/brew ]]; then
+  export HOMEBREW_PREFIX="/usr/local";
+fi
+
+if [[ -n "$HOMEBREW_PREFIX" ]]; then
+  export HOMEBREW_CELLAR="$HOMEBREW_PREFIX/Cellar";
+  export HOMEBREW_REPOSITORY="$HOMEBREW_PREFIX";
+  export PATH="$HOMEBREW_PREFIX/bin:$HOMEBREW_PREFIX/sbin${PATH+:$PATH}";
+  export MANPATH="$HOMEBREW_PREFIX/share/man${MANPATH+:$MANPATH}:";
+  export INFOPATH="$HOMEBREW_PREFIX/share/info:${INFOPATH:-}";
+fi
+#
+#endregion
+
 #region Paths
 #
 
@@ -51,6 +71,7 @@ cdpath=(
 path=(
   # core
   $HOME/{,s}bin(N)
+  $HOME/brew/{,s}bin(N)
   /opt/{homebrew,local}/{,s}bin(N)
   /usr/local/{,s}bin(N)
 
@@ -82,6 +103,23 @@ export PAGER=less
 #
 #endregion
 
+#region Less
+#
+# Set the default Less options.
+# Mouse-wheel scrolling can be disabled with -X (disable screen clearing).
+# Add -X to disable it.
+if [[ -z "$LESS" ]]; then
+  export LESS='-g -i -M -R -S -w -z-4'
+fi
+
+# Set the Less input preprocessor.
+# Try both `lesspipe` and `lesspipe.sh` as either might exist on a system.
+if [[ -z "$LESSOPEN" ]] && (( $#commands[(i)lesspipe(|.sh)] )); then
+  export LESSOPEN="| /usr/bin/env $commands[(i)lesspipe(|.sh)] %s 2>&-"
+fi
+#
+#endregion
+
 #region Misc
 #
 
@@ -99,3 +137,5 @@ export SHELL_SESSIONS_DISABLE=1
 
 #
 #endregion
+
+# vi: ft=zsh
