@@ -1,0 +1,22 @@
+#!/bin/zsh
+
+: ${HOMEBREW_PREFIX:=/opt/homebrew}
+: ${DOTFILES:=~/.config/dotfiles}
+
+# brew
+if [[ ! -d $HOMEBREW_PREFIX ]]; then
+  /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+  eval "$($HOMEBREW_PREFIX/bin/brew shellenv)"
+fi
+
+# install dotfiles repo
+if [[ ! -d $DOTFILES ]]
+git clone https://github.com/mattmc3/dotfiles $DOTFILES
+
+# brew bundle
+# brew bundle dump --force --file=$DOTFILES/home/Brewfile
+brew bundle --file=$DOTFILES/config/homebrew/init.brewfile
+
+# stow
+cd $DOTFILES
+make stow
