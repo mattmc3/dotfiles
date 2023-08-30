@@ -2,6 +2,9 @@
 # .zsh_plugins.txt - antidote plugins file
 #
 
+# clone only
+mbadolato/iTerm2-Color-Schemes kind:clone
+
 # path utils
 romkatv/zsh-bench      kind:path
 
