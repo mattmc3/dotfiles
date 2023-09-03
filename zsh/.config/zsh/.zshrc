@@ -15,6 +15,14 @@ alias zprofrc="ZPROFRC=1 zsh"
 [[ -e $ZDOTDIR/.zstyles ]] && . $ZDOTDIR/.zstyles
 
 #
+# zsh_custom
+#
+
+export ZSH_CUSTOM=$ZDOTDIR/custom
+[[ -d $ZSH_CUSTOM ]] ||
+  git clone --depth 1 --quiet https://github.com/mattmc3/zsh_custom $ZSH_CUSTOM
+
+#
 # plugins
 #
 
