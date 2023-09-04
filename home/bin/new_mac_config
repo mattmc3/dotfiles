@@ -30,6 +30,14 @@ defaults write com.apple.Safari HomePage -string "about:blank"
 #killall cfprefsd
 
 #
+# Restore apps
+#
+
+# Stop reopening apps on restart
+defaults write com.apple.loginwindow TALLogoutSavesState -bool false
+defaults write com.apple.loginwindow LoginwindowLaunchesRelaunchApps -bool false
+
+#
 # Dock
 #
 
