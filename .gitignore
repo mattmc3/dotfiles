@@ -9,6 +9,7 @@ _tmp/
 # vim
 ~*
 **/nvim/.netrwhist
+**/nvim/lazy-lock.json
 
 # private
 *_local
