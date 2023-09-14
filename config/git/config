@@ -3,8 +3,6 @@
 [user]
 	# The values in the [user] section are set in $DOTFILES/local
 	# https://stackoverflow.com/questions/42553685/setting-git-username-and-email-without-using-gitconfig
-[include]
-	path = ~/.config/git/config.local
 [core]
 	excludesfile = ~/.config/git/gitignore
 	editor = subl -n -w
@@ -180,5 +178,7 @@
 	HEAD = 14 normal dim
 [init]
 	defaultBranch = main
-[commit]
-	gpgsign = true
+
+# include local customizations last
+[include]
+	path = ~/.config/git/config.local
