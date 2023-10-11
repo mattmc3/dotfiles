@@ -12,6 +12,9 @@ trim_trailing_whitespace = true
 indent_style = tab
 indent_size = 4
 
+[**/bin/otp]
+indent_size = 4
+
 [{makefile,Makefile,MAKEFILE}]
 indent_style = tab
 indent_size = 4
