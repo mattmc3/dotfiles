@@ -1,9 +1,7 @@
 #!/usr/bin/env bash
 
 # homebrew
-brew update && brew upgrade
-brew cu -af
-brew cleanup
+brew update && brew upgrade && brew cleanup
 
 # python
 pip2 list --outdated | cut -d ' ' -f1 | xargs -n1 pip2 install -U
