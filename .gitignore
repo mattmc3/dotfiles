@@ -22,6 +22,7 @@ _tmp/
 # fish shell
 fish_history
 fish_variables
+fishprof.txt
 fisher/
 
 # zsh
