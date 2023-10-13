@@ -6,6 +6,7 @@ stow:
 	stow home
 	stow zsh
 	stow --target=$$HOME/.config config
+	stow --target=$$HOME/.config fish
 
 unstow:
 	stow -D home
