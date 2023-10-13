@@ -3,34 +3,32 @@ root = true
 [*]
 charset = utf-8
 end_of_line = lf
-indent_style = space
-indent_size = 2
+indent_style = tab
+indent_size = 4
 insert_final_newline = true
 trim_trailing_whitespace = true
 
-[**/git/*]
-indent_style = tab
-indent_size = 4
+[*.json]
+indent_style = space
+indent_size = 2
 
-[**/bin/otp]
-indent_size = 4
+[.{zshrc,zprofile,zshenv,zlogin,zlogout}]
+indent_style = space
+indent_size = 2
 
-[{makefile,Makefile,MAKEFILE}]
-indent_style = tab
-indent_size = 4
+[.{bashrc,bash_profile}]
+indent_style = space
+indent_size = 2
+
+[*.{bash,zsh,sh}]
+indent_style = space
+indent_size = 2
 
 [*.{md,markdown}]
 trim_trailing_whitespace = false
 
 [*.fish]
-indent_size = 4
+indent_style = space
 
 [*.{py,xsh}]
-indent_size = 4
-
-[*.{todo,taskpaper}]
-indent_style = tab
-
-[*.txt]
-indent_style = tab
-indent_size = 4
+indent_style = space
