@@ -1,0 +1,32 @@
+#
+# repos.txt - The list of Zsh repos we need for this config
+#
+
+# Install all with: `repo in <repos.txt`
+
+# zsh frameworks
+ohmyzsh/ohmyzsh
+sorin-ionescu/prezto
+mattmc3/zephyr
+
+# zsh prompts
+sindresorhus/pure
+romkatv/powerlevel10k
+
+# zsh utils
+ajeetdsouza/zoxide
+rupa/z
+mattmc3/zman
+romkatv/zsh-bench
+romkatv/zsh-defer
+
+# themes
+mbadolato/iTerm2-Color-Schemes
+
+# zsh core
+zdharma-continuum/fast-syntax-highlighting
+zsh-users/zsh-autosuggestions
+zsh-users/zsh-completions
+zsh-users/zsh-history-substring-search
+
+# vim: ft=zsh sw=2 ts=2 et

@@ -1,35 +1,5 @@
 #!/usr/bin/env fish -N
 
-#region variables
-if set -q XDG_DATA_HOME
-    set -q OTP_HOME || set -g OTP_HOME $XDG_DATA_HOME/otp
-    set -q GNUPGHOME || set -g OTP_HOME $XDG_DATA_HOME/gnupg
-else
-    set -q OTP_HOME || set -g OTP_HOME $HOME/.local/share/otp
-    set -q GNUPGHOME || set -g OTP_HOME $HOME/.local/share/gnupg
-end
-set -l dirname
-for dirname in $OTP_HOME $GNUPGHOME
-    mkdir -p $dirname
-    chmod 700 $dirname
-end
-#endregion
-
-#region requirements
-if not type -q oathtool
-    echo >&2 "otp: 'oathtool' not found. Install oathtool or oath-toolkit, depending on your OS."
-    return 1
-end
-if not type -q gpg
-    echo >&2 "otp: 'gpg' not found. Install, and create a key with 'gpg --gen-key' if you don't already have one."
-    return 1
-end
-if not set -q OTP_GPG_KEYS
-    echo >&2 "otp: 'OTP_GPG_KEYS' not set."
-    return 1
-end
-#endregion
-
 # gpg wrapper
 function gpg
     command gpg --homedir "$GNUPGHOME" $argv
@@ -37,6 +7,34 @@ end
 
 # otp function
 function otp --description "One-time passwords"
+    # variables
+    if set -q XDG_DATA_HOME
+        set -q OTP_HOME || set -g OTP_HOME $XDG_DATA_HOME/otp
+        set -q GNUPGHOME || set -g OTP_HOME $XDG_DATA_HOME/gnupg
+    else
+        set -q OTP_HOME || set -g OTP_HOME $HOME/.local/share/otp
+        set -q GNUPGHOME || set -g OTP_HOME $HOME/.local/share/gnupg
+    end
+    set -l dirname
+    for dirname in $OTP_HOME $GNUPGHOME
+        mkdir -p $dirname
+        chmod 700 $dirname
+    end
+
+    # requirements
+    if not type -q oathtool
+        echo >&2 "otp: 'oathtool' not found. Install oathtool or oath-toolkit, depending on your OS."
+        return 1
+    end
+    if not type -q gpg
+        echo >&2 "otp: 'gpg' not found. Install, and create a key with 'gpg --gen-key' if you don't already have one."
+        return 1
+    end
+    if not set -q OTP_GPG_KEYS
+        echo >&2 "otp: 'OTP_GPG_KEYS' not set."
+        return 1
+    end
+
     # declare vars
     set -l usage "usage: otp [-h | --help] [-l | --list] [-a | --add] [-r | --rekey] <key>"
     set -l recp
