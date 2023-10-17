@@ -32,3 +32,6 @@ indent_style = space
 
 [*.{py,xsh}]
 indent_style = space
+
+[*.vim]
+indent_style = space
