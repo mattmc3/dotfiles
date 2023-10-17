@@ -1,48 +1,90 @@
-# env
-.DS_Store
-.vscode/
-*.bak
-*.backup
-_tmp/
-.tmp/
+# Ignore everything by default.
+*
+
+# Add back items as needed.
+
+# Config - include base ~/.config and every file in its root, but not dirs unless explicit.
+!.config/
+!.config/*
+.config/*/
+# .config/**/
+
+# bin
+!bin/
+!bin/**
+
+# bash
+!.bash_profile
+!.bashrc
+
+# doom emacs
+!.config/doom
+!.config/doom/**
+
+# emacs - we don't want to save the emacs folder since it's probably a symlink to
+# a distro, so instead add the distro customizations
+.config/emacs
+!.config/rational-emacs
+!.config/rational-emacs/**
+.config/rational-emacs/*~
+
+# fish
+!.config/fish
+!.config/fish/**
+
+# git
+!.gitignore
+!.github/
+!.github/**
+!.config/git
+!.config/git/**
+
+# npm
+!.config/npm
+!.config/npm/**
+
+# nvim
+!.config/nvim
+!.config/nvim/**
+
+# powershell
+!.config/powershell
+!.config/powershell/**
+
+# readline
+!.config/readline
+!.config/readline/**
+
+# screen
+!.config/screen
+!.config/screen/**
+
+# starship
+!.config/starship
+!.config/starship/**
+
+# tmux
+!.config/tmux
+!.config/tmux/**
+
+# todo-txt
+!.config/todo-txt
+!.config/todo-txt/**
 
 # vim
-~*
-**/nvim/.netrwhist
-**/nvim/lazy-lock.json
+!.vimrc
+!.config/vim/
+!.config/vim/**
 
-# private
-*_local
-*.local
-
-# shell
-.*_history
-*_history
-
-# fish shell
-fish_history
-fish_variables
-fishprof.txt
-fisher/
+# wget
+!.config/wget
+!.config/wget/**
 
 # zsh
-.antidote/
-.oh-my-zsh/
-.zcompcache/
-.zdirs
-.zprezto/
-.zsh_custom/
-.custom/
-.zsh_history
-.zsh_sessions/
-.zsh_plugins.zsh
-*.local.zsh
-*.zcompdump*
-*.zwc
-*.zwc.old
+!.zshenv
+!.config/zsh
+!.config/zsh/**
 
-# brew
-*.lock.json
-
-# ignore test files
-foo*
+# final
+*_history*
+.DS_Store
