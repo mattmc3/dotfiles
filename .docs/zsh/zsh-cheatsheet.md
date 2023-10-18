@@ -7,7 +7,7 @@ This is a cheat sheet for how to perform various actions to Zsh, which can be tr
 ## Strings
 
 | Description                                      | Syntax                              |
-|--------------------------------------------------|-------------------------------------|
+| ------------------------------------------------ | ----------------------------------- |
 | Get the length of a string                       | `${#VARNAME}`                       |
 | Get a single character                           | `${VARNAME[index]}`                 |
 | Get the string from a specific index             | `${VARNAME[index,-1]}`              |
@@ -24,7 +24,7 @@ This is a cheat sheet for how to perform various actions to Zsh, which can be tr
 See [modifiers](https://zsh.sourceforge.io/Doc/Release/Expansion.html#Modifiers)
 
 | Description                                      | Syntax          |
-|--------------------------------------------------|-----------------|
+| ------------------------------------------------ | --------------- |
 | Convert to an absolute path                      | `${RELPATH:a}`  |
 | Convert to an absolute path and resolve symlinks | `${RELPATH:A}`  |
 | Convert command to full path (via `$PATH`)       | `${COMMAND:c}`  |
@@ -38,7 +38,7 @@ See [modifiers](https://zsh.sourceforge.io/Doc/Release/Expansion.html#Modifiers)
 ## Arrays
 
 | Description                                                       | Syntax                           |
-|-------------------------------------------------------------------|----------------------------------|
+| ----------------------------------------------------------------- | -------------------------------- |
 | Create an array                                                   | `VARNAME=()`                     |
 | Create an array with initial values                               | `VARNAME=(value1 value2 value3)` |
 | Push to an array                                                  | `VARNAME+=(value)`               |
@@ -59,7 +59,7 @@ See [modifiers](https://zsh.sourceforge.io/Doc/Release/Expansion.html#Modifiers)
 Associate arrays are the equivalent of hash maps or dictionaries in many other programming languages: unlike arrays, they can use string keys, and these don't necessary have an order.
 
 | Description                                     | Syntax                                               |
-|-------------------------------------------------|------------------------------------------------------|
+| ----------------------------------------------- | ---------------------------------------------------- |
 | Create an associative array                     | `typeset -A VARNAME=()`                              |
 | Create an associative array with initial values | `typeset -A VARNAME=( [key1]=value1 [key2]=value2 )` |
 | Add a new key to the array                      | `VARNAME[key]=value`                                 |
@@ -73,13 +73,13 @@ Associate arrays are the equivalent of hash maps or dictionaries in many other p
 ## Arithmetics
 
 | Description                                                                            | Syntax            |
-|----------------------------------------------------------------------------------------|-------------------|
+| -------------------------------------------------------------------------------------- | ----------------- |
 | Compute a mathematical expression (variables don't need to be prefixed with `$` in it) | `$((expression))` |
 
 ## Variables
 
 | Description                                                   | Syntax             |
-|---------------------------------------------------------------|--------------------|
+| ------------------------------------------------------------- | ------------------ |
 | Get the value of a variable whose name is in another variable | `${(P)NAMEVAR}`    |
 | Get the list of all defined variables, as an array            | `${(k)parameters}` |
 | Delete a variable                                             | `unset VARNAME`    |
@@ -87,7 +87,7 @@ Associate arrays are the equivalent of hash maps or dictionaries in many other p
 ## Functions
 
 | Description                                                       | Syntax                         |
-|-------------------------------------------------------------------|--------------------------------|
+| ----------------------------------------------------------------- | ------------------------------ |
 | Declare a local variable (not accessible outside the function)    | `local varname=...`            |
 | Get the original executable name                                  | `$0`                           |
 | Get a parameter                                                   | `$1` (second is `$2`, etc.)    |
@@ -103,7 +103,7 @@ Associate arrays are the equivalent of hash maps or dictionaries in many other p
 ## Aliases
 
 | Description                                      | Syntax                                    |
-|--------------------------------------------------|-------------------------------------------|
+| ------------------------------------------------ | ----------------------------------------- |
 | Display the list of all defined aliases          | `alias`                                   |
 | Get the list of all defined aliases, as an array | `${(k)aliases}`                           |
 | Define an alias                                  | `alias name="command arg1 arg2 arg3 ..."` |
@@ -149,7 +149,7 @@ fi
 ```
 
 | Description                                                     | Syntax                       |
-|-----------------------------------------------------------------|------------------------------|
+| --------------------------------------------------------------- | ---------------------------- |
 | Check if a string is empty or not defined                       | `if [[ -z $VARNAME ]];`      |
 | Check if a string is defined and not empty                      | `if [[ -n $VARNAME ]];`      |
 | Check if a file exists                                          | `if [[ -f "filepath" ]];`    |
@@ -188,7 +188,7 @@ for itervaname in iterable; do ...; done
 ```
 
 | Description                                                              | Syntax                     |
-|--------------------------------------------------------------------------|----------------------------|
+| ------------------------------------------------------------------------ | -------------------------- |
 | Iterate over a range (inclusive)                                         | `for i in {from..to};`     |
 | Iterate over a list of filesystem items                                  | `for i in globpattern;`    |
 | Iterate over a list of filesystem items, fail silently if no match found | `for i in globpattern(N);` |

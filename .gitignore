@@ -17,6 +17,10 @@
 !.bash_profile
 !.bashrc
 
+# docs
+!.docs/
+!.docs/**
+
 # doom emacs
 !.config/doom
 !.config/doom/**
@@ -31,6 +35,7 @@
 # fish
 !.config/fish
 !.config/fish/**
+.config/fish/fish_variables
 
 # git
 !.gitignore
