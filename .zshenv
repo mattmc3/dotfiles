@@ -1,2 +1,2 @@
-export ZDOTDIR=~/.config/zsh
-[[ -f $ZDOTDIR/.zshenv ]] && . $ZDOTDIR/.zshenv
+#!/bin/zsh
+. ~/.config/zsh/.zshenv

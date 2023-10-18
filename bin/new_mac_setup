@@ -1,0 +1,35 @@
+#!/bin/zsh
+
+: ${HOMEBREW_PREFIX:=/opt/homebrew}
+: ${DOTFILES:=~/.config/dotfiles}
+
+# xdg
+export XDG_CONFIG_HOME=~/.config
+export XDG_CACHE_HOME=~/.cache
+export XDG_DATA_HOME=~/.local/share
+for _zdir in XDG_{CONFIG,CACHE,DATA}_HOME; mkdir -p ${(P)_zdir}
+
+# brew
+if [[ -d $HOMEBREW_PREFIX ]]; then
+  eval "$($HOMEBREW_PREFIX/bin/brew shellenv)"
+else
+  /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+
+  eval "$($HOMEBREW_PREFIX/bin/brew shellenv)"
+
+  # brew bundle
+  # brew bundle dump --force --file=$DOTFILES/home/Brewfile
+  brew bundle --file=$DOTFILES/config/homebrew/init.brewfile
+fi
+
+# install dotfiles repo
+if [[ ! -d $DOTFILES ]]; then
+  git clone https://github.com/mattmc3/dotfiles $DOTFILES
+fi
+
+# stow
+cd $DOTFILES
+make stow
+
+# cleanup
+unset _zdir

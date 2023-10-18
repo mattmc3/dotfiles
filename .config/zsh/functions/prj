@@ -1,6 +1,5 @@
-#!/usr/bin/env zsh
-
-# PRJ: project jumper
+#!/bin/zsh
+##? prj - project jumper
 if ! command -v fzf >/dev/null; then
   echo "fzf command not found" >&2
   return 1
@@ -35,7 +34,11 @@ if [[ ! -d $project_dir ]]; then
   return 1
 fi
 
-local projects=($project_dir/**/.git/..)
+local projects=(
+  $project_dir/*/.git/..
+  $project_dir/*/*/.git/..
+)
+
 # absolute path with project dir prefix stripped
 projects=(${${projects:a}#*$project_dir/})
 

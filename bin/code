@@ -1,2 +1,1 @@
-#!/usr/bin/env bash
-open -b com.microsoft.VSCode $@
+/Applications/Visual Studio Code.app/Contents/Resources/app/bin/code

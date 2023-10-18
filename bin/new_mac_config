@@ -1,0 +1,183 @@
+#!/bin/zsh
+
+# https://github.com/mathiasbynens/dotfiles/blob/main/.macos
+
+setopt extended_glob interactive_comments
+
+#
+# Menu bar
+#
+
+# Show volume in menu bar
+defaults write com.apple.systemuiserver.plist NSStatusItem\ Visible\ com.apple.menuextra.volume -bool true
+defaults write com.apple.systemuiserver.plist menuExtras -array-add "/System/Library/CoreServices/Menu Extras/Volume.menu"
+defaults write com.apple.systemuiserver.plist menuExtras -array-add "/System/Library/CoreServices/Menu Extras/Bluetooth.menu"
+
+killall SystemUIServer
+
+#
+# Trackpad
+#
+
+# App Expose 3 finger swipe???
+
+#
+# Safari
+#
+
+defaults write com.apple.Safari HomePage -string "about:blank"
+
+#killall cfprefsd
+
+#
+# Restore apps
+#
+
+# Stop reopening apps on restart
+defaults write com.apple.loginwindow TALLogoutSavesState -bool false
+defaults write com.apple.loginwindow LoginwindowLaunchesRelaunchApps -bool false
+
+#
+# Dock
+#
+
+# https://developer.apple.com/documentation/devicemanagement/dock
+# System Preferences > Dock > Magnification:
+defaults write com.apple.dock magnification -bool true
+
+# Magnification large size
+defaults write com.apple.dock largesize -int 50
+
+# Minimize windows into their application’s icon
+defaults write com.apple.dock minimize-to-application -bool true
+
+# Change minimize/maximize window effect from genie to scale
+defaults write com.apple.dock mineffect -string scale
+
+# move to left
+defaults write com.apple.dock orientation left
+
+# Don't keep a spot for recent apps
+defaults write com.apple.dock show-recents -bool false
+
+# Remove icons from doc
+# clear items
+defaults write com.apple.dock persistent-apps -array
+defaults write com.apple.dock persistent-others -array
+
+# add back items
+dockapps=(
+  Safari
+  Music
+  "Microsoft Outlook"
+  Calendar
+  Messages
+  Notes
+  Terminal
+  "Visual Studio Code"
+)
+for dockitem in $dockapps; do
+  dockitem_path=(
+    /System/Cryptexes/App/System/Applications/${dockitem}.app(N)
+    {/System,}/Applications{/Utilities,}/${dockitem}.app(N)
+  )
+  dockitem=$dockitem_path[1]
+  [ -n "$dockitem" ] || continue
+  defaults write com.apple.dock persistent-apps -array-add '<dict><key>tile-data</key><dict><key>file-data</key><dict><key>_CFURLString</key><string>'$dockitem'</string><key>_CFURLStringType</key><integer>0</integer></dict></dict></dict>'
+done
+
+# Reset dock
+#killall Dock
+
+#
+# Finder
+#
+
+# Keep folders on top when sorting by name
+defaults write com.apple.finder _FXSortFoldersFirst -bool true
+
+#
+# Keyboard
+#
+
+# Use key repeat for press-and-hold
+# macOS handles pressing-and-holding of keys differently than I'd like.
+# Instead of the default, let's change it to repeat the key being pressed.
+
+# Disable press-and-hold for keys in favor of key repeat
+defaults write -g ApplePressAndHoldEnabled -bool false
+
+# Or, do this for individual apps
+#defaults write com.sublimetext.4 ApplePressAndHoldEnabled -bool false
+#defaults write com.microsoft.VSCode ApplePressAndHoldEnabled -bool false
+
+# If you need to reset back to default:
+# defaults delete -g ApplePressAndHoldEnabled
+
+# Speed of key Repeat/Delay
+defaults write -g InitialKeyRepeat -int 25 # normal minimum is 15 (225 ms)
+defaults write -g KeyRepeat -int 2 # normal minimum is 2 (30 ms)
+
+#
+# Mouse
+#
+
+# Accessibility > Display > Cursor : Increase pointer size
+sudo defaults write com.apple.universalaccess mouseDriverCursorSize 1.8
+
+#
+# Security & Privacy
+#
+
+# Turn Firewall on
+# sudo defaults write /Library/Preferences/com.apple.alf globalstate -int 1
+
+#
+# Screenshots
+#
+
+mkdir -p "$HOME/Screenshots"
+defaults write com.apple.screencapture location -string "$HOME/Screenshots"
+
+#
+# Screen Saver
+#
+
+# 0: no-op
+# 2: Mission Control
+# 3: Show application windows
+# 4: Desktop
+# 5: Start screen saver
+# 6: Disable screen saver
+# 7: Dashboard
+# 10: Put display to sleep
+# 11: Launchpad
+# 12: Notification Center
+
+# bottom right corner starts screen saver
+defaults write com.apple.dock wvous-br-corner -int 5
+defaults write com.apple.dock wvous-br-modifier -int 0
+
+#
+# Restart
+#
+
+macapps=(
+  "Activity Monitor"
+  "Address Book"
+  Calendar
+  cfprefsd
+  Contacts
+  Dock
+  Finder
+  Mail
+  Messages
+  Photos
+  Safari
+  SystemUIServer
+  Terminal
+  iCal
+)
+for app in $macapps; do
+  killall $app &>/dev/null
+done

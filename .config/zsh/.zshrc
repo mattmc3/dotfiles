@@ -1,24 +1,61 @@
-# load zprof first if we need to profile
-[[ ${ZPROFRC:-0} -eq 0 ]] || zmodload zsh/zprof
+#!/bin/zsh
+#
+# .zshrc - Run on interactive Zsh session.
+#
+
+# Load zprof first if we need to profile.
+[[ -n "$ZPROFRC" ]] && zmodload zsh/zprof
 alias zprofrc="ZPROFRC=1 zsh"
 
-# drive config with antidote
-ANTIDOTE_HOME=$ZDOTDIR/.antidote/.plugins
-zstyle ':antidote:bundle' use-friendly-names 'yes'
+#
+# zstyles
+#
 
-# load antidote
-if [[ ! $ZDOTDIR/.zplugins.zsh -nt $ZDOTDIR/.zplugins ]]; then
-  [[ -e $ZDOTDIR/.antidote ]] \
-    || git clone --depth=1 https://github.com/mattmc3/antidote.git $ZDOTDIR/.antidote
-  (
-    source $ZDOTDIR/.antidote/antidote.zsh
-    antidote bundle <$ZDOTDIR/.zplugins >$ZDOTDIR/.zplugins.zsh
-  )
-fi
-source $ZDOTDIR/.zplugins.zsh
+# Load .zstyles file if one exists.
+[[ -e $ZDOTDIR/.zstyles ]] && . $ZDOTDIR/.zstyles
 
-# local settings
-[[ -f $ZDOTDIR/.zshrc.local ]] && source $ZDOTDIR/.zshrc.local
+#
+# zsh_custom
+#
 
-# done profiling
-[[ ${ZPROFRC:-0} -eq 0 ]] || { unset ZPROFRC && zprof }
+export ZSH_CUSTOM=$ZDOTDIR/custom
+[[ -d $ZSH_CUSTOM ]] ||
+  git clone --depth 1 --quiet https://github.com/mattmc3/zsh_custom $ZSH_CUSTOM
+
+#
+# plugins
+#
+
+# use antidote for plugin management
+export ANTIDOTE_HOME=${XDG_CACHE_HOME:=~/.cache}/repos
+[[ -d $ANTIDOTE_HOME/mattmc3/antidote ]] ||
+  git clone --depth 1 --quiet https://github.com/mattmc3/antidote $ANTIDOTE_HOME/mattmc3/antidote
+
+# keep all 3 for different test scenarios
+# . $ANTIDOTE_HOME/mattmc3/antidote/antidote.zsh
+# . ~/Projects/mattmc3/antidote/antidote.zsh
+# . ${HOMEBREW_PREFIX:=/opt/homebrew}/opt/antidote/share/antidote/antidote.zsh
+source $ANTIDOTE_HOME/mattmc3/antidote/antidote.zsh
+antidote load
+
+#
+# prompt
+#
+
+prompt zephyr
+
+#
+# local
+#
+
+# Local settings/overrides.
+[[ -f $ZDOTDIR/.zshrc.local ]] && . $ZDOTDIR/.zshrc.local
+
+#
+# wrap up
+#
+
+# Done profiling.
+[[ -n "$ZPROFRC" ]] && zprof
+unset ZPROFRC
+true

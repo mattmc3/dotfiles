@@ -1,15 +1,10 @@
-#!/usr/bin/env bash
+#!/bin/sh
 
-main() {
-  local OSNAME=
-  case "$OSTYPE" in
-    solaris*)  OSNAME="SOLARIS" ;;
-    darwin*)   OSNAME="MACOS" ;;
-    linux*)    OSNAME="LINUX" ;;
-    bsd*)      OSNAME="BSD" ;;
-    msys*)     OSNAME="WINDOWS" ;;
-    *)         OSNAME="$OSTYPE" ;;
-  esac
-  echo $OSNAME
-}
-main
+case "$OSTYPE" in
+  solaris*)  echo SOLARIS  ;;
+  darwin*)   echo MACOS    ;;
+  linux*)    echo LINUX    ;;
+  bsd*)      echo BSD      ;;
+  msys*)     echo WINDOWS  ;;
+  *)         echo $OSTYPE  ;;
+esac

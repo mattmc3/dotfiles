@@ -1,5 +1,0 @@
-#!/usr/bin/env zsh
-DOTFILES=${DOTFILES:-$HOME/.config/dotfiles}
-
-cd $DOTFILES
-stow -D --verbose --dotfiles --target=$HOME/.config .config

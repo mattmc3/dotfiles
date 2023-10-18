@@ -4,16 +4,19 @@
 "
 " Notes:
 "
-" References:
+" References: {{{
 " http://stevelosh.com/blog/2010/09/coming-home-to-vim/#making-vim-more-useful
 " https://github.com/fabi1cazenave/cua-mode.vim/blob/master/plugin/cua-mode.vim
 " https://github.com/tpope/vim-sensible/blob/master/plugin/sensible.vim
+" }}}
 
 " General Settings: {{{
+" defaults was introduced in vim 7 and eliminates the need for a lot of new
+unlet! skip_defaults_vim
+source $VIMRUNTIME/defaults.vim
 
+set colorcolumn=88              " add ruler
 set clipboard+=unnamed          " use the OS clipboard
-set nocompatible                " no need to cater to vi
-set modelines=0                 " prevent security exploits - no need to execute code on file open
 set encoding=utf-8              " utf-8 is the encoding we want to use for text files.
 set nobackup                    " We have vcs, we don't need backups this way
 set nowritebackup               " We have vcs, we don't need backups this way
@@ -25,7 +28,6 @@ set lazyredraw                  " don't redraw the screen on macros, or other no
 set shortmess+=I                " no vim welcome screen
 set virtualedit+=block          " allow the cursor to go anywhere in visual block mode
 set backspace=indent,eol,start  " define what backspace does
-set wildmenu
 set wildmode=list:full
 set foldmethod=marker
 
@@ -58,9 +60,7 @@ endif
 set list                            " needed for listchars
 set listchars=tab:»\ ,trail:·       " Display tabs and trailing spaces visually
 set number                          " Enable line numbers
-set mouse=a                         " Enable mouse integration
 set title                           " Sets the terminal to show the buffer title
-set showcmd                         " show commands as I type thiem
 set scrolloff=4                     " when scrolling around, keep a buffer of a few lines above/below
 
 " }}}
@@ -100,7 +100,6 @@ nnoremap U <C-r>
 " set langmap=nh,NH,ej,EJ,il,IL,uk,UK,je,JE,li,LI,hu,HU,nh,kn,KN
 " Make tn get us out of insert mode because that's handy.
 " inoremap tn <ESC>
-imap ii <ESC>
 
 " Emacs shortcuts
 inoremap <C-a> <ESC>I
@@ -120,7 +119,7 @@ map <M-Down>  }
 " inoremap <M-Right> <ESC>E
 " noremap <M-Right> E
 " inoremap <M-Left> <ESC>B
-" noremap <M-Left> B
+" noremap <M-Le t> B
 nnoremap <D-s> :w<CR>
 nnoremap <D-z> :u<CR>
 inoremap <D-z> <C-o>:u<C-r>
@@ -128,7 +127,6 @@ inoremap <D-z> <C-o>:u<C-r>
 " Make search more sane
 set ignorecase " case insensitive search
 set smartcase  " If there are uppercase letters, become case-sensitive.
-set incsearch  " live incremental searching
 set showmatch  " live match highlighting
 set hlsearch   " highlight matches
 set gdefault   " use the `g` flag by default.

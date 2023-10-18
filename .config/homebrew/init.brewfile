@@ -1,0 +1,62 @@
+tap "homebrew/bundle"
+tap "homebrew/cask-fonts"
+brew "coreutils"
+brew "curl"
+brew "editorconfig"
+brew "fish"
+brew "fzf"
+brew "git"
+brew "gnupg"
+brew "go"
+brew "helix"
+brew "mas"
+brew "neovim"
+brew "oath-toolkit"
+brew "sqlite"
+brew "ripgrep"
+brew "rsync"
+brew "starship"
+brew "stow"
+brew "tmux"
+brew "tree"
+brew "vim"
+brew "wget"
+brew "yq"
+brew "zoxide"
+brew "zsh"
+cask "alfred"
+cask "bartender"
+cask "betterdisplay"
+cask "brave-browser"
+cask "font-fira-code"
+cask "font-fira-code-nerd-font"
+cask "font-hack-nerd-font"
+cask "font-inconsolata-nerd-font"
+cask "font-iosevka-nerd-font"
+cask "font-meslo-lg-nerd-font"
+cask "font-sauce-code-pro-nerd-font"
+cask "hammerspoon"
+cask "iterm2"
+cask "keepingyouawake"
+cask "slack"
+cask "sublime-text"
+cask "visual-studio-code"
+mas "Bitwarden", id: 1352778147
+mas "DaisyDisk", id: 411643860
+mas "GarageBand", id: 682658836
+mas "GoodNotes", id: 1444383602
+mas "iMovie", id: 408981434
+mas "Keynote", id: 409183694
+mas "Microsoft Excel", id: 462058435
+mas "Microsoft OneNote", id: 784801555
+mas "Microsoft Outlook", id: 985367838
+mas "Microsoft PowerPoint", id: 462062816
+mas "Microsoft Word", id: 462054704
+mas "MindNode", id: 1289197285
+mas "Numbers", id: 409203825
+mas "OneDrive", id: 823766827
+mas "Pages", id: 409201541
+mas "Pixelmator Pro", id: 1289583905
+mas "Tampermonkey", id: 1482490089
+mas "TaskPaper", id: 1090940630
+mas "Wipr", id: 1320666476

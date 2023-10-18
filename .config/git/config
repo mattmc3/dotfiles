@@ -1,14 +1,25 @@
 # Watch out for configs that land in ~/.gitconfig still
 
 [user]
-	# The values in the [user] section are set in $DOTFILES.local
+	# The values in the [user] section are set in $DOTFILES/local
 	# https://stackoverflow.com/questions/42553685/setting-git-username-and-email-without-using-gitconfig
-[include]
-	path = ~/.config/dotfiles.local/git/config.local
 [core]
 	excludesfile = ~/.config/git/gitignore
 	editor = subl -n -w
 	fileMode = false
+[interactive]
+	diffFilter = delta --color-only
+[add.interactive]
+	useBuiltin = false # required for git 2.37.0
+[delta]
+	navigate = true  # use n and N to move between diff sections
+	light = false    # set to true if you're in a terminal w/ a light background color (e.g. the default macOS terminal)
+	side-by-side = true
+[merge]
+	tool = opendiff
+	conflictstyle = diff3
+[diff]
+	colorMoved = zebra
 [push]
 	default = simple
 [credential]
@@ -17,8 +28,7 @@
 	clean = git-lfs clean %f
 	smudge = git-lfs smudge %f
 	required = true
-[merge]
-	tool = opendiff
+
 [alias]
 	alias = ! git config --get-regexp ^alias\\. | sort | sed -e s/^alias\\.// -e s/\\ /\\ =\\ /
 
@@ -55,9 +65,9 @@
 	# }}
 
 	# log {{
-	log-pretty = log --all --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)%an <%ae>%Creset' --abbrev-commit --date=relative
-	lg = log-pretty
-	log-short = log --oneline --decorate --graph --all
+	log-pretty = log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold green)(%ar)%C(reset) %C(white)%s%C(reset) %C(dim white)- %an%C(reset)%C(auto)%d%C(reset)' --all
+	lg = log-short
+	log-short = log --all --decorate --oneline --graph
 	# }}
 
 	# pull all branches
@@ -92,6 +102,7 @@
 	# wipe = !git add -A && git commit -qm 'WIPE SAVEPOINT' && git reset HEAD~1 --hard
 	bclean = "!f() { git branch --merged ${1-master} | grep -v " ${1-master}$" | xargs git branch -d; }; f"
 	bdone = "!f() { git checkout ${1-master} && git up && git bclean ${1-master}; }; f"
+	supdate = submodule update --remote --merge
 
 	# }}
 
@@ -165,5 +176,9 @@
 	stash = 8 normal
 	grafted = 1 normal italic
 	HEAD = 14 normal dim
-[diff]
-	colorMoved = zebra
+[init]
+	defaultBranch = main
+
+# include local customizations last
+[include]
+	path = ~/.config/git/config.local

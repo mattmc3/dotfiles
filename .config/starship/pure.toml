@@ -1,0 +1,52 @@
+#
+# Refined - a Pure-like theme for Starship
+#
+
+format = """
+$username\
+$hostname\
+$directory\
+$git_branch\
+$git_state\
+${custom.git_status_dirty}\
+$git_status\
+$cmd_duration\
+$line_break\
+$python\
+$character"""
+
+[directory]
+style = "blue"
+
+[character]
+success_symbol = "[❯](purple)"
+error_symbol = "[❯](red)"
+vicmd_symbol = "[❮](cyan)"
+
+[git_branch]
+format = "[$branch]($style)"
+style = "bright-black"
+
+[git_status]
+format = "[($ahead_behind$stashed)]($style)"
+style = "cyan"
+stashed = "≡"
+
+[custom.git_status_dirty]
+when = 'test -n "$(git status --porcelain 2>/dev/null)"'
+symbol = "*"
+style = "purple"
+format="[$symbol]($style) "
+shell = ["zsh", "--no-rcs", "--no-globalrcs"]
+
+[git_state]
+format = '\([$state( $progress_current/$progress_total)]($style)\) '
+style = "bright-black"
+
+[cmd_duration]
+format = "[$duration]($style) "
+style = "yellow"
+
+[python]
+format = "[$virtualenv]($style) "
+style = "bright-black"

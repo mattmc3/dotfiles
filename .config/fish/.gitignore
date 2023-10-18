@@ -1,6 +1,0 @@
-fisher/
-fish_variables
-*.local
-*.local.fish
-*.local/
-fishprof*.txt

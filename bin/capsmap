@@ -1,0 +1,13 @@
+#!/bin/zsh
+
+# http://homeowmorphism.com/2017/05/27/Remap-CapsLock-Backspace-Sierra
+# https://developer.apple.com/library/archive/technotes/tn2450/_index.html
+
+# map caps (0x39) to delete (0x2A)
+# hidutil property --set '{"UserKeyMapping":[{"HIDKeyboardModifierMappingSrc":0x700000039,"HIDKeyboardModifierMappingDst":0x70000002A}]}'
+
+# map caps (0x39) to F18 (0x6D)
+hidutil property --set '{"UserKeyMapping":[{"HIDKeyboardModifierMappingSrc":0x700000039,"HIDKeyboardModifierMappingDst":0x70000006D}]}'
+
+# hyper - right alt (0xE6) to F19 (0x6E)
+# hidutil property --set '{"UserKeyMapping":[{"HIDKeyboardModifierMappingSrc":0x7000000E6,"HIDKeyboardModifierMappingDst":0x70000006E}]}'

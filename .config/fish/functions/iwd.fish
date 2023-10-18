@@ -1,3 +1,3 @@
-function iwd --description "Print the initial working directory"
-    echo "$IWD"
+function iwd
+    cd $IWD
 end

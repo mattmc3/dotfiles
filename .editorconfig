@@ -1,4 +1,3 @@
-# top-most EditorConfig file
 root = true
 
 [*]
@@ -9,36 +8,30 @@ indent_size = 4
 insert_final_newline = true
 trim_trailing_whitespace = true
 
-[{makefile,Makefile,MAKEFILE}]
-indent_style = tab
+[*.json]
+indent_style = space
+indent_size = 2
 
-[bin/*]
+[.{zshrc,zprofile,zshenv,zlogin,zlogout}]
+indent_style = space
+indent_size = 2
+
+[.{bashrc,bash_profile}]
+indent_style = space
+indent_size = 2
+
+[*.{bash,zsh,sh}]
 indent_style = space
 indent_size = 2
 
 [*.{md,markdown}]
-# don't trim end spacing because Markdown uses that
-indent_style = space
 trim_trailing_whitespace = false
-
-[*.{sh,bash,zsh}]
-indent_style = space
-indent_size = 2
-
-[.bash*]
-indent_style = space
-indent_size = 2
 
 [*.fish]
 indent_style = space
-indent_size = 4
 
-[*.json]
-indent_style = space
-indent_size = 4
-
-[*.{vim,spacemacs}]
+[*.{py,xsh}]
 indent_style = space
 
-[*.{todo,taskpaper}]
-indent_style = tab
+[*.vim]
+indent_style = space
