@@ -91,5 +91,7 @@
 !.config/zsh/**
 
 # final
+*.local
+local.*
 *_history*
 .DS_Store
