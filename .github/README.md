@@ -27,6 +27,13 @@ else
 fi
 ```
 
+## Edit
+
+```zsh
+IDE=${VISUAL:-${EDITOR:-vim}}
+dotty $IDE ~
+```
+
 ## Notes
 
 Certain legacy apps don't properly use .config, so anything that doesn't has a simple wrapper in `$HOME` that then sources the real files from `~/.config`.
