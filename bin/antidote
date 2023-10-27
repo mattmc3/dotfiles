@@ -1,0 +1,307 @@
+#!/usr/bin/env zsh
+
+typeset -ga antidote_opts=( extended_glob no_monitor pipefail )
+typeset -g antidote_version='2.0.0'
+if [[ $ANTIDOTE_TEST_MODE -eq 1 ]]; then
+	antidote_opts+=( warn_create_global warn_nested_var )
+	antidote_version=dev
+fi
+
+function __antidote_cmd_bundle {
+	emulate -L zsh
+	setopt local_options $antidote_opts
+
+	# handle bundles as newline delimited arg strings,
+	# or as <redirected or piped| input
+	local data bundles=()
+	if [[ $# -gt 0 ]]; then
+		bundles=("${(s.\n.)${@}}")
+	elif [[ ! -t 0 ]]; then
+		while IFS= read -r data || [[ -n "$data" ]]; do
+		bundles+=($data)
+		done
+	fi
+	(( $#bundles )) || return 1
+
+	local sed_cleanse_cmds=(
+		# Carriage returns to newlines.
+		-e 's/\r/\n/g'
+		# Tabs to spaces.
+		-e 's/\t/ /g'
+		# Collapse multiple spaces to one.
+		-e 's/ +/ /g'
+		# Trim leading spaces.
+		-e 's/^ +//g'
+		# Trim trailing spaces.
+		-e 's/ +$//g'
+		# Remove trailing comments.
+		-e 's/ +#.*$//g'
+		# Delete empty/comment lines.
+		-e '/^(#.+)?$/d'
+	)
+	local cleansed_bundles=$(print -rl -- $bundles | sed -E $sed_cleanse_cmds)
+
+	####
+	###local -a cleansed_bundles=("${(@f)$(sed -E $sed_cleanse_cmds $zsh_plugins)}")
+
+	local awk_giturls='
+		                           { bundle=""; branch="" }
+		/kind:defer/               { print "https://github.com/romkatv/zsh-defer" }
+		$1~/^[^\/\$~]+\/[^\/]+$/   { bundle=giturl"/"$1 }
+		$1~/^(https?:|(ssh|git)@)/ { bundle=$1 }
+		match($0, /branch:[^ ]+/)  { branch=substr($0, RSTART+7, RLENGTH-7) }
+		branch!=""                 { printf "%s --branch %s\n",bundle,branch; next }
+		bundle!=""                 { print bundle }
+	'
+	local -a clone_bundles=("${(@f)$(
+		print -r -- $cleansed_bundles | awk -v giturl="${antidote_GITURL:-https://github.com}" $awk_giturls | sort | uniq
+	)}")
+
+	local clonestr giturl gitopts bundledir
+	local -a parts
+	for clonestr in $clone_bundles; do
+		parts=( ${(@s/ /)clonestr} )
+		giturl=$parts[1]
+		gitopts=(--quiet --depth 1 --recurse-submodules --shallow-submodules $parts[2,-1])
+		bundledir=$(__antidote_bundledir $giturl)
+		if [[ ! -d $bundledir ]]; then
+			git clone $gitopts $giturl $bundledir &
+		fi
+	done
+	wait
+
+	#printf 'clone %s\n' $clone_bundles
+	# awk_script='
+	# {
+	# printf "%s","__antidote_script "
+	# for (i=2; i<=NF; i++) {
+	# 	sub(/\:/, " ", $i)
+	# 	printf "--%s ",$i
+	# }
+	# printf "%s\n",$1
+	# }
+	# '
+
+	# sed -E $sed_cmds $zsh_plugins | awk $awk_script
+
+	# # parse the DSL for bundles
+	# local bundles_tsv=$(__antidote_parsebundles $@)
+	# bundles_tsv=(${(@f)${bundles}})
+	# (( $#bundles )) || return 1
+
+	# local row
+	# local -a bundles
+	# local -A bundle=()
+	# for row in $bundles_tsv; do
+	# 	bundle=( ${(ps/\t/)row} )
+	# 	typeset -p bundle
+	# 	#print -r -- $bundlestr
+	# done
+}
+
+function __antidote_cmd_update {
+	emulate -L zsh
+	setopt local_options $antidote_opts
+	# TODO
+}
+
+function __antidote_cmd_purge {
+	emulate -L zsh
+	setopt local_options $antidote_opts
+	# TODO
+}
+
+function __antidote_cmd_list {
+	emulate -L zsh
+	setopt local_options $antidote_opts
+	local bundledir url
+	local output=()
+	local bundles=($(__antidote_cmd_home)/*/.git(/N))
+
+	for bundledir in $bundles; do
+		bundledir=${bundledir:h}
+		url=$(git -C "$bundledir" config remote.origin.url)
+		output+=("$(printf '%-64s %s\n' $url $bundledir)")
+	done
+	(( $#output )) && printf '%s\n' ${(o)output}
+}
+
+function __antidote_cmd_path {
+	emulate -L zsh
+	setopt local_options $antidote_opts
+	local bundle=$(__antidote_bundledir "$1")
+	if [[ ! -d $bundle ]]; then
+		print -ru2 -- "antidote: error: '$1' does not exist in cloned paths"
+		return 1
+	fi
+	print -r -- $bundle
+}
+
+function __antidote_cmd_init {
+	emulate -L zsh
+	setopt local_options $antidote_opts
+	0=${(%):-%x}
+
+	local script=$(cat <<-EOS
+		#!/usr/bin/env zsh
+		antidote() {
+		  case "\$1" in
+		  bundle)
+		    source <( ${0:A} \$@ ) || ${0:A} \$@
+		    ;;
+		  *)
+		    ${0:A} \$@
+		    ;;
+		  esac
+		}
+
+		_antidote() {
+		  IFS=' ' read -A reply <<< "help bundle update home purge list init"
+		}
+		compctl -K _antidote antidote
+	EOS
+	)
+	print -rl $script
+}
+
+function __antidote_cmd_home {
+	emulate -L zsh
+	setopt local_options $antidote_opts
+
+	local result
+	if [[ -n "$ANTIDOTE_HOME" ]]; then
+		result=$ANTIDOTE_HOME
+	elif [[ "${OSTYPE}" == darwin* ]]; then
+		result=$HOME/Library/Caches/antidote
+	elif [[ "${OSTYPE}" == (cygwin|msys)* ]]; then
+		result=${LOCALAPPDATA:-$LocalAppData}/antidote
+		if type cygpath > /dev/null; then
+			result=$(cygpath "$result")
+		fi
+	else
+		result=${XDG_CACHE_HOME:-$HOME/.cache}/antidote
+	fi
+
+	print -r -- $result
+}
+
+function __antidote_cmd_help {
+	emulate -L zsh
+	setopt local_options $antidote_opts
+	0=${(%):-%x}
+
+	local script=$(cat <<-EOS
+		usage: antidote [<flags>] <command> [<args> ...]
+
+		The fastest shell plugin manager
+
+		Flags:
+		  -h, --help           Show context-sensitive help.
+		  -v, --version        Show application version.
+
+		Commands:
+		  help [<command>...]
+		    Show help.
+
+		  bundle [<bundles>...]
+		    downloads a bundle and prints its source line
+
+		  update
+		    updates all previously bundled bundles
+
+		  home
+		    prints where antidote is cloning the bundles
+
+		  purge <bundle>
+		    purges a bundle from your computer
+
+		  list
+		    lists all currently installed bundles
+
+		  path <bundle>
+		    prints the path of a currently cloned bundle
+
+		  init
+		    initializes the shell so antidote can work as expected
+	EOS
+	)
+	print -rl $script
+}
+
+function __antidote_version {
+	emulate -L zsh
+	setopt local_options $antidote_opts
+	print -r "antidote version ${antidote_version}"
+}
+
+function __antidote_bundledir {
+	emulate -L zsh
+	setopt local_options $antidote_opts
+	local bundle="$1"
+	if [[ "$bundle" != /* ]]; then
+		# sanitize URL for safe use as a dir name
+		local url=$bundle
+  		if [[ $bundle != *://* && $bundle != git@*:*/* ]]; then
+    		url=https://github.com/$bundle
+  		fi
+		url=${url%.git}
+		url=${url:gs/\@/-AT-}
+		url=${url:gs/\:/-COLON-}
+		url=${url:gs/\//-SLASH-}
+		bundle=$(__antidote_cmd_home)/$url
+	fi
+	print -r -- $bundle
+}
+
+function __antidote_err_flag {
+	emulate -L zsh
+	setopt local_options $antidote_opts
+	print -r "antidote: error: unknown flag '$1', try --help"
+}
+
+function __antidote_err_arg {
+	emulate -L zsh
+	setopt local_options $antidote_opts
+	print -r "antidote: error: required argument '$1' not provided, try --help"
+}
+
+function __antidote_main {
+	while (( ${#} )); do
+		case $1 in
+			--)
+				shift
+				break
+				;;
+			-h|--help)
+				__antidote_cmd_help
+				return
+				;;
+			-v|--version)
+				__antidote_version
+				return
+				;;
+			-*)
+				__antidote_err_flag $1
+				return 2
+				;;
+			*)
+				break
+				;;
+		esac
+	done
+
+	local cmd=help
+	if [[ -n "$1" ]]; then
+		cmd=${1}
+		shift
+	fi
+
+	if (( $+functions[__antidote_cmd_${cmd}] )); then
+		__antidote_cmd_${cmd} "$@"
+		return $?
+	else
+		print -ru2 "antidote: error: expected command but got \"$1\", try --help"
+		return 1
+	fi
+}
+__antidote_main "$@"
