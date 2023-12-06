@@ -1,0 +1,60 @@
+# use custom ignores with this command:
+# GIT_WORK_TREE=~ GIT_DIR=~/.dotfiles git config --local core.excludesfile .gitignore.dotfiles
+
+# Ignore everything by default.
+*
+
+# Add back items as needed.
+
+# config
+!.config/
+!.config/*
+
+# bin
+!bin/
+!bin/**
+
+# bash
+!.bash_profile
+!.bashrc
+
+# docs
+!docs/
+!docs/**
+
+# editorconfig
+!~/.editorconfig
+
+# fish
+!.config/
+!.config/fish/
+!.config/fish/*
+!.config/fish/**
+.config/fish/fish_variables
+
+# git
+.gitignore
+!~/.gitignore.dotfiles
+
+# iterm2
+!~/.config/iterm2/*.json
+
+# vim
+!~/.vimrc
+
+# zsh
+!~/.zshenv
+
+# tmp
+# .config/azuredatastudio/**
+# .config/alfred/**
+# .config/subl/**
+# .config/gh/**
+# .config/jupyter/**
+# .config/zsh/**
+# .config/iterm2/**
+# .config/vscode/**
+
+# final
+*_history*
+.DS_Store
