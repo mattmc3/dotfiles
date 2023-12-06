@@ -34,7 +34,7 @@
 
 # git
 .gitignore
-!~/.gitignore.dotfiles
+!.gitignore.dotfiles
 
 # iterm2
 !~/.config/iterm2/*.json
@@ -45,15 +45,11 @@
 # zsh
 !~/.zshenv
 
-# tmp
-# .config/azuredatastudio/**
-# .config/alfred/**
-# .config/subl/**
-# .config/gh/**
-# .config/jupyter/**
-# .config/zsh/**
-# .config/iterm2/**
-# .config/vscode/**
+# re-ignore local files
+*.local
+local.*
+*.local/
+*.local.*
 
 # final
 *_history*
