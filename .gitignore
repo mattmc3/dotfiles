@@ -1,7 +1,8 @@
 # use custom ignores with this command:
-# GIT_WORK_TREE=~ GIT_DIR=~/.dotfiles git config --local core.excludesfile .gitignore.dotfiles
+# GIT_WORK_TREE=$HOME GIT_DIR=$HOME/.dotfiles.git git config --local core.excludesfile .gitignore.dotfiles
 
 # Ignore everything by default.
+
 *
 
 # Add back items as needed.
@@ -17,6 +18,8 @@
 # bash
 !.bash_profile
 !.bashrc
+!.config/bash/
+!.config/bash/**
 
 # docs
 !docs/
@@ -26,7 +29,6 @@
 !~/.editorconfig
 
 # fish
-!.config/
 !.config/fish/
 !.config/fish/*
 !.config/fish/**
@@ -34,15 +36,49 @@
 
 # git
 !.gitignore
+!.config/git/
+!.config/git/**
+
+# helix
+!.config/helix/
+!.config/helix/**
+
+# homebrew
+!.config/homebrew/
+!.config/homebrew/**
 
 # iterm2
-!~/.config/iterm2/*.json
+!.config/iterm2/
+!.config/iterm2/*.json
+
+# npm
+!.config/npm/
+!.config/npm/**
+
+# nvm
+!.config/nvm/
+!.config/nvm/**
+
+# readline
+!.config/readline/
+!.config/readline/**
+
+# starship
+!.config/starship/
+!.config/starship/**
+
+# tmux
+!.config/tmux/
+!.config/tmux/**
 
 # vim
 !~/.vimrc
 
 # zsh
-!~/.zshenv
+!.zshenv
+!.config/zsh/
+!.config/zsh/**
+.config/zsh/.*/
 
 # re-ignore local files
 *.local
