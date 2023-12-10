@@ -2,7 +2,7 @@
 # repos.txt - The list of Zsh repos we need for this config
 #
 
-# Install all with: `repo in <repos.txt`
+# Install all with: `repo install <$ZDOTDIR/repos.txt`
 
 # zsh frameworks
 ohmyzsh/ohmyzsh
