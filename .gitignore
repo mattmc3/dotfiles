@@ -79,6 +79,7 @@
 !.config/zsh/
 !.config/zsh/**
 .config/zsh/.*/
+.config/zsh/.zcompdump*
 
 # re-ignore local files
 *.local
