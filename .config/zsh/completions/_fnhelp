@@ -1,6 +1,0 @@
-#compdef fnhelp
-
-# show files in the functions dir (exclude dirs)
-_path_files -W "${ZDOTDIR:-$HOME/.config/zsh}/functions" -g "**/*(.)"
-
-# vim: ft=zsh sw=2 ts=2 et
