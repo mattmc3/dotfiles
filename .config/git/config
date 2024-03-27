@@ -181,4 +181,4 @@
 
 # include local customizations last
 [include]
-	path = ~/.config/git/config.local
+	path = ~/.local/config/git/config
