@@ -79,6 +79,10 @@
 
 # zsh
 !.zshenv
+!.zprofile
+!.zshrc
+!.zlogin
+!.zlogout
 !.config/zsh/
 !.config/zsh/**
 .config/zsh/.*/
