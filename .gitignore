@@ -67,6 +67,9 @@
 !.config/starship/
 !.config/starship/**
 
+# stow
+!.stow-*
+
 # tmux
 !.config/tmux/
 !.config/tmux/**
