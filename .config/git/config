@@ -32,22 +32,21 @@
 [alias]
 	alias = ! git config --get-regexp ^alias\\. | sort | sed -e s/^alias\\.// -e s/\\ /\\ =\\ /
 
+	gitex = !gitex help
+
 	# config/users
-	whoami = !git config user.name && git config user.email
+	whoami = !gitex whoami
 
-	# branch {{
-	# https://stackoverflow.com/questions/28666357/git-how-to-get-default-branch
-	branch-default = !basename $(git symbolic-ref --short refs/remotes/origin/HEAD)
-
-	branch-name = !git branch --show-current
-	# https://stackoverflow.com/questions/7726949/remove-tracking-branches-no-longer-on-remote
-	branch-cleanup = "!git checkout master && git fetch -p && git branch -vv | awk '/: gone]/{print $1}' | xargs git branch -d"
-	# https://stackoverflow.com/questions/67699/how-to-clone-all-remote-branches-in-git
-	clone-branches = "! git branch -a | sed -n \"/\\/HEAD /d; /\\/master$/d; /remotes/p;\" | xargs -L1 git checkout -t"
+	# branch aliases {{
+	branch-cleanup = !gitex branch-cleanup
+	branch-main = !gitex branch-main
+	branch-name = !gitex branch-name
+	branch-cleanup = !gitex branch-cleanup
+	clone-branches = !gitex clone-branches
 	# }}
 
 	# clean {{
-	cleanup = !git clean -fd
+	cleanup = clean -fd
 	pristine = !git reset --hard && git clean -dfx
 	# }}
 
@@ -65,9 +64,8 @@
 	# }}
 
 	# log {{
-	log-pretty = log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold green)(%ar)%C(reset) %C(white)%s%C(reset) %C(dim white)- %an%C(reset)%C(auto)%d%C(reset)' --all
-	lg = log-short
-	log-short = log --all --decorate --oneline --graph
+	log-pretty = !gitex log-pretty
+	lg = !gitex lg
 	# }}
 
 	# pull all branches
@@ -76,7 +74,7 @@
 
 	# push {{
 	# push a new branch to the remote
-	pushup = !git push --set-upstream ${1-origin} $(git rev-parse --abbrev-ref HEAD)
+	pushup = !git push --set-upstream ${1:-origin} $(git rev-parse --abbrev-ref HEAD)
 	# }}
 
 	# status {{
@@ -92,7 +90,7 @@
 	dmerged = "!git branch --merged | grep -v '\\*' | xargs -n 1 git branch -d"
 
 	# open repo in browser, usage: git browse [upstream]
-	browse = "! f() { URL=$(git config remote.${1-origin}.url | sed -e 's#^.*@#https://#' -e 's#.git$##' -e 's#:#/#2'); git web--browse $URL; }; f"
+	browse = !gitex browse
 
 	# https://haacked.com/archive/2014/07/28/github-flow-aliases/
 	up = !git pull --rebase --prune $@ && git submodule update --init --recursive
@@ -105,12 +103,15 @@
 	supdate = submodule update --remote --merge
 
 	# Check if git is clean
-	is-clean = "!f() { test -z \"$(git status --porcelain 2>/dev/null)\"; }; f"
-	is-dirty = "!f() { test -n \"$(git status --porcelain 2>/dev/null)\"; }; f"
-	hash = "!f() { local r dirty=; r=\"$(git rev-parse --short HEAD)\"; git is-dirty && dirty='-dirty'; echo \"${r}${dirty}\"; };f"
+	is-clean = !gitex is-clean
+	is-dirty = !gitex is-dirty
+	sha = !gitex is-sha
 
 	# Default repodir
-	repodir = "!f() { local r=\"$(git config custom.repodir)\"; r=\"${r:-~/repos}\"; echo \"${r/#\\~/${HOME}}\"; }; f"
+	repodir = !gitex repodir
+
+	# A better git clone
+	cloner = ""
 
 	# }}
 
