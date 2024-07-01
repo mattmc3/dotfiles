@@ -1,0 +1,116 @@
+#!/bin/sh
+##? gitex - git extensions; useful for making git aliases that don't suck
+##? usage: gitx
+##?
+
+# For testing...
+gitex_foo() {
+  echo "foo called with $# params: $@"
+}
+
+##? help: Display gitex help comments
+gitex_help() {
+  # echo "$0"
+  grep "^##?" $0 | cut -c 5-
+}
+
+##? branch-cleanup: Remove branches no longer on remote
+gitex_branch_cleanup() {
+  # https://stackoverflow.com/questions/7726949/remove-tracking-branches-no-longer-on-remote
+  local defbranch="$(gitex_branch_main 2>/dev/null)"
+  git checkout ${defbranch:-main} &>/dev/null && git fetch -p && git branch -vv |
+    awk '/: gone]/{print $1}' |
+    xargs git branch -d
+}
+
+##? branch-main: Get the name of the default branch for a repo (main, master, trunk, etc)
+gitex_branch_main() {
+  # https://stackoverflow.com/questions/28666357/git-how-to-get-default-branch
+  git symbolic-ref --short refs/remotes/origin/HEAD | sed 's|^origin/||'
+}
+
+##? branch-name: Get the current branch name
+gitex_branch_name() {
+  git branch --show-current
+}
+
+##? browse: Open web browser to git remote URL
+gitex_browse() {
+  local url=$(
+    git config remote.${1-origin}.url |
+      sed -e 's#^.*@#https://#' -e 's#.git$##' -e 's#:#/#2'
+  )
+  git web--browse $url
+}
+
+##? checkout-branches: Checkout and track all branches
+gitex_checkout_branches() {
+  # https://stackoverflow.com/questions/67699/how-to-clone-all-remote-branches-in-git
+  git branch -a | sed -n "/\\/HEAD /d; /\\/master$/d; /\\/main$/d; /remotes/p;" | xargs -L1 git checkout --track
+}
+
+##? is-clean: Is the git repo clean
+gitex_is_clean() {
+  test -z "$(git status --porcelain 2>/dev/null)"
+}
+
+##? is-dirty: Is the git repo dirty
+gitex_is_dirty() {
+  test -n "$(git status --porcelain 2>/dev/null)"
+}
+
+##? lg: Print my preferred git log view.
+gitex_lg() {
+  git log --all --decorate --oneline --graph
+}
+
+##? log-pretty: Print a pretty log.
+gitex_log_pretty() {
+  git log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold green)(%ar)%C(reset) %C(white)%s%C(reset) %C(dim white)- %an%C(reset)%C(auto)%d%C(reset)' --all
+}
+
+##? repodir: Print my preferred root repo directory.
+gitex_repodir() {
+  local repodir="$(git config custom.repodir)"
+  repodir="${r:-$HOME/repos}"
+  echo "${repodir/#\\~/${HOME}}"
+}
+
+##? sha: Print the 7-char short git SHA, with a * indicating dirty.
+gitex_sha() {
+  printf '%s' "$(git rev-parse --short HEAD)"
+  gitex_is_dirty && echo '*' || echo
+}
+
+##? whoami: Print my config's username and email.
+gitex_whoami() {
+  git config user.name && git config user.email
+}
+
+# main gitex command
+gitex() {
+  if [ "$#" -eq 0 ]; then
+    echo >&2 "gitex: expecting a subcommand."
+    return 1
+  fi
+
+  # Support -h/--help options, and make dash commands into underscores.
+  local subcmd="$1"
+  if [ "$subcmd" == "-h" ] || [ "$subcmd" == "--help" ]; then
+    subcmd="help"
+  else
+    subcmd=$(printf '%s' "$subcmd" | tr '-' '_')
+  fi
+  shift
+
+  # Call the subcommand if it exists.
+  if typeset -f "gitex_${subcmd}" > /dev/null; then
+    "gitex_${subcmd}" "$@"
+  else
+    echo >&2 "gitex: subcommand not found '$subcmd'."
+    return 1
+  fi
+}
+gitex "$@"
+
+# vim: set sw=2 sts=2 ts=8 et:
