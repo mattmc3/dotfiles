@@ -1,9 +1,8 @@
 # Watch out for configs that land in ~/.gitconfig still
 
 [user]
-	# Many of the values in this section are set in $DOTFILES/local
+	# Moved values to $DOTFILES/local
 	# https://stackoverflow.com/questions/42553685/setting-git-username-and-email-without-using-gitconfig
-	giturl = github.com
 [core]
 	excludesfile = ~/.config/git/gitignore
 	editor = subl -n -w
@@ -105,6 +104,14 @@
 	bdone = "!f() { git checkout ${1-master} && git up && git bclean ${1-master}; }; f"
 	supdate = submodule update --remote --merge
 
+	# Check if git is clean
+	is-clean = "!f() { test -z \"$(git status --porcelain 2>/dev/null)\"; }; f"
+	is-dirty = "!f() { test -n \"$(git status --porcelain 2>/dev/null)\"; }; f"
+	hash = "!f() { local r dirty=; r=\"$(git rev-parse --short HEAD)\"; git is-dirty && dirty='-dirty'; echo \"${r}${dirty}\"; };f"
+
+	# Default repodir
+	repodir = "!f() { local r=\"$(git config custom.repodir)\"; r=\"${r:-~/repos}\"; echo \"${r/#\\~/${HOME}}\"; }; f"
+
 	# }}
 
 [status]
@@ -183,3 +190,7 @@
 # include local customizations last
 [include]
 	path = ~/.local/config/git/config.local
+
+[custom]
+	repodir = ~/Projects
+	giturl = github.com
