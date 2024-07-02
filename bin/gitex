@@ -53,7 +53,7 @@ gitex_browse() {
 ##? checkout-branches: Checkout and track all branches
 gitex_checkout_branches() {
   # https://stackoverflow.com/questions/67699/how-to-clone-all-remote-branches-in-git
-  git branch -a | sed -n "/\\/HEAD /d; /\\/master$/d; /\\/main$/d; /remotes/p;" | xargs -L1 git checkout --track
+  git branch -a | sed -n "/\\/HEAD /d; /\\/main$/d; /\\/master$/d; /remotes/p;" | xargs -L1 git checkout --track
 }
 
 ##? is-clean: Is the git repo clean
@@ -74,6 +74,14 @@ gitex_lg() {
 ##? log-pretty: Print a pretty log.
 gitex_log_pretty() {
   git log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold green)(%ar)%C(reset) %C(white)%s%C(reset) %C(dim white)- %an%C(reset)%C(auto)%d%C(reset)' --all
+}
+
+##? pushup: Push a new branch to the remote
+gitex_pushup() {
+  # Quick way to resolve the annoying error:
+  #  'fatal: The current branch foo has no upstream branch.'
+  # Or, you could just set `push.autoSetupRemote = true` in gitconfig...
+  git push --set-upstream ${1:-origin} $(git rev-parse --abbrev-ref HEAD)
 }
 
 ##? repodir: Print my preferred root repo directory.
