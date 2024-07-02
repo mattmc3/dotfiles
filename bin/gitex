@@ -1,11 +1,18 @@
 #!/bin/sh
+# optionally, !/usr/bin/env dash
 ##? gitex - git extensions; useful for making git aliases that don't suck
-##? usage: gitx
+##? usage: gitx <subcommand>
 ##?
 
 # For testing...
 gitex_foo() {
   echo "foo called with $# params: $@"
+}
+
+# Helpers
+is_function() {
+  [ "$#" -eq 1 ] || return 1
+  type "$1" | sed "s/$1//" | grep -qwi function
 }
 
 ##? help: Display gitex help comments
@@ -37,7 +44,7 @@ gitex_branch_name() {
 ##? browse: Open web browser to git remote URL
 gitex_browse() {
   local url=$(
-    git config remote.${1-origin}.url |
+    git config remote.${1:-origin}.url |
       sed -e 's#^.*@#https://#' -e 's#.git$##' -e 's#:#/#2'
   )
   git web--browse $url
@@ -71,9 +78,7 @@ gitex_log_pretty() {
 
 ##? repodir: Print my preferred root repo directory.
 gitex_repodir() {
-  local repodir="$(git config custom.repodir)"
-  repodir="${r:-$HOME/repos}"
-  echo "${repodir/#\\~/${HOME}}"
+  (git config gitex.repodir || echo $HOME/repos) | sed -e "s|^~|$HOME|"
 }
 
 ##? sha: Print the 7-char short git SHA, with a * indicating dirty.
@@ -94,17 +99,18 @@ gitex() {
     return 1
   fi
 
-  # Support -h/--help options, and make dash commands into underscores.
   local subcmd="$1"
-  if [ "$subcmd" == "-h" ] || [ "$subcmd" == "--help" ]; then
+  if [ "$subcmd" = "-h" ] || [ "$subcmd" = "--help" ]; then
+    # Support -h/--help flags
     subcmd="help"
   else
+    # Make kebab-case-subcommands work.
     subcmd=$(printf '%s' "$subcmd" | tr '-' '_')
   fi
-  shift
 
   # Call the subcommand if it exists.
-  if typeset -f "gitex_${subcmd}" > /dev/null; then
+  if is_function "gitex_${subcmd}"; then
+    shift
     "gitex_${subcmd}" "$@"
   else
     echo >&2 "gitex: subcommand not found '$subcmd'."
