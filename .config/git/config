@@ -30,24 +30,36 @@
 	required = true
 
 [alias]
-	alias = ! git config --get-regexp ^alias\\. | sort | sed -e s/^alias\\.// -e s/\\ /\\ =\\ /
-
+	# tests {{
+	foo = "!f() { echo \"foobar: $@\"; }; f"
+	fishcmd = "!fish -c 'gitex_foo $argv'"
 	gitex = !gitex help
+
+	#/bin/sh, which on macOS is still bash, not dash
+	shellname = "!ps h -p $$ -o args='' | cut -f1 -d' '"
+	# }}
+
+	# Show all my git aliases
+	alias = ! git config --get-regexp ^alias\\. | sort | sed -e s/^alias\\.// -e s/\\ /\\ =\\ /
 
 	# config/users
 	whoami = !gitex whoami
 
-	# branch aliases {{
+	# branch {{
 	branch-cleanup = !gitex branch-cleanup
 	branch-main = !gitex branch-main
 	branch-name = !gitex branch-name
 	branch-cleanup = !gitex branch-cleanup
-	clone-branches = !gitex clone-branches
 	# }}
 
 	# clean {{
 	cleanup = clean -fd
 	pristine = !git reset --hard && git clean -dfx
+	# }}
+
+	# cloning {{
+	clone-branches = !gitex clone-branches
+	cloner = !gitex cloner
 	# }}
 
 	# checkout {{
@@ -94,7 +106,6 @@
 
 	# https://haacked.com/archive/2014/07/28/github-flow-aliases/
 	up = !git pull --rebase --prune $@ && git submodule update --init --recursive
-	# checkpoint = !git add -A && git commit -m 'Checkpoint'
 	undo = reset --soft HEAD~1
 
 	# wipe = !git add -A && git commit -qm 'WIPE SAVEPOINT' && git reset HEAD~1 --hard
@@ -109,10 +120,6 @@
 
 	# Default repodir
 	repodir = !gitex repodir
-
-	# A better git clone
-	cloner = ""
-
 	# }}
 
 [status]
@@ -192,6 +199,7 @@
 [include]
 	path = ~/.local/config/git/config.local
 
-[custom]
+[gitex]
 	repodir = ~/Projects
-	giturl = github.com
+	giturl = git@github.com:
+	gituser = mattmc3
