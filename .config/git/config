@@ -61,9 +61,9 @@
 	clone-branches = !gitex clone-branches
 
 	# Better cloning, with short repo names (ie: user/repo form)
-	# Clones to my default projects directory, takes me there, and lets me `git go`.
+	# Note: moved to git-cloner script
 	# ex: git cloner --depth 1 mattmc3/dotfiles
-	cloner = !gitex cloner
+	# cloner = !gitex cloner
 	# }}
 
 	# checkout {{
