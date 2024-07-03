@@ -59,6 +59,10 @@
 
 	# cloning {{
 	clone-branches = !gitex clone-branches
+
+	# Better cloning, with short repo names (ie: user/repo form)
+	# Clones to my default projects directory, takes me there, and lets me `git go`.
+	# ex: git cloner --depth 1 mattmc3/dotfiles
 	cloner = !gitex cloner
 	# }}
 
@@ -196,6 +200,9 @@
 	path = ~/.local/config/git/config.local
 
 [gitex]
-	repodir = ~/Projects
-	giturl = git@github.com:
-	gituser = mattmc3
+	repoPath = ~/Projects
+	gitDomain = github.com
+	gitProtocol = git
+	gitUser = mattmc3
+	cloneAddFlags = --recurse-submodules
+	debug = True
