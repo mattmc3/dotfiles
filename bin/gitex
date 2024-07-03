@@ -1,14 +1,16 @@
 #!/bin/sh
-# optionally, !/usr/bin/env dash
+# optionally, use !/usr/bin/env dash to really test POSIX
 ##? gitex - git extensions; useful for making git aliases that don't suck
 ##? usage: gitx <subcommand>
 ##?
+
+# To check, run: shellcheck -e SC3043 ~/bin/gitex
 
 #region Helpers
 
 # For testing...
 gitex_foo() {
-  echo "foo called with $# params: $@"
+  echo "foo called with $# params: $*"
 }
 
 # POSIX test for function existance.
@@ -34,7 +36,8 @@ pop_prep() {
  # Take a repo and make it into the short user/repo form.
 to_short_repo() {
   [ $# -eq 1 ] || return 1
-  local default_user="$(git config gitex.gitUser || git config user.name || whoami)"
+  local default_user
+  default_user="$(git config gitex.gitUser || git config user.name || whoami)"
   # Prepend default git user to always make 2+ fields and print user/repo form
   echo "${default_user}/${1}" | awk -F '[/:]' '{ print $(NF-1) "/" $NF }'
 }
@@ -43,19 +46,20 @@ to_short_repo() {
 to_repo_dir() {
   [ $# -eq 1 ] || return 1
   # Get the default repo dir, replacing ~ with $HOME
-  local dir="$( (git config gitex.repoPath || echo $HOME/repos) | sed -e 's|^~|'$HOME'|' )"
-  echo "${dir}/$( to_short_repo $1 )"
+  local dir
+  dir="$( (git config gitex.repoPath || echo "$HOME/repos") | sed -e "s|^~|$HOME|" )"
+  echo "${dir}/$( to_short_repo "$1" )"
 }
 
 # Take a repo and determine its URL.
 to_repo_url() {
   [ $# -eq 1 ] || return 1
-  case $1 in (https://*|git@*) echo $1; return ;; esac
+  case $1 in (https://*|git@*) echo "$1"; return ;; esac
 
   local gitdomain gitprotocol repo
   gitdomain="$( git config gitex.gitDomain || echo 'github.com' )"
   gitprotocol="$( git config gitex.gitProtocol || echo 'https' )"
-  repo="$( to_short_repo $1 )"
+  repo="$( to_short_repo "$1" )"
 
   case $gitprotocol in
     (ssh*|git*)
@@ -72,14 +76,15 @@ to_repo_url() {
 ##? help: Display gitex help comments
 gitex_help() {
   # echo "$0"
-  grep "^##?" $0 | cut -c 5-
+  grep "^##?" "$0" | cut -c 5-
 }
 
 ##? branch-cleanup: Remove branches no longer on remote
 gitex_branch_cleanup() {
   # https://stackoverflow.com/questions/7726949/remove-tracking-branches-no-longer-on-remote
-  local defbranch="$(gitex_branch_main 2>/dev/null)"
-  git checkout ${defbranch:-main} &>/dev/null && git fetch -p && git branch -vv |
+  local defbranch
+  defbranch="$(gitex_branch_main 2>/dev/null)"
+  git checkout "${defbranch:-main}" >/dev/null 2>/dev/null && git fetch -p && git branch -vv |
     awk '/: gone]/{print $1}' |
     xargs git branch -d
 }
@@ -97,11 +102,12 @@ gitex_branch_name() {
 
 ##? browse: Open web browser to git remote URL
 gitex_browse() {
-  local url=$(
-    git config remote.${1:-origin}.url |
+  local url
+  url=$(
+    git config "remote.${1:-origin}.url" |
       sed -e 's|^.*@|https://|' -e 's|.git$||' -e 's|:|/|2'
   )
-  git web--browse $url
+  git web--browse "$url"
 }
 
 ##? checkout-branches: Checkout and track all branches
@@ -146,10 +152,10 @@ gitex_cloner() {
   case $debug in
     (t|true|1)
       echo "clone command modified to:"
-      echo "  command git clone $addflags $@ $repo $dir"
+      echo "  command git clone $addflags $* $repo $dir"
       ;;
   esac
-  command git clone $addflags $@ $repo $dir
+  command git clone $addflags $@ "$repo" "$dir"
 }
 
 ##? is-clean: Is the git repo clean
@@ -177,12 +183,12 @@ gitex_pushup() {
   # Quick way to resolve the annoying error:
   #  'fatal: The current branch foo has no upstream branch.'
   # Or, you could just set `push.autoSetupRemote = true` in gitconfig...
-  git push --set-upstream ${1:-origin} $(git rev-parse --abbrev-ref HEAD)
+  git push --set-upstream "${1:-origin}" "$(git rev-parse --abbrev-ref HEAD)"
 }
 
 ##? repodir: Print my preferred root repo directory.
 gitex_repodir() {
-  (git config gitex.repodir || echo $HOME/repos) | sed -e "s|^~|$HOME|"
+  (git config gitex.repodir || echo "$HOME/repos") | sed -e "s|^~|$HOME|"
 }
 
 ##? sha: Print the 7-char short git SHA, with a * indicating dirty.
