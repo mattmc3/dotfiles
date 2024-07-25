@@ -11,7 +11,7 @@
 " }}}
 
 " General Settings: {{{
-" defaults was introduced in vim 7 and eliminates the need for a lot of new
+" defaults was introduced in vim 7 and eliminates the need for a lot of setup.
 unlet! skip_defaults_vim
 source $VIMRUNTIME/defaults.vim
 
@@ -53,10 +53,6 @@ let &t_EI = "\e[2 q"
 
 " Editor: {{{
 
-" to get the postscript name, use ⌘-i in fontbook
-if has('gui_running')
-    set guifont=MesloLGSNerdFontComplete-Regular:h13
-endif
 set list                            " needed for listchars
 set listchars=tab:»\ ,trail:·       " Display tabs and trailing spaces visually
 set number                          " Enable line numbers
@@ -141,11 +137,12 @@ nnoremap <CR> :noh<CR><CR>:<backspace>
 " au FocusLost * :wa
 
 " Theme: {{{
-" to get the postscript name, use ⌘-i in fontbook
+" to get the font name, set it in MacVim and then run `:set guifont?` to see
+" the value.
 set background=dark   " tell nvim the color scheme will be a dark one
 if has('gui_running')
-    set guifont=MesloLGSNerdFontComplete-Regular:h13
-    colorscheme evening   " set the color scheme (builtin: evening, elflord, delek)
+    set guifont=HackNF-Regular:h13
+    colorscheme slate   " set the color scheme (builtin: evening, elflord, slate)
 else
     colorscheme pablo
 endif
