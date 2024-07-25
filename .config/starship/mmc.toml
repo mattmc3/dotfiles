@@ -45,7 +45,7 @@ vicmd_symbol = "[❰](cyan)"
 
 [python]
 format = '[(\($virtualenv\) )]($style)'
-style = 'cyan'
+style = 'white'
 
 [directory]
 style = "blue"
@@ -56,7 +56,7 @@ fish_style_pwd_dir_length = 1
 # Right-side prompt items use left space padding
 [git_branch]
 format = ' [$branch]($style)'
-style = 'white'
+style = 'green'
 
 [git_status]
 format = "[( $ahead_behind$stashed)]($style)"
@@ -69,7 +69,7 @@ diverged = "⇕⇡${ahead_count}⇣${behind_count}"
 [custom.git_status_dirty]
 when = 'test -n "$(git status --porcelain 2>/dev/null)"'
 symbol = "＊"  # • * ﹡ ＊ ✱
-style = "purple"
+style = "yellow"
 format="[$symbol]($style)"
 shell = ["sh"]
 
