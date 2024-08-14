@@ -58,9 +58,9 @@ white = '188'
 yellow = '223'
 
 [character]
-success_symbol = "[❯](purple)[❯](cyan) "
-error_symbol = "[❯](yellow)[❯](red) "
-vicmd_symbol = "[❮](purple)[❮](cyan) "
+success_symbol = "[❯](purple)[❯](cyan)"
+error_symbol = "[❯](yellow)[❯](red)"
+vicmd_symbol = "[❮](purple)[❮](cyan)"
 
 [python]
 format = '[(\($virtualenv\) )]($style)'
@@ -110,7 +110,7 @@ disabled = true
 
 [status]
 disabled = false
-pipestatus = true
 format = '[$symbol$int]($style)'
 symbol = '✘'
-pipestatus_format = '\[$pipestatus\]($style)'
+# pipestatus = true
+# pipestatus_format = '\[$pipestatus\]($style)'
