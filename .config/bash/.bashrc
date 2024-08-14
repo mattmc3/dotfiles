@@ -1,13 +1,26 @@
 #!/bin/bash
 
-# XDG ---------------------------------------------------------------------- {{{
+#
+# Pre
+#
+
+# Add this lines at the top of .bashrc:
+[[ $- == *i* ]] && source ~/.local/share/blesh/ble.sh --noattach
+
+#
+# XDG
+#
+
 export XDG_CONFIG_HOME="${XDG_CONFIG_HOME:-$HOME/.config}"
 export XDG_CACHE_HOME="${XDG_CACHE_HOME:-$HOME/.cache}"
 export XDG_DATA_HOME="${XDG_DATA_HOME:-$HOME/.local/share}"
-export XDG_RUNTIME_DIR="${XDG_RUNTIME_DIR:-$HOME/.xdg}"
+export XDG_STATE_HOME="${XDG_DATA_HOME:-$HOME/.local/state}"
+mkdir -p $XDG_CONFIG_HOME $XDG_CACHE_HOME $XDG_DATA_HOME $XDG_STATE_HOME
 
+#
+# Options
+#
 
-# opts --------------------------------------------------------------------- {{{
 # http://www.gnu.org/software/bash/manual/bashref.html#Pattern-Matching
 set -o noclobber                 # Prevent file overwrite on stdout redirection; use `>|` to force
 shopt -s histappend              # append to history, don't overwrite it
@@ -22,8 +35,10 @@ shopt -s cdspell 2> /dev/null    # Correct spelling errors in arguments supplied
 shopt -s cdable_vars             # CD across the filesystem as if you're in that dir
 # set -o vi                        # Set vi editing mode
 
+#
+# History
+#
 
-# history ------------------------------------------------------------------ {{{
 HISTTIMEFORMAT='%F %T '   # use standard ISO 8601 timestamp
 HISTSIZE=100000           # remember the last x commands in memory during session
 HISTFILESIZE=100000       # start truncating history file after x lines
@@ -32,18 +47,15 @@ HISTFILE=$XDG_DATA_HOME/bash/history
 [[ -f $HISTFILE ]] || mkdir -p $(dirname $HISTFILE)
 PROMPT_COMMAND="history -a;history -c;history -r;$PROMPT_COMMAND"
 
+#
+# Variables
+#
 
-# env ---------------------------------------------------------------------- {{{
-export PATH=$HOME/bin:/usr/local/bin:/usr/local/sbin:$PATH
+export PATH="/usr/local/bin:/usr/local/sbin:$PATH"
+export PATH="/opt/homebrew/bin:/opt/homebrew/sbin:$PATH"
+export PATH="$HOME/bin:$HOME/.local/bin:$PATH"
 export LSCOLORS=ExFxBxDxCxegedabagacad
 export TZ="America/New_York"
-
-if [[ $COLORTERM = gnome-* && $TERM = xterm ]] && infocmp gnome-256color >/dev/null 2>&1; then
-  export TERM='gnome-256color';
-elif infocmp xterm-256color >/dev/null 2>&1; then
-  export TERM='xterm-256color';
-fi
-
 CDPATH="."
 
 # Preferred editor for local and remote sessions
@@ -55,16 +67,21 @@ fi
 export VISUAL='code'
 export PAGER='less'
 
+#
+# Aliases
+#
 
-# aliases ------------------------------------------------------------------ {{{
 alias ls='ls -G'
 alias grep='grep --color=auto --exclude-dir={.git,.hg,.svn}'
 export GNUPGHOME=$XDG_DATA_HOME/gnupg
 alias gpg='gpg --homedir "$GNUPGHOME"'
 
+alias rcs="cd ~/.config/bash"
 alias reload="source ~/.bashrc"
-alias rm='safe-rm'
-alias del='safe-rm'
+if type safe-rm &>/dev/null; then
+  alias rm='safe-rm'
+  alias del='safe-rm'
+fi
 alias la='ls -laGh'
 alias ll='ls -lGh'
 alias l='ls -G'
@@ -72,6 +89,8 @@ alias ldot='ls -ld .*'
 alias zz='exit'
 alias fd='find . -type d -name'
 alias ff='find . -type f -name'
+alias dotf='cd ~/.dotfiles'
+alias bench="for i in {1..10}; do /usr/bin/time bash -ic 'echo -n'; done"
 
 # single character shortcuts - be sparing!
 alias _='sudo'
@@ -79,8 +98,16 @@ alias h='history'
 alias v='vim'
 alias c='clear'
 
+#
+# Utilities
+#
 
-# functions ---------------------------------------------------------------- {{{
+eval "$(zoxide init bash)"
+
+#
+# Functions
+#
+
 # Only put things here that you cannot live without, or that have to be in the
 # current shell context to function properly. Otherwise, it probably belongs in
 # ~/bin
@@ -99,9 +126,23 @@ up() {
   fi
 }
 
+#
+# Prompt
+#
+
 # starship
-STARSHIP_CONFIG=$XDG_CONFIG_HOME/starship/bash.toml
+export STARSHIP_CONFIG=$XDG_CONFIG_HOME/starship/bash.toml
 eval "$(starship init bash)"
 
-# local -------------------------------------------------------------------- {{{
+#
+# Local
+#
+
 [ ! -f ~/.bashrc.local ] || . ~/.bashrc.local
+
+#
+# Post
+#
+
+# Add this line at the end of .bashrc:
+[[ ${BLE_VERSION-} ]] && ble-attach
