@@ -18,6 +18,22 @@ export XDG_STATE_HOME="${XDG_DATA_HOME:-$HOME/.local/state}"
 mkdir -p $XDG_CONFIG_HOME $XDG_CACHE_HOME $XDG_DATA_HOME $XDG_STATE_HOME
 
 #
+# Path
+#
+
+export PATH="/usr/local/bin:/usr/local/sbin:$PATH"
+export PATH="/opt/homebrew/bin:/opt/homebrew/sbin:$PATH"
+
+for brewcmd in /opt/homebrew/bin/brew /usr/local/bin/brew; do
+  if [[ -e "$brewcmd" ]]; then
+    eval "$("$brewcmd" shellenv)"
+    break
+  fi
+done
+
+export PATH="$HOME/bin:$HOME/.local/bin:$PATH"
+
+#
 # Options
 #
 
@@ -51,9 +67,6 @@ PROMPT_COMMAND="history -a;history -c;history -r;$PROMPT_COMMAND"
 # Variables
 #
 
-export PATH="/usr/local/bin:/usr/local/sbin:$PATH"
-export PATH="/opt/homebrew/bin:/opt/homebrew/sbin:$PATH"
-export PATH="$HOME/bin:$HOME/.local/bin:$PATH"
 export LSCOLORS=ExFxBxDxCxegedabagacad
 export TZ="America/New_York"
 CDPATH="."
@@ -97,6 +110,20 @@ alias _='sudo'
 alias h='history'
 alias v='vim'
 alias c='clear'
+
+#
+# Plugins
+#
+
+export REPO_HOME=$HOME/.cache/repos
+
+# Use ble.sh
+if [ ! -d $REPO_HOME/akinomyoga/ble.sh ]; then
+  git clone --recursive --depth 1 --shallow-submodules \
+    https://github.com/akinomyoga/ble.sh $REPO_HOME/akinomyoga/ble.sh
+  [ -d "$HOME/.local/share/blesh" ] && rm -rf -- "$HOME/.local/share/blesh"
+  make -C $REPO_HOME/akinomyoga/ble.sh install PREFIX=~/.local &>/dev/null
+fi
 
 #
 # Utilities
