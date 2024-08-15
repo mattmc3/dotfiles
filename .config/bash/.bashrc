@@ -103,6 +103,7 @@ alias c='clear'
 #
 
 eval "$(zoxide init bash)"
+eval "$(fzf --bash)"
 
 #
 # Functions
