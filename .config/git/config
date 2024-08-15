@@ -102,7 +102,8 @@
 	dmerged = "!git branch --merged | grep -v '\\*' | xargs -n 1 git branch -d"
 
 	# open repo in browser, usage: git browse [upstream]
-	browse = !gitex browse
+	#browse = !gitex browse
+	browse = "!f() { git remote -v ; gitex browse ; }; f"
 
 	# https://haacked.com/archive/2014/07/28/github-flow-aliases/
 	up = !git pull --rebase --prune $@ && git submodule update --init --recursive
