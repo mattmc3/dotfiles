@@ -57,10 +57,10 @@ function __repo {
   emulate -L zsh
   setopt local_options extended_glob no_monitor
 
-  (( $# )) || {
-    echo >&2 "repo: Expecting command argument."
+  if [ "$#" -eq 0 ]; then
+    __repo_help
     return 1
-  }
+  fi
 
   local repo err=1
   local cmd=$1; shift
