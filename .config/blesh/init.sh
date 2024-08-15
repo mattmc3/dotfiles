@@ -178,8 +178,8 @@
 ## "prompt_ps1_transient" is effective only when the current working directory
 ## did not change since the last command line.
 
-#bleopt prompt_ps1_final=
-#bleopt prompt_ps1_transient=trim
+bleopt prompt_ps1_final='$(starship module character)'
+bleopt prompt_ps1_transient=trim
 
 
 ## The following settings controls the right prompt. "prompt_rps1" specifies
