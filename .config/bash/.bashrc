@@ -136,14 +136,12 @@ eval "$(fzf --bash)"
 # Functions
 #
 
-# Only put things here that you cannot live without, or that have to be in the
-# current shell context to function properly. Otherwise, it probably belongs in
-# ~/bin
+# Only add things here we cannot live without. Otherwise, use ~/bin.
 
 # 'up 3' is a shortcut to cd 3 directories up
 # you can't cd from an external script, thus it lives here
 up() {
-  if [[ "$#" < 1 ]] ; then
+  if [[ "$#" -eq 0 ]] ; then
     cd ..
   else
     local cdstr=""
