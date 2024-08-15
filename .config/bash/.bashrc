@@ -1,13 +1,6 @@
 #!/bin/bash
 
 #
-# Pre
-#
-
-# Add this lines at the top of .bashrc:
-[[ $- == *i* ]] && source ~/.local/share/blesh/ble.sh --noattach
-
-#
 # XDG
 #
 
@@ -16,6 +9,26 @@ export XDG_CACHE_HOME="${XDG_CACHE_HOME:-$HOME/.cache}"
 export XDG_DATA_HOME="${XDG_DATA_HOME:-$HOME/.local/share}"
 export XDG_STATE_HOME="${XDG_DATA_HOME:-$HOME/.local/state}"
 mkdir -p $XDG_CONFIG_HOME $XDG_CACHE_HOME $XDG_DATA_HOME $XDG_STATE_HOME
+
+#
+# ble.sh
+#
+
+export REPO_HOME=$HOME/.cache/repos
+
+# Use ble.sh
+BLE_HOME="$XDG_DATA_HOME/blesh"
+if [ ! -d $BLE_HOME ]; then
+  if [ ! -d $REPO_HOME/akinomyoga/ble.sh ]; then
+    git clone --recursive --depth 1 --shallow-submodules \
+      https://github.com/akinomyoga/ble.sh $REPO_HOME/akinomyoga/ble.sh
+  fi
+  make -C $REPO_HOME/akinomyoga/ble.sh install PREFIX=~/.local &>/dev/null
+fi
+
+# Add this lines at the top of .bashrc:
+[[ $- == *i* ]] && source $BLE_HOME/ble.sh --noattach
+
 
 #
 # Path
@@ -56,12 +69,12 @@ shopt -s cdable_vars             # CD across the filesystem as if you're in that
 #
 
 HISTTIMEFORMAT='%F %T '   # use standard ISO 8601 timestamp
-HISTSIZE=100000           # remember the last x commands in memory during session
+HISTSIZE=10000            # remember the last x commands in memory during session
 HISTFILESIZE=100000       # start truncating history file after x lines
 HISTCONTROL=ignoreboth    # ignoreboth is shorthand for ignorespace and ignoredups
 HISTFILE=$XDG_DATA_HOME/bash/history
 [[ -f $HISTFILE ]] || mkdir -p $(dirname $HISTFILE)
-PROMPT_COMMAND="history -a;history -c;history -r;$PROMPT_COMMAND"
+#PROMPT_COMMAND="history -a;history -c;history -r;$PROMPT_COMMAND"
 
 #
 # Variables
@@ -84,6 +97,7 @@ export PAGER='less'
 # Aliases
 #
 
+alias awk="gawk"
 alias ls='ls -G'
 alias grep='grep --color=auto --exclude-dir={.git,.hg,.svn}'
 export GNUPGHOME=$XDG_DATA_HOME/gnupg
@@ -115,15 +129,7 @@ alias c='clear'
 # Plugins
 #
 
-export REPO_HOME=$HOME/.cache/repos
-
-# Use ble.sh
-if [ ! -d $REPO_HOME/akinomyoga/ble.sh ]; then
-  git clone --recursive --depth 1 --shallow-submodules \
-    https://github.com/akinomyoga/ble.sh $REPO_HOME/akinomyoga/ble.sh
-  [ -d "$HOME/.local/share/blesh" ] && rm -rf -- "$HOME/.local/share/blesh"
-  make -C $REPO_HOME/akinomyoga/ble.sh install PREFIX=~/.local &>/dev/null
-fi
+# TODO:
 
 #
 # Utilities
@@ -172,3 +178,10 @@ eval "$(starship init bash)"
 
 # Add this line at the end of .bashrc:
 [[ ${BLE_VERSION-} ]] && ble-attach
+
+# Uncomment to profile:
+# if [[ ${BLE_VERSION-} ]]; then
+#   ble/debug/profiler/start profile
+#   ble-attach
+#   ble/debug/profiler/stop
+# fi

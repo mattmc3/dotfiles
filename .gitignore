@@ -21,6 +21,10 @@
 !.config/bash/
 !.config/bash/**
 
+# blesh
+!.config/blesh/
+!.config/blesh/**
+
 # docs
 !docs/
 !docs/**
