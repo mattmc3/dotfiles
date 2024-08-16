@@ -18,12 +18,12 @@ export REPO_HOME=$HOME/.cache/repos
 
 # Use ble.sh
 BLE_HOME="$XDG_DATA_HOME/blesh"
-if [ ! -d $BLE_HOME ]; then
+if [ ! -d "$BLE_HOME" ]; then
   if [ ! -d $REPO_HOME/akinomyoga/ble.sh ]; then
     git clone --recursive --depth 1 --shallow-submodules \
       https://github.com/akinomyoga/ble.sh $REPO_HOME/akinomyoga/ble.sh
   fi
-  make -C $REPO_HOME/akinomyoga/ble.sh install PREFIX=~/.local &>/dev/null
+  make -C $REPO_HOME/akinomyoga/ble.sh install PREFIX=~/.local
 fi
 
 # Add this lines at the top of .bashrc:
@@ -97,7 +97,9 @@ export PAGER='less'
 # Aliases
 #
 
-alias awk="gawk"
+if type gawk &>/dev/null; then
+  alias awk="gawk"
+fi
 alias ls='ls -G'
 alias grep='grep --color=auto --exclude-dir={.git,.hg,.svn}'
 export GNUPGHOME=$XDG_DATA_HOME/gnupg
