@@ -80,7 +80,18 @@ HISTFILE=$XDG_DATA_HOME/bash/history
 # Variables
 #
 
+# Colorize man pages.
+export LESS_TERMCAP_md=$'\e[01;34m'     # start bold
+export LESS_TERMCAP_mb=$'\e[01;34m'     # start blink
+export LESS_TERMCAP_so=$'\e[00;47;30m'  # start standout: white bg, black fg
+export LESS_TERMCAP_us=$'\e[04;35m'     # start underline: underline magenta
+export LESS_TERMCAP_se=$'\e[0m'         # end standout
+export LESS_TERMCAP_ue=$'\e[0m'         # end underline
+export LESS_TERMCAP_me=$'\e[0m'         # end bold/blink
+
+# Set ls colors.
 export LSCOLORS=ExFxBxDxCxegedabagacad
+
 export TZ="America/New_York"
 CDPATH="."
 
