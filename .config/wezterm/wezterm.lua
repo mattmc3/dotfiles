@@ -4,10 +4,8 @@ local wezterm = require 'wezterm'
 -- This will hold the configuration.
 local config = wezterm.config_builder()
 
--- This is where you actually apply your config choices
-
 -- What's our shell?
-shell = '/opt/homebrew/bin/fish'
+local shell = '/opt/homebrew/bin/fish'
 config.default_prog = { shell }
 config.set_environment_variables = {
 	SHELL = shell,
@@ -17,17 +15,17 @@ config.set_environment_variables = {
 config.color_scheme = 'Wombat'
 
 config.macos_window_background_blur = 20
-config.window_background_opacity = 0.9
--- config.background = {
--- 	{
--- 		source = {
--- 			Color = '#0f1019'
--- 		},
--- 		width = "100%",
--- 		height = "100%",
--- 		opacity = .9
--- 	},
--- }
+config.window_background_opacity = 0.7
+config.background = {
+	{
+		source = {
+			Color = '#0f1019'
+		},
+		width = "100%",
+		height = "100%",
+		opacity = .9
+	},
+}
 
 config.colors = {
 	-- foreground = '#8f92a0',
@@ -36,6 +34,20 @@ config.colors = {
 	selection_bg = '#1f2131',
 }
 
+-- Background
+-- The art is a bit too bright and colorful to be useful as a backdrop
+-- for text, so we're going to dim it down.
+local dimmer = { brightness = 0.1 }
+config.background = {
+  {
+    source = {
+      File = wezterm.config_dir .. '/backgrounds/botw_corrupted_nydra_rev.jpg',
+    },
+    repeat_x = 'NoRepeat',
+	repeat_y = 'NoRepeat',
+    hsb = dimmer,
+  },
+}
 
 -- Font
 config.font = wezterm.font 'MesloLGM Nerd Font Mono'
