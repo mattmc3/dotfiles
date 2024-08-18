@@ -35,6 +35,10 @@ indent_size = 2
 [*.{md,markdown}]
 trim_trailing_whitespace = false
 
+[*.lua]
+indent_style = tab
+indent_size = 2
+
 [*.fish]
 indent_style = space
 

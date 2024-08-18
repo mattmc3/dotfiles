@@ -39,14 +39,14 @@ config.colors = {
 -- for text, so we're going to dim it down.
 local dimmer = { brightness = 0.1 }
 config.background = {
-  {
-    source = {
-      File = wezterm.config_dir .. '/backgrounds/botw_corrupted_nydra_rev.jpg',
-    },
-    repeat_x = 'NoRepeat',
+	{
+		source = {
+			File = wezterm.config_dir .. '/backgrounds/botw_corrupted_nydra_rev.jpg',
+		},
+		repeat_x = 'NoRepeat',
 	repeat_y = 'NoRepeat',
-    hsb = dimmer,
-  },
+		hsb = dimmer,
+	},
 }
 
 -- Font
