@@ -81,6 +81,10 @@
 # vim
 !~/.vimrc
 
+# wezterm
+!.config/wezterm/
+!.config/wezterm/**
+
 # zsh
 !.zshenv
 !.zprofile
