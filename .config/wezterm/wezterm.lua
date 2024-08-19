@@ -5,7 +5,7 @@ local wezterm = require 'wezterm'
 local config = wezterm.config_builder()
 
 -- What's our shell?
-local shell = '/opt/homebrew/bin/fish'
+local shell = '/opt/homebrew/bin/zsh'
 config.default_prog = { shell }
 config.set_environment_variables = {
 	SHELL = shell,
@@ -13,39 +13,34 @@ config.set_environment_variables = {
 
 -- Change the color scheme
 config.color_scheme = 'Wombat'
-
-config.macos_window_background_blur = 20
-config.window_background_opacity = 0.7
-config.background = {
-	{
-		source = {
-			Color = '#0f1019'
-		},
-		width = "100%",
-		height = "100%",
-		opacity = .9
-	},
-}
-
 config.colors = {
-	-- foreground = '#8f92a0',
-	background = '#0f1019',
+	--foreground = '#8f92a0',
+	--background = '#0f1019',
 	selection_fg = '#8f92a0',
 	selection_bg = '#1f2131',
 }
 
 -- Background
--- The art is a bit too bright and colorful to be useful as a backdrop
--- for text, so we're going to dim it down.
-local dimmer = { brightness = 0.1 }
+config.macos_window_background_blur = 20
+config.window_background_opacity = 0.7
 config.background = {
 	{
 		source = {
 			File = wezterm.config_dir .. '/backgrounds/botw_corrupted_nydra_rev.jpg',
 		},
 		repeat_x = 'NoRepeat',
-	repeat_y = 'NoRepeat',
-		hsb = dimmer,
+		repeat_y = 'NoRepeat',
+		opacity = 0.8,
+		hsb = { brightness = 0.2 },
+	},
+	{
+		source = {
+			Color = '#0f1019',
+			-- Color = '#ff0000'  -- red for testing
+		},
+		width = "100%",
+		height = "100%",
+		opacity = .5,
 	},
 }
 
@@ -53,16 +48,42 @@ config.background = {
 config.font = wezterm.font 'MesloLGM Nerd Font Mono'
 config.font_size = 14.0
 
--- Center on screen
+-- Rows/Cols
+config.initial_cols = 120
+config.initial_rows = 30
+
+-- Set the initial window start position
 wezterm.on("gui-startup", function(cmd)
-	local screen = wezterm.gui.screens().main
-	local ratio = 0.7
-	local width, height = screen.width * ratio, screen.height * ratio
-	local tab, pane, window = wezterm.mux.spawn_window(cmd or {
-		position = { x = (screen.width - width) / 2, y = (screen.height - height) / 2 },
-	})
-	-- window:gui_window():maximize()
-	window:gui_window():set_inner_size(width, height)
+	local tab, pane, window = wezterm.mux.spawn_window(cmd or
+		{position={x=300,y=300}}
+	)
+	window:gui_window():set_position(600,300)
+end)
+
+-- Open new windows with offset
+-- https://github.com/wez/wezterm/issues/3173
+wezterm.on("window-config-reloaded", function(window, pane)
+  -- approximately identify this gui window, by using the associated mux id
+  local id = tostring(window:window_id())
+
+  -- maintain a mapping of windows that we have previously seen before in this event handler
+  local seen = wezterm.GLOBAL.seen_windows or {}
+	local next_window_x = wezterm.GLOBAL.next_window_x or 300
+	local next_window_y = wezterm.GLOBAL.next_window_y or 200
+
+	-- set a flag if we haven't seen this window before
+  local is_new_window = not seen[id]
+
+  -- and update the mapping
+  seen[id] = true
+  wezterm.GLOBAL.seen_windows = seen
+	wezterm.GLOBAL.next_window_x = next_window_x + 50
+	wezterm.GLOBAL.next_window_y = next_window_y + 50
+
+  -- now act upon the flag
+  if is_new_window then
+    window:set_position(next_window_x, next_window_y)
+  end
 end)
 
 -- and finally, return the configuration to wezterm
