@@ -55,9 +55,9 @@ config.initial_rows = 30
 -- Set the initial window start position
 wezterm.on("gui-startup", function(cmd)
 	local tab, pane, window = wezterm.mux.spawn_window(cmd or
-		{position={x=300,y=300}}
+		{position={x=400,y=300}}
 	)
-	window:gui_window():set_position(600,300)
+	window:gui_window():set_position(400,300)
 end)
 
 -- Open new windows with offset
@@ -68,8 +68,8 @@ wezterm.on("window-config-reloaded", function(window, pane)
 
   -- maintain a mapping of windows that we have previously seen before in this event handler
   local seen = wezterm.GLOBAL.seen_windows or {}
-	local next_window_x = wezterm.GLOBAL.next_window_x or 300
-	local next_window_y = wezterm.GLOBAL.next_window_y or 200
+	local next_window_x = wezterm.GLOBAL.next_window_x or 450
+	local next_window_y = wezterm.GLOBAL.next_window_y or 350
 
 	-- set a flag if we haven't seen this window before
   local is_new_window = not seen[id]
