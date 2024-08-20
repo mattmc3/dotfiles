@@ -1,29 +1,20 @@
 -- Pull in the wezterm API
 local wezterm = require 'wezterm'
 
--- This will hold the configuration.
-local config = wezterm.config_builder()
-
--- What's our shell?
-local shell = '/opt/homebrew/bin/zsh'
-config.default_prog = { shell }
-config.set_environment_variables = {
-	SHELL = shell,
+-- region: Definitions
+-- Define selectable backgrounds
+local backgrounds = {}
+backgrounds["Solid"] = {
+	{
+		source = {
+			Color = '#0f1019',
+		},
+		width = "100%",
+		height = "100%",
+		opacity = .85,
+	},
 }
-
--- Change the color scheme
-config.color_scheme = 'Tokyo Night'
-config.colors = {
-	--foreground = '#8f92a0',
-	--background = '#0f1019',
-	selection_fg = '#8f92a0',
-	selection_bg = '#1f2131',
-}
-
--- Background
-config.macos_window_background_blur = 20
-config.window_background_opacity = 0.7
-config.background = {
+backgrounds["Nydra"] = {
 	{
 		source = {
 			File = wezterm.config_dir .. '/backgrounds/botw_corrupted_nydra_rev.jpg',
@@ -43,6 +34,41 @@ config.background = {
 		opacity = .5,
 	},
 }
+wezterm.GLOBAL.backgrounds = backgrounds
+
+-- Define selectable shells
+local shells = {
+	default = "/bin/zsh",
+	bash = "/opt/homebrew/bin/bash",
+	fish = "/opt/homebrew/bin/fish",
+	zsh = "/opt/homebrew/bin/zsh",
+}
+wezterm.GLOBAL.shells = shells
+-- }}}
+
+-- This will hold the configuration.
+local config = wezterm.config_builder()
+
+-- What's our shell?
+local shell = shells["fish"]
+config.default_prog = { shell }
+config.set_environment_variables = {
+	SHELL = shell,
+}
+
+-- Change the color scheme
+config.color_scheme = 'Tokyo Night'
+config.colors = {
+	--foreground = '#8f92a0',
+	--background = '#0f1019',
+	selection_fg = '#8f92a0',
+	selection_bg = '#1f2131',
+}
+
+-- Background
+config.macos_window_background_blur = 20
+--config.window_background_opacity = 0.7
+config.background = wezterm.GLOBAL.backgrounds["Solid"]
 
 -- Font
 config.font = wezterm.font 'MesloLGM Nerd Font Mono'
