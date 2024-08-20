@@ -12,7 +12,7 @@ config.set_environment_variables = {
 }
 
 -- Change the color scheme
-config.color_scheme = 'Wombat'
+config.color_scheme = 'Tokyo Night'
 config.colors = {
 	--foreground = '#8f92a0',
 	--background = '#0f1019',
@@ -31,7 +31,7 @@ config.background = {
 		repeat_x = 'NoRepeat',
 		repeat_y = 'NoRepeat',
 		opacity = 0.8,
-		hsb = { brightness = 0.2 },
+		hsb = { brightness = 0.15 },
 	},
 	{
 		source = {
