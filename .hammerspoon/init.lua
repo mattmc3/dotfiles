@@ -68,21 +68,21 @@ end
 
 -- HYPER+k: Left Mouse Click
 kfun = function()
-  hs.eventtap.leftClick(hs.mouse.getAbsolutePosition())
+  hs.eventtap.leftClick(hs.mouse.absolutePosition())
   k.triggered = true
 end
 k:bind({}, 'k', kfun, nil, nil)
 
 -- HYPER+m: Right Mouse Click
 mfun = function()
-  hs.eventtap.rightClick(hs.mouse.getAbsolutePosition())
+  hs.eventtap.rightClick(hs.mouse.absolutePosition())
   k.triggered = true
 end
 k:bind({}, 'm', mfun, nil, nil)
 
 -- HYPER+comma: Middle Mouse Click
 commafun = function()
-  hs.eventtap.middleClick(hs.mouse.getAbsolutePosition())
+  hs.eventtap.middleClick(hs.mouse.absolutePosition())
   k.triggered = true
 end
 k:bind({}, ',', commafun, nil, nil)
