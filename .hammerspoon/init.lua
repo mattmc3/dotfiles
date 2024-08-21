@@ -153,3 +153,20 @@ function reloadConfig(files)
 end
 local myWatcher = hs.pathwatcher.new(os.getenv('HOME') .. '/.hammerspoon/', reloadConfig):start()
 hs.alert.show(hs.keycodes.currentLayout())
+
+-- Open WezTerm from anywhere
+-- https://gist.github.com/pythoninthegrass/f141261a0dd28a4549780e1eb0e9c0f3
+-- https://github.com/wez/wezterm/issues/1751
+hs.hotkey.bind({"cmd"}, "`", function()
+	wez = hs.application.find("WezTerm", true)
+	if not wez then
+		application.launchOrFocus("WezTerm")
+	else
+		if wez:isFrontmost() then
+			wez:hide()
+		else
+			wez:activate()
+		end
+	end
+end)
+
