@@ -112,5 +112,14 @@ wezterm.on("window-config-reloaded", function(window, pane)
   end
 end)
 
+-- Mimic iTerm2's floating window trick
+config.keys = {
+  {
+    key = ']',
+    mods = 'CMD|SHIFT',
+    action = wezterm.action.ToggleAlwaysOnTop,
+  },
+}
+
 -- and finally, return the configuration to wezterm
 return config
