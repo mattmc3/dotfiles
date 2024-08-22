@@ -178,7 +178,7 @@
 ## "prompt_ps1_transient" is effective only when the current working directory
 ## did not change since the last command line.
 
-bleopt prompt_ps1_final='$(starship module character)'
+bleopt prompt_ps1_final="$(tput setaf 006)❯$(tput sgr0) "
 bleopt prompt_ps1_transient=trim
 
 
@@ -932,98 +932,80 @@ bleopt history_share=1
 # The following settings specify graphic styles of corresponding faces.  Faces
 # used for specific features are described in the respective sections.
 
-# (black)   ret=0 ;;
-# (brown)   ret=1 ;;
-# (green)   ret=2 ;;
-# (olive)   ret=3 ;;
-# (navy)    ret=4 ;;
-# (purple)  ret=5 ;;
-# (teal)    ret=6 ;;
-# (silver)  ret=7 ;;
+#bleopt color_scheme=default
+bleopt color_scheme=base16
 
-# (gr[ae]y) ret=8 ;;
-# (red)     ret=9 ;;
-# (lime)    ret=10 ;;
-# (yellow)  ret=11 ;;
-# (blue)    ret=12 ;;
-# (magenta) ret=13 ;;
-# (cyan)    ret=14 ;;
-# (white)   ret=15 ;;
-
-# typeset -gA color=(
-#   black    0    brblack    8    grayscale1  232
-#   red      1    brred      9    grayscale2  235
-#   green    2    brgreen    10   grayscale3  238
-#   yellow   3    bryellow   11   grayscale4  242
-#   blue     4    brblue     12   grayscale5  245
-#   magenta  5    brmagenta  13   grayscale6  248
-#   cyan     6    brcyan     14   grayscale7  251
-#   white    7    brwhite    15   grayscale8  255
-# )
-
-# ble-face -s region                    fg=white,bg=238               # fg=white,bg=60
-# ble-face -s region_insert             fg=blue,bg=252                # fg=blue,bg=252
-# ble-face -s region_match              fg=white,bg=55                # fg=white,bg=55
-# ble-face -s region_target             fg=black,bg=153               # fg=black,bg=153
-# ble-face -s disabled                  fg=242                        # fg=242
-# ble-face -s overwrite_mode            fg=black,bg=51                # fg=black,bg=51
-
-# ble-face -s auto_complete             fg=238
-# ble-face -s syntax_default            none                          # none
-# ble-face -s syntax_command            fg=brown                      # fg=brown
-# ble-face -s syntax_quoted             fg=green                      # fg=green
-# ble-face -s syntax_quotation          fg=green,bold                 # fg=green,bold
-# ble-face -s syntax_escape             fg=magenta                    # fg=magenta
-# ble-face -s syntax_expr               fg=navy                       # fg=navy
-# ble-face -s syntax_error              fg=red                        # bg=203,fg=231
-# ble-face -s syntax_varname            fg=11                         # fg=202
-# ble-face -s syntax_delimiter          bold                          # bold
-# ble-face -s syntax_param_expansion    fg=purple                     # fg=purple
-# ble-face -s syntax_history_expansion  fg=231                        # bg=94,fg=231
-# ble-face -s syntax_function_name      fg=purple,bold                # fg=92,bold
-# ble-face -s syntax_comment            fg=gray                       # fg=gray
-# ble-face -s syntax_glob               fg=198,bold                   # fg=198,bold
-# ble-face -s syntax_brace              fg=37,bold                    # fg=37,bold
-# ble-face -s syntax_tilde              fg=navy,bold                  # fg=navy,bold
-# ble-face -s syntax_document           fg=94                         # fg=94
-# ble-face -s syntax_document_begin     fg=94,bold                    # fg=94,bold
-# ble-face -s command_builtin_dot       fg=red,bold                   # fg=red,bold
-# ble-face -s command_builtin           fg=red                        # fg=red
-# ble-face -s command_alias             fg=teal                       # fg=teal
-# ble-face -s command_function          fg=purple                     # fg=92 # fg=purple
-# ble-face -s command_file              fg=green                      # fg=green
-# ble-face -s command_keyword           fg=blue                       # fg=blue
-# ble-face -s command_jobs              fg=red,bold                   # fg=red,bold
-# ble-face -s command_directory         fg=navy,underline             # fg=navy,underline
-# ble-face -s command_suffix            fg=green                      # fg=white,bg=green
-# ble-face -s command_suffix_new        fg=brown                      # fg=white,bg=brown
-# ble-face -s argument_option           fg=teal                       # fg=teal
-# ble-face -s filename_directory        underline,fg=blue             # underline,fg=26
-# ble-face -s filename_directory_sticky underline,fg=white,bg=blue    # underline,fg=white,bg=26
-# ble-face -s filename_link             underline,fg=teal             # underline,fg=teal
-# ble-face -s filename_orphan           underline,fg=teal,bg=224      # underline,fg=teal,bg=224
-# ble-face -s filename_setuid           underline,fg=black,bg=220     # underline,fg=black,bg=220
-# ble-face -s filename_setgid           underline,fg=black,bg=191     # underline,fg=black,bg=191
-# ble-face -s filename_executable       underline,fg=green            # underline,fg=green
-# ble-face -s filename_other            underline                     # underline
-# ble-face -s filename_socket           underline,fg=cyan,bg=black    # underline,fg=cyan,bg=black
-# ble-face -s filename_pipe             underline,fg=lime,bg=black    # underline,fg=lime,bg=black
-# ble-face -s filename_character        underline,fg=white,bg=black   # underline,fg=white,bg=black
-# ble-face -s filename_block            underline,fg=yellow,bg=black  # underline,fg=yellow,bg=black
-# ble-face -s filename_warning          underline,fg=red              # underline,fg=red
-# ble-face -s filename_url              underline,fg=blue             # underline,fg=blue
-# ble-face -s filename_ls_colors        underline                     # underline
-# ble-face -s varname_array             fg=orange,bold                # fg=orange,bold
-# ble-face -s varname_empty             fg=31                         # fg=31
-# ble-face -s varname_export            fg=200,bold                   # fg=200,bold
-# ble-face -s varname_expr              fg=92,bold                    # fg=92,bold
-# ble-face -s varname_hash              fg=70,bold                    # fg=70,bold
-# ble-face -s varname_number            fg=green                      # fg=64
-# ble-face -s varname_readonly          fg=200                        # fg=200
-# ble-face -s varname_transform         fg=cyan,bold                  # fg=29,bold
-# ble-face -s varname_unset             fg=124                        # fg=124
-
-# ble-face -s cmdinfo_cd_cdpath         fg=26,bg=155
+# ble-face argument_error=fg=red,underline
+# ble-face argument_option=fg=teal
+ble-face auto_complete=fg=240                # fg=black,bg=silver
+# ble-face cmdinfo_cd_cdpath=fg=navy,bg=yellow
+# ble-face command_alias=fg=teal
+# ble-face command_builtin=fg=red
+# ble-face command_builtin_dot=fg=red,bold
+# ble-face command_directory=fg=blue,underline
+# ble-face command_file=fg=green
+# ble-face command_function=fg=magenta
+# ble-face command_jobs=fg=red,bold
+# ble-face command_keyword=fg=blue
+# ble-face command_suffix=fg=white,bg=green
+# ble-face command_suffix_new=fg=white,bg=brown
+# ble-face disabled=fg=silver
+# ble-face filename_block=fg=yellow,bg=black,underline
+# ble-face filename_character=fg=white,bg=black,underline
+# ble-face filename_directory=fg=blue,underline
+# ble-face filename_directory_sticky=fg=white,bg=blue,underline
+# ble-face filename_executable=fg=green,underline
+# ble-face filename_link=fg=teal,underline
+# ble-face filename_ls_colors=underline
+# ble-face filename_orphan=fg=cyan,bg=brown,underline
+# ble-face filename_other=underline
+# ble-face filename_pipe=fg=lime,bg=black,underline
+# ble-face filename_setgid=fg=black,bg=lime,underline
+# ble-face filename_setuid=fg=black,bg=yellow,underline
+# ble-face filename_socket=fg=cyan,bg=black,underline
+# ble-face filename_url=fg=blue,underline
+# ble-face filename_warning=fg=red,underline
+# ble-face menu_desc_default=none
+# ble-face menu_desc_quote=ref:syntax_quoted
+# ble-face menu_desc_type=ref:syntax_delimiter
+# ble-face menu_filter_fixed=bold
+# ble-face menu_filter_input=fg=black,bg=yellow
+# ble-face overwrite_mode=fg=black,bg=cyan
+# ble-face prompt_status_line=fg=white,bg=gray
+# ble-face region=fg=white,bg=navy
+# ble-face region_insert=fg=blue,bg=silver
+# ble-face region_match=fg=white,bg=navy
+# ble-face region_target=fg=black,bg=cyan
+# ble-face syntax_brace=fg=teal,bold
+# ble-face syntax_command=fg=brown
+# ble-face syntax_comment=fg=silver
+# ble-face syntax_default=none
+# ble-face syntax_delimiter=bold
+# ble-face syntax_document=fg=olive
+# ble-face syntax_document_begin=fg=olive,bold
+ble-face syntax_error=fg=red,bold      # fg=white,bg=red
+# ble-face syntax_escape=fg=magenta
+# ble-face syntax_expr=fg=blue
+# ble-face syntax_function_name=fg=magenta,bold
+# ble-face syntax_glob=fg=magenta,bold
+# ble-face syntax_history_expansion=fg=white,bg=brown
+# ble-face syntax_param_expansion=fg=magenta
+# ble-face syntax_quotation=fg=green,bold
+# ble-face syntax_quoted=fg=green
+# ble-face syntax_tilde=fg=blue,bold
+# ble-face syntax_varname=fg=olive
+# ble-face varname_array=fg=olive,bold
+# ble-face varname_empty=fg=teal
+# ble-face varname_export=bold
+# ble-face varname_expr=fg=blue,bold
+# ble-face varname_hash=fg=green,bold
+# ble-face varname_number=fg=olive
+# ble-face varname_readonly=fg=magenta
+# ble-face varname_transform=fg=teal,bold
+# ble-face varname_unset=fg=brown
+# ble-face vbell=reverse
+# ble-face vbell_erase=bg=silver
+# ble-face vbell_flash=fg=green,reverse
 
 ##-----------------------------------------------------------------------------
 ## Keybindings
