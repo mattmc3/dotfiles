@@ -70,6 +70,9 @@ config.macos_window_background_blur = 20
 --config.window_background_opacity = 0.7
 config.background = wezterm.GLOBAL.backgrounds["Solid"]
 
+-- Cursor
+config.default_cursor_style = 'SteadyBar'
+
 -- Font
 config.font = wezterm.font 'MesloLGM Nerd Font Mono'
 config.font_size = 14.0
