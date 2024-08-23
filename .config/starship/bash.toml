@@ -47,7 +47,7 @@ format = '[(\($virtualenv\) )]($style)'
 style = 'white'
 
 [directory]
-style = "white"
+style = "cyan"
 truncation_length = 1
 truncation_symbol = ""
 fish_style_pwd_dir_length = 1

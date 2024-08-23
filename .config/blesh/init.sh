@@ -178,7 +178,7 @@
 ## "prompt_ps1_transient" is effective only when the current working directory
 ## did not change since the last command line.
 
-bleopt prompt_ps1_final="$(tput setaf 006)❯$(tput sgr0) "
+bleopt prompt_ps1_final="$(tput setaf 005)❯$(tput sgr0) "
 bleopt prompt_ps1_transient=trim
 
 

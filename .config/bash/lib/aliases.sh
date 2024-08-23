@@ -1,0 +1,35 @@
+#!/usr/bin/env bash
+
+#
+# Aliases
+#
+
+if type gawk &>/dev/null; then
+  alias awk="gawk"
+fi
+alias ls='ls -G'
+alias grep='grep --color=auto --exclude-dir={.git,.hg,.svn}'
+export GNUPGHOME=$XDG_DATA_HOME/gnupg
+alias gpg='gpg --homedir "$GNUPGHOME"'
+
+alias rcs="cd ~/.config/bash"
+alias reload="source ~/.bashrc"
+if type safe-rm &>/dev/null; then
+  alias rm='safe-rm'
+  alias del='safe-rm'
+fi
+alias la='ls -laGh'
+alias ll='ls -lGh'
+alias l='ls -G'
+alias ldot='ls -ld .*'
+alias zz='exit'
+alias fd='find . -type d -name'
+alias ff='find . -type f -name'
+alias dotf='cd ~/.dotfiles'
+alias bench="for i in {1..10}; do /usr/bin/time bash -ic 'echo -n'; done"
+
+# single character shortcuts - be sparing!
+alias _='sudo'
+alias h='history'
+alias v='vim'
+alias c='clear'
