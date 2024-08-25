@@ -96,6 +96,7 @@
 .config/zsh/.*/
 .config/zsh/.zcompdump*
 .config/zsh/custom/
+.config/zsh/ohmyzsh/
 
 # re-ignore local files
 *.local
