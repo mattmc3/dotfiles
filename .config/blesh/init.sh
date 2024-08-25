@@ -940,12 +940,12 @@ bleopt color_scheme=base16
 ble-face auto_complete=fg=240                # fg=black,bg=silver
 # ble-face cmdinfo_cd_cdpath=fg=navy,bg=yellow
 # ble-face command_alias=fg=teal
-# ble-face command_builtin=fg=red
-# ble-face command_builtin_dot=fg=red,bold
+ble-face command_builtin=fg=teal
+ble-face command_builtin_dot=fg=teal,bold
 # ble-face command_directory=fg=blue,underline
 # ble-face command_file=fg=green
 # ble-face command_function=fg=magenta
-# ble-face command_jobs=fg=red,bold
+ble-face command_jobs=fg=teal,bold
 # ble-face command_keyword=fg=blue
 # ble-face command_suffix=fg=white,bg=green
 # ble-face command_suffix_new=fg=white,bg=brown
@@ -977,7 +977,7 @@ ble-face auto_complete=fg=240                # fg=black,bg=silver
 # ble-face region_match=fg=white,bg=navy
 # ble-face region_target=fg=black,bg=cyan
 # ble-face syntax_brace=fg=teal,bold
-# ble-face syntax_command=fg=brown
+ble-face syntax_command=fg=teal
 # ble-face syntax_comment=fg=silver
 # ble-face syntax_default=none
 # ble-face syntax_delimiter=bold
