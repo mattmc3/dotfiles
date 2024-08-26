@@ -1,4 +1,5 @@
-#!/usr/bin/env bash
+# shellcheck shell=bash
+
 #
 # __init__: Run this first
 #

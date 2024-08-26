@@ -1,5 +1,4 @@
-#!/usr/bin/env bash
-# shellcheck source=/dev/null
+# shellcheck shell=bash source=/dev/null
 
 #
 # Completion

@@ -1,5 +1,4 @@
-#!/usr/bin/env bash
-# shellcheck source=/dev/null
+# shellcheck shell=bash source=/dev/null
 
 #
 # Local
@@ -12,7 +11,7 @@
 #
 
 # Add this line at the end of .bashrc:
-[[ ${BLE_VERSION-} ]] && ble-attach
+# [[ ${BLE_VERSION-} ]] && ble-attach
 
 # Uncomment to profile:
 # if [[ ${BLE_VERSION-} ]]; then

@@ -1,5 +1,4 @@
-#!/usr/bin/env bash
-# shellcheck disable=SC2002
+# shellcheck shell=bash disable=SC2002
 
 # clipcopy/clippaste
 detect_clipboard() {

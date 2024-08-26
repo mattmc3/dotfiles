@@ -1,6 +1,7 @@
-#!/usr/bin/env bash
+# shellcheck shell=bash disable=SC2034
+
 #
-# Provides for easier use of 256 colors and effects.
+# Colors: Provides for easier use of 256 colors and effects.
 #
 
 # Return if requirements are not found.
@@ -18,7 +19,7 @@ export LESS_TERMCAP_ue=$'\E[0m'         # end underline
 export LESS_TERMCAP_me=$'\E[0m'         # end bold/blink
 
 # Set foreground, background, and effects variables.
-typeset -gAx FG BG FX
+typeset -A FG BG FX
 function colorinit() {
   FG=(); BG=(); FX=();
 

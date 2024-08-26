@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+# shellcheck shell=bash source=/dev/null
 
 #
 # Utilities

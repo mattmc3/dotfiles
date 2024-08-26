@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+# shellcheck shell=bash
 
 # Check requirements.
 [[ "$OSTYPE" == darwin* ]] || return 1
