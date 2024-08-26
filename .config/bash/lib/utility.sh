@@ -15,5 +15,13 @@ if ! command -v open >/dev/null; then
   fi
 fi
 
+# WezTerm
+if [[ "$TERM_PROGRAM" == "WezTerm" ]]; then
+  if [[ -r "$REPO_HOME/wez/wezterm/assets/shell-integration/wezterm.sh" ]]; then
+    source "$REPO_HOME/wez/wezterm/assets/shell-integration/wezterm.sh"
+    __wezterm_set_user_var "WEZTERM_CURRENT_SHELL" "bash $BASH_VERSION"
+  fi
+fi
+
 eval "$(zoxide init bash)"
 eval "$(fzf --bash)"

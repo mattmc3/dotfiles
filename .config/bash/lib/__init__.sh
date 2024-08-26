@@ -26,6 +26,7 @@ mkdir -p "$REPO_HOME"
 repos=(
   bash-it/bash-it
   akinomyoga/ble.sh
+  wez/wezterm
 )
 for repo in "${repos[@]}"; do
   [ ! -d "$REPO_HOME/$repo" ] || continue
