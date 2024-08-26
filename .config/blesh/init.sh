@@ -189,8 +189,8 @@ bleopt prompt_ps1_transient=trim
 ## prompt vanishes if "prompt_rps1_transient" is set to a non-empty value,
 
 #bleopt prompt_rps1='\w'
-#bleopt prompt_rps1_final=
-#bleopt prompt_rps1_transient=''
+#bleopt prompt_rps1_final=''
+bleopt prompt_rps1_transient='true'
 
 
 ## The following settings specify the content of terminal titles and status
@@ -969,13 +969,13 @@ ble-face command_jobs=fg=teal,bold
 # ble-face menu_desc_quote=ref:syntax_quoted
 # ble-face menu_desc_type=ref:syntax_delimiter
 # ble-face menu_filter_fixed=bold
-# ble-face menu_filter_input=fg=black,bg=yellow
+ble-face menu_filter_input=none  # fg=black,bg=yellow
 # ble-face overwrite_mode=fg=black,bg=cyan
 # ble-face prompt_status_line=fg=white,bg=gray
 # ble-face region=fg=white,bg=navy
-# ble-face region_insert=fg=blue,bg=silver
-# ble-face region_match=fg=white,bg=navy
-# ble-face region_target=fg=black,bg=cyan
+ble-face region_insert=none
+ble-face region_match=none
+ble-face region_target=none
 # ble-face syntax_brace=fg=teal,bold
 ble-face syntax_command=fg=teal
 # ble-face syntax_comment=fg=silver

@@ -28,6 +28,13 @@ alias ff='find . -type f -name'
 alias dotf='cd ~/.dotfiles'
 alias bench="for i in {1..10}; do /usr/bin/time bash -ic 'echo -n'; done"
 
+# initial working directory
+IWD="${IWD:-PWD}"
+alias iwd='cd "$IWD"'
+
+# brew
+alias brewup="brew update && brew upgrade && brew cleanup"
+
 # single character shortcuts - be sparing!
 alias _='sudo'
 alias h='history'

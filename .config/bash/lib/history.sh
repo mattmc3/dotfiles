@@ -1,3 +1,4 @@
+#!/usr/bin/env bash
 #
 # History
 #
@@ -7,5 +8,5 @@ HISTSIZE=10000            # remember the last x commands in memory during sessio
 HISTFILESIZE=100000       # start truncating history file after x lines
 HISTCONTROL=ignoreboth    # ignoreboth is shorthand for ignorespace and ignoredups
 HISTFILE=$XDG_DATA_HOME/bash/history
-[[ -f $HISTFILE ]] || mkdir -p $(dirname $HISTFILE)
+[[ -f $HISTFILE ]] || mkdir -p "${HISTFILE%/*}"
 #PROMPT_COMMAND="history -a;history -c;history -r;$PROMPT_COMMAND"

@@ -14,7 +14,7 @@ right_format = """$status$cmd_duration$git_branch${custom.git_status_dirty}$git_
 command_timeout=2000
 
 # Set the palette.
-palette = "tokyo_night_256"
+palette = "wombat_256"
 
 # Define custom colors
 [palettes.tokyo_night_256]
@@ -36,6 +36,7 @@ purple = '171'
 red = '203'
 white = '188'
 yellow = '223'
+true_white = '255'
 
 [character]
 success_symbol = '[\$](green)'
@@ -47,7 +48,7 @@ format = '[(\($virtualenv\) )]($style)'
 style = 'white'
 
 [directory]
-style = "cyan"
+style = "blue"
 truncation_length = 1
 truncation_symbol = ""
 fish_style_pwd_dir_length = 1

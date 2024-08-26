@@ -18,18 +18,18 @@ export LESS_TERMCAP_ue=$'\E[0m'         # end underline
 export LESS_TERMCAP_me=$'\E[0m'         # end bold/blink
 
 # Set foreground, background, and effects variables.
-typeset -gA FG BG FX
+typeset -gAx FG BG FX
 function colorinit() {
   FG=(); BG=(); FX=();
 
   FX=(
-    reset     $'\E[00m'
-    bold      $'\E[01m'  no-bold      $'\E[22m'
-    dim       $'\E[02m'  no-dim       $'\E[22m'
-    italic    $'\E[03m'  no-italic    $'\E[23m'
-    underline $'\E[04m'  no-underline $'\E[24m'
-    blink     $'\E[05m'  no-blink     $'\E[25m'
-    reverse   $'\E[07m'  no-reverse   $'\E[27m'
+        [reset]=$'\E[00m'
+         [bold]=$'\E[01m'       [no-bold]=$'\E[22m'
+          [dim]=$'\E[02m'        [no-dim]=$'\E[22m'
+       [italic]=$'\E[03m'     [no-italic]=$'\E[23m'
+    [underline]=$'\E[04m'  [no-underline]=$'\E[24m'
+        [blink]=$'\E[05m'      [no-blink]=$'\E[25m'
+      [reverse]=$'\E[07m'    [no-reverse]=$'\E[27m'
   )
 
   local color_id
@@ -46,8 +46,8 @@ function colormap() {
   for i in {0..255}; do
     fg=$'\E[38;5;'$i'm'
     bg=$'\E[48;5;'$i'm'
-    printf "$bg  $reset"
-    printf "${fg}%03d${reset} " $i
+    printf "%s  %s" "$bg" "$reset"
+    printf "${fg}%03d${reset} " "$i"
     (( i <= 15 && (i + 1)  % 8 == 0 )) && echo
     (( i > 15  && (i - 15) % 6 == 0 )) && echo
   done
