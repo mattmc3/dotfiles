@@ -1,1 +1,2 @@
-. ~/.config/bash/bashrc.bash
+#!/usr/bin/env bash
+. $HOME/.bashrc
