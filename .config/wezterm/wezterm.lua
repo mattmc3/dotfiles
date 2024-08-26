@@ -1,6 +1,9 @@
 -- Pull in the wezterm API
 local wezterm = require 'wezterm'
 
+-- This will hold the configuration.
+local config = wezterm.config_builder()
+
 -- region: Definitions
 -- Define selectable backgrounds
 local backgrounds = {}
@@ -44,13 +47,9 @@ local shells = {
 	zsh = "/opt/homebrew/bin/zsh",
 }
 wezterm.GLOBAL.shells = shells
--- }}}
-
--- This will hold the configuration.
-local config = wezterm.config_builder()
 
 -- What's our shell?
-local shell = shells["fish"]
+local shell = shells["bash"]
 config.default_prog = { shell }
 config.set_environment_variables = {
 	SHELL = shell,
@@ -127,11 +126,16 @@ config.keys = {
 -- Add a Powerline status
 -- https://gist.github.com/alexpls/83d7af23426c8928402d6d79e72f9401
 local function segments_for_right_status(window)
-  return {
-    window:active_workspace(),
-    wezterm.strftime('%a %b %-d %H:%M'),
+  local result = {
+		tostring(window:active_pane():get_user_vars().WEZTERM_CURRENT_SHELL),
     wezterm.hostname(),
+		wezterm.strftime('%a %b %-d %H:%M'),
   }
+	local wksp = window:active_workspace()
+	if wksp ~= "default" then
+		 table.insert(result, 1, wksp)
+	end
+	return result
 end
 
 wezterm.on('update-status', function(window, _)
@@ -149,7 +153,7 @@ wezterm.on('update-status', function(window, _)
   -- darker/lighter depending on whether we're on a dark/light colour
   -- scheme. Let's establish the "from" and "to" bounds of our gradient.
   local gradient_to, gradient_from = bg, bg
-  gradient_from = gradient_to:lighten(0.2)
+  gradient_from = gradient_to:lighten(0.4)
 
   -- Yes, WezTerm supports creating gradients, because why not?! Although
   -- they'd usually be used for setting high fidelity gradients on your terminal's
