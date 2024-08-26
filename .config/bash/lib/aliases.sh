@@ -12,8 +12,9 @@ alias grep='grep --color=auto --exclude-dir={.git,.hg,.svn}'
 export GNUPGHOME=$XDG_DATA_HOME/gnupg
 alias gpg='gpg --homedir "$GNUPGHOME"'
 
-alias rcs="cd ~/.config/bash"
-alias reload="source ~/.bashrc"
+BASH_HOME="${BASH_HOME:-$XDG_CONFIG_HOME/bash}"
+alias rcs='cd $BASH_HOME'
+alias reload='source "${BASH_HOME:-$HOME}/.bashrc"'
 if type safe-rm &>/dev/null; then
   alias rm='safe-rm'
   alias del='safe-rm'
