@@ -17,6 +17,22 @@ mkdir -p "$XDG_CONFIG_HOME" "$XDG_CACHE_HOME" "$XDG_DATA_HOME" "$XDG_STATE_HOME"
 export BASH_HOME="$XDG_CONFIG_HOME/bash"
 
 #
+# Path
+#
+
+export PATH="/usr/local/bin:/usr/local/sbin:$PATH"
+export PATH="/opt/homebrew/bin:/opt/homebrew/sbin:$PATH"
+
+for brewcmd in /opt/homebrew/bin/brew /usr/local/bin/brew; do
+  if [[ -e "$brewcmd" ]]; then
+    eval "$("$brewcmd" shellenv)"
+    break
+  fi
+done
+
+export PATH="$HOME/bin:$HOME/.local/bin:$PATH"
+
+#
 # Repos
 #
 
