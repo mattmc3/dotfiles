@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+# shellcheck shell=bash source=/dev/null
+export STARSHIP_CONFIG=$XDG_CONFIG_HOME/starship/bash.toml

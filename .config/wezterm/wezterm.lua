@@ -127,7 +127,7 @@ config.keys = {
 -- https://gist.github.com/alexpls/83d7af23426c8928402d6d79e72f9401
 local function segments_for_right_status(window)
   local result = {
-		tostring(window:active_pane():get_user_vars().WEZTERM_CURRENT_SHELL),
+		tostring(window:active_pane():get_user_vars().TERM_CURRENT_SHELL),
     wezterm.hostname(),
 		wezterm.strftime('%a %b %-d %H:%M'),
   }
