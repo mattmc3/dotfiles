@@ -234,9 +234,11 @@ alias quit='exit'
 alias cd..='cd ..'
 alias zz='exit'
 
-# gpg needs to store its keyring in XDG locations
-export GNUPGHOME="$XDG_DATA_HOME/gnupg"
-alias gpg='gpg --homedir "$GNUPGHOME"'
+# Tell gpg to store its keyring as data.
+if [[ -d "$XDG_DATA_HOME" ]]; then
+  export GNUPGHOME="${GNUPGHOME:-$XDG_DATA_HOME/gnupg}"
+  alias gpg='gpg --homedir "$GNUPGHOME"'
+fi
 
 # url encode/decode
 alias urldecode='python3 -c "import sys, urllib.parse as ul; \
