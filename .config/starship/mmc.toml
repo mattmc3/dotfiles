@@ -98,7 +98,7 @@ fish_indicator = '🐟'  # 󰈺 🐟 🐠
 powershell_indicator = '_'
 pwsh_indicator = '>_'
 zsh_indicator = '󠀥%'
-bash_indicator = '󠀥$'
+bash_indicator = '󠀥\$'
 style = 'cyan bold'
 disabled = false
 

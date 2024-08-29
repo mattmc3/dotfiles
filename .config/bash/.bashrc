@@ -79,8 +79,7 @@ fi
 export PATH="/usr/local/bin:/usr/local/sbin:$PATH"
 
 # Set up homebrew.
-for brewcmd in /opt/homebrew/bin/brew \
-               /usr/local/bin/brew
+for brewcmd in /opt/homebrew/bin/brew /usr/local/bin/brew
 do
   [[ -x "$brewcmd" ]] || continue
   eval "$("$brewcmd" shellenv)"
@@ -110,7 +109,7 @@ export PAGER="${PAGER:-less}"
 
 # Set browser.
 if [[ "$OSTYPE" == darwin* ]]; then
-  export BROWSER=${BROWSER:-open}
+  export BROWSER="${BROWSER:-open}"
 fi
 
 # Set flags for less command.
@@ -227,7 +226,6 @@ alias c='clear'
 # Mask built-ins with better defaults.
 alias ping='ping -c 5'
 alias vi=vim
-alias nv=nvim
 alias grep='grep --color=auto --exclude-dir={.git,.hg,.svn,.vscode}'
 
 # fix typos
@@ -267,6 +265,7 @@ fi
 alias brewup="brew update && brew upgrade && brew cleanup"
 
 # Misc aliases.
+alias nv=nvim
 alias ppath='echo $PATH | tr ":" "\n"'
 alias cls="clear && printf '\e[3J'"
 alias bench="for i in {1..10}; do /usr/bin/time bash -ic 'echo -n'; done"
