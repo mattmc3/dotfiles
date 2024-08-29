@@ -151,9 +151,9 @@ export LESS_TERMCAP_me=$'\E[0m'         # end bold/blink
 
 # Set LS_COLORS using dircolors
 if [[ -z "$LS_COLORS" ]]; then
-  if type dircolors &>/dev/null 2>&1; then
+  if type dircolors >/dev/null 2>&1; then
     eval "$(dircolors --sh)"
-  elif type gdircolors &>/dev/null 2>&1; then
+  elif type gdircolors >/dev/null 2>&1; then
     eval "$(gdircolors --sh)"
   fi
 fi
@@ -162,7 +162,7 @@ fi
 export LS_COLORS="${LS_COLORS:-di=34:ln=35:so=32:pi=33:ex=31:bd=1;36:cd=1;33:su=30;41:sg=30;46:tw=30;42:ow=30;43}"
 
 # For BSD systems, set LSCOLORS instead.
-if ! type dircolors &>/dev/null 2>&1; then
+if ! type dircolors >/dev/null 2>&1; then
   export CLICOLOR=1
   export LSCOLORS="exfxcxdxbxGxDxabagacad"
 fi
@@ -256,7 +256,7 @@ alias utc="date -u +%Y-%m-%dT%H:%M:%SZ"
 alias unixepoch="date +%s"
 
 # Safer way to rm.
-if type safe-rm &>/dev/null; then
+if type safe-rm >/dev/null 2>&1; then
   alias rm='safe-rm'
   alias del='safe-rm'
 fi
@@ -412,14 +412,14 @@ fi
 #
 
 # Cross-platform support for an 'open' command.
-if ! type open &>/dev/null; then
+if ! type open >/dev/null 2>&1; then
   if [[ "$OSTYPE" == cygwin* ]]; then
     alias open='cygstart'
   elif [[ "$OSTYPE" == linux-android ]]; then
     alias open='termux-open'
-  elif type explorer.exe &>/dev/null; then
+  elif type explorer.exe >/dev/null 2>&1; then
     alias open='explorer.exe'
-  elif type xdg-open &>/dev/null; then
+  elif type xdg-open >/dev/null 2>&1; then
     alias open='xdg-open'
   fi
 fi
@@ -431,27 +431,27 @@ if [[ "$OSTYPE" == darwin* ]]; then
 elif [[ "$OSTYPE" == cygwin* ]]; then
   alias clipcopy='tee > /dev/clipboard'
   alias clippaste='cat /dev/clipboard'
-elif type clip.exe &>/dev/null && type powershell.exe &>/dev/null; then
+elif type clip.exe >/dev/null 2>&1 && type powershell.exe >/dev/null 2>&1; then
   alias clipcopy='clip.exe'
   alias clippaste='powershell.exe -noprofile -command Get-Clipboard'
-elif [[ -n "$WAYLAND_DISPLAY" ]] && type wl-copy &>/dev/null && type wl-paste &>/dev/null; then
+elif [[ -n "$WAYLAND_DISPLAY" ]] && type wl-copy >/dev/null 2>&1 && type wl-paste >/dev/null 2>&1; then
   alias clipcopy='wl-copy'
   alias clippaste='wl-paste'
-elif [[ -n "$DISPLAY" ]] && type xclip &>/dev/null; then
+elif [[ -n "$DISPLAY" ]] && type xclip >/dev/null 2>&1; then
   alias clipcopy='xclip -selection clipboard -in'
   alias clippaste='xclip -selection clipboard -out'
-elif [[ -n "$DISPLAY" ]] && type xsel &>/dev/null; then
+elif [[ -n "$DISPLAY" ]] && type xsel >/dev/null 2>&1; then
   alias clipcopy='xsel --clipboard --input'
   alias clippaste='xsel --clipboard --output'
 fi
 
 # Enable z command.
-if type zoxide &>/dev/null; then
+if type zoxide >/dev/null 2>&1; then
   eval "$(zoxide init bash)"
 fi
 
 # Enable fzf bash integration.
-if type fzf &>/dev/null; then
+if type fzf >/dev/null 2>&1; then
   eval "$(fzf --bash)"
 fi
 
