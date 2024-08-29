@@ -1,3 +1,5 @@
+[[ -n "$BLE_VERSION" ]] || return 1
+
 # Default commands
 : ${MAGIC_ENTER_GIT_COMMAND:="git status -sb ."} # run when in a git repository
 : ${MAGIC_ENTER_OTHER_COMMAND:="ls ."}           # run anywhere else
