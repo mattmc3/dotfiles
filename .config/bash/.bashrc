@@ -413,15 +413,15 @@ function prompt_hydro_git_string() {
 # Bash version of Hydro - https://github.com/jorgebucaran/hydro
 # ~/p/hydro main• ↑1 ↓2 | 0 1 1 ❱
 function prompt_hydro_setup() {
-  local last_exit_status="$?"
+  local -a last_pipestatus=("${BLE_PIPESTATUS[@]:-${PIPESTATUS[@]}}")
   local prompt_error prompt_char
 
   color_red="\[\e[31m\]"
   color_magenta="\[\e[35m\]"
   color_reset="\[\e[00m\]"
 
-  if [[ "$last_exit_status" -ne 0 ]]; then
-    prompt_error=" ${HYDRO_COLOR_ERROR:-$color_red}[${last_exit_status}]"
+  if [[ "${last_pipestatus[*]}" =~ [1-9] ]]; then
+    prompt_error=" ${HYDRO_COLOR_ERROR:-$color_red}[${last_pipestatus[*]}]"
   fi
   prompt_char=" ${HYDRO_COLOR_PROMPT:-$color_magenta}${HYDRO_SYMBOL_PROMPT:-❱}"
   if [[ "${HYDRO_MULTILINE:-false}" != false ]]; then
