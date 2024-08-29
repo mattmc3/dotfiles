@@ -398,14 +398,6 @@ function prompt_hydro_setup() {
   PS1="$(prompt_hydro_short_path)$(prompt_hydro_git_string)${prompt_error}${prompt_char} ${prompt_fg[reset]}"
 }
 
-# starship
-if type starship &>/dev/null; then
-  eval "$(starship init bash)"
-else
-  # Tell Bash to set the hydro prompt
-  export PROMPT_COMMAND="prompt_hydro_setup;${PROMPT_COMMAND}"
-fi
-
 #
 #endregion
 #region: Utilities
@@ -464,9 +456,21 @@ fi
 source_bashrcd
 
 #
-#endregion
-#region: Post
-#
+# Pick a default theme.
+if [[ -z "$BASH_THEME" ]]; then
+  if type starship >/dev/null 2>&1; then
+    BASH_THEME="starship"
+  else
+    BASH_THEME="hydro"
+  fi
+fi
+
+# Set the prompt theme.
+if [[ "$BASH_THEME" == "starship" ]]; then
+  eval "$(starship init bash)"
+elif [[ "$BASH_THEME" != "none" ]]; then
+  export PROMPT_COMMAND="prompt_${BASH_THEME}_setup;${PROMPT_COMMAND}"
+fi
 
 # Set vars that terminals like WezTerm/iTerm2 can use.
 if [[ -n "$TERM_PROGRAM" ]]; then
