@@ -95,11 +95,11 @@ export PATH="$HOME/bin:$HOME/.local/bin:$PATH"
 #region: Environment
 #
 
-# Locale
+# Set locale.
 export LANG="${LANG:-en_US.UTF-8}"
 export TZ="${TZ:-America/New_York}"
 
-# Preferred editor for local and remote sessions
+# Preferred editor for local and remote sessions.
 if [[ -n $SSH_CONNECTION ]]; then
   export EDITOR="${REMOTE_EDITOR:-vi}"
 else
@@ -113,10 +113,10 @@ if [[ "$OSTYPE" == darwin* ]]; then
   export BROWSER=${BROWSER:-open}
 fi
 
-# Set the default less options.
+# Set flags for less command.
 export LESS="-giMRSw -z-4"
 
-# Reduce key delay
+# Reduce key delay.
 export KEYTIMEOUT="${KEYTIMEOUT:-1}"
 
 #
@@ -162,7 +162,7 @@ fi
 # Fallback, even for BSD systems
 export LS_COLORS="${LS_COLORS:-di=34:ln=35:so=32:pi=33:ex=31:bd=1;36:cd=1;33:su=30;41:sg=30;46:tw=30;42:ow=30;43}"
 
-# For BSD systems, set LSCOLORS.
+# For BSD systems, set LSCOLORS instead.
 if ! type dircolors &>/dev/null 2>&1; then
   export CLICOLOR=1
   export LSCOLORS="exfxcxdxbxGxDxabagacad"
@@ -210,20 +210,20 @@ alias iwd='cd "$IWD"'
 #region: Aliases
 #
 
-# ls shorthand
+# ls shorthand.
 alias ls='ls --color=auto'
 alias la='ls -lah'
 alias ll='ls -lh'
 alias l='ls -F'
 alias ldot='ls -ld .*'
 
-# single character shortcuts - be sparing!
+# Single character shortcuts - be sparing!
 alias _='sudo'
 alias h='history'
 alias v='vim'
 alias c='clear'
 
-# mask built-ins with better defaults
+# Mask built-ins with better defaults.
 alias ping='ping -c 5'
 alias vi=vim
 alias nv=nvim
