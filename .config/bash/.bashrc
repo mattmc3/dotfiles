@@ -1,6 +1,10 @@
 #!/usr/bin/env bash
 # shellcheck shell=bash source=/dev/null disable=SC2001,SC2002
 
+# TODO: Hydro should use gitstatus if available
+# TODO: Hydro should show cmd duration (from ble.sh?)
+# TODO: Add minimal prompt option
+
 #region: [Early Init]
 #
 
@@ -139,9 +143,22 @@ fi
 #region: [Completion]
 #
 
+if [ -r "${HOMEBREW_PREFIX:-?}/etc/profile.d/bash_completion.sh" ]; then
+  . "${HOMEBREW_PREFIX:-?}/etc/profile.d/bash_completion.sh"
+elif [ -f /usr/share/bash-completion/bash_completion ]; then
+	. /usr/share/bash-completion/bash_completion
+elif [ -f /etc/bash_completion ]; then
+	. /etc/bash_completion
+fi
 
-# HOMEBREW_PREFIX=${HOMEBREW_PREFIX:-/opt/homebrew}
-# [[ -r "$HOMEBREW_PREFIX/etc/profile.d/bash_completion.sh" ]] && . "$HOMEBREW_PREFIX/etc/profile.d/bash_completion.sh"
+#
+#endregion
+
+#region: [Editor]
+#
+
+# Allow ctrl-S for history navigation (with ctrl-R)
+stty -ixon
 
 #
 #endregion
