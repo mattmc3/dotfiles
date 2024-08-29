@@ -40,23 +40,35 @@
 #region: Init
 #
 
-# Users can customize.
-[[ -r "$BASH_CONFIG_DIR/.bashrc.pre" ]] && . "$BASH_CONFIG_DIR/.bashrc.pre"
+# Turn on extended globbing early so we can count on it everywhere.
+shopt -s extglob
 
-# Set XDG base dirs.
-export XDG_CONFIG_HOME="${XDG_CONFIG_HOME:-$HOME/.config}"
-export XDG_CACHE_HOME="${XDG_CACHE_HOME:-$HOME/.cache}"
-export XDG_DATA_HOME="${XDG_DATA_HOME:-$HOME/.local/share}"
+# Help with sourcing runcom files in bashrc.d.
+function source_bashrcd() {
+  shopt -s nullglob
+  local rc rcd; local -a rcs
+  rcd="${BASH_HOME:-$HOME}/.bashrc.d"
+  case "$1" in
+    pre)  rcs=("$rcd"/!(~*).pre.bash)  ;;
+    post) rcs=("$rcd"/!(~*).post.bash) ;;
+    *)    rcs=("$rcd"/!(~*|*.pre|*.post).bash) ;;
+  esac
+  for rc in "${rcs[@]}"; do
+    [[ -r "$rc" ]] && source "$rc"
+  done
+  shopt -u nullglob
+}
 
-# Set Bash dirs.
-BASH_CONFIG_DIR="${BASH_CONFIG_DIR:-$XDG_CONFIG_HOME/bash}"
-BASH_DATA_DIR="${BASH_DATA_DIR:-$XDG_DATA_HOME/bash}"
-BASH_CACHE_DIR="${BASH_CACHE_DIR:-$XDG_CACHE_HOME/bash}"
-mkdir -p "$BASH_CONFIG_DIR" "$BASH_DATA_DIR" "$BASH_CACHE_DIR"
+# Users can customize pre-activities with foo.pre.bash files. Skip ~tilde files.
+source_bashrcd pre
 
-# Initialize ble.sh for interactive shells early in config.
-BLE_HOME="${BLE_HOME:-$XDG_DATA_HOME/blesh}"
-[[ $- == *i* ]] && source "$BLE_HOME/ble.sh" --noattach
+# Initialize ble.sh for interactive shells. Do this early in your config.
+BLE_HOME="${BLE_HOME:-${XDG_DATA_HOME:-$HOME/.local/share}/blesh}"
+if [[ -d "$BLE_HOME" ]]; then
+  [[ $- == *i* ]] && source "$BLE_HOME/ble.sh" --noattach
+else
+  unset BLE_HOME
+fi
 
 #
 #endregion
@@ -119,7 +131,10 @@ HISTFILESIZE=100000       # Start truncating history file after x lines
 HISTCONTROL=ignoreboth    # ignoreboth is shorthand for ignorespace and ignoredups
 
 # Keep the history file with data files, not configs.
-HISTFILE="$BASH_DATA_DIR/history"
+if [[ -n "${XDG_DATA_HOME}" ]]; then
+  [[ -d "${XDG_DATA_HOME}/bash" ]] || mkdir -p "${XDG_DATA_HOME}/bash"
+  HISTFILE="${XDG_DATA_HOME}/bash/history"
+fi
 
 #
 #endregion
@@ -447,17 +462,11 @@ fi
 
 #
 #endregion
-#region: Plugins
+#region: bashrc.d
 #
 
-plugins=(
-  editor
-  macos
-)
-for _plugin in ${plugins[@]}; do
-  source "$BASH_CONFIG_DIR/plugins/${_plugin}.sh"
-done
-unset _plugin
+# Users can add to bashrc with *.bash files in ~/.bashrc.d. Skips ~tilde files.
+source_bashrcd
 
 #
 #endregion
@@ -469,8 +478,8 @@ if [[ -n "$TERM_PROGRAM" ]]; then
   set_terminal_var "TERM_CURRENT_SHELL" "bash $BASH_VERSION"
 fi
 
-# Users can customize.
-[[ -r "$BASH_CONFIG_DIR/.bashrc.post" ]] && . "$BASH_CONFIG_DIR/.bashrc.post"
+# Users can customize post-activities with foo.post.bash files. Skips ~tilde files.
+source_bashrcd post
 
 # Clean up '$PATH'.
 PATH="$(
