@@ -4,6 +4,7 @@
 # TODO: Hydro should use gitstatus if available
 # TODO: Hydro should show cmd duration (from ble.sh?)
 # TODO: Add minimal prompt option
+# TODO: Fix WezTerm shell version
 
 #region: [Early Init]
 #
