@@ -1,33 +1,37 @@
 #!/usr/bin/env bash
-# shellcheck shell=bash source=/dev/null disable=SC2002
+# shellcheck shell=bash source=/dev/null disable=SC2001,SC2002
 
-#
-# [Init]
+#region: [Early Init]
 #
 
 # Turn on extended globbing early so we can count on it everywhere.
 shopt -s extglob
 
-# Help with sourcing runcom files in bashrc.d.
-function source_bashrcd() {
+# Helper to source runcom files in bashrc.d.
+function bashrc_d() {
   shopt -s nullglob
-  local rc rcd; local -a rcs
-  rcd="${BASH_HOME:-$HOME}/.bashrc.d"
-  case "$1" in
-    pre)  rcs=("$rcd"/!(~*).pre.bash)  ;;
-    post) rcs=("$rcd"/!(~*).post.bash) ;;
-    *)    rcs=("$rcd"/!(~*|*.pre|*.post).bash) ;;
-  esac
-  for rc in "${rcs[@]}"; do
-    [[ -r "$rc" ]] && source "$rc"
+  local rc file ext
+  # Loop thru .bashrc.d and source files that match the passed
+  # in extension, excluding leading ~tilde files.
+  for rc in "${BASH_HOME:-$HOME}"/.bashrc.d/*.*; do
+    file="${rc##*/}"; ext=".${file#*.}"
+    [[ "$file" != '~'* ]] || continue
+    [[ "$ext" == "${1:-.bash}" ]] || continue
+    source "$rc"
   done
   shopt -u nullglob
 }
 
-# Users can customize pre-activities with foo.pre.bash files. Skip ~tilde files.
-source_bashrcd pre
+# Users can customize early-init activities with foo.pre.bash files. Skips ~tilde files.
+bashrc_d .pre.bash
 
-# Initialize ble.sh for interactive shells. Do this early in your config.
+#
+#endregion
+
+#region: [Init]
+#
+
+# Initialize ble.sh for interactive shells. Do this near the beginning of .bashrc.
 BLE_HOME="${BLE_HOME:-${XDG_DATA_HOME:-$HOME/.local/share}/blesh}"
 if [[ -d "$BLE_HOME" ]]; then
   [[ $- == *i* ]] && source "$BLE_HOME/ble.sh" --noattach
@@ -36,44 +40,41 @@ else
 fi
 
 #
-# [Path]
+#endregion
+
+#region: [Path]
 #
 
 # Add common directories.
 export PATH="/usr/local/bin:/usr/local/sbin:$PATH"
 
-# Set up homebrew.
-for brewcmd in /opt/homebrew/bin/brew /usr/local/bin/brew
-do
-  [[ -x "$brewcmd" ]] || continue
-  eval "$("$brewcmd" shellenv)"
-  break
-done
+# Set up homebrew if the user didn't already in a .pre.bash file.
+if [[ -z "${HOMEBREW_PREFIX:-}" ]]; then
+  for brewcmd in /opt/homebrew/bin/brew /usr/local/bin/brew; do
+    [[ -x "$brewcmd" ]] || continue
+    eval "$("$brewcmd" shellenv)"
+    break
+  done
+fi
 
 # Add user directories.
 export PATH="$HOME/bin:$HOME/.local/bin:$PATH"
 
 #
-# [Environment]
+#endregion
+
+#region: [Environment]
 #
 
 # Set locale.
 export LANG="${LANG:-en_US.UTF-8}"
 export TZ="${TZ:-America/New_York}"
 
-# Preferred editor for local and remote sessions.
-if [[ -n $SSH_CONNECTION ]]; then
-  export EDITOR="${REMOTE_EDITOR:-vi}"
-else
-  export EDITOR="${EDITOR:-vim}"
-fi
+# Set preferred editors, pagers, and launchers.
+export EDITOR="${EDITOR:-vim}"
 export VISUAL="${VISUAL:-code}"
 export PAGER="${PAGER:-less}"
-
-# Set browser.
-if [[ "$OSTYPE" == darwin* ]]; then
-  export BROWSER="${BROWSER:-open}"
-fi
+export BROWSER="${BROWSER:-open}"
 
 # Set flags for less command.
 export LESS="-giMRSw -z-4"
@@ -82,7 +83,9 @@ export LESS="-giMRSw -z-4"
 export KEYTIMEOUT="${KEYTIMEOUT:-1}"
 
 #
-# [History]
+#endregion
+
+#region: [History]
 #
 
 shopt -s histappend       # Append to history, don't overwrite it.
@@ -98,7 +101,9 @@ if [[ -n "${XDG_DATA_HOME}" ]]; then
 fi
 
 #
-# [Colors]
+#endregion
+
+#region: [Colors]
 #
 
 # Colorize man pages.
@@ -129,18 +134,23 @@ if ! type dircolors >/dev/null 2>&1; then
 fi
 
 #
-# [Completion]
+#endregion
+
+#region: [Completion]
 #
+
 
 # HOMEBREW_PREFIX=${HOMEBREW_PREFIX:-/opt/homebrew}
 # [[ -r "$HOMEBREW_PREFIX/etc/profile.d/bash_completion.sh" ]] && . "$HOMEBREW_PREFIX/etc/profile.d/bash_completion.sh"
 
 #
-# [File System]
+#endregion
+
+#region: [File System]
 #
 
 # Config for dirstack, globbing, special dirs, and general file system nav.
-CDPATH="."
+# CDPATH="."
 set -o noclobber                   # Prevent file overwrite on stdout redirection; use `>|` to force
 set -o pipefail                    # Return the rightmost non-zero code for piped commands if any fail
 shopt -s checkwinsize 2> /dev/null # Update window size after every command
@@ -150,22 +160,13 @@ shopt -s globstar 2> /dev/null     # Turn on recursive globbing (enables ** to r
 shopt -s nocaseglob 2> /dev/null   # Case-insensitive globbing (used in pathname expansion)
 shopt -s autocd 2> /dev/null       # Prepend cd to directory names automatically
 shopt -s dirspell 2> /dev/null     # Correct spelling errors during tab-completion
-shopt -s cdspell 2> /dev/null      # Correct spelling errors in arguments supplied to cd
-shopt -s cdable_vars 2> /dev/null  # CD across the filesystem as if you're in that dir
-
-# dotfiles
-export DOTFILES="${DOTFILES:-$HOME/.dotfiles}"
-alias dotf='cd "$DOTFILES"'
-alias rcs='cd "$BASH_CONFIG_DIR"'
-alias bashrc='"${EDITOR:-vim}" "${BASH_CONFIG_DIR:-$HOME}/.bashrc"'
-alias reload='source "${BASH_CONFIG_DIR:-$HOME}/.bashrc"'
-
-# Quick way to get back to your initial working directory.
-IWD="${IWD:-PWD}"
-alias iwd='cd "$IWD"'
+# shopt -s cdspell 2> /dev/null      # Correct spelling errors in arguments supplied to cd
+# shopt -s cdable_vars 2> /dev/null  # CD across the filesystem as if you're in that dir
 
 #
-# [Aliases]
+#endregion
+
+#region: [Aliases]
 #
 
 # ls shorthand.
@@ -186,11 +187,18 @@ alias ping='ping -c 5'
 alias vi=vim
 alias grep='grep --color=auto --exclude-dir={.git,.hg,.svn,.vscode}'
 
-# fix typos
+# Fix typos.
 alias get=git
 alias quit='exit'
 alias cd..='cd ..'
 alias zz='exit'
+
+# Navigate directories faster.
+alias "dirh"="dirs -v"
+alias ".."="cd .."
+alias "..."="cd ../.."
+alias "...."="cd ../../.."
+alias "....."="cd ../../../.."
 
 # Tell gpg to store its keyring as data.
 if [[ -d "$XDG_DATA_HOME" ]]; then
@@ -224,6 +232,17 @@ fi
 # Homebrew
 alias brewup="brew update && brew upgrade && brew cleanup"
 
+# dotfiles
+export DOTFILES="${DOTFILES:-$HOME/.dotfiles}"
+alias dotf='cd "$DOTFILES"'
+alias rcs='cd "${BASH_HOME:-$HOME}"'
+alias bashrc='"${EDITOR:-vim}" "${BASH_HOME:-$HOME}/.bashrc"'
+alias reload='source "${BASH_HOME:-$HOME}/.bashrc"'
+
+# Quick way to get back to your initial working directory.
+IWD="${IWD:-PWD}"
+alias iwd='cd "$IWD"'
+
 # Misc aliases.
 alias nv=nvim
 alias ppath='echo $PATH | tr ":" "\n"'
@@ -231,8 +250,18 @@ alias cls="clear && printf '\e[3J'"
 alias bench="for i in {1..10}; do /usr/bin/time bash -ic 'echo -n'; done"
 
 #
-# [Functions]
+#endregion
+
+#region: [Functions]
 #
+
+# Check strings for boolean values.
+function is_true() {
+  case "${1,,}" in
+    (t|y|true|yes|on|1) return 0 ;;
+    (*) return 1 ;;
+  esac
+}
 
 # Print 256 terminal color codes.
 function colormap() {
@@ -274,43 +303,51 @@ function up() {
   cd "$cdstr" || return
 }
 
-#
-# [Prompt]
-#
+# Join strings with a delimiter.
+function string_join() {
+  local sep ret arg
+  [[ $# -ne 0 ]] || return 1
+  [[ $# -ne 1 ]] || return 0
+  sep="$1"; shift
+  ret="$1"; shift
+  for arg in "$@"; do ret+="${sep}${arg}"; done
+  echo "$ret"
+}
 
-# Assoc array for easier use of prompt colors.
-typeset -A prompt_fg=(
-    [reset]="\[\e[00m\]"
-    [black]="\[\e[30m\]"
-      [red]="\[\e[31m\]"
-    [green]="\[\e[32m\]"
-   [yellow]="\[\e[33m\]"
-     [blue]="\[\e[34m\]"
-  [magenta]="\[\e[35m\]"
-     [cyan]="\[\e[36m\]"
-    [white]="\[\e[37m\]"
-)
+# Split strings on a delimiter.
+function string_split() {
+  local sep str
+  [[ $# -ne 0 ]] || return 1
+  sep=$(echo "$1" | sed 's/[]\/\\$*.^|[]/\\&/g')
+  shift
+  for str in "$@"; do
+    echo "$str" | sed "s/${sep}/\n/g"
+  done
+}
 
-typeset -A prompt_fx=(
-      [reset]="\[\e[00m\]"
-       [bold]="\[\e[01m\]"
-  [underline]="\[\e[04m\]"
-     [normal]="\[\e[22m\]"
-)
+#
+#endregion
+
+#region: [Prompt]
+#
 
 # Fish-like path shortener: $HOME/.config/bash/.docs/cheatsheet => ~/.c/b/.d/cheatsheet
 function prompt_hydro_short_path() {
   local dirname ancestor_path shortened_path
-  shortened_path="$(pwd | sed -E -e "s:^${HOME}:~:" -e "s:([^/\.])[^/]+/:\1/:g")"
+  local color_reset color_brblack color_bold_blue
+  color_reset="\[\e[00m\]"
+  color_brblack="\[\e[90m\]"
+  color_bold_blue="\[\e[34;1m\]"
+  shortened_path="$(pwd | sed -E -e "s:^${HOME}:~:" -e "s:([^/\.]{1})[^/]*/:\1/:g")"
   dirname="${shortened_path##*/}"
   [[ "$shortened_path" == */* ]] && ancestor_path="${shortened_path%/*}/"
-  printf '%s' "${HYDRO_COLOR_PWD:-${prompt_fg[blue]}}" "$ancestor_path" \
-              "${prompt_fx[bold]}" "$dirname" "${prompt_fx[reset]}"
+  printf '%s' "${HYDRO_COLOR_SHORTENED_PWD:-$color_brblack}" "$ancestor_path" \
+              "${HYDRO_COLOR_PWD:-$color_bold_blue}" "$dirname" "${color_reset}"
 }
 
 # Set the " main• ↑1 ↓2" part of the Hydro prompt.
 function prompt_hydro_git_string() {
-  local git git_branch git_dirty git_behind git_ahead
+  local git git_branch git_dirty git_behind git_ahead color_green
   local -a git_behind_ahead_counts
 
   # Fail fast.
@@ -337,27 +374,35 @@ function prompt_hydro_git_string() {
   fi
 
   # Print the git part of the prompt.
-  printf '%s' "${HYDRO_COLOR_GIT:-${prompt_fg[green]}}" "${git_branch}" \
+  color_green="\[\e[32m\]"
+  printf '%s' "${HYDRO_COLOR_GIT:-$color_green}" "${git_branch}" \
               "${git_dirty}" "${git_ahead}" "${git_behind}"
 }
 
+# Bash version of Hydro - https://github.com/jorgebucaran/hydro
 # ~/p/hydro main• ↑1 ↓2 | 0 1 1 ❱
 function prompt_hydro_setup() {
   local last_exit_status="$?"
   local prompt_error prompt_char
 
+  color_red="\[\e[31m\]"
+  color_magenta="\[\e[35m\]"
+  color_reset="\[\e[00m\]"
+
   if [[ "$last_exit_status" -ne 0 ]]; then
-    prompt_error=" ${HYDRO_COLOR_ERROR:-${prompt_fg[red]}}[${last_exit_status}]"
+    prompt_error=" ${HYDRO_COLOR_ERROR:-$color_red}[${last_exit_status}]"
   fi
-  prompt_char=" ${HYDRO_COLOR_PROMPT:-${prompt_fg[magenta]}}${HYDRO_SYMBOL_PROMPT:-❱}"
+  prompt_char=" ${HYDRO_COLOR_PROMPT:-$color_magenta}${HYDRO_SYMBOL_PROMPT:-❱}"
   if [[ "${HYDRO_MULTILINE:-false}" != false ]]; then
     prompt_char="\n${prompt_char}"
   fi
-  PS1="$(prompt_hydro_short_path)$(prompt_hydro_git_string)${prompt_error}${prompt_char} ${prompt_fg[reset]}"
+  PS1="$(prompt_hydro_short_path)$(prompt_hydro_git_string)${prompt_error}${prompt_char} ${color_reset}"
 }
 
 #
-# [Utilities]
+#endregion
+
+#region: [Utils]
 #
 
 # Cross-platform support for an 'open' command.
@@ -404,15 +449,14 @@ if type fzf >/dev/null 2>&1; then
   eval "$(fzf --bash)"
 fi
 
-# [bashrc.d]
-
 #
+#endregion
+
+#region: [Post]
+#
+
 # Users can add to bashrc with *.bash files in ~/.bashrc.d. Skips ~tilde files.
-source_bashrcd
-
-#
-# [Post]
-#
+bashrc_d
 
 # Pick a default theme.
 if [[ -z "$BASH_THEME" ]]; then
@@ -435,9 +479,6 @@ if [[ -n "$TERM_PROGRAM" ]]; then
   set_terminal_var "TERM_CURRENT_SHELL" "bash $BASH_VERSION"
 fi
 
-# Users can customize post-activities with foo.post.bash files. Skips ~tilde files.
-source_bashrcd post
-
 # Clean up '$PATH'.
 PATH="$(
   printf %s "$PATH" |
@@ -447,5 +488,11 @@ PATH="$(
 # Attach ble.sh last.
 [[ ${BLE_VERSION-} ]] && ble-attach
 
+# Users can customize post-activities with foo.post.bash files. Skips ~tilde files.
+bashrc_d .post.bash
+
 # Success
 true
+
+#
+#endregion
