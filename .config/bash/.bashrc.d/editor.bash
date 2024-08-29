@@ -46,3 +46,13 @@ function ble/widget/blerc/fancy-ctrl-z {
   fi
 }
 ble-bind -m emacs -f C-z blerc/fancy-ctrl-z
+
+# Strip leading dollar signs. Fixes commands pasted from markdown.
+ble/function#advice around ble/widget/default/accept-line '
+  if [[ "${_ble_edit_str:0:2}" == "$ " ]]; then
+    ble/widget/beginning-of-logical-line
+    ble/widget/insert-string "${_ble_edit_str:2}"
+    ble/widget/kill-forward-logical-line
+  fi
+  ble/function#advice/do
+'
