@@ -36,8 +36,7 @@ else
 fi
 
 #
-#endregion
-#region: Path
+# [Path]
 #
 
 # Add common directories.
@@ -55,8 +54,7 @@ done
 export PATH="$HOME/bin:$HOME/.local/bin:$PATH"
 
 #
-#endregion
-#region: Environment
+# [Environment]
 #
 
 # Set locale.
@@ -84,8 +82,7 @@ export LESS="-giMRSw -z-4"
 export KEYTIMEOUT="${KEYTIMEOUT:-1}"
 
 #
-#endregion
-#region: History
+# [History]
 #
 
 shopt -s histappend       # Append to history, don't overwrite it.
@@ -101,8 +98,7 @@ if [[ -n "${XDG_DATA_HOME}" ]]; then
 fi
 
 #
-#endregion
-#region: Colors
+# [Colors]
 #
 
 # Colorize man pages.
@@ -133,16 +129,14 @@ if ! type dircolors >/dev/null 2>&1; then
 fi
 
 #
-#endregion
-#region: Completion
+# [Completion]
 #
 
 # HOMEBREW_PREFIX=${HOMEBREW_PREFIX:-/opt/homebrew}
 # [[ -r "$HOMEBREW_PREFIX/etc/profile.d/bash_completion.sh" ]] && . "$HOMEBREW_PREFIX/etc/profile.d/bash_completion.sh"
 
 #
-#endregion
-#region: File System
+# [File System]
 #
 
 # Config for dirstack, globbing, special dirs, and general file system nav.
@@ -171,8 +165,7 @@ IWD="${IWD:-PWD}"
 alias iwd='cd "$IWD"'
 
 #
-#endregion
-#region: Aliases
+# [Aliases]
 #
 
 # ls shorthand.
@@ -238,8 +231,7 @@ alias cls="clear && printf '\e[3J'"
 alias bench="for i in {1..10}; do /usr/bin/time bash -ic 'echo -n'; done"
 
 #
-#endregion
-#region: Functions
+# [Functions]
 #
 
 # Print 256 terminal color codes.
@@ -283,8 +275,7 @@ function up() {
 }
 
 #
-#endregion
-#region: Prompt
+# [Prompt]
 #
 
 # Assoc array for easier use of prompt colors.
@@ -366,8 +357,7 @@ function prompt_hydro_setup() {
 }
 
 #
-#endregion
-#region: Utilities
+# [Utilities]
 #
 
 # Cross-platform support for an 'open' command.
@@ -414,15 +404,16 @@ if type fzf >/dev/null 2>&1; then
   eval "$(fzf --bash)"
 fi
 
-#
-#endregion
-#region: bashrc.d
-#
+# [bashrc.d]
 
+#
 # Users can add to bashrc with *.bash files in ~/.bashrc.d. Skips ~tilde files.
 source_bashrcd
 
 #
+# [Post]
+#
+
 # Pick a default theme.
 if [[ -z "$BASH_THEME" ]]; then
   if type starship >/dev/null 2>&1; then
@@ -458,6 +449,3 @@ PATH="$(
 
 # Success
 true
-
-#
-#endregion
