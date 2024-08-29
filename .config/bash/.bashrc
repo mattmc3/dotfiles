@@ -321,91 +321,86 @@ function up() {
 #region: Prompt
 #
 
+# Assoc array for easier use of prompt colors.
+typeset -A prompt_fg=(
+    [reset]="\[\e[00m\]"
+    [black]="\[\e[30m\]"
+      [red]="\[\e[31m\]"
+    [green]="\[\e[32m\]"
+   [yellow]="\[\e[33m\]"
+     [blue]="\[\e[34m\]"
+  [magenta]="\[\e[35m\]"
+     [cyan]="\[\e[36m\]"
+    [white]="\[\e[37m\]"
+)
+
+typeset -A prompt_fx=(
+      [reset]="\[\e[00m\]"
+       [bold]="\[\e[01m\]"
+  [underline]="\[\e[04m\]"
+     [normal]="\[\e[22m\]"
+)
+
+# Fish-like path shortener: $HOME/.config/bash/.docs/cheatsheet => ~/.c/b/.d/cheatsheet
+function prompt_hydro_short_path() {
+  local dirname ancestor_path shortened_path
+  shortened_path="$(pwd | sed -E -e "s:^${HOME}:~:" -e "s:([^/\.])[^/]+/:\1/:g")"
+  dirname="${shortened_path##*/}"
+  [[ "$shortened_path" == */* ]] && ancestor_path="${shortened_path%/*}/"
+  printf '%s' "${HYDRO_COLOR_PWD:-${prompt_fg[blue]}}" "$ancestor_path" \
+              "${prompt_fx[bold]}" "$dirname" "${prompt_fx[reset]}"
+}
+
+# Set the " main• ↑1 ↓2" part of the Hydro prompt.
 function prompt_hydro_git_string() {
-  local git git_branch git_dirty git_behind git_ahead color_reset
+  local git git_branch git_dirty git_behind git_ahead
   local -a git_behind_ahead_counts
 
-  # fail fast
+  # Fail fast.
   git="${HYDRO_GIT_COMMAND:-git}"
   type -p "$git" > /dev/null 2>&1 || return 1
   [ -d .git ] || "$git" rev-parse --is-inside-work-tree > /dev/null 2>&1 || return
 
-  # Set hydro vars.
-  color_reset="\[\e[0m\]"
-  HYDRO_SYMBOL_GIT_DIRTY="${HYDRO_SYMBOL_GIT_DIRTY:-•}"
-  HYDRO_SYMBOL_GIT_AHEAD="${HYDRO_SYMBOL_GIT_AHEAD:-↑}"
-  HYDRO_SYMBOL_GIT_BEHIND="${HYDRO_SYMBOL_GIT_BEHIND:-↓}"
-  HYDRO_COLOR_GIT="${HYDRO_COLOR_GIT:-\[\e[32;1m\]}" # 32-green
-
   # Set the git branch name.
-  git_branch="$("$git" symbolic-ref --short HEAD)"
+  git_branch=" $("$git" symbolic-ref --short HEAD)"
 
-  # Set ahead/behind string: ↑1 ↓2 (notice git gives the reverse order from what we want)
-  git_behind_ahead_counts=($("$git" rev-list --count --left-right @{upstream}...@ 2>/dev/null))
+  # Set ahead/behind string: ↑1 ↓2 (notice git gives the reverse order from what we want).
+  # shellcheck disable=SC2207
+  git_behind_ahead_counts=($("$git" rev-list --count --left-right "@{upstream}...@" 2>/dev/null))
   if [[ ${git_behind_ahead_counts[0]} -gt 0 ]]; then
-    git_behind=" ${HYDRO_SYMBOL_GIT_BEHIND}${git_behind_ahead_counts[0]}"
+    git_behind=" ${HYDRO_SYMBOL_GIT_BEHIND:-↓}${git_behind_ahead_counts[0]}"
   fi
   if [[ ${git_behind_ahead_counts[1]} -gt 0 ]]; then
-    git_ahead=" ${HYDRO_SYMBOL_GIT_AHEAD}${git_behind_ahead_counts[1]}"
+    git_ahead=" ${HYDRO_SYMBOL_GIT_AHEAD:-↑}${git_behind_ahead_counts[1]}"
   fi
 
   # Set the dirty symbol.
   if [[ -n "$("$git" status --porcelain 2>/dev/null)" ]]; then
-    git_dirty="$HYDRO_SYMBOL_GIT_DIRTY"
+    git_dirty="${HYDRO_SYMBOL_GIT_DIRTY:-•}"
   fi
 
-  # Print the git part of the prompt
-  echo -n "${HYDRO_COLOR_GIT}${git_branch}${git_dirty}${git_ahead}${git_behind}${color_reset}"
+  # Print the git part of the prompt.
+  printf '%s' "${HYDRO_COLOR_GIT:-${prompt_fg[green]}}" "${git_branch}" \
+              "${git_dirty}" "${git_ahead}" "${git_behind}"
 }
 
+# ~/p/hydro main• ↑1 ↓2 | 0 1 1 ❱
 function prompt_hydro_setup() {
-  LAST_EXIT_STATUS="$?"  # Must be first!
+  local last_exit_status="$?"
+  local prompt_error prompt_char
 
-  local git_prompt
-
-  HYDRO_SYMBOL_PROMPT="${HYDRO_SYMBOL_PROMPT:-❱}"
-  HYDRO_MULTILINE="${HYDRO_MULTILINE:-false}"
-  #HYDRO_CMD_DURATION_THRESHOLD="${HYDRO_CMD_DURATION_THRESHOLD:-1000}"
-  HYDRO_COLOR_PWD="${HYDRO_COLOR_PWD:-\[\e[34;1m\]}"           # 34-blue
-  HYDRO_COLOR_ERROR="${HYDRO_COLOR_ERROR:-\[\e[31;1m\]}"       # 31-red
-  HYDRO_COLOR_PROMPT="${HYDRO_COLOR_PROMPT:-\[\e[35;1m\]}"     # 35-magenta
-  HYDRO_COLOR_DURATION="${HYDRO_COLOR_DURATION:-\[\e[33;1m\]}" # 33-yellow
-
-  # Color codes for easy prompt building
-  COLOR_DIVIDER="\[\e[30;1m\]"
-  COLOR_CMDCOUNT="\[\e[34;1m\]"
-  COLOR_USERNAME="\[\e[34;1m\]"
-  COLOR_USERHOSTAT="\[\e[34;1m\]"
-  COLOR_HOSTNAME="\[\e[34;1m\]"
-  COLOR_GITBRANCH="\[\e[33;1m\]"
-  COLOR_VENV="\[\e[33;1m\]"
-  COLOR_GREEN="\[\e[32;1m\]"
-  COLOR_OK="\[\e[32;1m\]"
-  COLOR_ERR="\[\e[31;1m\]"
-  COLOR_NONE="\[\e[0m\]"
-
-  # Change the path color based on return value.
-  if [[ "$LAST_EXIT_STATUS" -eq 0 ]]; then
-    PATH_COLOR=${COLOR_OK}
-  else
-    PATH_COLOR=${COLOR_ERR}
+  if [[ "$last_exit_status" -ne 0 ]]; then
+    prompt_error=" ${HYDRO_COLOR_ERROR:-${prompt_fg[red]}}[${last_exit_status}]"
   fi
-
-  # Set the PS1 to be "[commandcount:workingdirectory:gitinfo"
-  PS1="${COLOR_DIVIDER}[${COLOR_CMDCOUNT}\#:${PATH_COLOR}\w"
-  git_prompt="$(prompt_hydro_git_string)"
-  [[ -n "$git_prompt" ]] && PS1="${PS1}:${git_prompt}"
-
-  # Add Python VirtualEnv portion of the prompt, this adds ":venvname"
-  if ! test -z "$VIRTUAL_ENV" ; then
-    PS1="${PS1}:${COLOR_VENV}`basename \"$VIRTUAL_ENV\"`${COLOR_DIVIDER}"
+  prompt_char=" ${HYDRO_COLOR_PROMPT:-${prompt_fg[magenta]}}${HYDRO_SYMBOL_PROMPT:-❱}"
+  if [[ "${HYDRO_MULTILINE:-false}" != false ]]; then
+    prompt_char="\n${prompt_char}"
   fi
-  # Close out the prompt, this adds "]\n[username@hostname] "
-  PS1="${PS1}${COLOR_DIVIDER}]\n${COLOR_DIVIDER}[${COLOR_USERNAME}\u${COLOR_USERHOSTAT}@${COLOR_HOSTNAME}\h${COLOR_DIVIDER}] ${HYDRO_COLOR_PROMPT}${HYDRO_SYMBOL_PROMPT}${COLOR_NONE} "
+  PS1="$(prompt_hydro_short_path)$(prompt_hydro_git_string)${prompt_error}${prompt_char} ${prompt_fg[reset]}"
 }
 
 # starship
-if type starship2 &>/dev/null; then
+if type starship &>/dev/null; then
   eval "$(starship init bash)"
 else
   # Tell Bash to set the hydro prompt
