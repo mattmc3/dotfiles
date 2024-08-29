@@ -325,6 +325,37 @@ function string_split() {
   done
 }
 
+# Trims whitespace from start and end of string.
+function string_trim() {
+  local str
+  for str in "$@"; do
+    echo "$str" | sed 's/^[ \t]*//;s/[ \t]*$//'
+  done
+}
+
+# Convert to UPPERCASE string.
+function string_upper() {
+  local str
+  for str in "$@"; do
+    echo "$str" | tr '[:lower:]' '[:upper:]'
+  done
+}
+
+# Convert to lowercase string.
+function string_lower() {
+  local str
+  for str in "$@"; do
+    echo "$str" | tr '[:upper:]' '[:lower:]'
+  done
+}
+
+# Sum an array.
+function array_sum() {
+  local i tot=0
+  for i in "$@"; do (( tot+=i )); done
+  echo "$tot"
+}
+
 #
 #endregion
 
