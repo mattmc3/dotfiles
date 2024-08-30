@@ -273,6 +273,11 @@ alias bench="for i in {1..10}; do /usr/bin/time bash -ic 'echo -n'; done"
 #region: [Functions]
 #
 
+# A basic calculator.
+function calc() {
+  bc -l <<< "$@"
+}
+
 # Check strings for boolean values.
 function is_true() {
   case "${1,,}" in
