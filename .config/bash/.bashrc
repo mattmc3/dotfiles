@@ -307,7 +307,7 @@ function up() {
 }
 
 # Join strings with a delimiter.
-function string_join() {
+function str/join() {
   local sep ret arg
   [[ $# -ne 0 ]] || return 1
   [[ $# -ne 1 ]] || return 0
@@ -318,7 +318,7 @@ function string_join() {
 }
 
 # Split strings on a delimiter.
-function string_split() {
+function str/split() {
   local sep str
   [[ $# -ne 0 ]] || return 1
   sep=$(echo "$1" | sed 's/[]\/\\$*.^|[]/\\&/g')
@@ -329,7 +329,7 @@ function string_split() {
 }
 
 # Trims whitespace from start and end of string.
-function string_trim() {
+function str/trim() {
   local str
   for str in "$@"; do
     echo "$str" | sed 's/^[ \t]*//;s/[ \t]*$//'
@@ -337,7 +337,7 @@ function string_trim() {
 }
 
 # Convert to UPPERCASE string.
-function string_upper() {
+function str/upper() {
   local str
   for str in "$@"; do
     echo "$str" | tr '[:lower:]' '[:upper:]'
@@ -345,7 +345,7 @@ function string_upper() {
 }
 
 # Convert to lowercase string.
-function string_lower() {
+function str/lower() {
   local str
   for str in "$@"; do
     echo "$str" | tr '[:upper:]' '[:lower:]'
@@ -353,10 +353,32 @@ function string_lower() {
 }
 
 # Sum an array.
-function array_sum() {
+function arr/sum() {
   local i tot=0
   for i in "$@"; do (( tot+=i )); done
   echo "$tot"
+}
+
+# Check if an element is in an array.
+function arr/contains() {
+  local arg find="$1"; shift
+  for arg; do
+    [[ "$find" == "$arg" ]] && return 0
+  done
+  return 1
+}
+
+# Get the index of an element is in an array.
+function arr/index_of() {
+  local arg find="$1" i=0; shift
+  for arg; do
+    if [[ "$find" == "$arg" ]]; then
+      echo "$i"
+      return
+    fi
+    ((i++))
+  done
+  return 1
 }
 
 #
