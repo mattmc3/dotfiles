@@ -295,21 +295,6 @@ function colormap() {
   done
 }
 
-# Emit an OSC 1337 sequence to set vars your terminal app (WezTerm) can use.
-function set_terminal_var() {
-  hash base64 2>/dev/null || return 1
-  local val
-  val="$(echo -n "$2" | base64)"
-
-  # https://github.com/tmux/tmux/wiki/FAQ#what-is-the-passthrough-escape-sequence-and-how-do-i-use-it
-  # Note that you ALSO need to add "set -g allow-passthrough on" to your tmux.conf
-  if [[ -n "${TMUX}" ]] ; then
-    printf "\033Ptmux;\033\033]1337;SetUserVar=%s=%s\007\033\\" "$1" "$val"
-  else
-    printf "\033]1337;SetUserVar=%s=%s\007" "$1" "$val"
-  fi
-}
-
 # cd upward X directories.
 function up() {
   local lvls cdstr
@@ -527,11 +512,6 @@ if [[ "$BASH_THEME" == "starship" ]]; then
   eval "$(starship init bash)"
 elif [[ "$BASH_THEME" != "none" ]]; then
   export PROMPT_COMMAND="prompt_${BASH_THEME}_setup;${PROMPT_COMMAND}"
-fi
-
-# Set vars that terminals like WezTerm/iTerm2 can use.
-if [[ -n "$TERM_PROGRAM" ]]; then
-  set_terminal_var "TERM_CURRENT_SHELL" "bash $BASH_VERSION"
 fi
 
 # Clean up '$PATH'.

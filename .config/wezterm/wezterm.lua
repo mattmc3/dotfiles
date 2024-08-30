@@ -135,6 +135,10 @@ local function segments_for_right_status(window)
 	if wksp ~= "default" then
 		 table.insert(result, 1, wksp)
 	end
+	local curprog = tostring(window:active_pane():get_user_vars().WEZTERM_PROG)
+	if curprog ~= "" then
+		 table.insert(result, 1, curprog)
+	end
 	return result
 end
 
