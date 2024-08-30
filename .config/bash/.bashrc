@@ -262,6 +262,7 @@ IWD="${IWD:-PWD}"
 alias iwd='cd "$IWD"'
 
 # Misc aliases.
+alias myip="curl ifconfig.me"
 alias nv=nvim
 alias ppath='echo $PATH | tr ":" "\n"'
 alias cls="clear && printf '\e[3J'"
