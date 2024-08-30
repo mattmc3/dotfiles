@@ -3,8 +3,6 @@
 
 # TODO: Hydro should use gitstatus if available
 # TODO: Hydro should show cmd duration (from ble.sh?)
-# TODO: Add minimal prompt option
-# TODO: Fix WezTerm shell version
 
 #region: [Early Init]
 #
@@ -467,6 +465,11 @@ function prompt_hydro_setup() {
   PS1+="$(prompt_hydro_short_path)$(prompt_hydro_git_string)${prompt_error}${prompt_char} ${color_reset}"
 }
 
+# A minimal bash prompt.
+function prompt_minimal_setup() {
+  PS1='[\u@\h \W]\$ '
+}
+
 #
 #endregion
 
@@ -538,8 +541,10 @@ fi
 # Set the prompt theme.
 if [[ "$BASH_THEME" == "starship" ]]; then
   eval "$(starship init bash)"
-elif [[ "$BASH_THEME" != "none" ]]; then
+elif [[ "$(type -t "prompt_${BASH_THEME}_setup")" == function ]]; then
   export PROMPT_COMMAND="prompt_${BASH_THEME}_setup;${PROMPT_COMMAND}"
+else
+  PS1='[\u@\h \W]\$ '
 fi
 
 # Clean up '$PATH'.
