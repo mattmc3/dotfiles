@@ -7,8 +7,17 @@
 #region: [Early Init]
 #
 
-# Turn on extended globbing early so we can count on it everywhere.
-shopt -s extglob
+# Use XDG base dirs, or comment out to not.
+export XDG_CONFIG_HOME="${XDG_CONFIG_HOME:-$HOME/.config}"
+export XDG_CACHE_HOME="${XDG_CACHE_HOME:-$HOME/.cache}"
+export XDG_DATA_HOME="${XDG_DATA_HOME:-$HOME/.local/share}"
+export XDG_STATE_HOME="${XDG_STATE_HOME:-$HOME/.local/state}"
+mkdir -p "$XDG_CONFIG_HOME" "$XDG_CACHE_HOME" "$XDG_DATA_HOME" "$XDG_STATE_HOME"
+
+# Support an alternative BASH_HOME for some things, or comment out to not.
+if [[ -d "${XDG_CONFIG_HOME:-$HOME/.config}/bash" ]]; then
+  BASH_HOME="${XDG_CONFIG_HOME:-$HOME/.config}/bash"
+fi
 
 # Helper to source runcom files in bashrc.d.
 function bashrc_d() {
