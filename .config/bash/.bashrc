@@ -445,7 +445,13 @@ function prompt_hydro_setup() {
   if [[ "${HYDRO_MULTILINE:-false}" != false ]]; then
     prompt_char="\n${prompt_char}"
   fi
-  PS1="$(prompt_hydro_short_path)$(prompt_hydro_git_string)${prompt_error}${prompt_char} ${color_reset}"
+
+  PS1=""
+  if [[ -n "$VIRTUAL_ENV" ]]; then
+    PS1+="(${VIRTUAL_ENV##*/}) "
+  fi
+
+  PS1+="$(prompt_hydro_short_path)$(prompt_hydro_git_string)${prompt_error}${prompt_char} ${color_reset}"
 }
 
 #
