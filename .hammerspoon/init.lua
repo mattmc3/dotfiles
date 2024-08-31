@@ -59,7 +59,7 @@ for j,jmod in ipairs(modifiers) do
     -- hs.alert.show(i..j)
     i = function()
       -- hs.eventtap.keyStroke(jmod,bnd[2])
-	  fastKeyStroke(jmod,bnd[2])
+    	fastKeyStroke(jmod,bnd[2])
       k.triggered = true
     end
     k:bind(jmod, bnd[1], i, nil, i)
@@ -158,15 +158,15 @@ hs.alert.show(hs.keycodes.currentLayout())
 -- https://gist.github.com/pythoninthegrass/f141261a0dd28a4549780e1eb0e9c0f3
 -- https://github.com/wez/wezterm/issues/1751
 hs.hotkey.bind({"cmd"}, "`", function()
-	wez = hs.application.find("WezTerm", true)
-	if not wez then
-		application.launchOrFocus("WezTerm")
-	else
-		if wez:isFrontmost() then
-			wez:hide()
-		else
-			wez:activate()
-		end
-	end
+  wez = hs.application.find("WezTerm", true)
+  if not wez then
+    application.launchOrFocus("WezTerm")
+  else
+    if wez:isFrontmost() then
+      wez:hide()
+    else
+      wez:activate()
+    end
+  end
 end)
 
