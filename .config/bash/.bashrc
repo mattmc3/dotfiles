@@ -342,7 +342,7 @@ function str/join() {
   [[ $# -ne 1 ]] || return 0
   sep="$1"; shift
   ret="$1"; shift
-  for arg in "$@"; do ret+="${sep}${arg}"; done
+  for arg; do ret+="${sep}${arg}"; done
   echo "$ret"
 }
 
@@ -352,39 +352,39 @@ function str/split() {
   [[ $# -ne 0 ]] || return 1
   sep=$(echo "$1" | sed 's/[]\/\\$*.^|[]/\\&/g')
   shift
-  for str in "$@"; do
+  for str; do
     echo "$str" | sed "s/${sep}/\n/g"
   done
 }
 
 # Trims whitespace from start and end of string.
 function str/trim() {
-  local str
-  for str in "$@"; do
+  local arg
+  for arg; do
     echo "$str" | sed 's/^[ \t]*//;s/[ \t]*$//'
   done
 }
 
 # Convert to UPPERCASE string.
 function str/upper() {
-  local str
-  for str in "$@"; do
-    echo "$str" | tr '[:lower:]' '[:upper:]'
+  local arg
+  for arg; do
+    echo "$arg" | tr '[:lower:]' '[:upper:]'
   done
 }
 
 # Convert to lowercase string.
 function str/lower() {
-  local str
-  for str in "$@"; do
-    echo "$str" | tr '[:upper:]' '[:lower:]'
+  local arg
+  for arg; do
+    echo "$arg" | tr '[:upper:]' '[:lower:]'
   done
 }
 
 # Sum an array.
 function arr/sum() {
   local i tot=0
-  for i in "$@"; do (( tot+=i )); done
+  for i; do (( tot+=i )); done
   echo "$tot"
 }
 
