@@ -1,6 +1,10 @@
 -- https://forum.colemak.com/topic/2020-for-mac-users-colemak-dh-curl-tarmak-anglewide-and-extend/
 -- https://github.com/braydenm/hyper-hacks/blob/master/hammerspoon/init.lua
 
+local hotkey = require "hs.hotkey"
+local window = require "hs.window"
+local spaces = require "hs.spaces"
+
 -- A global variable for the Hyper Mode
 k = hs.hotkey.modal.new({}, "F17")
 
@@ -59,7 +63,7 @@ for j,jmod in ipairs(modifiers) do
     -- hs.alert.show(i..j)
     i = function()
       -- hs.eventtap.keyStroke(jmod,bnd[2])
-    	fastKeyStroke(jmod,bnd[2])
+      fastKeyStroke(jmod,bnd[2])
       k.triggered = true
     end
     k:bind(jmod, bnd[1], i, nil, i)
@@ -158,15 +162,17 @@ hs.alert.show(hs.keycodes.currentLayout())
 -- https://gist.github.com/pythoninthegrass/f141261a0dd28a4549780e1eb0e9c0f3
 -- https://github.com/wez/wezterm/issues/1751
 hs.hotkey.bind({"cmd"}, "`", function()
-  wez = hs.application.find("WezTerm", true)
+  local wez = hs.application.find("WezTerm", true)
   if not wez then
-    application.launchOrFocus("WezTerm")
+    hs.application.launchOrFocus("WezTerm")
   else
     if wez:isFrontmost() then
       wez:hide()
     else
+      local wezWindow = wez:mainWindow()
+      local curScreen = hs.window.focusedWindow():screen()
+      wezWindow:moveToScreen(curScreen)
       wez:activate()
     end
   end
 end)
-
