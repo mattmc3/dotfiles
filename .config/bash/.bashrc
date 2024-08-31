@@ -320,6 +320,21 @@ function up() {
   cd "$cdstr" || return
 }
 
+# Extract all the things.
+function extract() {
+  case "$1" in
+    *.tar.bz2)  tar xjf "$1"  ;;
+    *.tar.gz)   tar xzf "$1"  ;;
+    *.bz2)      bunzip2 "$1"  ;;
+    *.gz)       gunzip "$1"   ;;
+    *.tar.xz)   tar xJf "$1"  ;;
+    *.xz)       unxz "$1"     ;;
+    *.zip)      unzip "$1"    ;;
+    *.7z)       7z x "$1"     ;;
+    *)          echo "'$1' cannot be extracted via extract()" ;;
+  esac
+}
+
 # Join strings with a delimiter.
 function str/join() {
   local sep ret arg
