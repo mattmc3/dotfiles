@@ -1,4 +1,5 @@
 #!/bin/sh
+# shellcheck shell=sh disable=SC3043
 
 ##? cloner: A better git cloner.
 # - Support short user/repo form
@@ -11,7 +12,8 @@
 # forward one (ie: 1 2 3 4 => 4 1 2 3). This will let you `set` new args, and then
 # `shift` the one that was in the last position, which is conveniently now $1.
 pop_prep() {
-  local i=0
+  local i
+  i=0
   while [ $((i+=1)) -lt $# ]; do
     set -- "$@" "$1"
     shift
@@ -69,10 +71,12 @@ cloner() {
   # optional destination path. If the latter, then pop_prep again. A final arg starting
   # with any of these symbols was likely intended to be a path not a repo: ~ / . $
   if [ $# -gt 1 ]; then
+    # shellcheck disable=SC2046
     set -- $(pop_prep "$@")
     case "$1" in
       ([./~\$]*)
         dir="$1" && shift
+        # shellcheck disable=SC2046
         set -- $(pop_prep "$@")
         ;;
     esac
@@ -92,6 +96,6 @@ cloner() {
       echo "  command git clone $addflags $* $repo $dir"
       ;;
   esac
-  command git clone $addflags $@ "$repo" "$dir"
+  command git clone "$addflags" "$@" "$repo" "$dir"
 }
 cloner "$@"
