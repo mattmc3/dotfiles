@@ -86,14 +86,19 @@
 !.config/wezterm/**
 
 # zsh
-!.zshenv
-!.zprofile
-!.zshrc
-!.zlogin
-!.zlogout
 !.config/zsh/
 !.config/zsh/**
+.config/zsh/.*
 .config/zsh/.*/
+!.p10k.zsh
+!.zlogin
+!.zlogout
+!.zprofile
+!.zshenv
+!.zshrc
+!.zstyle
+!.config/zsh/.zshrc.d/
+!.config/zsh/.zshrc.d/**
 .config/zsh/.zcompdump*
 .config/zsh/custom/
 .config/zsh/ohmyzsh/
