@@ -49,7 +49,7 @@ local shells = {
 wezterm.GLOBAL.shells = shells
 
 -- What's our shell?
-local shell = shells["bash"]
+local shell = shells["fish"]
 config.default_prog = { shell }
 config.set_environment_variables = {
 	SHELL = shell,
