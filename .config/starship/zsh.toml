@@ -7,13 +7,34 @@ format = """$python$directory$character"""
 #right_format = """$status$git_branch${custom.git_status_dirty}$git_status"""
 right_format = """$status$cmd_duration$git_branch$git_status${custom.git_status_dirty}"""
 
+# Set the palette.
+palette = "wombat"
+
+# Define custom colors
+[palettes.tokyo_night]
+black = '16'
+blue = '111'
+cyan = '117'
+green = '149'
+purple = '141'
+red = '210'
+white = '146'
+yellow = '179'
+
+[palettes.wombat]
+black = '0'
+blue = '75'
+cyan = '123'
+green = '149'
+purple = '171'
+red = '203'
+white = '188'
+yellow = '223'
+
 [character]
 success_symbol = "[❯](purple)[❯](cyan)"
 error_symbol = "[❯](yellow)[❯](red)"
 vicmd_symbol = "[❮](purple)[❮](cyan)"
-# success_symbol = "[⨠](purple)"
-# error_symbol = "[⨠](red)"
-# vicmd_symbol = "[⪻](yellow)"
 
 [python]
 format = '\($virtualenv\) '
