@@ -70,6 +70,13 @@ for j,jmod in ipairs(modifiers) do
   end
 end
 
+-- HYPER+a: Caps lock
+afun = function()
+  hs.hid.capslock.toggle()
+  hypermode.triggered = true
+end
+hypermode:bind({}, 'a', afun, nil, nil)
+
 -- HYPER+k: Left Mouse Click
 kfun = function()
   hs.eventtap.leftClick(hs.mouse.absolutePosition())
@@ -131,10 +138,6 @@ releasedF18 = function()
 end
 
 -- Bind the Hyper key
-modifiers = {
-  '', 'cmd', 'shift', 'alt', 'ctrl'
-}
-
 f18 = hs.hotkey.bind({}, 'F18', pressedF18, releasedF18)
 shf18 = hs.hotkey.bind({'shift'}, 'F18', pressedF18, releasedF18)
 altf18 = hs.hotkey.bind({'alt'}, 'F18', pressedF18, releasedF18)
