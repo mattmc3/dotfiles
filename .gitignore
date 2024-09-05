@@ -43,6 +43,12 @@
 !.config/git/
 !.config/git/**
 
+# hammmerspoon
+!.hammerspoon/
+!.hammerspoon/Spoons/**
+!.hammerspoon/init.lua
+!.hammerspoon/readme.md
+
 # helix
 !.config/helix/
 !.config/helix/**

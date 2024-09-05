@@ -6,7 +6,7 @@ local window = require "hs.window"
 local spaces = require "hs.spaces"
 
 -- A global variable for the Hyper Mode
-k = hs.hotkey.modal.new({}, "F17")
+hypermode = hs.hotkey.modal.new({}, "F17")
 
 local fastKeyStroke = function(modifiers, character)
   local event = require("hs.eventtap").event
@@ -16,24 +16,24 @@ end
 
 -- Enter Hyper Mode when F18 (Hyper/Capslock) is pressed
 pressedF18 = function()
-  k.triggered = false
-  k:enter()
+  hypermode.triggered = false
+  hypermode:enter()
   -- hs.alert.show('in')
 end
 
 -- HYPER+o: Delete
 ofun = function()
   hs.eventtap.keyStroke({}, 'DELETE')
-  k.triggered = true
+  hypermode.triggered = true
 end
-k:bind({}, 'o', ofun, nil, ofun)
+hypermode:bind({}, 'o', ofun, nil, ofun)
 
 -- HYPER+Semi: Forward DELETE
 semifun = function()
   hs.eventtap.keyStroke({}, 'FORWARDDELETE')
-  k.triggered = true
+  hypermode.triggered = true
 end
-k:bind({}, ';', semifun, nil, semifun)
+hypermode:bind({}, ';', semifun, nil, semifun)
 
 -- Cursor movement modifiers for line, word, selecting, etc.
 modifiers = {
@@ -64,39 +64,39 @@ for j,jmod in ipairs(modifiers) do
     i = function()
       -- hs.eventtap.keyStroke(jmod,bnd[2])
       fastKeyStroke(jmod,bnd[2])
-      k.triggered = true
+      hypermode.triggered = true
     end
-    k:bind(jmod, bnd[1], i, nil, i)
+    hypermode:bind(jmod, bnd[1], i, nil, i)
   end
 end
 
 -- HYPER+k: Left Mouse Click
 kfun = function()
   hs.eventtap.leftClick(hs.mouse.absolutePosition())
-  k.triggered = true
+  hypermode.triggered = true
 end
-k:bind({}, 'k', kfun, nil, nil)
+hypermode:bind({}, 'k', kfun, nil, nil)
 
 -- HYPER+m: Right Mouse Click
 mfun = function()
   hs.eventtap.rightClick(hs.mouse.absolutePosition())
-  k.triggered = true
+  hypermode.triggered = true
 end
-k:bind({}, 'm', mfun, nil, nil)
+hypermode:bind({}, 'm', mfun, nil, nil)
 
 -- HYPER+comma: Middle Mouse Click
 commafun = function()
   hs.eventtap.middleClick(hs.mouse.absolutePosition())
-  k.triggered = true
+  hypermode.triggered = true
 end
-k:bind({}, ',', commafun, nil, nil)
+hypermode:bind({}, ',', commafun, nil, nil)
 
 -- HYPER+space: Return
 spacefun = function()
   hs.eventtap.keyStroke({}, 'RETURN')
-  k.triggered = true
+  hypermode.triggered = true
 end
-k:bind({}, 'SPACE', spacefun, nil, spacefun)
+hypermode:bind({}, 'SPACE', spacefun, nil, spacefun)
 
 -- HYPER+tilde: swapkeyboard layout
 -- swaplayoutfun = function()
@@ -107,24 +107,24 @@ k:bind({}, 'SPACE', spacefun, nil, spacefun)
 --     hs.keycodes.setLayout('Colemak')
 --   end
 --   hs.alert.show(hs.keycodes.currentLayout())
---   k.triggered = true
+--   hypermode.triggered = true
 -- end
--- k:bind({}, '`', 'swapping keyboard layout', swaplayoutfun, nil, nil)
+-- hypermode:bind({}, '`', 'swapping keyboard layout', swaplayoutfun, nil, nil)
 
 -- HYPER+=: Open Google in the default browser
 equalsfun = function()
   launch = "app = Application.currentApplication(); app.includeStandardAdditions = true; app.doShellScript('open https://google.com')"
   hs.osascript.javascript(launch)
-  k.triggered = true
+  hypermode.triggered = true
 end
-k:bind('', '=', nil, equalsfun, nil, nil)
+hypermode:bind('', '=', nil, equalsfun, nil, nil)
 
 -- Leave Hyper Mode when F18 (Hyper/Capslock) is pressed,
 --   send ESCAPE if no other keys are pressed.
 releasedF18 = function()
-  k:exit()
+  hypermode:exit()
   -- hs.alert.show('out')
-  if not k.triggered then
+  if not hypermode.triggered then
     hs.eventtap.keyStroke({}, 'ESCAPE')
     -- hs.alert.show('ESCAPE')
   end
