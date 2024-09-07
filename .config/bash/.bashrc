@@ -45,7 +45,7 @@ bashrc_d .pre.bash
 
 # Initialize ble.sh for interactive shells. Do this near the beginning of .bashrc.
 BLE_HOME="${BLE_HOME:-${XDG_DATA_HOME:-$HOME/.local/share}/blesh}"
-if [[ -d "$BLE_HOME" ]]; then
+if [[ -d "$BLE_HOME" ]] && [[ "${BASHPROFRC:-0}" -eq 1 ]]; then
   [[ $- == *i* ]] && source "$BLE_HOME/ble.sh" --noattach
 else
   unset BLE_HOME
