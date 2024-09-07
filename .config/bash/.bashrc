@@ -421,12 +421,12 @@ function prompt_hydro_short_path() {
   local dirname ancestor_path shortened_path
   local color_reset color_brblack color_bold_blue
   color_reset="\[\e[00m\]"
-  color_brblack="\[\e[90m\]"
+  color_darkgrey="\[\e[38;5;243m\]"
   color_bold_blue="\[\e[34;1m\]"
-  shortened_path="$(pwd | sed -E -e "s:^${HOME}:~:" -e "s:([^/\.]{1})[^/]*/:\1/:g")"
+  shortened_path="$(pwd | sed -E -e "s:^${HOME}:~:" -e "s:([^/\.]{1,3})[^/]*/:\1/:g")"
   dirname="${shortened_path##*/}"
   [[ "$shortened_path" == */* ]] && ancestor_path="${shortened_path%/*}/"
-  printf '%s' "${HYDRO_COLOR_SHORTENED_PWD:-$color_brblack}" "$ancestor_path" \
+  printf '%s' "${HYDRO_COLOR_SHORTENED_PWD:-$color_darkgrey}" "$ancestor_path" \
               "${HYDRO_COLOR_PWD:-$color_bold_blue}" "$dirname" "${color_reset}"
 }
 
@@ -444,13 +444,14 @@ function prompt_hydro_git_string() {
   git_branch=" $("$git" symbolic-ref --short HEAD)"
 
   # Set ahead/behind string: ↑1 ↓2 (notice git gives the reverse order from what we want).
+  # Helpful symbols: ⇕⇡⇣↑↓
   # shellcheck disable=SC2207
   git_behind_ahead_counts=($("$git" rev-list --count --left-right "@{upstream}...@" 2>/dev/null))
   if [[ ${git_behind_ahead_counts[0]} -gt 0 ]]; then
-    git_behind=" ${HYDRO_SYMBOL_GIT_BEHIND:-↓}${git_behind_ahead_counts[0]}"
+    git_behind=" ${HYDRO_SYMBOL_GIT_BEHIND:-⇣}${git_behind_ahead_counts[0]}"
   fi
   if [[ ${git_behind_ahead_counts[1]} -gt 0 ]]; then
-    git_ahead=" ${HYDRO_SYMBOL_GIT_AHEAD:-↑}${git_behind_ahead_counts[1]}"
+    git_ahead=" ${HYDRO_SYMBOL_GIT_AHEAD:-⇡}${git_behind_ahead_counts[1]}"
   fi
 
   # Set the dirty symbol.
@@ -555,12 +556,10 @@ fi
 bashrc_d
 
 # Pick a default theme.
-if [[ -z "$BASH_THEME" ]]; then
-  if type starship >/dev/null 2>&1; then
-    BASH_THEME="starship"
-  else
-    BASH_THEME="hydro"
-  fi
+if type starship >/dev/null 2>&1; then
+  BASH_THEME="${BASH_THEME:-starship}"
+else
+  BASH_THEME="${BASH_THEME:-hydro}"
 fi
 
 # Set the prompt theme.
