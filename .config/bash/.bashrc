@@ -423,7 +423,7 @@ function prompt_hydro_short_path() {
   color_reset="\[\e[00m\]"
   color_darkgrey="\[\e[38;5;243m\]"
   color_bold_blue="\[\e[34;1m\]"
-  shortened_path="$(pwd | sed -E -e "s:^${HOME}:~:" -e "s:([^/\.]{1,3})[^/]*/:\1/:g")"
+  shortened_path="$(pwd | sed -E -e "s:^${HOME}:~:" -e "s:([^/\.]{1,1})[^/]*/:\1/:g")"
   dirname="${shortened_path##*/}"
   [[ "$shortened_path" == */* ]] && ancestor_path="${shortened_path%/*}/"
   printf '%s' "${HYDRO_COLOR_SHORTENED_PWD:-$color_darkgrey}" "$ancestor_path" \
