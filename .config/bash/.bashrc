@@ -45,7 +45,7 @@ bashrc_d .pre.bash
 
 # Initialize ble.sh for interactive shells. Do this near the beginning of .bashrc.
 BLE_HOME="${BLE_HOME:-${XDG_DATA_HOME:-$HOME/.local/share}/blesh}"
-if [[ -d "$BLE_HOME" ]] && [[ "${BASHPROFRC:-0}" -eq 1 ]]; then
+if [[ -d "$BLE_HOME" ]] && [[ "${BASHPROFRC:-0}" -ne 1 ]]; then
   [[ $- == *i* ]] && source "$BLE_HOME/ble.sh" --noattach
 else
   unset BLE_HOME
@@ -281,6 +281,11 @@ alias bench="for i in {1..10}; do /usr/bin/time bash -ic 'echo -n'; done"
 
 #region: [Functions]
 #
+
+# A basic calculator.
+function test_exitcode() {
+  [[ "$#" -ne 0 ]] && return $1 || return 0
+}
 
 # A basic calculator.
 function calc() {
@@ -542,8 +547,13 @@ if type zoxide >/dev/null 2>&1; then
 fi
 
 # Enable fzf bash integration.
-if type fzf >/dev/null 2>&1; then
-  eval "$(fzf --bash)"
+# if type fzf >/dev/null 2>&1; then
+#   eval "$(fzf --bash)"
+# fi
+
+# Enable atuin bash integration.
+if type atuin >/dev/null 2>&1; then
+  eval "$(atuin init bash)"
 fi
 
 #
