@@ -462,7 +462,11 @@ function prompt_hydro_git_string() {
   [ -d .git ] || "$git" rev-parse --is-inside-work-tree > /dev/null 2>&1 || return
 
   # Set the git branch name.
-  git_branch=" $("$git" symbolic-ref --short HEAD)"
+  git_branch=" $(
+    "$git" symbolic-ref --short HEAD 2>/dev/null ||
+    "$git" describe --tags --exact-match HEAD 2>/dev/null ||
+    "$git" rev-parse --short HEAD 2>/dev/null
+  )"
 
   # Set ahead/behind string: ↑1 ↓2 (notice git gives the reverse order from what we want).
   # Helpful symbols: ⇕⇡⇣↑↓
