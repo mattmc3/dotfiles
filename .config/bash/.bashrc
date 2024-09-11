@@ -421,6 +421,22 @@ function arr/index_of() {
 #region: [Prompt]
 #
 
+function shorten_path() {
+  local OPTIND OPTARG opt o_len
+  while getopts "l:" flg; do
+    case "$flg" in
+      l) o_len="${OPTARG}" ;;
+      *) return 1  ;;
+    esac
+  done
+  shift $(( OPTIND - 1 ))
+  if [[ "${o_len:-1}" -gt 0 ]]; then
+    echo "$1" | sed -E -e "s:${HOME}:~:" -e 's:([^/\.]{1,'"${o_len:-1}"'})[^/]*/:\1/:g'
+  else
+    basename "$1"
+  fi
+}
+
 # Fish-like path shortener: $HOME/.config/bash/.docs/cheatsheet => ~/.c/b/.d/cheatsheet
 function prompt_hydro_short_path() {
   local dirname ancestor_path shortened_path
@@ -428,7 +444,7 @@ function prompt_hydro_short_path() {
   color_reset="\[\e[00m\]"
   color_darkgrey="\[\e[38;5;243m\]"
   color_bold_blue="\[\e[34;1m\]"
-  shortened_path="$(pwd | sed -E -e "s:^${HOME}:~:" -e "s:([^/\.]{1,1})[^/]*/:\1/:g")"
+  shortened_path="$(shorten_path $PWD)"
   dirname="${shortened_path##*/}"
   [[ "$shortened_path" == */* ]] && ancestor_path="${shortened_path%/*}/"
   printf '%s' "${HYDRO_COLOR_SHORTENED_PWD:-$color_darkgrey}" "$ancestor_path" \
