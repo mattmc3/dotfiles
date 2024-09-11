@@ -1,8 +1,9 @@
 #!/usr/bin/env bash
 # shellcheck shell=bash source=/dev/null disable=SC2001,SC2002
 
-# TODO: Hydro should use gitstatus if available
 # TODO: Hydro should show cmd duration (from ble.sh?)
+# TODO: Hydro should show stashes
+# TODO: Hydro should be async??
 
 #region: [Early Init]
 #
@@ -282,6 +283,10 @@ alias bench="for i in {1..10}; do /usr/bin/time bash -ic 'echo -n'; done"
 #region: [Functions]
 #
 
+function func/exists() {
+  declare -F -- "$1" >/dev/null 2>&1
+}
+
 # A basic calculator.
 function test_exitcode() {
   [[ "$#" -ne 0 ]] && return $1 || return 0
@@ -421,6 +426,9 @@ function arr/index_of() {
 #region: [Prompt]
 #
 
+# Enable promptvars so that ${GITSTATUS_PROMPT} in PS1 is expanded.
+shopt -s promptvars
+
 function shorten_path() {
   local OPTIND OPTARG opt o_len
   while getopts "l:" flg; do
@@ -435,6 +443,46 @@ function shorten_path() {
   else
     basename "$1"
   fi
+}
+
+# Load gitstatus if available
+if ! command -v gitstatus_start >/dev/null 2>&1; then
+  if [[ -r "$REPO_HOME/romkatv/gitstatus/gitstatus.plugin.sh" ]]; then
+    source "$REPO_HOME/romkatv/gitstatus/gitstatus.plugin.sh"
+  fi
+fi
+
+if command -v gitstatus_start >/dev/null 2>&1; then
+  # Start gitstatusd in the background.
+  gitstatus_stop && gitstatus_start -s -1 -u -1 -c -1 -d -1
+fi
+
+function set_vcs_vars() {
+  VCS_STATUS_RESULT="error"
+
+  # Use gitstatus if it's available
+  if func/exists gitstatus_query; then
+    gitstatus_query "$@" || return 1
+    if (( VCS_STATUS_NUM_STAGED + VCS_STATUS_NUM_UNSTAGED + VCS_STATUS_NUM_UNTRACKED > 0 )); then
+      VCS_STATUS_IS_DIRTY=1
+    else
+      VCS_STATUS_IS_DIRTY=0
+    fi
+    return 0
+  fi
+
+  command -v git > /dev/null 2>&1 || return 1
+  [ -d .git ] || git rev-parse --is-inside-work-tree > /dev/null 2>&1 || return 1
+
+  VCS_STATUS_RESULT="ok-manual"
+  VCS_STATUS_LOCAL_BRANCH="$(git symbolic-ref --short HEAD 2>/dev/null)"
+  VCS_STATUS_COMMITS_AHEAD="$(git rev-list --count @{upstream}..HEAD 2>/dev/null)"
+  VCS_STATUS_COMMITS_BEHIND="$(git rev-list --count HEAD..@{upstream} 2>/dev/null)"
+  VCS_STATUS_TAG="$(git describe --tags --exact-match HEAD 2>/dev/null)"
+  VCS_STATUS_COMMIT="$(git rev-parse HEAD 2>/dev/null)"
+  local gitstatus_porcelain="$(git status --porcelain 2>/dev/null)"
+  [[ -n "$gitstatus_porcelain" ]] && VCS_STATUS_IS_DIRTY=1 || VCS_STATUS_IS_DIRTY=0
+  VCS_STATUS_STASHES="$(git rev-list --walk-reflogs --count refs/stash 2>/dev/null || echo 0)"
 }
 
 # Fish-like path shortener: $HOME/.config/bash/.docs/cheatsheet => ~/.c/b/.d/cheatsheet
@@ -453,34 +501,27 @@ function prompt_hydro_short_path() {
 
 # Set the " main• ↑1 ↓2" part of the Hydro prompt.
 function prompt_hydro_git_string() {
-  local git git_branch git_dirty git_behind git_ahead color_green
-  local -a git_behind_ahead_counts
+  local git_branch git_dirty git_behind git_ahead color_green
 
   # Fail fast.
-  git="${HYDRO_GIT_COMMAND:-git}"
-  type -p "$git" > /dev/null 2>&1 || return 1
-  [ -d .git ] || "$git" rev-parse --is-inside-work-tree > /dev/null 2>&1 || return
+  set_vcs_vars
+  [[ "$VCS_STATUS_RESULT" == ok-* ]] || return 1
 
   # Set the git branch name.
-  git_branch=" $(
-    "$git" symbolic-ref --short HEAD 2>/dev/null ||
-    "$git" describe --tags --exact-match HEAD 2>/dev/null ||
-    "$git" rev-parse --short HEAD 2>/dev/null
-  )"
+  git_branch=" ${VCS_STATUS_LOCAL_BRANCH:-${VCS_STATUS_TAG:-${VCS_STATUS_COMMIT:0:8}}}"
 
   # Set ahead/behind string: ↑1 ↓2 (notice git gives the reverse order from what we want).
   # Helpful symbols: ⇕⇡⇣↑↓
   # shellcheck disable=SC2207
-  git_behind_ahead_counts=($("$git" rev-list --count --left-right "@{upstream}...@" 2>/dev/null))
-  if [[ ${git_behind_ahead_counts[0]} -gt 0 ]]; then
-    git_behind=" ${HYDRO_SYMBOL_GIT_BEHIND:-⇣}${git_behind_ahead_counts[0]}"
+  if [[ "$VCS_STATUS_COMMITS_AHEAD" -gt 0 ]]; then
+    git_ahead=" ${HYDRO_SYMBOL_GIT_AHEAD:-⇡}${VCS_STATUS_COMMITS_AHEAD}"
   fi
-  if [[ ${git_behind_ahead_counts[1]} -gt 0 ]]; then
-    git_ahead=" ${HYDRO_SYMBOL_GIT_AHEAD:-⇡}${git_behind_ahead_counts[1]}"
+  if [[ "$VCS_STATUS_COMMITS_BEHIND" -gt 0 ]]; then
+    git_behind=" ${HYDRO_SYMBOL_GIT_BEHIND:-⇣}${VCS_STATUS_COMMITS_BEHIND}"
   fi
 
   # Set the dirty symbol.
-  if [[ -n "$("$git" status --porcelain 2>/dev/null)" ]]; then
+  if [[ "$VCS_STATUS_IS_DIRTY" -eq 1 ]]; then
     git_dirty="${HYDRO_SYMBOL_GIT_DIRTY:-•}"
   fi
 
