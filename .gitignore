@@ -24,6 +24,7 @@
 !.bashrc
 !.config/bash/
 !.config/bash/**
+.config/bash/*.log
 
 # blesh
 !.config/blesh/
