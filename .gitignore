@@ -11,6 +11,10 @@
 !.config/
 !.config/*
 
+# atuin
+!.config/atuin/
+!.config/atuin/**
+
 # bin
 !bin/
 !bin/**
