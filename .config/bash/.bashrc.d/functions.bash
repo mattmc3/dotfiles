@@ -1,0 +1,3 @@
+function clone {
+  git cloner "$@"
+}
