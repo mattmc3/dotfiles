@@ -78,6 +78,10 @@
 !.config/readline/
 !.config/readline/**
 
+# shell
+!.config/shell/
+!.config/shell/**
+
 # starship
 !.config/starship/
 !.config/starship/**
