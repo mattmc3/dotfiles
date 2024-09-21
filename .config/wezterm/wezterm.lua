@@ -1,3 +1,6 @@
+-- Set my core preferences up top
+local myshell = "bash"
+
 -- Pull in the wezterm API
 local wezterm = require 'wezterm'
 
@@ -49,8 +52,7 @@ local shells = {
 wezterm.GLOBAL.shells = shells
 
 -- What's our shell?
-local shell = shells["fish"]
-config.default_prog = { shell }
+config.default_prog = { shells[myshell] }
 config.set_environment_variables = {
 	SHELL = shell,
 }
