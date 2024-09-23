@@ -21,7 +21,7 @@ _clone_color_schemes() {
 _usage() {
   echo "colorschemes - Show color schemes from https://iterm2colorschemes.com/"
   echo "usage:"
-  echo "  colorschemes              Fuzzy find a color scheme"
+  echo "  colorschemes <search>     Fuzzy find a color scheme"
   echo "  colorschemes -l           Find only light color schemes"
   echo "  colorschemes -d           Find only dark color schemes"
   echo "  colorschemes -p <scheme>  Preview color scheme"
@@ -118,6 +118,7 @@ main() {
   fi
 
   selection="$(_list "$theme_type" | fzf $fzf_opts --layout=reverse-list --preview="$THIS -p {}" --query="$*")"
+  echo "Selected Theme: $selection"
   # shellcheck disable=SC2181
   if [ "$?" -eq 0 ]; then
     _preview "$selection"
