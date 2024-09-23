@@ -1,5 +1,4 @@
-#!/usr/bin/env dash
-####!/bin/sh
+#!/bin/sh
 # shellcheck disable=SC3043
 
 COLOR_SCHEMES_HOME="${XDG_CACHE_HOME:-$HOME/.cache}/repos/mbadolato/iterm2-color-schemes"
@@ -46,9 +45,9 @@ _hex2rgb() {
 
 _preview_color() {
   local name hex r g b bg fg reset
-  # shellcheck disable=SC2046
   name="$1"
   hex="$2"
+  # shellcheck disable=SC2046
   set -- $(_hex2rgb "$hex")  # Reset args to RGB values from hex color
   r="$1"
   g="$2"
