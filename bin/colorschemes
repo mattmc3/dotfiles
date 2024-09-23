@@ -1,0 +1,139 @@
+#!/usr/bin/env dash
+####!/bin/sh
+# shellcheck disable=SC3043
+
+COLOR_SCHEMES_HOME="${XDG_CACHE_HOME:-$HOME/.cache}/repos/mbadolato/iterm2-color-schemes"
+THIS="$0"
+
+_clone_color_schemes() {
+  local lastupdated="$COLOR_SCHEMES_HOME/.lastupdated"
+
+  if [ ! -d "$COLOR_SCHEMES_HOME" ]; then
+    echo "Cloning mbadolato/iterm2-color-schemes..."
+    git clone --depth 1 --quiet https://github.com/mbadolato/iterm2-color-schemes "$COLOR_SCHEMES_HOME"
+    touch "$lastupdated"
+  elif [ "$(find "$COLOR_SCHEMES_HOME" -name ".lastupdated" -mtime +7 | wc -l)" -gt 0 ]; then
+    echo "Updating mbadolato/iterm2-color-schemes..."
+    git -C "$COLOR_SCHEMES_HOME" pull --quiet
+    touch "$lastupdated"
+  fi
+}
+
+_usage() {
+  echo "colorschemes - Show color schemes from https://iterm2colorschemes.com/"
+  echo "usage:"
+  echo "  colorschemes              Fuzzy find a color scheme"
+  echo "  colorschemes -l           Find only light color schemes"
+  echo "  colorschemes -d           Find only dark color schemes"
+  echo "  colorschemes -p <scheme>  Preview color scheme"
+}
+
+_isdark() {
+  local darkness
+  # shellcheck disable=SC2046
+  set -- $(_hex2rgb "$1")  # Reset args to RGB values from hex color
+  darkness="$(echo "0.2126 * $1 + 0.7152 * $2 + 0.0722 * $3" | bc)"
+  test "${darkness%.*}" -lt 40
+}
+
+_hex2rgb() {
+  printf "ibase=16; %s\n%s\n%s\n" \
+    "$(printf "%s" "$1" | cut -c1-2)" \
+    "$(printf "%s" "$1" | cut -c3-4)" \
+    "$(printf "%s" "$1" | cut -c5-6)" |
+    bc
+}
+
+_preview_color() {
+  local name hex r g b bg fg reset
+  # shellcheck disable=SC2046
+  name="$1"
+  hex="$2"
+  set -- $(_hex2rgb "$hex")  # Reset args to RGB values from hex color
+  r="$1"
+  g="$2"
+  b="$3"
+  fg="\033[38;2;${r};${g};${b}m"
+  bg="\033[48;2;${r};${g};${b}m"
+  reset="\033[0m"
+
+  # Output colored text
+  printf "${bg}  ${reset} %12s %s rgb(%3s,%3s,%3s)" "$name" "#${hex}" "$r" "$g" "$b"
+  printf " ${fg}%s${reset} ${bg}%s${reset}\n" foreground background
+}
+
+_preview() {
+  local jsonfile filter colorfilter key
+  jsonfile="$COLOR_SCHEMES_HOME/vhs/${1}.json"
+  if [ ! -f "$jsonfile" ]; then
+    echo "No preview available for '$*'."
+    return 1
+  fi
+
+  colorfilter='ascii_upcase | sub("#"; "")'
+  filter='to_entries.[] | select(.key != "name") | .key'
+  for key in $(jq -r "$filter" "$jsonfile"); do
+    _preview_color "$key" "$(jq -r ".$key | $colorfilter" "$jsonfile")"
+  done
+}
+
+_list() {
+  local jsonfile bg
+  for jsonfile in "$COLOR_SCHEMES_HOME"/vhs/*.json; do
+    if [ -n "$1" ]; then
+      bg="$(jq -r '.background | ascii_upcase | sub("#"; "")' "$jsonfile")"
+      if [ "$1" = dark ]; then
+        _isdark "$bg" || continue
+      elif [ "$1" = light ]; then
+        ! _isdark "$bg" || continue
+      fi
+    fi
+
+    jsonfile="${jsonfile##*/}"
+    echo "${jsonfile%.*}"
+  done
+}
+
+main() {
+  local optspec opt OPTARG OPTIND jsonfile selection theme_type fzf_opts
+
+  optspec=":hldp:"
+  while getopts "$optspec" opt; do
+    case "$opt" in
+      h) _usage; return 0     ;;
+      l) theme_type="light"   ;;
+      d) theme_type="dark"    ;;
+      p) _preview "${OPTARG}"; return 0 ;;
+      ?) echo >&2 "colorschemes: Invalid option: -${OPTARG}."; exit 1 ;;
+    esac
+  done
+  shift $((OPTIND-1))
+
+  # Wish I knew how to set the preview dynamically based on the theme...
+  if [ -n "$theme_type" ]; then
+    if [ "$theme_type" = light ]; then
+      fzf_opts="--color=${theme_type},preview-fg:0,preview-bg:255"
+    elif [ "$theme_type" = dark ]; then
+      fzf_opts="--color=${theme_type},preview-fg:255,preview-bg:0"
+    fi
+  fi
+
+  echo fzf $fzf_opts --layout=reverse-list --preview="$THIS -p {}" --query="$*"
+  selection="$(_list "$theme_type" | fzf $fzf_opts --layout=reverse-list --preview="colorschemes -p {}" --query="$*")"
+  # shellcheck disable=SC2181
+  if [ "$?" -eq 0 ]; then
+    _preview "$selection"
+  fi
+}
+
+# Pre-reqs
+if ! command -v jq >/dev/null 2>&1; then
+  echo >&2 "colorschemes: Expecting 'jq'."
+  echo >&2 "Please use your system's package manager to install (eg: brew install jq)."
+  return 1
+fi
+_clone_color_schemes
+
+echo $THIS
+# Run colorschemes
+main "$@"
