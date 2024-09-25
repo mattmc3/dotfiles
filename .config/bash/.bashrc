@@ -266,7 +266,7 @@ alias bashrc='"${EDITOR:-vim}" "${BASH_HOME:-$HOME}/.bashrc"'
 alias reload='source "${BASH_HOME:-$HOME}/.bashrc"'
 
 # Quick way to get back to your initial working directory.
-IWD="${IWD:-PWD}"
+IWD="${IWD:-$PWD}"
 alias iwd='cd "$IWD"'
 
 # Misc aliases.
@@ -614,6 +614,7 @@ fi
 
 # Enable atuin bash integration.
 if type atuin >/dev/null 2>&1; then
+  # Disabling up arrow means that we need to use C-r for search.
   eval "$(atuin init bash --disable-up-arrow)"
 fi
 
