@@ -1,3 +1,5 @@
+#!/usr/bin/env zsh
+
 # Defaults.
 zstyle ':completion:*:default' list-prompt '%S%M matches%s'
 
