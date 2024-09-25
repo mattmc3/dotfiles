@@ -70,9 +70,9 @@
 !.config/npm/
 !.config/npm/**
 
-# nvm
-!.config/nvm/
-!.config/nvm/**
+# neovim
+!.config/nvim/
+!.config/nvim/**
 
 # readline
 !.config/readline/
