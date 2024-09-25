@@ -21,10 +21,11 @@ _clone_color_schemes() {
 _usage() {
   echo "colorschemes - Show color schemes from https://iterm2colorschemes.com/"
   echo "usage:"
-  echo "  colorschemes <search>     Fuzzy find a color scheme"
-  echo "  colorschemes -l           Find only light color schemes"
-  echo "  colorschemes -d           Find only dark color schemes"
-  echo "  colorschemes -p <scheme>  Preview color scheme"
+  echo "  colorschemes [-l|-d] <search>  Fuzzy find a color scheme"
+  echo "  colorschemes -p <scheme>       Preview color scheme"
+  echo "flags:"
+  echo "  -l   Find only light color schemes"
+  echo "  -d   Find only dark color schemes"
 }
 
 _isdark() {
@@ -32,7 +33,7 @@ _isdark() {
   # shellcheck disable=SC2046
   set -- $(_hex2rgb "$1")  # Reset args to RGB values from hex color
   darkness="$(echo "0.2126 * $1 + 0.7152 * $2 + 0.0722 * $3" | bc)"
-  test "${darkness%.*}" -lt 40
+  test "${darkness%.*}" -le 40
 }
 
 _hex2rgb() {
@@ -44,20 +45,17 @@ _hex2rgb() {
 }
 
 _preview_color() {
-  local name hex r g b bg fg reset
+  local name hex bg fg reset
   name="$1"
   hex="$2"
   # shellcheck disable=SC2046
   set -- $(_hex2rgb "$hex")  # Reset args to RGB values from hex color
-  r="$1"
-  g="$2"
-  b="$3"
-  fg="\033[38;2;${r};${g};${b}m"
-  bg="\033[48;2;${r};${g};${b}m"
+  fg="\033[38;2;${1};${2};${3}m"
+  bg="\033[48;2;${1};${2};${3}m"
   reset="\033[0m"
 
   # Output colored text
-  printf "${bg}  ${reset} %12s %s rgb(%3s,%3s,%3s)" "$name" "#${hex}" "$r" "$g" "$b"
+  printf "${bg}  ${reset} %12s %s rgb(%3s,%3s,%3s)" "$name" "#${hex}" "$1" "$2" "$3"
   printf " ${fg}%s${reset} ${bg}%s${reset}\n" foreground background
 }
 
@@ -118,9 +116,9 @@ main() {
   fi
 
   selection="$(_list "$theme_type" | fzf $fzf_opts --layout=reverse-list --preview="$THIS -p {}" --query="$*")"
-  echo "Selected Theme: $selection"
   # shellcheck disable=SC2181
   if [ "$?" -eq 0 ]; then
+    echo "Selected Theme: $selection"
     _preview "$selection"
   fi
 }
