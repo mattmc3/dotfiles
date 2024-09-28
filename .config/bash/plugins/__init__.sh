@@ -22,4 +22,4 @@ fi
 
 # Declare a post_init array for post init operations.
 # shellcheck disable=SC2034
-declare -ga post_init=()
+declare -a post_init=()

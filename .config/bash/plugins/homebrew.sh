@@ -1,6 +1,9 @@
 # shellcheck shell=bash
 
+[ -d /opt/homebrew/bin ] || return 1
+
 # Add common directories.
+export PATH="/opt/homebrew/bin:/opt/homebrew/sbin:$PATH"
 export PATH="/usr/local/bin:/usr/local/sbin:$PATH"
 
 # Set up homebrew if the user didn't already in a .pre.bash file.

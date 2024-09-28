@@ -1,10 +1,10 @@
 # shellcheck shell=bash
 
 # Clean up '$PATH'.
-PATH="$(
-  printf %s "$PATH" |
-  awk -vRS=: -vORS= '!a[$0]++ {if (NR>1) printf(":"); printf("%s", $0) }'
-)"
+# PATH="$(
+#   printf %s "$PATH" |
+#   awk -vRS=: -vORS= '!a[$0]++ {if (NR>1) printf(":"); printf("%s", $0) }'
+# )"
 
 # Attach ble.sh last.
 [[ ${BLE_VERSION-} ]] && ble-attach

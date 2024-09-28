@@ -11,7 +11,7 @@ declare -a plugins=(
   aliases
   atuin
   colors
-  #completions
+  completions
   directory
   editor
   environment
