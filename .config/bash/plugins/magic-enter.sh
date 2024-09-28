@@ -1,8 +1,10 @@
+# shellcheck shell=bash
+
 [[ -n "$BLE_VERSION" ]] || return 1
 
 # Default commands
-: ${MAGIC_ENTER_GIT_COMMAND:="git status -sb ."} # run when in a git repository
-: ${MAGIC_ENTER_OTHER_COMMAND:="ls ."}           # run anywhere else
+[ -n "$MAGIC_ENTER_GIT_COMMAND" ]   || MAGIC_ENTER_GIT_COMMAND="git status -sb ."  # run when in a git repository
+[ -n "$MAGIC_ENTER_OTHER_COMMAND" ] || MAGIC_ENTER_OTHER_COMMAND="ls ."            # run anywhere else
 
 # This can be changed to handle all manner of magic-commands.
 function ble/widget/blerc/magic-enter-command {
@@ -33,26 +35,3 @@ function ble/widget/blerc/magic-enter {
 }
 ble-bind -f C-m blerc/magic-enter    # for traditional keyboard protocol
 ble-bind -f RET blerc/magic-enter    # for advanced keyboard protocol
-
-function ble/widget/blerc/fancy-ctrl-z {
-  local running_jobs="$(jobs | wc -l | xargs)"
-  if [[ ! $_ble_edit_str ]] && [[ "$running_jobs" -gt 0 ]]; then
-    ble/widget/insert-string "fg"
-    ble/widget/accept-line
-  else
-    ble/widget/insert-string "echo :: $_ble_edit_str :: $running_jobs"
-    ble/widget/accept-line
-    #ble/widget/vi-editing-mode  # default
-  fi
-}
-ble-bind -m emacs -f C-z blerc/fancy-ctrl-z
-
-# Strip leading dollar signs. Fixes commands pasted from markdown.
-ble/function#advice around ble/widget/default/accept-line '
-  if [[ "${_ble_edit_str:0:2}" == "$ " ]]; then
-    ble/widget/beginning-of-logical-line
-    ble/widget/insert-string "${_ble_edit_str:2}"
-    ble/widget/kill-forward-logical-line
-  fi
-  ble/function#advice/do
-'

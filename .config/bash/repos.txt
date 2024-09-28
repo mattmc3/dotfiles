@@ -1,0 +1,17 @@
+# Zsh-like preexec
+rcaloras/bash-preexec
+
+# Make bash modern.
+akinomyoga/ble.sh
+
+# Awesome terminal, with some helpful includes.
+wez/wezterm
+
+# Fast git status for prompts.
+romkatv/gitstatus
+
+# Bash frameworks, though I likely will snag snippets rather than use them.
+#bash-it/bash-it
+#ohmybash/oh-my-bash
+
+# vim: ft=jproperties sw=2 ts=2 et

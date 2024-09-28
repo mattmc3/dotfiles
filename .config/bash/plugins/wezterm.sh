@@ -1,6 +1,10 @@
+# shellcheck shell=bash source=/dev/null
+
+[[ -n "${REPO_HOME}" ]] || return 1
+
 [[ "$TERM_PROGRAM" == "WezTerm" ]] || return 1
-if [[ -r "${REPO_HOME:?}/wez/wezterm/assets/shell-integration/wezterm.sh" ]]; then
-  source "${REPO_HOME:?}/wez/wezterm/assets/shell-integration/wezterm.sh"
+if [[ -r "${REPO_HOME:-?}/wez/wezterm/assets/shell-integration/wezterm.sh" ]]; then
+  source "${REPO_HOME:-?}/wez/wezterm/assets/shell-integration/wezterm.sh"
 else
   return 1
 fi

@@ -63,7 +63,7 @@ function venv {
       return 1
     fi
     if [[ "${#o_remove}" -gt 0 ]]; then
-      rm -rf -- "${workon_home:?}/$1"
+      rm -rf -- "${workon_home:-?}/$1"
     else
       echo "$workon_home/$1"
     fi
