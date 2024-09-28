@@ -1,6 +1,6 @@
 [[ "$TERM_PROGRAM" == "WezTerm" ]] || return 1
 
-wezterm_sh="${REPO_HOME:?}/wez/wezterm/assets/shell-integration/wezterm.sh"
+wezterm_sh="${REPO_HOME:-?}/wez/wezterm/assets/shell-integration/wezterm.sh"
 if [[ ! -r $wezterm_sh ]]; then
   mkdir -p ${wezterm_sh:h}
   curl -fsSL https://raw.githubusercontent.com/wez/wezterm/main/assets/shell-integration/wezterm.sh -o $wezterm_sh
