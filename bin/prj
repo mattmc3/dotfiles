@@ -1,0 +1,42 @@
+#!/usr/bin/env bash
+##? prj - project jumper
+if ! command -v fzf >/dev/null; then
+  echo "fzf command not found" >&2
+  exit 1
+fi
+
+query=()
+PROJECT_DIR="${PROJECT_DIR:-$HOME/Projects}"
+usage=(
+  "prj:    The project jumper"
+  "usage:  prj [-h] [<query...>]"
+)
+
+opterr() {
+  echo >&2 "prj: Unknown option '$1'"
+}
+
+# Use getopts for option parsing
+while getopts ":h" opt; do
+  case $opt in
+    h)  printf "%s\n" "${usage[@]}" && exit 0 ;;
+    \?) opterr "-$OPTARG" && exit 2 ;;
+  esac
+done
+shift $((OPTIND - 1))
+
+PROJECT_DIR="${PROJECT_DIR/#\~/$HOME}"
+if [[ ! -d $PROJECT_DIR ]]; then
+  echo >&2 "prj: Project home directory not found '$PROJECT_DIR'"
+  exit 1
+fi
+
+selection=$(
+  find "$PROJECT_DIR" -type d -name ".git" -prune | sed -e "s|^$PROJECT_DIR/||" -e "s|/.git$||" | sort -u |
+  fzf --layout=reverse-list --query="${query[*]}"
+)
+
+# Output the selected project directory
+if [[ -n $selection ]]; then
+  echo "$selection"
+fi
