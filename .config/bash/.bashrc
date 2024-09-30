@@ -15,7 +15,6 @@ declare -a plugins=(
   directory
   editor
   environment
-  fancy-ctrl-z
   functions
   history
   macos
