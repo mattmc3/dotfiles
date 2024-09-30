@@ -62,6 +62,7 @@ fi
 
 # Homebrew
 alias brewup="brew update && brew upgrade && brew cleanup"
+alias brewinfo="brew leaves | xargs brew desc --eval-all"
 
 # dotfiles
 export DOTFILES="${DOTFILES:-$HOME/.dotfiles}"

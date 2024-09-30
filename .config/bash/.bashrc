@@ -2,20 +2,19 @@
 # shellcheck shell=bash disable=SC2001,SC2002
 
 BASH_THEME="hydro"
+BASH_HOME=~/.config/bash
 
-declare -a plugins=(
+plugins=(
   __init__
   ble
   homebrew
   repos
-  aliases
   atuin
   colors
   completions
   directory
   editor
   environment
-  functions
   history
   macos
   magic-enter
@@ -24,15 +23,16 @@ declare -a plugins=(
   utils
   wezterm
   zoxide
+  confd
   zzz
 )
 
-for plugin in "${plugins[@]}"; do
-  if [ -r "$HOME/.config/bash/plugins/${plugin}.sh" ]; then
-    source "$HOME/.config/bash/plugins/${plugin}.sh"
+for _plugin in "${plugins[@]}"; do
+  if [ -r "$BASH_HOME/plugins/${_plugin}.sh" ]; then
+    source "$BASH_HOME/plugins/${_plugin}.sh"
   else
-    echo >&2 "Plugin not found: '$plugin'."
+    echo >&2 "Plugin not found: '$_plugin'."
   fi
 done
 
-unset plugin
+unset _plugin
