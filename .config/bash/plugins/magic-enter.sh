@@ -1,6 +1,6 @@
 # shellcheck shell=bash
 
-[[ -n "$BLE_VERSION" ]] || return 1
+[ -n "$BLE_VERSION" ] || return 1
 
 # Default commands
 [ -n "$MAGIC_ENTER_GIT_COMMAND" ]   || MAGIC_ENTER_GIT_COMMAND="git status -sb ."  # run when in a git repository

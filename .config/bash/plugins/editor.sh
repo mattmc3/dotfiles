@@ -4,7 +4,7 @@
 stty -ixon
 
 # Do ble.sh things from here on.
-[[ -n "$BLE_VERSION" ]] || return 1
+[ -n "$BLE_VERSION" ] || return 1
 
 # Strip leading dollar signs. Fixes commands pasted from markdown.
 # shellcheck disable=SC2016
