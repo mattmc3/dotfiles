@@ -19,7 +19,7 @@ fi
 export PATH="$HOME/bin:$HOME/.local/bin:$PATH"
 
 # Show the root installs with all deps.
-brewdeps() {
+brews() {
   local bluify_deps='
     BEGIN { blue = "\033[34m"; reset = "\033[0m" }
           { leaf = $1; $1 = ""; printf "%s%s%s%s\n", leaf, blue, $0, reset}
