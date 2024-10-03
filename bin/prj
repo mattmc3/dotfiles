@@ -5,7 +5,6 @@ if ! command -v fzf >/dev/null; then
   exit 1
 fi
 
-query=()
 PROJECT_DIR="${PROJECT_DIR:-$HOME/Projects}"
 usage=(
   "prj:    The project jumper"
@@ -33,7 +32,7 @@ fi
 
 selection=$(
   find "$PROJECT_DIR" -type d -name ".git" -prune | sed -e "s|^$PROJECT_DIR/||" -e "s|/.git$||" | sort -u |
-  fzf --layout=reverse-list --query="${query[*]}"
+  fzf --layout=reverse-list --query="${*}"
 )
 
 # Output the selected project directory
