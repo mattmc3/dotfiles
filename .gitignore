@@ -106,12 +106,14 @@
 .config/zsh/.*
 .config/zsh/.*/
 !.p10k.zsh
+!.zaliases
 !.zlogin
 !.zlogout
 !.zprofile
 !.zshenv
 !.zshrc
 !.zstyle
+!.zstyles
 !.config/zsh/.zshrc.d/
 !.config/zsh/.zshrc.d/**
 .config/zsh/.zcompdump*
