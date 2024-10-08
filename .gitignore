@@ -112,8 +112,9 @@
 !.zprofile
 !.zshenv
 !.zshrc
-!.zstyle
+!.zshrc.*
 !.zstyles
+!.zplugins
 !.config/zsh/.zshrc.d/
 !.config/zsh/.zshrc.d/**
 .config/zsh/.zcompdump*

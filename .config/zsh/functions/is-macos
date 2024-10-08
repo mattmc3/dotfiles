@@ -1,1 +1,1 @@
-[ "$OSTYPE" = darwin* ]
+[[ "$OSTYPE" == darwin* ]]
