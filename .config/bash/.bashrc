@@ -6,8 +6,8 @@ BASH_HOME=~/.config/bash
 
 plugins=(
   __init__
+  brew
   ble
-  homebrew
   repos
   atuin
   colors

@@ -3,8 +3,12 @@
 [ -d /opt/homebrew/bin ] || return 1
 
 # Add common directories.
-export PATH="/opt/homebrew/bin:/opt/homebrew/sbin:$PATH"
-export PATH="/usr/local/bin:/usr/local/sbin:$PATH"
+if [[ :$PATH: != *:/usr/bin:* ]]; then
+  export PATH="/usr/bin:/usr/sbin:$PATH"
+fi
+if [[ :$PATH: != *:/usr/local/bin:* ]]; then
+  export PATH="/usr/local/bin:/usr/local/sbin:$PATH"
+fi
 
 # Set up homebrew if the user didn't already in a .pre.bash file.
 if [[ -z "${HOMEBREW_PREFIX:-}" ]]; then
@@ -13,6 +17,10 @@ if [[ -z "${HOMEBREW_PREFIX:-}" ]]; then
     eval "$("$brewcmd" shellenv)"
     break
   done
+fi
+
+if [[ :$PATH: != *:/opt/homebrew/bin:* ]]; then
+  export PATH="/opt/homebrew/bin:/opt/homebrew/sbin:$PATH"
 fi
 
 # Add user directories.
