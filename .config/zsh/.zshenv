@@ -16,8 +16,12 @@ mkdir -p "$XDG_CONFIG_HOME" "$XDG_CACHE_HOME" "$XDG_DATA_HOME" "$XDG_STATE_HOME"
 typeset -gU cdpath fpath mailpath path
 
 # Set path
+eval "$(/opt/homebrew/bin/brew shellenv)"
 path=(
-  /opt/homebrew/{s,}bin(/N)
-  /usr/local/{s,}bin(/N)
+  $HOME/bin(/N)
+  $HOME/.local/bin(/N)
+  /opt/homebrew/{,s}bin(/N)
+  /usr/local/{,s}bin(/N)
+  /usr/{,s}bin(/N)
   $path
 )
