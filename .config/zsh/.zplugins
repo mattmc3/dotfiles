@@ -49,6 +49,9 @@ ${ZDOTDIR:-$HOME}/.p10k.zsh
 # Aliases
 ${ZDOTDIR:-$HOME}/.zaliases
 
+# Utils
+mattmc3/zman
+
 # Add core plugins that make Zsh a bit more like Fish
 zdharma-continuum/fast-syntax-highlighting
 zsh-users/zsh-autosuggestions
