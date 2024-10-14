@@ -66,6 +66,10 @@
 !.config/iterm2/
 !.config/iterm2/*.json
 
+# kak
+!.config/kak/
+!.config/kak/**
+
 # npm
 !.config/npm/
 !.config/npm/**
