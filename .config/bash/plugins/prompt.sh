@@ -5,6 +5,7 @@
 # TODO: Hydro should be async??
 
 HYDRO_COLOR_PROMPT="$(tput setaf 206)"
+HYDRO_USE_GITSTATUS=${HYDRO_USE_GITSTATUS:-0}
 
 # Enable promptvars so that ${GITSTATUS_PROMPT} in PS1 is expanded.
 shopt -s promptvars
@@ -26,22 +27,19 @@ function shorten_path() {
 }
 
 # Load gitstatus if available
-if ! command -v gitstatus_start >/dev/null 2>&1; then
-  if [[ -r "$REPO_HOME/romkatv/gitstatus/gitstatus.plugin.sh" ]]; then
-    source "$REPO_HOME/romkatv/gitstatus/gitstatus.plugin.sh"
-  fi
-fi
-
-if command -v gitstatus_start >/dev/null 2>&1; then
+if [[ $HYDRO_USE_GITSTATUS -eq 1 ]]; then
   # Start gitstatusd in the background.
+  source "$REPO_HOME/romkatv/gitstatus/gitstatus.plugin.sh"
   gitstatus_stop && gitstatus_start -s -1 -u -1 -c -1 -d -1
 fi
 
 function set_vcs_vars() {
   VCS_STATUS_RESULT="error"
+  command -v git > /dev/null 2>&1 || return 1
+  [ -d .git ] || git rev-parse --is-inside-work-tree > /dev/null 2>&1 || return 1
 
   # Use gitstatus if it's available
-  if func/exists gitstatus_query; then
+  if [[ $HYDRO_USE_GITSTATUS -eq 1 ]]; then
     gitstatus_query || return 1
     if (( VCS_STATUS_NUM_STAGED + VCS_STATUS_NUM_UNSTAGED + VCS_STATUS_NUM_UNTRACKED > 0 )); then
       VCS_STATUS_IS_DIRTY=1
@@ -51,9 +49,7 @@ function set_vcs_vars() {
     return 0
   fi
 
-  command -v git > /dev/null 2>&1 || return 1
-  [ -d .git ] || git rev-parse --is-inside-work-tree > /dev/null 2>&1 || return 1
-
+  # Otherwise, do the git status calls ourself
   VCS_STATUS_RESULT="ok-manual"
   VCS_STATUS_LOCAL_BRANCH="$(git symbolic-ref --short HEAD 2>/dev/null)"
   VCS_STATUS_COMMITS_AHEAD="$(git rev-list --count '@{upstream}..HEAD' 2>/dev/null)"
@@ -62,7 +58,7 @@ function set_vcs_vars() {
   VCS_STATUS_COMMIT="$(git rev-parse HEAD 2>/dev/null)"
   local gitstatus_porcelain="$(git status --porcelain 2>/dev/null)"
   [[ -n "$gitstatus_porcelain" ]] && VCS_STATUS_IS_DIRTY=1 || VCS_STATUS_IS_DIRTY=0
-  #VCS_STATUS_STASHES="$(git rev-list --walk-reflogs --count refs/stash 2>/dev/null || echo 0)"
+  VCS_STATUS_STASHES="$(git rev-list --walk-reflogs --count refs/stash 2>/dev/null || echo 0)"
 }
 
 # Fish-like path shortener: $HOME/.config/bash/.docs/cheatsheet => ~/.c/b/.d/cheatsheet
