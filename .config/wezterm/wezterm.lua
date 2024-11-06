@@ -69,7 +69,7 @@ config.colors = {
 -- Background
 config.macos_window_background_blur = 20
 --config.window_background_opacity = 0.7
-config.background = wezterm.GLOBAL.backgrounds["Solid"]
+config.background = wezterm.GLOBAL.backgrounds["Nydra"]
 
 -- Cursor
 config.default_cursor_style = 'SteadyBar'
