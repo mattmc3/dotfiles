@@ -304,12 +304,16 @@ tags
 # Persistent undo
 [._]*.un~
 
-
 # End of https://www.gitignore.io/api/go,osx,node,code,python,jupyternotebook,emacs,vim
+
+.idea/
+.vscode/
 
 *.zwc
 *.zwc.old
 
 # test things
+foo
 foo.*
-
+.foo
+.foo/*
