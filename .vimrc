@@ -1,1 +1,1 @@
-source ~/.config/vim/kickstart.vim
+.config/vim/init.vim
