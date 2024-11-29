@@ -99,6 +99,8 @@
 
 # vim
 !~/.vimrc
+!.config/vim/
+!.config/vim/*.vim
 
 # wezterm
 !.config/wezterm/
