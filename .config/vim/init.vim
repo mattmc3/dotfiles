@@ -6,7 +6,7 @@
 " https://github.com/fabi1cazenave/cua-mode.vim/blob/master/plugin/cua-mode.vim
 " https://github.com/tpope/vim-sensible/blob/master/plugin/sensible.vim
 
-" better defaults were introduced in vim 7, but they only load on for a missing vimrc.
+" better defaults were introduced in vim 7, but they only load for a missing vimrc.
 unlet! skip_defaults_vim
 source $VIMRUNTIME/defaults.vim
 
