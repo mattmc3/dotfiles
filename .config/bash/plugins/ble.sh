@@ -1,6 +1,7 @@
 # shellcheck shell=bash source=/dev/null
 
 BLE_HOME="${BLE_HOME:-${XDG_DATA_HOME:-$HOME/.local/share}/blesh}"
+REPO_HOME="${REPO_HOME:-${XDG_CACHE_HOME:-$HOME/.cache}/bash/repos}"
 
 if [[ ! -d "$BLE_HOME" ]]; then
   export PATH="/opt/homebrew/bin:$PATH"
