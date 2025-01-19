@@ -140,8 +140,10 @@ hs.hotkey.bind({"cmd"}, "`", function()
       wez:hide()
     else
       local wezWindow = wez:mainWindow()
-      local curScreen = hs.window.focusedWindow():screen()
-      wezWindow:moveToScreen(curScreen)
+      if wezWindow then
+        local curScreen = hs.window.focusedWindow():screen()
+        wezWindow:moveToScreen(curScreen)
+      end
       wez:activate()
     end
   end
