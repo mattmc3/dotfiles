@@ -1,0 +1,124 @@
+#!/usr/bin/env bash
+
+#
+# pocket2csv_with_paging
+# Adds paging to download all Pocket bookmarks.
+#
+
+read -r -d '' LOGO <<'EOF'
+...                   _          _    ___
+                     | |        | |  |__ \
+  _ __    ___    ___ | | __ ___ | |_    ) | ___  ___ __   __
+ | '_ \  / _ \  / __|| |/ // _ \| __|  / / / __|/ __|\ \ / /
+ | |_) || (_) || (__ |   <|  __/| |_  / /_| (__ \__ \ \ V /
+ | .__/  \___/  \___||_|\_\\___| \__||____|\___||___/  \_/
+ | |
+ |_|
+...
+
+EOF
+echo ""
+echo "$LOGO"
+echo ""
+echo ""
+
+## read -p '[1] Enter Your Pocket API Consumer Key: ' CONSUMER_KEY
+# Pocket API credentials
+CONSUMER_KEY="113484-c20eb68369f61b62ea28588"
+## ACCESS_TOKEN="c776ede4-04a6-5e4d-7c61-e532b9&username=mattmc3%40gmail.com"
+
+read -r -d '' MY_DATA <<EOF
+{
+"consumer_key":"$CONSUMER_KEY",
+"redirect_uri":"https://getpocket.com"
+}
+EOF
+
+MY_CODE=$(\
+curl \
+  --silent \
+  --request POST \
+  --url https://getpocket.com/v3/oauth/request \
+  --header 'content-type: application/json; charset=UTF-8' \
+  --header 'x-accept: application/json' \
+  --data "$MY_DATA" \
+| jq -r .code)
+
+echo "[2] Visit this link in a browser:"
+echo ""
+echo "https://getpocket.com/auth/authorize?request_token=$MY_CODE&redirect_uri=https://getpocket.com"
+echo ""
+echo "[3] Login to Pocket (if not already logged in)."
+echo "[4] Click the Authorize button."
+echo "[!] "
+echo "[!] DO NOT CONTINUE UNTIL YOU DO [2], [3], [4] !"
+echo "[!] OTHERWISE THIS SCRIPT WILL FAIL. ☠"
+echo "[!] "
+read -p "[5] Press any key to continue (CTRL-C to quit)... "
+
+read -r -d '' MY_DATA <<EOF
+{
+"consumer_key":"$CONSUMER_KEY",
+"code":"$MY_CODE"
+}
+EOF
+
+MY_ACCESS_TOKEN=$(\
+curl \
+  --silent \
+  --request POST \
+  --url https://getpocket.com/v3/oauth/authorize \
+  --header 'content-type: application/json; charset=UTF-8' \
+  --header 'x-accept: application/json' \
+  --data "$MY_DATA" \
+| jq -r .access_token)
+
+# Initialize output file
+OUTPUT_FILE="pocket.json"
+echo "[]" > "$OUTPUT_FILE"
+
+# Fetch bookmarks in pages
+OFFSET=0
+PAGE_SIZE=100
+echo "[+] Starting download of all Pocket bookmarks..."
+
+while true; do
+    read -r -d '' MY_DATA <<EOF
+{
+"state": "all",
+"sort": "newest",
+"detailType": "complete",
+"consumer_key":"$CONSUMER_KEY",
+"access_token":"$MY_ACCESS_TOKEN",
+"count": $PAGE_SIZE,
+"offset": $OFFSET
+}
+EOF
+
+    echo "[+] Fetching bookmarks starting from offset $OFFSET..."
+    RESPONSE=$(\
+    curl \
+      --silent \
+      --request POST \
+      --url https://getpocket.com/v3/get \
+      --header 'content-type: application/json' \
+      --data "$MY_DATA" \
+    )
+
+    # Extract items and ensure it's an array
+    ITEMS=$(echo "$RESPONSE" | jq '.list | to_entries | map(.value)')
+
+    # Check if there are any items
+    if [ "$(echo "$ITEMS" | jq 'length')" -eq 0 ]; then
+        echo "[+] No more bookmarks to fetch. All done!"
+        break
+    fi
+
+    # Append items to the output file
+    jq -s '.[0] + .[1]' "$OUTPUT_FILE" <(echo "$ITEMS") > tmp.json && mv tmp.json "$OUTPUT_FILE"
+
+    # Increment offset for the next page
+    OFFSET=$((OFFSET + PAGE_SIZE))
+done
+
+echo "[+] All bookmarks downloaded and saved to $OUTPUT_FILE."

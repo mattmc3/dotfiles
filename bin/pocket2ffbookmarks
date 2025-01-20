@@ -1,0 +1,45 @@
+#!/usr/bin/env bash
+#
+# pocket2firefox_with_tags
+# Converts Pocket JSON to a Firefox-compatible HTML bookmarks file with tags.
+#
+
+INPUT_FILE="pocket.json"
+OUTPUT_FILE="bookmarks.html"
+
+# Check if the input file exists
+if [ ! -f "$INPUT_FILE" ]; then
+    echo "Error: Input file '$INPUT_FILE' does not exist."
+    exit 1
+fi
+
+echo "[+] Converting '$INPUT_FILE' to Firefox bookmarks file '$OUTPUT_FILE'..."
+
+# Generate HTML with tags
+jq -r '
+def escape_html:
+    gsub("&"; "&amp;") | gsub("<"; "&lt;") | gsub(">"; "&gt;") | gsub("\""; "&quot;");
+
+[
+    .[] | {
+        title: (if .resolved_title != null then .resolved_title else (if .given_title != null then .given_title else "Untitled" end) end) | escape_html,
+        url: (if .resolved_url != null then .resolved_url else .given_url end),
+        time_added: (if .time_added != null then (.time_added | tonumber | strftime("%Y-%m-%d %H:%M:%S")) else "Unknown Date" end),
+        tags: (if .tags != null then (.tags | keys_unsorted | join(", ")) else "" end)
+    }
+]
+| "<!DOCTYPE NETSCAPE-Bookmark-file-1>\n" +
+  "<META HTTP-EQUIV=\"Content-Type\" CONTENT=\"text/html; charset=UTF-8\">\n" +
+  "<TITLE>Bookmarks</TITLE>\n" +
+  "<H1>Bookmarks</H1>\n" +
+  "<DL><p>\n" +
+  (map("<DT><A HREF=\"\(.url)\" ADD_DATE=\"\(.time_added)\" TAGS=\"\(.tags | escape_html)\">\(.title)</A>") | join("\n")) +
+  "\n</DL><p>"
+' "$INPUT_FILE" > "$OUTPUT_FILE"
+
+if [ $? -eq 0 ]; then
+    echo "[+] Firefox bookmarks file created successfully: $OUTPUT_FILE"
+else
+    echo "[-] Error: Failed to create Firefox bookmarks file."
+    exit 1
+fi
