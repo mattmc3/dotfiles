@@ -11,59 +11,59 @@ local config = wezterm.config_builder()
 -- Define selectable backgrounds
 local backgrounds = {}
 backgrounds["Solid"] = {
-	{
-		source = {
-			Color = '#0f1019',
-		},
-		width = "100%",
-		height = "100%",
-		opacity = .85,
-	},
+  {
+    source = {
+      Color = '#0f1019',
+    },
+    width = "100%",
+    height = "100%",
+    opacity = .85,
+  },
 }
 backgrounds["Nydra"] = {
-	{
-		source = {
-			File = wezterm.config_dir .. '/backgrounds/botw_corrupted_nydra_rev.jpg',
-		},
-		repeat_x = 'NoRepeat',
-		repeat_y = 'NoRepeat',
-		opacity = 0.8,
-		hsb = { brightness = 0.15 },
-	},
-	{
-		source = {
-			Color = '#0f1019',
-			-- Color = '#ff0000'  -- red for testing
-		},
-		width = "100%",
-		height = "100%",
-		opacity = .5,
-	},
+  {
+    source = {
+      File = wezterm.config_dir .. '/backgrounds/botw_corrupted_nydra_rev.jpg',
+    },
+    repeat_x = 'NoRepeat',
+    repeat_y = 'NoRepeat',
+    opacity = 0.8,
+    hsb = { brightness = 0.15 },
+  },
+  {
+    source = {
+      Color = '#0f1019',
+      -- Color = '#ff0000'  -- red for testing
+    },
+    width = "100%",
+    height = "100%",
+    opacity = .5,
+  },
 }
 wezterm.GLOBAL.backgrounds = backgrounds
 
 -- Define selectable shells
 local shells = {
-	default = "/bin/zsh",
-	bash = "/opt/homebrew/bin/bash",
-	fish = "/opt/homebrew/bin/fish",
-	zsh = "/opt/homebrew/bin/zsh",
+  default = "/bin/zsh",
+  bash = "/opt/homebrew/bin/bash",
+  fish = "/opt/homebrew/bin/fish",
+  zsh = "/opt/homebrew/bin/zsh",
 }
 wezterm.GLOBAL.shells = shells
 
 -- What's our shell?
 config.default_prog = { shells[myshell] }
 config.set_environment_variables = {
-	SHELL = shell,
+  SHELL = shell,
 }
 
 -- Change the color scheme
 config.color_scheme = 'Tokyo Night'
 config.colors = {
-	--foreground = '#8f92a0',
-	--background = '#0f1019',
-	selection_fg = '#8f92a0',
-	selection_bg = '#1f2131',
+  --foreground = '#8f92a0',
+  --background = '#0f1019',
+  selection_fg = '#8f92a0',
+  selection_bg = '#1f2131',
 }
 
 -- Background
@@ -84,10 +84,10 @@ config.initial_rows = 30
 
 -- Set the initial window start position
 wezterm.on("gui-startup", function(cmd)
-	local tab, pane, window = wezterm.mux.spawn_window(cmd or
-		{position={x=400,y=300}}
-	)
-	window:gui_window():set_position(400,300)
+  local tab, pane, window = wezterm.mux.spawn_window(cmd or
+    {position={x=400,y=300}}
+  )
+  window:gui_window():set_position(400,300)
 end)
 
 -- Open new windows with offset
@@ -98,17 +98,17 @@ wezterm.on("window-config-reloaded", function(window, pane)
 
   -- maintain a mapping of windows that we have previously seen before in this event handler
   local seen = wezterm.GLOBAL.seen_windows or {}
-	local next_window_x = wezterm.GLOBAL.next_window_x or 450
-	local next_window_y = wezterm.GLOBAL.next_window_y or 350
+  local next_window_x = wezterm.GLOBAL.next_window_x or 450
+  local next_window_y = wezterm.GLOBAL.next_window_y or 350
 
-	-- set a flag if we haven't seen this window before
+  -- set a flag if we haven't seen this window before
   local is_new_window = not seen[id]
 
   -- and update the mapping
   seen[id] = true
   wezterm.GLOBAL.seen_windows = seen
-	wezterm.GLOBAL.next_window_x = next_window_x + 50
-	wezterm.GLOBAL.next_window_y = next_window_y + 50
+  wezterm.GLOBAL.next_window_x = next_window_x + 50
+  wezterm.GLOBAL.next_window_y = next_window_y + 50
 
   -- now act upon the flag
   if is_new_window then
@@ -129,19 +129,19 @@ config.keys = {
 -- https://gist.github.com/alexpls/83d7af23426c8928402d6d79e72f9401
 local function segments_for_right_status(window)
   local result = {
-		tostring(window:active_pane():get_user_vars().TERM_CURRENT_SHELL),
+    tostring(window:active_pane():get_user_vars().TERM_CURRENT_SHELL),
     wezterm.hostname(),
-		wezterm.strftime('%a %b %-d %H:%M'),
+    wezterm.strftime('%a %b %-d %H:%M'),
   }
-	local wksp = window:active_workspace()
-	if wksp ~= "default" then
-		 table.insert(result, 1, wksp)
-	end
-	local curprog = tostring(window:active_pane():get_user_vars().WEZTERM_PROG)
-	if curprog ~= "" then
-		 table.insert(result, 1, curprog)
-	end
-	return result
+  local wksp = window:active_workspace()
+  if wksp ~= "default" then
+     table.insert(result, 1, wksp)
+  end
+  local curprog = tostring(window:active_pane():get_user_vars().WEZTERM_PROG)
+  if curprog ~= "" then
+     table.insert(result, 1, curprog)
+  end
+  return result
 end
 
 wezterm.on('update-status', function(window, _)
