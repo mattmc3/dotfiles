@@ -1,5 +1,5 @@
 -- Set my core preferences up top
-local myshell = "fish"
+local myshell = "zsh"
 
 -- Pull in the wezterm API
 local wezterm = require 'wezterm'
@@ -75,8 +75,9 @@ config.background = wezterm.GLOBAL.backgrounds["Nydra"]
 config.default_cursor_style = 'SteadyBar'
 
 -- Font
-config.font = wezterm.font 'Monaspace Neon'
---config.font = wezterm.font 'MesloLGM Nerd Font Mono'
+--config.font = wezterm.font 'Monaspace Argon'
+--config.font = wezterm.font 'JetBrains Mono'
+config.font = wezterm.font 'MesloLGM Nerd Font Mono'
 --config.font = wezterm.font 'Hack Nerd Font'
 --config.font = wezterm.font 'FiraCode Nerd Font'
 config.font_size = 14.0
