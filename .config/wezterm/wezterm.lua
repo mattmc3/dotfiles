@@ -75,7 +75,10 @@ config.background = wezterm.GLOBAL.backgrounds["Nydra"]
 config.default_cursor_style = 'SteadyBar'
 
 -- Font
-config.font = wezterm.font 'MesloLGM Nerd Font Mono'
+config.font = wezterm.font 'Monaspace Neon'
+--config.font = wezterm.font 'MesloLGM Nerd Font Mono'
+--config.font = wezterm.font 'Hack Nerd Font'
+--config.font = wezterm.font 'FiraCode Nerd Font'
 config.font_size = 14.0
 
 -- Rows/Cols
