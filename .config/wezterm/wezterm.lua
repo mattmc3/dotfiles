@@ -23,7 +23,7 @@ backgrounds["Solid"] = {
 backgrounds["Nydra"] = {
   {
     source = {
-      File = wezterm.config_dir .. '/backgrounds/botw_corrupted_nydra_rev.jpg',
+      File = wezterm.config_dir .. '/backgrounds/botw_corrupted_nydra2.png',
     },
     repeat_x = 'NoRepeat',
     repeat_y = 'NoRepeat',
