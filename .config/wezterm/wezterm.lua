@@ -129,12 +129,16 @@ config.keys = {
   },
 }
 
+local function removeExtension(s, extension)
+  return s:gsub("%" .. extension, "")
+end
+
 -- Add a Powerline status
 -- https://gist.github.com/alexpls/83d7af23426c8928402d6d79e72f9401
 local function segments_for_right_status(window)
   local result = {
     tostring(window:active_pane():get_user_vars().TERM_CURRENT_SHELL),
-    wezterm.hostname(),
+    removeExtension(wezterm.hostname(), ".local"),
     wezterm.strftime('%a %b %-d %H:%M'),
   }
   local wksp = window:active_workspace()
