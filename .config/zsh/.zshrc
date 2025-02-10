@@ -128,6 +128,7 @@ plugins=(
   magic-enter
   otp
   python
+  shell-safe-rm
   zoxide
 
   # Zsh Custom
