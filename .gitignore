@@ -132,6 +132,8 @@
 local.*
 *.local/
 *.local.*
+!.local/
+!.local/**
 
 # final
 *_history*
