@@ -3,3 +3,4 @@
 \.github
 \.gitignore
 docs
+makefile

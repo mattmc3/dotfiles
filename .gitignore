@@ -135,6 +135,9 @@ local.*
 !.local/
 !.local/**
 
+# helpers
+!makefile
+
 # final
 *_history*
 .DS_Store
