@@ -30,8 +30,8 @@ fi
 Local
 
 ```zsh
-alias dotloc='git --git-dir=$HOME/.dotfiles.local --work-tree=$HOME'
-git clone --bare git@github.com:mattmc3/dotfiles.local $HOME/.dotfiles.local
+alias dotloc='git --git-dir=$HOME/.dotfiles/.local --work-tree=$HOME'
+git clone --bare git@github.com:mattmc3/dotfiles.local $HOME/.dotfiles/.local
 dotloc checkout
 if [[ $? == 0 ]]; then
   echo "Checked out dotfiles.";

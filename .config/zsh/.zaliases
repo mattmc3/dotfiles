@@ -98,7 +98,7 @@ alias printfuncs='print -l ${(k)functions[(I)[^_]*]} | sort'
 
 # bare repos
 alias dotfiles="GIT_WORK_TREE=~ GIT_DIR=~/.dotfiles"
-alias dotloc="GIT_WORK_TREE=~ GIT_DIR=~/.dotfiles.local"
+alias dotloc="GIT_WORK_TREE=~ GIT_DIR=~/.dotfiles/.local"
 alias dotty='command git --git-dir=$HOME/.dotfiles --work-tree=$HOME'
 
 # auto-orient images based on exif tags
