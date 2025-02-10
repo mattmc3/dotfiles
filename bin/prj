@@ -3,26 +3,88 @@
 if ! command -v fzf >/dev/null; then
   echo "fzf command not found" >&2
   exit 1
+elif ! command -v fd >/dev/null; then
+  echo "fd command not found" >&2
+  exit 1
 fi
 
 PROJECT_DIR="${PROJECT_DIR:-$HOME/Projects}"
 usage=(
   "prj:    The project jumper"
-  "usage:  prj [-h] [<query...>]"
+  "usage:  prj [-h] [--init <shell>] [<query...>]"
 )
 
 opterr() {
   echo >&2 "prj: Unknown option '$1'"
 }
 
-# Use getopts for option parsing
-while getopts ":h" opt; do
-  case $opt in
-    h)  printf "%s\n" "${usage[@]}" && exit 0 ;;
-    \?) opterr "-$OPTARG" && exit 2 ;;
+init_sh() {
+  cat <<-EOF
+prj() {
+  local selection="\$(command prj "\$@")"
+  if [[ -n "\$selection" ]] && [[ -d "\$selection" ]]; then
+    cd "\$selection"
+  fi
+}
+# eval "\$(command prj --init sh)"
+EOF
+}
+
+init_fish() {
+  cat <<EOF
+function prj
+    set selection (command prj \$argv)
+    if test -n "\$selection" && test -d "\$selection"
+        cd "\$selection"
+    end
+end
+# command prj --init fish | source
+EOF
+}
+
+ARGS=()
+while [[ $# -gt 0 ]]; do
+  case "$1" in
+    --)
+      shift
+      ARGS+=("$@")
+      break
+      ;;
+    -h|--help)
+      printf "%s\n" "${usage[@]}"
+      exit 0
+      ;;
+    --init)
+      INIT_SHELL="$2"
+      if [[ -z $INIT_SHELL ]]; then
+        echo "prj: --init requires an argument" >&2
+        exit 2
+      fi
+      case "$INIT_SHELL" in
+        sh|zsh|bash)
+          init_sh
+          exit 0
+          ;;
+        fish)
+          init_fish
+          exit 0
+          ;;
+        *)
+          echo "prj: Unsupported shell '$INIT_SHELL'" >&2
+          exit 2
+          ;;
+      esac
+      ;;
+    -* )
+      opterr "$1"
+      exit 2
+      ;;
+    *)
+      ARGS+=("$1")
+      ;;
   esac
+  shift
 done
-shift $((OPTIND - 1))
 
 PROJECT_DIR="${PROJECT_DIR/#\~/$HOME}"
 if [[ ! -d $PROJECT_DIR ]]; then
@@ -31,11 +93,11 @@ if [[ ! -d $PROJECT_DIR ]]; then
 fi
 
 selection=$(
-  find "$PROJECT_DIR" -type d -name ".git" -prune | sed -e "s|^$PROJECT_DIR/||" -e "s|/.git$||" | sort -u |
-  fzf --layout=reverse-list --query="${*}"
+  fd --type d --hidden --max-depth 5 '\.git$' "$PROJECT_DIR" | sed -e "s|^$PROJECT_DIR/||" -e "s|/.git/$||" | sort -u |
+  fzf --layout=reverse-list --query="${ARGS[*]}"
 )
 
 # Output the selected project directory
-if [[ -n $selection ]]; then
-  echo "$selection"
+if [[ -n $selection ]] && [[ -d $PROJECT_DIR/$selection ]]; then
+  echo "$PROJECT_DIR/$selection"
 fi
