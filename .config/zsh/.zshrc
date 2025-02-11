@@ -107,7 +107,6 @@ ZSH_COMPDUMP="$__zsh_cache_dir/zcompdump"
 typeset -gU plugins
 plugins=(
   # Essentials
-  __init__
   brew
 
   # Clipboard
