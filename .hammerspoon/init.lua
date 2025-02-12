@@ -113,32 +113,32 @@ altshf18 = hs.hotkey.bind({'shift', 'alt'}, 'F18', pressedF18, releasedF18)
 cmdshf18 = hs.hotkey.bind({'cmd', 'shift'}, 'F18', pressedF18, releasedF18)
 cmdaltshf18 = hs.hotkey.bind({'cmd', 'alt', 'shift'}, 'F18', pressedF18, releasedF18)
 
--- Double tap Shift to turn Caps Lock on, single Shift to turn it off
-local shiftCount = 0
-local lastShiftTime = 0
-local doubleTapThreshold = 0.4 -- seconds
+-- -- Double tap Shift to turn Caps Lock on, single Shift to turn it off
+-- local shiftCount = 0
+-- local lastShiftTime = 0
+-- local doubleTapThreshold = 0.4 -- seconds
 
-hs.eventtap.new({hs.eventtap.event.types.flagsChanged}, function(event)
-  local flags = event:getFlags()
-  local shiftPressed = flags.shift
+-- hs.eventtap.new({hs.eventtap.event.types.flagsChanged}, function(event)
+--   local flags = event:getFlags()
+--   local shiftPressed = flags.shift
 
-  if shiftPressed then
-    local now = hs.timer.secondsSinceEpoch()
-    if now - lastShiftTime < doubleTapThreshold then
-      shiftCount = shiftCount + 1
-    else
-      shiftCount = 1
-    end
-    lastShiftTime = now
+--   if shiftPressed then
+--     local now = hs.timer.secondsSinceEpoch()
+--     if now - lastShiftTime < doubleTapThreshold then
+--       shiftCount = shiftCount + 1
+--     else
+--       shiftCount = 1
+--     end
+--     lastShiftTime = now
 
-    if shiftCount == 2 then
-      hs.hid.capslock.set(true) -- Turn Caps Lock on
-      shiftCount = 0
-    elseif shiftCount == 1 and hs.hid.capslock.get() then
-      hs.hid.capslock.set(false) -- Turn Caps Lock off
-    end
-  end
-end):start()
+--     if shiftCount == 2 then
+--       hs.hid.capslock.set(true) -- Turn Caps Lock on
+--       shiftCount = 0
+--     elseif shiftCount == 1 and hs.hid.capslock.get() then
+--       hs.hid.capslock.set(false) -- Turn Caps Lock off
+--     end
+--   end
+-- end):start()
 
 -- Reload config when any lua file in config directory changes
 function reloadConfig(files)
