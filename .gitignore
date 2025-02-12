@@ -138,6 +138,8 @@ local.*
 
 # helpers
 !makefile
+!LICENSE
+!README.md
 
 # final
 *_history*
