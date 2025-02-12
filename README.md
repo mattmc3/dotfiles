@@ -34,6 +34,25 @@ IDE=${VISUAL:-${EDITOR:-vim}}
 dotty $IDE ~
 ```
 
+## Git submodules
+
+Run this to make .local always track the main branch.
+
+```sh
+cd .local
+git checkout main
+git pull origin main  # Ensure it's up to date
+cd ..
+git config -f .gitmodules submodule..local.branch main
+```
+
+Adding these configs helps with push/pull on the .local submodule.
+
+```sh
+git config push.recurseSubmodules on-demand
+git config submodule.recurse true
+```
+
 ## Notes
 
 Certain legacy apps don't properly use .config, so anything that doesn't has a simple wrapper in `$HOME` that then sources the real files from `~/.config`.
