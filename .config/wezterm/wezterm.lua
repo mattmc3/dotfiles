@@ -21,6 +21,17 @@ backgrounds["Solid"] = {
   },
 }
 backgrounds["Nydra"] = {
+  -- set the base color
+  {
+    source = {
+      Color = '#0f1019',
+      -- Color = '#ff0000'  -- red for testing
+    },
+    width = "100%",
+    height = "100%",
+    opacity = .8,
+  },
+  -- Show Nydra image
   {
     source = {
       File = wezterm.config_dir .. '/backgrounds/botw_corrupted_nydra2.png',
@@ -30,14 +41,14 @@ backgrounds["Nydra"] = {
     opacity = 0.8,
     hsb = { brightness = 0.15 },
   },
+  -- tint Nydra
   {
     source = {
       Color = '#0f1019',
-      -- Color = '#ff0000'  -- red for testing
     },
     width = "100%",
     height = "100%",
-    opacity = .5,
+    opacity = .6,
   },
 }
 wezterm.GLOBAL.backgrounds = backgrounds
