@@ -1,0 +1,7 @@
+#!/bin/sh
+
+# push a new branch to the remote
+# Quick way to resolve the annoying error:
+#  'fatal: The current branch foo has no upstream branch.'
+# Or, you could just set `push.autoSetupRemote = true` in gitconfig...
+git push --set-upstream "${1:-origin}" "$(git rev-parse --abbrev-ref HEAD)"

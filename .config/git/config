@@ -29,27 +29,19 @@
 	smudge = git-lfs smudge %f
 	required = true
 
+[format]
+  pretty = format:%C(red)%h%C(reset) %<(50)%s %C(green)(%cr)%C(reset) %C(blue)<%an>%C(reset) %C(auto)%d%C(reset)
+
 [alias]
-	# tests {{
-	foo = "!f() { echo \"foobar: $@\"; }; f"
-	fishcmd = "!fish -c 'gitex_foo $argv'"
-	gitex = !gitex help
-
-	#/bin/sh, which on macOS is still bash, not dash
-	shellname = "!ps h -p $$ -o args='' | cut -f1 -d' '"
-	# }}
-
 	# Show all my git aliases
-	alias = ! git config --get-regexp ^alias\\. | sort | sed -e s/^alias\\.// -e s/\\ /\\ =\\ /
+	alias = !git config --get-regexp ^alias\\. | sort | sed -e s/^alias\\.// -e s/\\ /\\ =\\ /
 
 	# config/users
-	whoami = !gitex whoami
+	whoami = !git config user.name && git config user.email
 
 	# branch {{
-	branch-cleanup = !gitex branch-cleanup
-	branch-main = !gitex branch-main
-	branch-name = !gitex branch-name
-	branch-cleanup = !gitex branch-cleanup
+	default-branch = "!git symbolic-ref --short refs/remotes/origin/HEAD | sed 's|^origin/||'"
+	branch-name = branch --show-current
 	# }}
 
 	# clean {{
@@ -58,12 +50,8 @@
 	# }}
 
 	# cloning {{
-	clone-branches = !gitex clone-branches
-
-	# Better cloning, with short repo names (ie: user/repo form)
-	# Note: moved to git-cloner script
-	# ex: git cloner --depth 1 mattmc3/dotfiles
-	# cloner = !gitex cloner
+	# https://stackoverflow.com/questions/67699/how-to-clone-all-remote-branches-in-git
+	clone-branches = "!git branch -a | sed -n \"/\\/HEAD /d; /\\/main$/d; /\\/master$/d; /remotes/p;\" | xargs -L1 git checkout -t"
 	# }}
 
 	# checkout {{
@@ -80,13 +68,8 @@
 	# }}
 
 	# log {{
-	log-pretty = !gitex log-pretty
-	lg = !gitex lg
-	# }}
-
-	# push {{
-	# push a new branch to the remote
-	pushup = !gitex pushup
+	lg = log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold green)(%ar)%C(reset) %C(white)%s%C(reset) %C(dim white)- %an%C(reset)%C(auto)%d%C(reset)' --all
+	log1 = log --all --decorate --oneline --graph --author
 	# }}
 
 	# status {{
@@ -102,8 +85,7 @@
 	dmerged = "!git branch --merged | grep -v '\\*' | xargs -n 1 git branch -d"
 
 	# open repo in browser, usage: git browse [upstream]
-	#browse = !gitex browse
-	browse = "!f() { git remote -v ; gitex browse ; }; f"
+	browse = "!f() { URL=$(git config remote.${1-origin}.url | sed -e 's#^.*@#https://#' -e 's#.git$##' -e 's#:#/#2'); git web--browse $URL; }; f"
 
 	# https://haacked.com/archive/2014/07/28/github-flow-aliases/
 	up = !git pull --rebase --prune $@ && git submodule update --init --recursive
@@ -115,12 +97,12 @@
 	supdate = submodule update --remote --merge
 
 	# Check if git is clean
-	is-clean = !gitex is-clean
-	is-dirty = !gitex is-dirty
-	sha = !gitex sha
+	is-clean = "!test -z \"$(git status --porcelain 2>/dev/null)\""
+	is-dirty = "!test -n \"$(git status --porcelain 2>/dev/null)\""
+	sha = rev-parse --short HEAD
 
-	# Default repodir
-	repodir = !gitex repodir
+	# Root repo dir
+	root = rev-parse --show-toplevel
 	# }}
 
 [status]
@@ -200,7 +182,7 @@
 [include]
 	path = ~/.local/config/git/config.local
 
-[gitex]
+[mycustom]
 	repoPath = ~/Projects
 	gitDomain = github.com
 	gitProtocol = git
@@ -209,7 +191,7 @@
 	debug = True
 [difftool "sourcetree"]
 	cmd = opendiff \"$LOCAL\" \"$REMOTE\"
-	path = 
+	path =
 [mergetool "sourcetree"]
 	cmd = /Applications/Sourcetree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
 	trustExitCode = true
