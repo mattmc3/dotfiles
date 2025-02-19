@@ -99,6 +99,9 @@
 	# Check if git is clean
 	is-clean = "!test -z \"$(git status --porcelain 2>/dev/null)\""
 	is-dirty = "!test -n \"$(git status --porcelain 2>/dev/null)\""
+	ahead = rev-list --count '@{upstream}..HEAD'
+	behind = rev-list --count 'HEAD..@{upstream}'
+	stashes = !git rev-list --walk-reflogs --count refs/stash 2>/dev/null || echo 0
 	sha = rev-parse --short HEAD
 
 	# Root repo dir
