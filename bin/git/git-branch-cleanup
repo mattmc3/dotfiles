@@ -1,4 +1,6 @@
 #!/bin/sh
+# shellcheck disable=SC3043
+
 ##? branch-cleanup: Remove branches no longer on remote
 main() {
   # https://stackoverflow.com/questions/7726949/remove-tracking-branches-no-longer-on-remote
