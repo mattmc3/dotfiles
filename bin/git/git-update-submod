@@ -10,19 +10,22 @@ main() {
   root_git_dir="$(git rev-parse --show-toplevel || exit 1)"
   cd "$root_git_dir"
 
-  if ! git diff --exit-code --name-only --cached >/dev/null 2>&1; then
-    echo >&2 "update-submod: Cannot run command with changes already staged"
-    exit 1
-  fi
-
+  # Make sure the repo has submodules.
   if [ ! -r ".gitmodules" ]; then
     echo >&2 "No .gitmodules found"
     exit 1
   fi
 
+  # Make sure the repo has no staged changes
+  if ! git diff --exit-code --name-only --cached >/dev/null 2>&1; then
+    echo >&2 "update-submod: Cannot run command with changes already staged"
+    exit 1
+  fi
+
+  # Make sure the repo is up to date.
   behind="$(git rev-list --count 'HEAD..@{upstream}' 2>/dev/null)"
   if [[ -n "$behind" ]] && (( behind > 0 )); then
-    echo >&2 "Your repo is behind by $behind commits. Run 'git pull' before using this command."
+    echo >&2 "Your repo is $behind commits behind. Run 'git pull' before using this command."
     exit 1
   fi
 
