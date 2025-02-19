@@ -60,7 +60,7 @@ main() {
 
   # Push
   if (( num_changed > 0 )); then
-    git push
+    echo "Submodules updated. 'git push' when ready."
   fi
 }
 main "$@"
