@@ -30,7 +30,7 @@
 	required = true
 
 [format]
-  pretty = format:%C(red)%h%C(reset) %<(50)%s %C(green)(%cr)%C(reset) %C(blue)<%an>%C(reset) %C(auto)%d%C(reset)
+  pretty = format:%C(red)%h%C(reset) %<(50,trunc)%s %C(green)(%cr)%C(reset) %C(blue)<%an>%C(reset) %C(auto)%d%C(reset)
 
 [alias]
 	# Show all my git aliases
