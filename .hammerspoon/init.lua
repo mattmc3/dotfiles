@@ -175,3 +175,46 @@ hs.hotkey.bind({"cmd"}, "`", function()
     end
   end
 end)
+
+-- Use Hammerspoon as the default browser
+local hostname = hs.host.localizedName()
+
+-- Map each Mac's hostname to a default profile
+local defaultProfiles = {
+    ["Shark"] = "Profile 1",
+    ["Orca"] = "Profile 1",
+}
+
+-- URL-based profile selection
+local profileRules = {
+    ["Shark"] = {
+        { pattern = "reddit.com", profile = "Profile 2" },
+    },
+    ["Orca"] = {
+        { pattern = "github.com/JTBatesGroup", profile = "Profile 2" },
+    }
+}
+
+function getProfile(url)
+    local hostname = hs.host.localizedName()
+    local rules = profileRules[hostname] or {}
+
+    -- Check if the URL matches any specific rule
+    for _, rule in ipairs(rules) do
+        if string.match(url, rule.pattern) then
+            return rule.profile
+        end
+    end
+
+    -- If no rule matches, return the default profile for this Mac
+    return defaultProfiles[hostname] or "Default"
+end
+
+hs.urlevent.httpCallback = function(_, _, _, fullURL)
+    local bravePath = "/Applications/Brave Browser.app/Contents/MacOS/Brave Browser"
+    local profile = getProfile(fullURL)
+
+    -- local cmd = string.format('%s --profile-directory="%s" --new-window "%s"', bravePath, profile, fullURL)
+
+    hs.task.new(bravePath, nil, { "--profile-directory=" .. profile, fullURL }):start()
+end
