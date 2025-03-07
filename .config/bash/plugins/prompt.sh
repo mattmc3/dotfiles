@@ -130,6 +130,9 @@ function prompt_hydro_setup() {
     PS1+="(${VIRTUAL_ENV##*/}) "
   fi
 
+  # bottom padding
+  # PS1=$'\n\n\n\n\n\e[5A'"$PS1"
+
   PS1+="$(prompt_hydro_short_path)$(prompt_hydro_git_string)${prompt_error}${prompt_char} ${color_reset}"
 }
 
