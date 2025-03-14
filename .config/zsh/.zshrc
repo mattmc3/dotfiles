@@ -119,6 +119,7 @@ plugins=(
 
   # Utils
   direnv
+  dotnet
   extract
   git
   gitignore
@@ -126,6 +127,7 @@ plugins=(
   macos
   magic-enter
   otp
+  prj
   python
   shell-safe-rm
   zoxide
