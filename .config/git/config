@@ -85,7 +85,7 @@
 	dmerged = "!git branch --merged | grep -v '\\*' | xargs -n 1 git branch -d"
 
 	# open repo in browser, usage: git browse [upstream]
-	browse = "!f() { URL=$(git config remote.${1-origin}.url | sed -e 's#^.*@#https://#' -e 's#.git$##' -e 's#:#/#2'); git web--browse $URL; }; f"
+	browse = "!f() { URL=$(git config remote.${1-origin}.url | sed -e 's#^.*@#https://#' -e 's#.git$##' -e 's#:#/#2'); git web--browse --browser ${BROWSER:-open} $URL; }; f"
 
 	# https://haacked.com/archive/2014/07/28/github-flow-aliases/
 	up = !git pull --rebase --prune $@ && git submodule update --init --recursive
