@@ -1,5 +1,5 @@
 -- Set my core preferences up top
-local myshell = "fish"
+local myshell = "zsh"
 
 -- Pull in the wezterm API
 local wezterm = require 'wezterm'
