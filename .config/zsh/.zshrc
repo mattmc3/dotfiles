@@ -15,7 +15,7 @@ prepath=(
   ~/bin
   ~/.local/bin
 )
-path=($prepath $path)
+path=($prepath $path /usr/local/bin /usr/local/sbin)
 
 # Set default Zsh dirs
 __zsh_config_dir="${ZDOTDIR:-$HOME/.zsh}"
@@ -133,6 +133,7 @@ plugins=(
   zoxide
 
   # Zsh Custom
+  postgres
   zman
   wezterm
   zsh-bench
