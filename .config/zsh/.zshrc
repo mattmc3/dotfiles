@@ -35,7 +35,7 @@ export ZSH="$__zsh_config_dir/.oh-my-zsh"
 # to know which specific one was loaded, run: echo $RANDOM_THEME
 # See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
 # ZSH_THEME="robbyrussell"
-ZSH_THEME="powerlevel10k/powerlevel10k"
+ZSH_THEME="powerlevel10k"
 
 # Set list of themes to pick from when loading at random
 # Setting this variable when ZSH_THEME=random will cause zsh to load
@@ -109,6 +109,9 @@ plugins=(
   # Essentials
   brew
 
+  common-aliases
+  common-functions
+
   # Clipboard
   copypath
   copybuffer
@@ -129,14 +132,15 @@ plugins=(
   otp
   prj
   python
-  shell-safe-rm
+  # shell-safe-rm
   zoxide
 
   # Zsh Custom
   postgres
-  zman
+  # zman
   wezterm
   zsh-bench
+  zshrc.d
 
   # Core
   zsh-no-ps2
@@ -152,22 +156,6 @@ source $ZSH/oh-my-zsh.sh
 ### User configuration
 
 PROJECT_DIR="$HOME/Projects"
-
-## Config magic-enter
-# Set the default commands to run when none is given
-MAGIC_ENTER_GIT_COMMAND='git status -sb'
-MAGIC_ENTER_OTHER_COMMAND='ls'
-
-## Config zsh-autosuggestions
-# Set highlight color, default 'fg=8'.
-ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=242'
-
-# Set key bindings.
-if [[ -n "$key_info" ]]; then
-  # vi
-  bindkey -M viins "$key_info[Control]F" vi-forward-word
-  bindkey -M viins "$key_info[Control]E" vi-add-eol
-fi
 
 # Set the list of directories that cd searches.
 cdpath=(
