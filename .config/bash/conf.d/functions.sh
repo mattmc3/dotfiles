@@ -146,5 +146,5 @@ function arr/index_of() {
 function prj {
   local selection="$(~/bin/prj "$*")"
   [ -z "$selection" ] && return
-  cd "${PROJECT_DIR:-$HOME/Projects}/${selection}" && pwd
+  cd "${selection}" && pwd
 }
