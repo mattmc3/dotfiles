@@ -137,7 +137,7 @@ plugins=(
 
   # Zsh Custom
   postgres
-  # zman
+  zman
   wezterm
   zsh-bench
   zshrc.d

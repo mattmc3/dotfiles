@@ -1,20 +1,31 @@
 #
-# mmc - My default prompt theme
+# My default bash prompt theme
 #
 
 add_newline = false
 
 # A minimal left prompt
-format = """$python$directory$character"""
+format = """
+$line_break\
+${custom.dirname}\
+${custom.basename}\
+$git_branch\
+${custom.git_status_dirty}\
+$git_status
+$python\
+$character\
+"""
 
 # Move the rest of the prompt to the right
-right_format = """$status$cmd_duration$git_branch${custom.git_status_dirty}$git_status"""
+right_format = """
+$all$status$cmd_duration
+"""
 
 # Timeout for commands executed by starship (in milliseconds)
-command_timeout=2000
+command_timeout = 2000
 
 # Set the palette.
-palette = "wombat_256"
+palette = "p10k"
 
 # Define custom colors
 [palettes.tokyo_night_256]
@@ -38,6 +49,17 @@ white = '188'
 yellow = '223'
 true_white = '255'
 
+[palettes.p10k]
+black = '0'
+blue = '31'
+cyan = '39'
+green = '76'
+purple = '205'
+magenta = '205'
+red = '204'
+white = '223'
+yellow = '226'
+
 [character]
 success_symbol = '[\$](green)'
 error_symbol = '[\$](red)'
@@ -48,15 +70,13 @@ format = '[(\($virtualenv\) )]($style)'
 style = 'white'
 
 [directory]
-style = "blue"
-truncation_length = 1
-truncation_symbol = ""
-fish_style_pwd_dir_length = 1
+style = "bold cyan"
+truncate_to_repo = false
+disabled = true
 
-# Right prompt uses left space padding.
 [git_branch]
-format = ' [$branch]($style)'
-style = 'bold green'
+format = '[$branch]($style)'
+style = 'purple'
 
 [git_status]
 format = '( [\[$ahead_behind$stashed\]]($style))'
@@ -69,25 +89,39 @@ diverged = "⇕⇡${ahead_count}⇣${behind_count}"
 [custom.git_status_dirty]
 when = 'test -n "$(git status --porcelain 2>/dev/null)"'
 symbol = "•"
-style = "purple"
-format="[$symbol]($style)"
+style = "yellow"
+format = "[$symbol]($style)"
 shell = ["sh"]
 
-[shell]
-format = ' [$indicator]($style)'
-fish_indicator = '🐟'  # 󰈺 🐟 🐠
-powershell_indicator = '_'
-pwsh_indicator = '>_'
-zsh_indicator = '󠀥%'
-bash_indicator = '󠀥$'
-style = 'cyan bold'
+[custom.dirname]
+when = true
+command = 'test "$PWD" != "$HOME" && printf "%s/\n" "$(dirname "$PWD")" | sed -E "s|$HOME/|\~/|"'
+format = '[$symbol($output)]($style)'
+style = "blue"
 disabled = false
+shell = ["sh"]
+
+[custom.basename]
+when = true
+command = 'test "$PWD" = "$HOME" && echo "~" || basename "$PWD" | sed -E "s|$HOME/|\~/|"'
+style = "bold cyan"
+disabled = false
+shell = ["sh"]
+
+[custom.todo]
+when = 'test $(todo.sh ls | wc -l) -gt 2'
+command = 'todo.sh ls | tail -n 1 | cut -d" " -f2'
+symbol = "☑"
+format = '[$symbol( $output)]($style)'
+style = "blue"
+disabled = false
+shell = ["sh"]
 
 [cmd_duration]
 format = ' [$duration]($style)'
 
 [line_break]
-disabled = true
+disabled = false
 
 [status]
 disabled = false

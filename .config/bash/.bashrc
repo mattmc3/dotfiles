@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # shellcheck shell=bash disable=SC2001,SC2002
 
-BASH_THEME="hydro"
+BASH_THEME="starship"
 BASH_HOME=~/.config/bash
 
 plugins=(
@@ -16,6 +16,7 @@ plugins=(
   editor
   environment
   history
+  history-substring-search
   macos
   magic-enter
   prompt
