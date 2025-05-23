@@ -4,18 +4,18 @@ local posix = require "posix"
 
 local function count(args)
 	local n = args and #args or 0
+	return n
+end
+
+if debug.getinfo(1, "S").short_src == arg[0] then
+	local n = count({...})
 	-- Use luaposix to check if stdin is a tty
 	if not posix.isatty(posix.fileno(io.stdin)) then
 		for _ in io.lines() do
 			n = n + 1
 		end
 	end
-	return n
-end
-
-if debug.getinfo(1, "S").short_src == arg[0] then
-	local thecount = count({...})
-	print(thecount)
+	print(n)
 end
 
 return count
