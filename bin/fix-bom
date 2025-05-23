@@ -1,0 +1,10 @@
+#!/bin/sh
+
+[ $# -gt 0 ] || exit 1
+export LANG=C LC_ALL=C
+
+# Make 'sed -i' work for both GNU and BSD
+sedi() {
+  sed --version &>/dev/null && sed -i -- "$@" || sed -i "" -- "$@"
+}
+sedi '1s/^\xEF\xBB\xBF//' "$@"
