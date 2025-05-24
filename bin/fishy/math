@@ -84,6 +84,32 @@ function custom_math.round(x)
 	end
 end
 
+function custom_math.eval_infix(args)
+	for i, v in ipairs(args) do
+		local vl = tostring(v):lower()
+		if vl == "x" then
+			args[i] = "*"
+		elseif vl == "pi" then
+			args[i] = "3.141593"
+		elseif vl == "tau" then
+			args[i] = "6.283185"
+		elseif vl == "e" then
+			args[i] = "2.718282"
+		end
+	end
+
+	-- Join args into a string
+	local expr = table.concat(args, " ")
+	-- Only allow numbers, operators, parentheses, and spaces for safety
+	if expr:match("[^%de%^%+%-%*/%%%.%(%)%sE]") then
+		error("math: invalid characters in expression")
+	end
+	-- Evaluate using load
+	local f, err = load("return " .. expr)
+	if not f then error("math: invalid expression: " .. err) end
+	return f()
+end
+
 local function math_command(args)
 	local funcname = args[1]
 	local fn = math[funcname] or custom_math[funcname]
@@ -99,8 +125,8 @@ local function math_command(args)
 		end
 		return fn(table.unpack(params))
 	else
-		-- Not a math function, do nothing or handle as needed
-		return nil
+		-- Try to evaluate as infix expression
+		return custom_math.eval_infix(args)
 	end
 end
 
