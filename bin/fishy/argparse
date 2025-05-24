@@ -34,8 +34,7 @@ local function argparse(args)
 
 		-- Check for valid spec
 		if isempty(short) and isempty(long) then
-			io.stderr:write("argparse: An option spec must have at least a short or a long flag\n")
-			os.exit(1)
+			error("argparse: An option spec must have at least a short or a long flag")
 		end
 
 		table.insert(specs, {short=short, long=long, takes_value=takes_value})
@@ -44,8 +43,7 @@ local function argparse(args)
 
 	-- Check for '--' separator
 	if args[i] ~= "--" then
-		io.stderr:write("argparse: Missing -- separator\n")
-		os.exit(1)
+		error("argparse: Missing -- separator")
 	end
 
 	-- Skip '--'
@@ -115,8 +113,15 @@ local function argparse(args)
 	}
 end
 
-if ... then  -- If run as a script
-	local parsed = argparse({...})
+-- If run as a script
+if debug.getinfo(1, "S").short_src == arg[0] then
+	local ok, parsed = pcall(argparse, {...})
+
+	if not ok then
+		local err = parsed:match(":%s(.+)$") or parsed
+        io.stderr:write(err, "\n")
+        os.exit(1)
+    end
 
 	-- Print flag variables as shell assignments
 	for _, spec in ipairs(parsed.specs) do
