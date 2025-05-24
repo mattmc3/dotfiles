@@ -119,9 +119,9 @@ if debug.getinfo(1, "S").short_src == arg[0] then
 
 	if not ok then
 		local err = parsed:match(":%s(.+)$") or parsed
-        io.stderr:write(err, "\n")
-        os.exit(1)
-    end
+		io.stderr:write(err, "\n")
+		os.exit(1)
+	end
 
 	-- Print flag variables as shell assignments
 	for _, spec in ipairs(parsed.specs) do
