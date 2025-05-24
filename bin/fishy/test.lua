@@ -48,21 +48,21 @@ function assert.error(fn, desc)
 end
 
 function assert.tables_equal(t1, t2, desc)
-    if #t1 ~= #t2 then
-        print("FAIL: " .. desc .. " (tables have different lengths)")
-        assert.failed = assert.failed + 1
-        return false
-    end
-    for i = 1, #t1 do
-        if t1[i] ~= t2[i] then
-            print(string.format("FAIL: %s (tables differ at index %d: %s ~= %s)", desc, i, tostring(t1[i]), tostring(t2[i])))
-            assert.failed = assert.failed + 1
-            return false
-        end
-    end
-    print("PASS: " .. desc)
-    assert.passed = assert.passed + 1
-    return true
+	if #t1 ~= #t2 then
+		print("FAIL: " .. desc .. " (tables have different lengths)")
+		assert.failed = assert.failed + 1
+		return false
+	end
+	for i = 1, #t1 do
+		if t1[i] ~= t2[i] then
+			print(string.format("FAIL: %s (tables differ at index %d: %s ~= %s)", desc, i, tostring(t1[i]), tostring(t2[i])))
+			assert.failed = assert.failed + 1
+			return false
+		end
+	end
+	print("PASS: " .. desc)
+	assert.passed = assert.passed + 1
+	return true
 end
 
 function assert.command_output(cmd, expected, desc)
@@ -118,14 +118,62 @@ assert.error(function() random({"foo"}) end, "random: errors on non-numeric argu
 math.randomseed(12345)
 local results1 = {}
 for i = 1, 5 do
-    results1[i] = random({})
+	results1[i] = random({})
 end
 math.randomseed(12345)
 local results2 = {}
 for i = 1, 5 do
-    results2[i] = random({})
+	results2[i] = random({})
 end
 assert.tables_equal(results1, results2, "random: repeatable results with same seed")
+
+-- Tests for math_command
+local math_command = dofile(script_dir .. "math")
+assert.equals(math_command({"abs", -42}), 42, "math_command: abs -42 is 42")
+assert.equals(math_command({"abs", 0}), 0, "math_command: abs 0 is 0")
+assert.equals(math_command({"max", 1, 5, 3}), 5, "math_command: max 1 5 3 is 5")
+assert.equals(math_command({"min", 1, 5, 3}), 1, "math_command: min 1 5 3 is 1")
+assert.equals(math_command({"sqrt", 9}), 3, "math_command: sqrt 9 is 3")
+assert.equals(math_command({"acos", 1}), 0, "math_command: acos 1 is 0")
+assert.equals(math_command({"asin", 0}), 0, "math_command: asin 0 is 0")
+assert.equals(math_command({"atan", 1}), math.atan(1), "math_command: atan 1 is correct")
+assert.equals(math_command({"pow", 2, 3}), 8, "math_command: pow 2 3 is 8")
+assert.equals(math_command({"acos", 1}), 0, "math_command: acos 1 is 0")
+assert.equals(math_command({"asin", 0}), 0, "math_command: asin 0 is 0")
+assert.equals(math_command({"atan", 1}), math.atan(1), "math_command: atan 1 is correct")
+if math.atan2 then
+	assert.equals(math_command({"atan2", 1, 1}), math.atan2(1, 1), "math_command: atan2 1 1 is correct")
+elseif math.atan then
+	assert.equals(math_command({"atan", 1, 1}), math.atan(1, 1), "math_command: atan(y, x) as atan2")
+end
+assert.equals(math_command({"cos", 0}), 1, "math_command: cos 0 is 1")
+assert.equals(math_command({"floor", 1.7}), 1, "math_command: floor 1.7 is 1")
+assert.equals(math_command({"ceil", 1.2}), 2, "math_command: ceil 1.2 is 2")
+assert.equals(math_command({"log", math.exp(1)}), 1, "math_command: log e is 1")
+assert.equals(math_command({"sin", 0}), 0, "math_command: sin 0 is 0")
+if math.sinh then
+	assert.equals(math_command({"sinh", 0}), 0, "math_command: sinh 0 is 0")
+end
+assert.equals(math_command({"sqrt", 9}), 3, "math_command: sqrt 9 is 3")
+assert.equals(math_command({"tan", 0}), 0, "math_command: tan 0 is 0")
+if math.tanh then
+	assert.equals(math_command({"tanh", 0}), 0, "math_command: tanh 0 is 0")
+end
+assert.equals(math_command({"fac", 0}), 1, "math_command: fac 0 is 1")
+assert.equals(math_command({"fac", 5}), 120, "math_command: fac 5 is 120")
+assert.equals(math_command({"ncr", 5, 2}), 10, "math_command: ncr 5 2 is 10")
+assert.equals(math_command({"npr", 5, 2}), 20, "math_command: npr 5 2 is 20")
+assert.equals(math_command({"ncr", 49, 6}), 13983816, "math_command: ncr 49 6 is 13983816")
+assert.error(function() math_command({"fac", -1}) end, "math_command: fac errors on negative input")
+assert.error(function() math_command({"ncr", 5, 6}) end, "math_command: ncr errors when r > n")
+assert.error(function() math_command({"npr", 5, 6}) end, "math_command: npr errors when r > n")
+assert.equals(math_command({"cosh", 0}), 1, "math_command: cosh 0 is 1")
+assert.equals(math_command({"exp", 1}), math.exp(1), "math_command: exp 1 is e")
+assert.equals(math_command({"log2", 8}), 3, "math_command: log2 8 is 3")
+assert.equals(math_command({"round", 1.2}), 1, "math_command: round 1.2 is 1")
+assert.equals(math_command({"round", 1.7}), 2, "math_command: round 1.7 is 2")
+assert.equals(math_command({"round", -1.2}), -1, "math_command: round -1.2 is -1")
+assert.equals(math_command({"round", -1.7}), -2, "math_command: round -1.7 is -2")
 
 -- Print test results
 assert.print_results()
