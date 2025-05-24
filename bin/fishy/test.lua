@@ -47,6 +47,24 @@ function assert.error(fn, desc)
 	end
 end
 
+function assert.tables_equal(t1, t2, desc)
+    if #t1 ~= #t2 then
+        print("FAIL: " .. desc .. " (tables have different lengths)")
+        assert.failed = assert.failed + 1
+        return false
+    end
+    for i = 1, #t1 do
+        if t1[i] ~= t2[i] then
+            print(string.format("FAIL: %s (tables differ at index %d: %s ~= %s)", desc, i, tostring(t1[i]), tostring(t2[i])))
+            assert.failed = assert.failed + 1
+            return false
+        end
+    end
+    print("PASS: " .. desc)
+    assert.passed = assert.passed + 1
+    return true
+end
+
 function assert.command_output(cmd, expected, desc)
 	local handle = io.popen(cmd)
 	local output = handle:read("*a")
@@ -95,6 +113,19 @@ assert.equals(random({3, 1}), 2, "random: next random number 3-1 is 2")
 assert.equals(random({10}), 5, "random: next random number 0-10 is 5")
 assert.error(function() random({"1", "2", "3", "4"}) end, "random: errors on too many arguments")
 assert.error(function() random({"foo"}) end, "random: errors on non-numeric argument")
+
+-- Tests for random seeding and repeatability
+math.randomseed(12345)
+local results1 = {}
+for i = 1, 5 do
+    results1[i] = random({})
+end
+math.randomseed(12345)
+local results2 = {}
+for i = 1, 5 do
+    results2[i] = random({})
+end
+assert.tables_equal(results1, results2, "random: repeatable results with same seed")
 
 -- Print test results
 assert.print_results()
