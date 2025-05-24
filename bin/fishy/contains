@@ -40,7 +40,7 @@ if debug.getinfo(1, "S").short_src == arg[0] then
 		io.stderr:write(result.errmsg .. "\n")
 		os.exit(result.errcode)
 	elseif type(result) == "number" then
-        print(result)
+		print(result)
 	elseif not result then
 		os.exit(1)
 	end

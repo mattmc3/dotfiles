@@ -1,5 +1,7 @@
 #!/usr/bin/env lua
 
+local posix = require "posix"
+
 local function random(args)
 	local min, max
 
@@ -25,10 +27,16 @@ local function random(args)
 	return val
 end
 
-math.randomseed(os.time() + tonumber(tostring(os.clock()):reverse()))
-
 -- Run command if run as a script
 if debug.getinfo(1, "S").short_src == arg[0] then
+	local pid = posix.getpid("pid")
+	local ppid = posix.getpid("ppid")
+	local seed = os.time() + tonumber(tostring(os.clock()):reverse())
+	print(string.format("ppid: %s", ppid))
+	print(string.format("pid: %s", pid))
+	print(string.format("seed: %s", seed))
+	math.randomseed(seed + pid)
+
 	local ok, result = pcall(random, {...})
 	if not ok then
 		io.stderr:write(result.errmsg .. "\n")
