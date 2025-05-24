@@ -1,12 +1,14 @@
 #!/usr/bin/env lua
 
+local posix = require "posix"
+
 local script_dir = debug.getinfo(1, "S").source:match("@(.*/)")
 -- local argparse = dofile(script_dir .. "argparse")
 -- local parsed = argparse({"h/help", "n/name=", "--", "-h", "--name", "foo", 'b"ar', "baz\"\nqux"})
--- -- print(parsed.flags.help)		 -- true
--- -- print(parsed.flags.h)			-- true
--- -- print(parsed.flags.name)		 -- "foo"
--- -- print(parsed.positionals[1])	 -- "bar"
+-- -- print(parsed.flags.help)         -- true
+-- -- print(parsed.flags.h)            -- true
+-- -- print(parsed.flags.name)         -- "foo"
+-- -- print(parsed.positionals[1])     -- "bar"
 
 -- local cjson = require "cjson"
 -- print(cjson.encode(parsed))
@@ -177,3 +179,33 @@ assert.equals(math_command({"round", -1.7}), -2, "math_command: round -1.7 is -2
 
 -- Print test results
 assert.print_results()
+
+
+-- Returns the command name of the parent process (the shell)
+local function detect_shell()
+    local ppid = posix.getppid()
+    local stat = posix.sys.stat
+    local shell_name = nil
+
+    -- Try /proc (Linux)
+    local proc_comm = "/proc/" .. tostring(ppid) .. "/comm"
+    local f = io.open(proc_comm)
+    if f then
+	   shell_name = f:read("*l")
+	   f:close()
+    else
+	   -- Fallback: use 'ps' if /proc is not available (e.g., macOS)
+	   local handle = io.popen("ps -p " .. ppid .. " -o comm=")
+	   if handle then
+		  shell_name = handle:read("*l")
+		  handle:close()
+	   end
+    end
+    return shell_name
+end
+
+-- Example usage:
+local shell = detect_shell()
+if shell then
+    print("Parent shell: " .. shell)
+end

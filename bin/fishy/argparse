@@ -123,6 +123,12 @@ if debug.getinfo(1, "S").short_src == arg[0] then
 		os.exit(1)
 	end
 
+	-- Unset flag vars
+	-- for var in $(compgen -v _flag_); do unset "$var"; done
+	-- for var in ${(k)parameters}; do
+	-- 	[[ $var == _flag_* ]] && unset $var
+	-- done
+
 	-- Print flag variables as shell assignments
 	for _, spec in ipairs(parsed.specs) do
 		local key = not isempty(spec.long) and spec.long or spec.short
