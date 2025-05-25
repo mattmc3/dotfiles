@@ -1,21 +1,14 @@
-#!/usr/bin/env lua
+#!/bin/sh
+# Optionally, #!/usr/bin/env dash
 
-local posix = require "posix"
+##? count - counts args
 
-local function count(args)
-	local n = args and #args or 0
-	return n
-end
+REPLY="$#"
 
-if debug.getinfo(1, "S").short_src == arg[0] then
-	local n = count({...})
-	-- Use luaposix to check if stdin is a tty
-	if not posix.isatty(posix.fileno(io.stdin)) then
-		for _ in io.lines() do
-			n = n + 1
-		end
-	end
-	print(n)
-end
-
-return count
+# count piped/redirected input
+if ! [ -t 0 ]; then
+  while IFS= read -r DATA || [ -n "$DATA" ]; do
+    REPLY=$((REPLY + 1))
+  done
+fi
+printf '%s\n' $REPLY
