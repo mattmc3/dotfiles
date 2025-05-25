@@ -1,0 +1,67 @@
+#!/bin/sh
+# shellcheck disable=SC3043
+
+# string join [-q | --quiet] [-n | --no-empty] SEP [STRING ...]
+
+string_join() {
+  local sep str first o_help o_quiet o_noempty o_bad o_nullsep
+
+  # Parse options.
+  while [ "$#" -gt 0 ]; do
+    case "$1" in
+      -h|--help)     o_help=true;    shift ;;
+      -q|--quiet)    o_quiet=true;   shift ;;
+      -n|--no-empty) o_noempty=true; shift ;;
+      -0)            o_nullsep=true; shift ;;
+      --)            shift;          break ;;
+      -*)            o_bad="$1";     shift ;;
+      *)                             break ;;
+    esac
+  done
+
+  # Check usage.
+  if [ -n "$o_help" ]; then
+    printf '%s\n' "string join [-q | --quiet] [-n | --no-empty] SEP [STRING ...]"
+    return 0
+  elif [ -n "$o_bad" ]; then
+    printf >&2 'string join: %s: unknown option\n' "$o_bad"
+    return 2
+  fi
+
+  # Handle null separator differently.
+  if [ -n "$o_nullsep" ]; then
+    [ "$#" -eq 0 ] && return 1
+    [ -z "$o_quiet" ] && printf '%s\0' "$@"
+    return 0
+  fi
+
+  # Get the separator.
+  if [ "$#" -gt 0 ]; then
+    sep="$1"
+    shift
+  else
+    printf >&2 'string join: %s\n' "missing argument"
+    return 2
+  fi
+
+  # Return 1 if nothing was joined, or 0 if we don't want output.
+  if [ "$#" -eq 0 ]; then
+    return 1
+  elif [ -n "$o_quiet" ]; then
+    return 0
+  fi
+
+  # We have things to join and want to see output.
+  first=1
+  for str in "$@"; do
+    [ "$o_noempty" = true ] && [ -z "$str" ] && continue
+    if [ $first -eq 1 ]; then
+      printf '%s' "$str"
+      first=0
+    else
+      printf '%s%s' "$sep" "$str"
+    fi
+  done
+  printf '\n'
+}
+string_join "$@" || exit $?
