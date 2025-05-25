@@ -1,0 +1,62 @@
+#!/bin/sh
+# shellcheck disable=SC3043
+
+# string upper [-q | --quiet] [STRING ...]
+# string lower [-q | --quiet] [STRING ...]
+
+TRANSFORM="$1"
+case "$TRANSFORM" in
+  lower|upper)
+    shift
+    break
+    ;;
+  *)
+    printf >&2 'string transform: unknown transform: %s\n' "$1"
+    exit 2
+    ;;
+esac
+
+string_transform() {
+  local str newstr line exitcode o_help o_quiet
+
+  # Parse options.
+  while [ "$#" -gt 0 ]; do
+    case "$1" in
+      -h|--help)  o_help=true;  shift ;;
+      -q|--quiet) o_quiet=true; shift ;;
+      --)         shift;        break ;;
+      -*)         o_bad="$1";   shift ;;
+      *)                        break ;;
+    esac
+  done
+
+  # Check usage.
+  if [ -n "$o_help" ]; then
+    printf 'string %s [-h | --help] [-q | --quiet] [STRING ...]\n' "$TRANSFORM"
+    return 0
+  elif [ -n "$o_bad" ]; then
+    printf >&2 'string %s: %s: unknown option\n' "$TRANSFORM" "$o_bad"
+    return 2
+  fi
+
+  # Collect piped input
+  if ! [ -t 0 ]; then
+    while IFS= read -r line || [ -n "$line" ]; do
+      set -- "$@" "$line"
+    done
+  fi
+
+  # Transform strings and return success only if any were transformed.
+  exitcode=1
+  for str in "$@"; do
+    if [ "$TRANSFORM" = "upper" ]; then
+      newstr="$(printf '%s\n' "$str" | tr "[:lower:]" "[:upper:]")"
+    else
+      newstr="$(printf '%s\n' "$str" | tr "[:upper:]" "[:lower:]")"
+    fi
+    [ "$str" != "$newstr" ] && exitcode=0
+    [ -z "$o_quiet" ] && printf '%s\n' "$newstr"
+  done
+  return "$exitcode"
+}
+string_transform "$@" || exit $?
