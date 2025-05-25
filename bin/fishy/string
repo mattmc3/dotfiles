@@ -1,0 +1,63 @@
+#!/bin/sh
+# shellcheck disable=SC3043
+
+SCRIPT_DIR=$(cd -- "$(dirname -- "$0")" 2>/dev/null && pwd)
+
+usage() {
+  printf '%s\n' "NAME"
+  printf '%s\n' "       string - manipulate strings"
+  printf '%s\n' ""
+  printf '%s\n' "SYNOPSIS"
+  printf '%s\n' "       string collect [-a | --allow-empty] [-N | --no-trim-newlines] [STRING ...]"
+  printf '%s\n' "       string escape [-n | --no-quoted] [--style=] [STRING ...]"
+  printf '%s\n' "       string join [-q | --quiet] [-n | --no-empty] SEP [STRING ...]"
+  printf '%s\n' "       string join0 [-q | --quiet] [STRING ...]"
+  printf '%s\n' "       string length [-q | --quiet] [STRING ...]"
+  printf '%s\n' "       string lower [-q | --quiet] [STRING ...]"
+  printf '%s\n' "       string match [-a | --all] [-e | --entire] [-i | --ignore-case]"
+  printf '%s\n' "                    [-g | --groups-only] [-r | --regex] [-n | --index]"
+  printf '%s\n' "                    [-q | --quiet] [-v | --invert]"
+  printf '%s\n' "                    PATTERN [STRING ...]"
+  printf '%s\n' "       string pad [-r | --right] [(-c | --char) CHAR] [(-w | --width) INTEGER]"
+  printf '%s\n' "                  [STRING ...]"
+  printf '%s\n' "       string repeat [(-n | --count) COUNT] [(-m | --max) MAX] [-N | --no-newline]"
+  printf '%s\n' "                     [-q | --quiet] [STRING ...]"
+  printf '%s\n' "       string repeat [-N | --no-newline] [-q | --quiet] COUNT [STRING ...]"
+  printf '%s\n' "       string replace [-a | --all] [-f | --filter] [-i | --ignore-case]"
+  printf '%s\n' "                      [-r | --regex] [-q | --quiet] PATTERN REPLACE [STRING ...]"
+  printf '%s\n' "       string shorten [(-c | --char) CHARS] [(-m | --max) INTEGER]"
+  printf '%s\n' "                      [-N | --no-newline] [-l | --left] [-q | --quiet] [STRING ...]"
+  printf '%s\n' "       string split [(-f | --fields) FIELDS] [(-m | --max) MAX] [-n | --no-empty]"
+  printf '%s\n' "                    [-q | --quiet] [-r | --right] SEP [STRING ...]"
+  printf '%s\n' "       string split0 [(-f | --fields) FIELDS] [(-m | --max) MAX] [-n | --no-empty]"
+  printf '%s\n' "                     [-q | --quiet] [-r | --right] [STRING ...]"
+  printf '%s\n' "       string sub [(-s | --start) START] [(-e | --end) END] [(-l | --length) LENGTH]"
+  printf '%s\n' "                  [-q | --quiet] [STRING ...]"
+  printf '%s\n' "       string trim [-l | --left] [-r | --right] [(-c | --chars) CHARS]"
+  printf '%s\n' "                   [-q | --quiet] [STRING ...]"
+  printf '%s\n' "       string unescape [--style=] [STRING ...]"
+  printf '%s\n' "       string upper [-q | --quiet] [STRING ...]"
+}
+
+string() {
+  local strcmd
+
+  # Check usage.
+  if [ "$1" = -h ] || [ "$1" = --help ]; then
+    usage
+    return 0
+  elif [ -z "$1" ]; then
+    printf >&2 'string: missing subcommand\n'
+    return 2
+  fi
+
+  # Run string subcommand
+  strcmd="string-${1}"
+  shift
+  if [ ! -e "${SCRIPT_DIR}/${strcmd}" ]; then
+    printf >&2 '%s\n' "string: invalid subcommand"
+    exit 2
+  fi
+  "${SCRIPT_DIR}/${strcmd}" "$@"
+}
+string "$@" || exit $?
