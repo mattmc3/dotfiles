@@ -189,6 +189,9 @@ local defaultProfiles = {
 local profileRules = {
     ["Shark"] = {
         { pattern = "reddit.com", profile = "Profile 2" },
+        { pattern = "github.com/jtbatesgroup", profile = "Profile 1" },
+        { pattern = "github.com/jtb-it-team", profile = "Profile 1" },
+        { pattern = "github.com", profile = "Profile 2" },
     },
     ["Orca"] = {
         { pattern = "github.com/JTBatesGroup", profile = "Profile 2" },
@@ -199,9 +202,10 @@ function getProfile(url)
     local hostname = hs.host.localizedName()
     local rules = profileRules[hostname] or {}
 
-    -- Check if the URL matches any specific rule
+    -- Check if the URL matches any specific rule (case-insensitive)
+    local url_lc = string.lower(url)
     for _, rule in ipairs(rules) do
-        if string.match(url, rule.pattern) then
+        if string.match(url_lc, string.lower(rule.pattern)) then
             return rule.profile
         end
     end
