@@ -79,3 +79,26 @@ function pushdf() {
 function rmdstore() {
   find "${*:-.}" -type f -name .DS_Store -delete
 }
+
+# Put files in trash.
+function trash() {
+  if [ $# -eq 0 ]; then
+    echo "usage: trash <files...>" >&2
+    return 64
+  fi
+
+  local file files=()
+  for file; do
+    if [ -e "$file" ]; then
+      abs_path=$(cd "$(dirname "$file")" && pwd)/$(basename "$file")
+      files+=("POSIX file \"$abs_path\"")
+    else
+      echo "trash: No such file or directory '$file'." >&2
+      return 1
+    fi
+  done
+
+  local IFS=", "
+  local file_list="${files[*]}"
+  osascript -e "tell application \"Finder\" to move { $file_list } to trash" >/dev/null 2>&1
+}
