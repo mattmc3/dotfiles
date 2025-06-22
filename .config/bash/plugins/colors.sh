@@ -12,9 +12,11 @@ export LESS_TERMCAP_me=$'\E[0m'         # end bold/blink
 # Set LS_COLORS using dircolors
 if [[ -z "$LS_COLORS" ]]; then
   if type dircolors >/dev/null 2>&1; then
-    eval "$(dircolors --sh)"
+    cached_eval dircolors --sh
+    #eval "$(dircolors --sh)"
   elif type gdircolors >/dev/null 2>&1; then
-    eval "$(gdircolors --sh)"
+    cached_eval gdircolors --sh
+    #eval "$(gdircolors --sh)"
   fi
 fi
 

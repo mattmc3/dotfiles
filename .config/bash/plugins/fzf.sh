@@ -2,5 +2,6 @@
 
 # Enable fzf bash integration.
 if type fzf >/dev/null 2>&1; then
-  eval "$(fzf --bash)"
+  cached_eval fzf --bash
+  #eval "$(fzf --bash)"
 fi

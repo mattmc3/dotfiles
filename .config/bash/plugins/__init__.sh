@@ -24,3 +24,23 @@ fi
 # Declare a post_init array for post init operations.
 # shellcheck disable=SC2034
 declare -a post_init=()
+
+# Cache the results of a command used for eval init.
+cached_eval() {
+  local cache_dir="${XDG_CACHE_HOME:-$HOME/.cache}/bash/cached_eval"
+  local cache_file="$cache_dir/$1.sh"
+
+  mkdir -p "$cache_dir"
+
+  # Delete cache file if older than 20 hours (1200 minutes)
+  find "$cache_dir" -type f -name "$1.sh" -mmin +1200 -delete 2>/dev/null
+
+  if [[ ! -f $cache_file ]]; then
+    "$@" > "$cache_file" || {
+      echo "cached_eval: command failed: $*" >&2
+      return 1
+    }
+  fi
+
+  source "$cache_file"
+}

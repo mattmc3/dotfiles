@@ -144,7 +144,8 @@ function prompt_minimal_setup() {
 # Set the prompt theme.
 if [[ "$BASH_THEME" == "starship" ]]; then
   export STARSHIP_CONFIG="$XDG_CONFIG_HOME/starship/bash.toml"
-  eval "$(starship init bash)"
+  cached_eval starship init bash
+  #eval "$(starship init bash)"
 elif [[ "$(type -t "prompt_${BASH_THEME}_setup")" == function ]]; then
   export PROMPT_COMMAND="prompt_${BASH_THEME}_setup;${PROMPT_COMMAND}"
 else

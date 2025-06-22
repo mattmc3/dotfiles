@@ -15,8 +15,8 @@ plugins=(
   directory
   editor
   environment
+  fzf
   history
-  history-substring-search
   macos
   magic-enter
   prompt

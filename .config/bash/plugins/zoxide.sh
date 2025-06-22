@@ -2,5 +2,6 @@
 
 # Enable z command.
 if type zoxide >/dev/null 2>&1; then
-  eval "$(zoxide init bash)"
+  #eval "$(zoxide init bash)"
+  cached_eval zoxide init bash
 fi
