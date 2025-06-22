@@ -85,3 +85,6 @@ alias curry="xargs -I{}"  # printf '%s\n' foo bar baz | curry touch {}.txt
 alias ppath='echo $PATH | tr ":" "\n"'
 alias cls="clear && printf '\e[3J'"
 alias bench="for i in {1..10}; do /usr/bin/time bash -ic 'echo -n'; done"
+
+# Google Workspace manager
+alias gam="/Users/matt/bin/gam7/gam"
