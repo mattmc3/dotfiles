@@ -16,6 +16,7 @@ plugins=(
   editor
   environment
   fzf
+  git
   history
   macos
   magic-enter

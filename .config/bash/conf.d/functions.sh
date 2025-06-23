@@ -1,9 +1,5 @@
 # shellcheck shell=bash disable=SC2155
 
-function clone {
-  git cloner "$@"
-}
-
 function func/exists() {
   declare -F -- "$1" >/dev/null 2>&1
 }
