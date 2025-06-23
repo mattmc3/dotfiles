@@ -1,15 +1,16 @@
 # shellcheck shell=bash source=/dev/null
 
 # Completions.
-if [ -r "${HOMEBREW_PREFIX:-?}/etc/profile.d/bash_completion.sh" ]; then
-  . "${HOMEBREW_PREFIX:-?}/etc/profile.d/bash_completion.sh"
-elif [ -f /usr/share/bash-completion/bash_completion ]; then
-  . /usr/share/bash-completion/bash_completion
-elif [ -f /etc/bash_completion ]; then
-  . /etc/bash_completion
+if [ -z "$BLE_VERSION" ]; then
+  if [ -r "${HOMEBREW_PREFIX:-/opt/homebrew}/etc/profile.d/bash_completion.sh" ]; then
+    . "${HOMEBREW_PREFIX:-/opt/homebrew}/etc/profile.d/bash_completion.sh"
+  elif [ -f /usr/share/bash-completion/bash_completion ]; then
+    . /usr/share/bash-completion/bash_completion
+  elif [ -f /etc/bash_completion ]; then
+    . /etc/bash_completion
+  fi
+  return
 fi
-
-[ -n "$BLE_VERSION" ] || return 1
 
 function settings-for-completion {
   # shellcheck disable=SC2016
