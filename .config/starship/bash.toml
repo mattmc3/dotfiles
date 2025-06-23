@@ -125,7 +125,7 @@ disabled = false
 
 [status]
 disabled = false
-format = '[$symbol$int]($style)'
+format = ' [$symbol$int]($style)'
 symbol = '✘'
 pipestatus = true
 pipestatus_format = '\[$pipestatus\]($style)'

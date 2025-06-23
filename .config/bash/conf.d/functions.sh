@@ -8,9 +8,9 @@ function func/exists() {
   declare -F -- "$1" >/dev/null 2>&1
 }
 
-# A basic calculator.
-function test_exitcode() {
-  [[ "$#" -ne 0 ]] && return "$1" || return 0
+# Return whatever value was passed.
+function retval() {
+  [[ "$1" -gt 0 ]] && return "$1" || return 0
 }
 
 # A basic calculator.
