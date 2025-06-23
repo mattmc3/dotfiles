@@ -1,0 +1,88 @@
+#!/bin/sh
+# shellcheck disable=SC3043
+
+SCRIPT_DIR=$(cd -- "$(dirname -- "$0")" 2>/dev/null && pwd)
+
+usage() {
+  printf '%s\n' "string repeat [(-n | --count) COUNT] [(-m | --max) MAX] [-N | --no-newline]"
+  printf '%s\n' "              [-q | --quiet] [STRING ...]"
+  printf '%s\n' "string repeat [-N | --no-newline] [-q | --quiet] COUNT [STRING ...]"
+}
+
+string_repeat() {
+  local o_help o_quiet o_count o_max o_nonewline
+  local count line max str out i
+
+  # Parse options.
+  while [ "$#" -gt 0 ]; do
+    case "$1" in
+      -h|--help)       o_help=1;      shift   ;;
+      -q|--quiet)      o_quiet=1;     shift   ;;
+      -n|--count)      o_count="$2";  shift 2 ;;
+      -m|--max)        o_max="$2";    shift 2 ;;
+      -N|--no-newline) o_nonewline=1; shift 2 ;;
+      --)              shift;         break   ;;
+      -*)              o_bad="$1";    shift   ;;
+      *)                              break   ;;
+    esac
+  done
+
+  # Check usage.
+  if [ -n "$o_help" ]; then
+    usage
+    return 0
+  elif [ -n "$o_bad" ]; then
+    printf >&2 'string repeat: %s: unknown option\n' "$o_bad"
+    return 2
+  fi
+
+  # Determine count and string(s)
+  if [ -n "$o_count" ]; then
+    count="$o_count"
+  elif [ $# -gt 0 ]; then
+    count="$1"
+    shift
+  fi
+
+  # Ensure count is a variable
+  if ! [ "$count" -ge 0 ] 2>/dev/null; then
+    printf >&2 "string repeat: Invalid count value '%s'\n" "$count"
+    return 2
+  fi
+
+  # Collect piped input
+  if ! [ -t 0 ]; then
+    while IFS= read -r line || [ -n "$line" ]; do
+      set -- "$@" "$line"
+    done
+  fi
+
+  # # Default string is " " if none given
+  # if [ $# -eq 0 ]; then
+  #   str=" "
+  # else
+  #   str="$*"
+  # fi
+
+  # # Apply max if set
+  # if [ -n "$o_max" ] && [ "$count" -gt "$o_max" ] 2>/dev/null; then
+  #   count=$o_max
+  # fi
+
+  # # Output
+  # [ -n "$o_quiet" ] && return 0
+
+  # out=""
+  # i=1
+  # while [ "$i" -le "$count" ]; do
+  #   out="$out$str"
+  #   i=$((i + 1))
+  # done
+
+  # if [ -n "$o_nonewline" ]; then
+  #   printf '%s' "$out"
+  # else
+  #   printf '%s\n' "$out"
+  # fi
+}
+string_repeat "$@" || exit $?

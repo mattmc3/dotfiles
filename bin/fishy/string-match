@@ -1,0 +1,105 @@
+#!/bin/sh
+# shellcheck disable=SC3043
+
+usage() {
+  printf '%s\n' "string match [-a | --all] [-e | --entire] [-i | --ignore-case]"
+  printf '%s\n' "             [-g | --groups-only] [-r | --regex] [-n | --index]"
+  printf '%s\n' "             [-q | --quiet] [-v | --invert]"
+  printf '%s\n' "             PATTERN [STRING ...]"
+}
+
+string_match() {
+  local o_help o_quiet o_all o_entire o_ignorecase o_groupsonly o_regex o_index
+  local o_invert o_bad
+  local str grep_opts pattern
+
+  # Parse options.
+  while [ "$#" -gt 0 ]; do
+    case "$1" in
+      -h|--help)         o_help=1;        shift  ;;
+      -q|--quiet)        o_quiet=1;       shift  ;;
+      -a|--all)          o_all=1;         shift  ;;
+      -e|--entire)       o_entire=1;      shift  ;;
+      -i|--ignore-case)  o_ignorecase=1;  shift  ;;
+      -g|--groups-only)  o_groupsonly=1;  shift  ;;
+      -r|--regex)        o_regex=1;       shift  ;;
+      -n|--index)        o_index=1;       shift  ;;
+      -v|--invert)       o_invert=1;      shift  ;;
+      --)                shift;           break  ;;
+      -*)                o_bad="$1";      shift  ;;
+      *)                                  break  ;;
+    esac
+  done
+
+  # Check usage.
+  if [ -n "$o_help" ]; then
+    usage
+    return 0
+  elif [ -n "$o_bad" ]; then
+    printf >&2 'string match: %s: unknown option\n' "$o_bad"
+    return 2
+  fi
+
+  # Require at least a pattern.
+  if [ "$#" -lt 1 ]; then
+    usage >&2
+    return 2
+  fi
+
+  pattern="$1"
+  shift
+
+  # Only regex mode is implemented for now.
+  if [ -z "$o_regex" ]; then
+    printf '%s\n' "Glob matching not implemented yet."
+    return 3
+  fi
+
+  # If no strings, read from stdin.
+  if [ "$#" -eq 0 ]; then
+    set -- $(cat)
+  fi
+
+  # Compose grep options
+  grep_opts="-E"
+  [ -n "$o_ignorecase" ] && grep_opts="$grep_opts -i"
+  [ -n "$o_invert" ] && grep_opts="$grep_opts -v"
+
+  for str; do
+    if [ -n "$o_groupsonly" ]; then
+      # Not implemented for now, but could be added as above
+      printf '%s\n' "Group extraction not implemented yet."
+      continue
+    fi
+
+    if [ -n "$o_all" ]; then
+      # Print all matches in the string
+      if [ -n "$o_entire" ]; then
+        # Print the entire string once for each match
+        # Use grep -o to count matches, print $str for each
+        match_count=$(printf '%s\n' "$str" | grep $grep_opts -o -- "$pattern" | wc -l | tr -d ' ')
+        i=1
+        while [ "$i" -le "$match_count" ]; do
+          printf '%s\n' "$str"
+          i=$((i+1))
+        done
+      else
+        # Print each match on its own line
+        printf '%s\n' "$str" | grep $grep_opts -o -- "$pattern"
+      fi
+    else
+      # Only the first match
+      if printf '%s\n' "$str" | grep $grep_opts -q -- "$pattern"; then
+        if [ -n "$o_entire" ]; then
+          printf '%s\n' "$str"
+        else
+          # Print the first match only
+          printf '%s\n' "$str" | grep $grep_opts -o -- "$pattern" | head -n1
+        fi
+      fi
+    fi
+  done
+
+  return 0
+}
+string_match "$@" || exit $?
