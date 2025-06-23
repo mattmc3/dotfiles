@@ -13,6 +13,7 @@ plugins=(
   colors
   completions
   directory
+  dotnet
   editor
   environment
   fzf
