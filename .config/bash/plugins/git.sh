@@ -15,7 +15,7 @@ function clone {
   fi
 
   local giturl="github.com"
-  local dest="${XDG_PROJECTS_HOME:-~/Projects}/$user/$repo"
+  local dest="${XDG_PROJECTS_HOME:-$HOME/Projects}/$user/$repo"
 
   if [[ ! -d $dest ]]; then
     git clone --recurse-submodules "git@${giturl}:${user}/${repo}.git" "$dest"
