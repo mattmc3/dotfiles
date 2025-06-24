@@ -1136,7 +1136,7 @@ function blerc/vim-load-hook {
   ## empty string.
 
   #bleopt keymap_vi_mode_show=1
-
+  bleopt keymap_vi_mode_show=
 
   ## The following options specify the name of modes in
   ## \q{keymap:vi/mode-indicator}.
@@ -1155,7 +1155,14 @@ function blerc/vim-load-hook {
   ## normal mode like in other modes, please use the following setting:
 
   #bleopt keymap_vi_mode_string_nmap:=$'\e[1m-- NORMAL --\e[m'
+  bleopt keymap_vi_mode_string_nmap:=$'\e[1m-- NORMAL --\e[m'
 
+  # Set cursors.
+  ble-bind -m vi_nmap --cursor 2
+  ble-bind -m vi_imap --cursor 5
+  #ble-bind -m vi_omap --cursor 4
+  #ble-bind -m vi_xmap --cursor 2
+  #ble-bind -m vi_cmap --cursor 0
 
   ## This option specifies that all the prompts should be recalculated on the
   ## mode change.  When this option has a non-empty value, the prompt will be
