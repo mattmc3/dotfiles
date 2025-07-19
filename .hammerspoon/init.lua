@@ -187,13 +187,13 @@ local defaultProfiles = {
 
 -- URL-based profile selection
 local profileRules = {
-    ["Shark"] = {
+    ["Orca"] = {
         { pattern = "reddit.com", profile = "Profile 2" },
         { pattern = "github.com/jtbatesgroup", profile = "Profile 1" },
         { pattern = "github.com/jtb-it-team", profile = "Profile 1" },
         { pattern = "github.com", profile = "Profile 2" },
     },
-    ["Orca"] = {
+    ["Shark"] = {
         { pattern = "github.com/JTBatesGroup", profile = "Profile 2" },
     }
 }

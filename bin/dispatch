@@ -1,0 +1,38 @@
+#!/bin/sh
+
+# Use realpath to find the directory of the actual script
+BINDIR="$(dirname "$(realpath "$0")")"
+
+# Use the name used to invoke the script (symlink name)
+CMDGROUP="$(basename "$0")"
+SUBDIR="$BINDIR/${CMDGROUP}.d"
+
+print_usage() {
+  echo "Usage: $CMDGROUP <subcommand> [args...]"
+  echo
+  echo "Subcommands:"
+  if [ -d "$SUBDIR" ]; then
+    # List executable files only
+    find "$SUBDIR" -type f -perm +111 -exec basename {} \; | sort
+  else
+    echo "  (no subcommands found)"
+  fi
+}
+
+if [ $# -lt 1 ] || [ "$1" = "-h" ] || [ "$1" = "--help" ]; then
+  print_usage
+  exit 1
+fi
+
+SUBCOMMAND="$1"
+shift
+
+CMD="$SUBDIR/$SUBCOMMAND"
+
+if [ ! -x "$CMD" ]; then
+  echo "$CMDGROUP: subcommand '$SUBCOMMAND' not found or not executable in ./${CMDGROUP}.d" >&2
+  print_usage
+  exit 1
+fi
+
+exec "$CMD" "$@"

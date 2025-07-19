@@ -1,0 +1,25 @@
+#!/usr/bin/env lua
+
+-- Converts a 0-based index to an Excel-style column name
+local function to_excel_column(n)
+  local col = ""
+  repeat
+    local rem = n % 26
+    col = string.char(65 + rem) .. col
+    n = math.floor(n / 26) - 1
+  until n < 0
+  return col
+end
+
+-- Parse argument
+local count = tonumber(arg[1])
+if not count or count < 1 then
+  io.stderr:write("Usage: " .. arg[0] .. " <number_of_columns>\n")
+  os.exit(1)
+end
+
+-- Output column names
+for i = 0, count - 1 do
+  print(to_excel_column(i))
+end
+
