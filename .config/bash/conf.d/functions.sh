@@ -144,3 +144,16 @@ function prj {
   [ -z "$selection" ] && return
   cd "${selection}" && pwd
 }
+
+function plugins/list {
+  local plugin_file enabled
+  for plugin_file in $BASH_HOME/plugins/*.sh; do
+    plugin="$(basename "$plugin_file")"
+    plugin="${plugin%.sh}"
+    if arr/contains "$plugin" "${plugins[@]}"; then
+      printf '%-25s %s\n' "$plugin" on
+    else
+      printf '%-25s %s\n' "$plugin" off
+    fi
+  done
+}

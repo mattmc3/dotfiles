@@ -31,12 +31,6 @@ alias "..."="cd ../.."
 alias "...."="cd ../../.."
 alias "....."="cd ../../../.."
 
-# Tell gpg to store its keyring as data.
-if [[ -d "$XDG_DATA_HOME" ]]; then
-  export GNUPGHOME="${GNUPGHOME:-$XDG_DATA_HOME/gnupg}"
-  alias gpg='gpg --homedir "$GNUPGHOME"'
-fi
-
 # url encode/decode
 alias urldecode='python3 -c "import sys, urllib.parse as ul; \
     print(ul.unquote_plus(sys.argv[1]))"'
@@ -44,8 +38,8 @@ alias urlencode='python3 -c "import sys, urllib.parse as ul; \
     print (ul.quote_plus(sys.argv[1]))"'
 
 # find
-alias fd='find . -type d -name '
-alias ff='find . -type f -name '
+#alias fd='find . -type d -name '
+#alias ff='find . -type f -name '
 
 # date/time
 alias timestamp="date '+%Y-%m-%d %H:%M:%S'"
@@ -60,24 +54,6 @@ if type safe-rm >/dev/null 2>&1; then
   alias del='safe-rm'
 fi
 
-# Homebrew
-alias brewup="brew update && brew upgrade && brew cleanup"
-alias brewinfo="brew leaves | xargs brew desc --eval-all"
-
-# dotfiles
-export DOTFILES="${DOTFILES:-$HOME/.dotfiles}"
-alias dotf='cd "$DOTFILES"'
-alias fdot="cd ~/.config/fish"
-alias zdot="cd ~/.config/zsh"
-alias bdot="cd ~/.config/bash"
-alias rcs='cd "${BASH_HOME:-$HOME}"'
-alias bashrc='"${EDITOR:-vim}" "${BASH_HOME:-$HOME}/.bashrc"'
-alias reload='source "${BASH_HOME:-$HOME}/.bashrc"'
-
-# Quick way to get back to your initial working directory.
-IWD="${IWD:-$PWD}"
-alias iwd='cd "$IWD"'
-
 # Misc aliases.
 alias myip="curl ifconfig.me"
 alias nv=nvim
@@ -87,4 +63,4 @@ alias cls="clear && printf '\e[3J'"
 alias bench="for i in {1..10}; do /usr/bin/time bash -ic 'echo -n'; done"
 
 # Google Workspace manager
-alias gam="/Users/matt/bin/gam7/gam"
+alias gam="$HOME/bin/gam7/gam"

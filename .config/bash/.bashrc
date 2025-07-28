@@ -6,19 +6,24 @@ BASH_HOME=~/.config/bash
 
 plugins=(
   __init__
-  brew
+  xdg
+  homebrew
   ble
   repos
   atuin
+  azure
   colors
   completions
   directory
+  dotfiles
   dotnet
   editor
   environment
   fzf
   git
+  gpg
   history
+  iwd
   macos
   magic-enter
   prompt

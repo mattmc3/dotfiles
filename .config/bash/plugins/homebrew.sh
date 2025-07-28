@@ -34,3 +34,5 @@ brews() {
   '
   brew leaves | xargs brew deps --installed --for-each | awk "$bluify_deps"
 }
+alias brewup="brew update && brew upgrade && brew cleanup"
+alias brewinfo="brew leaves | xargs brew desc --eval-all"
