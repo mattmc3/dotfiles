@@ -1,4 +1,4 @@
-# shellcheck shell=bash
+# shellcheck shell=bash source=/dev/null
 
 # Load every script in conf.d
 shopt -s nullglob

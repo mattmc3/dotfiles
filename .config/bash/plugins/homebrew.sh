@@ -26,7 +26,8 @@ fi
 # Add user directories.
 export PATH="$HOME/bin:$HOME/.local/bin:$PATH"
 
-# Show the root installs with all deps.
+# shellcheck disable=SC2016
+##? Show the root installs with all deps.
 brews() {
   local bluify_deps='
     BEGIN { blue = "\033[34m"; reset = "\033[0m" }

@@ -58,7 +58,7 @@ function set_vcs_vars() {
   VCS_STATUS_COMMIT="$(git rev-parse HEAD 2>/dev/null)"
   local gitstatus_porcelain="$(git status --porcelain 2>/dev/null)"
   [[ -n "$gitstatus_porcelain" ]] && VCS_STATUS_IS_DIRTY=1 || VCS_STATUS_IS_DIRTY=0
-  VCS_STATUS_STASHES="$(git rev-list --walk-reflogs --count refs/stash 2>/dev/null || echo 0)"
+  #VCS_STATUS_STASHES="$(git rev-list --walk-reflogs --count refs/stash 2>/dev/null || echo 0)"
 }
 
 # Fish-like path shortener: $HOME/.config/bash/.docs/cheatsheet => ~/.c/b/.d/cheatsheet
@@ -143,7 +143,7 @@ function prompt_minimal_setup() {
 
 # Set the prompt theme.
 if [[ "$BASH_THEME" == "starship" ]]; then
-  export STARSHIP_CONFIG="$XDG_CONFIG_HOME/starship/bash.toml"
+  export STARSHIP_CONFIG="$XDG_CONFIG_HOME/bash/themes/bash.toml"
   cached_eval starship init bash
   #eval "$(starship init bash)"
 elif [[ "$(type -t "prompt_${BASH_THEME}_setup")" == function ]]; then

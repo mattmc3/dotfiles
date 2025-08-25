@@ -1,4 +1,4 @@
-# shellcheck shell=bash
+# shellcheck shell=bash source=/dev/null
 
 # Use XDG base dirs.
 export XDG_CONFIG_HOME="${XDG_CONFIG_HOME:-$HOME/.config}"
@@ -43,4 +43,21 @@ cached_eval() {
   fi
 
   source "$cache_file"
+}
+
+# shellcheck disable=SC2139,SC2001
+##? Extend an existing alias
+extend_alias() {
+  local name="$1"
+  local extra_args="$2"
+  local alias_def
+  alias_def=$(alias "$name" 2>/dev/null)
+  if [[ -n "$alias_def" ]]; then
+    # Extract current alias value
+    local current_cmd
+    current_cmd=$(echo "$alias_def" | sed "s/alias $name='\(.*\)'/\1/")
+    alias "$name"="${current_cmd} ${extra_args}"
+  else
+    alias "$name"="$name ${extra_args}"
+  fi
 }

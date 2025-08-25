@@ -1,4 +1,4 @@
-# shellcheck shell=bash disable=SC2155
+# shellcheck shell=bash disable=SC2155,SC2001
 
 function func/exists() {
   declare -F -- "$1" >/dev/null 2>&1
@@ -145,9 +145,10 @@ function prj {
   cd "${selection}" && pwd
 }
 
+# shellcheck disable=SC2154
 function plugins/list {
-  local plugin_file enabled
-  for plugin_file in $BASH_HOME/plugins/*.sh; do
+  local plugin_file
+  for plugin_file in "${BASH_HOME:-$HOME/.config/bash}"/plugins/*.sh; do
     plugin="$(basename "$plugin_file")"
     plugin="${plugin%.sh}"
     if arr/contains "$plugin" "${plugins[@]}"; then

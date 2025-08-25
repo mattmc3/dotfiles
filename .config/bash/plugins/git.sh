@@ -17,11 +17,11 @@ function clone {
   local giturl="github.com"
   local dest="${XDG_PROJECTS_HOME:-$HOME/Projects}/$user/$repo"
 
-  if [[ ! -d $dest ]]; then
+  if [[ ! -d "$dest" ]]; then
     git clone --recurse-submodules "git@${giturl}:${user}/${repo}.git" "$dest"
   else
     echo "No need to clone, that directory already exists."
     echo "Taking you there."
   fi
-  cd "$dest"
+  cd "$dest" || return 1
 }
