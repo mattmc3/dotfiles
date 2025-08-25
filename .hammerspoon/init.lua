@@ -155,6 +155,31 @@ function reloadConfig(files)
 end
 local myWatcher = hs.pathwatcher.new(os.getenv('HOME') .. '/.hammerspoon/', reloadConfig):start()
 
+
+function topFocus(app)
+	-- get screen where you are with your mouse
+	local screen = hs.mouse.getCurrentScreen()
+	-- get main window
+	local app_window = app:mainWindow()
+	-- move app to current screen
+	app_window:moveToScreen(screen)
+	-- get max coordinates
+	local max = screen:fullFrame()
+	-- get main window frame
+	local f = app_window:frame()
+	-- set dimension of frame
+	f.x = max.x
+	f.y = max.y
+	f.w = max.w * 0.55
+	f.h = max.h * 0.55 -- 55% of max height
+	-- set new frame dimension after a little delay
+	hs.timer.doAfter(0.2, function()
+		app_window:setFrame(f)
+	end)
+	-- focus to app
+	app_window:focus()
+end
+
 -- Open WezTerm from anywhere
 -- https://gist.github.com/pythoninthegrass/f141261a0dd28a4549780e1eb0e9c0f3
 -- https://github.com/wez/wezterm/issues/1751
