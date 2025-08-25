@@ -19,6 +19,7 @@
 !bin/
 !bin/**
 **/bin/gam7/
+**/bin/gamadv-xtd3/
 
 # bash
 !.bash_profile
