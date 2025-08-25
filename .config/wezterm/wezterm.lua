@@ -212,5 +212,14 @@ wezterm.on('update-status', function(window, _)
   window:set_right_status(wezterm.format(elements))
 end)
 
+wezterm.on('format-tab-title', function(tab, tabs, panes, config, hover, max_width)
+  local title = tab.active_pane.foreground_process_name or "?"
+  -- Strip path, just command name
+  title = string.gsub(title, ".*/", "")
+  return {
+    { Text = " " .. title .. " " },
+  }
+end)
+
 -- and finally, return the configuration to wezterm
 return config

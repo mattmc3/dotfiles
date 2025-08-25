@@ -1025,5 +1025,16 @@ require('lazy').setup({
   },
 })
 
+-- Enable title and show filename in tab
+vim.opt.title = true
+vim.opt.titlestring = "%t"
+
+-- Disable title updates right before exit, so no "Thanks for flying Vim"
+vim.api.nvim_create_autocmd("VimLeave", {
+  callback = function()
+  vim.opt.title = false
+end,
+})
+
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et

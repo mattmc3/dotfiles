@@ -44,6 +44,10 @@ indent_size = 2
 trim_trailing_whitespace = false
 
 [*.lua]
+indent_style = space
+indent_size = 2
+
+[bin/*.lua]
 indent_style = tab
 indent_size = 4
 
