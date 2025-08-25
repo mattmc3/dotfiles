@@ -62,6 +62,9 @@
 #ble-face vbell_erase='bg=252'
 #ble-face vbell_flash='fg=green,reverse'
 
+ble-face vbell=
+bleopt vbell_default_message=' ding '
+
 
 ##-----------------------------------------------------------------------------
 ## Line editor settings
@@ -76,7 +79,7 @@
 ## settings "edit_vbell" and "edit_abell" should be updated to use "edit_bell".
 
 #bleopt edit_bell=abell
-
+bleopt edit_bell=vbell
 
 ## The following setting turns on the delayed load of history when an non-empty
 ## value is set.
