@@ -15,6 +15,7 @@ plugins=(
   colors
   completions
   directory
+  direnv
   dotfiles
   dotnet
   editor
