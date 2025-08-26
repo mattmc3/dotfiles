@@ -65,6 +65,10 @@ success_symbol = '[\$](green)'
 error_symbol = '[\$](red)'
 vicmd_symbol = '[vi\$](bold white)'
 
+[dotnet]
+format = '[$symbol($version )]($style)'
+style = 'bold green'
+
 [python]
 format = '[(\($virtualenv\) )]($style)'
 style = 'white'
@@ -85,6 +89,9 @@ stashed = "≡"
 ahead = "⇡${count}"
 behind = "⇣${count}"
 diverged = "⇕⇡${ahead_count}⇣${behind_count}"
+
+[golang]
+format = '[$symbol($version )]($style)'
 
 [custom.git_status_dirty]
 when = 'test -n "$(git status --porcelain 2>/dev/null)"'
@@ -112,8 +119,8 @@ shell = ["sh"]
 when = 'test $(todo.sh ls | wc -l) -gt 2'
 command = 'todo.sh ls | tail -n 1 | cut -d" " -f2'
 symbol = "☑"
-format = '[$symbol( $output)]($style)'
-style = "blue"
+format = '[$symbol($output)]($style)'
+style = "bold blue"
 disabled = false
 shell = ["sh"]
 
