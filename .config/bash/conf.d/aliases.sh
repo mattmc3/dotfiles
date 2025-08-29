@@ -62,3 +62,7 @@ alias ppath='echo $PATH | tr ":" "\n"'
 alias cls="clear && printf '\e[3J'"
 alias bench="for i in {1..10}; do /usr/bin/time bash -ic 'echo -n'; done"
 alias secrets="cd \"\${XDG_DATA_HOME:-\$HOME/.local/share}\"/secrets"
+
+if [[ -n "$BASH_VERSION" ]]; then
+  alias whence='type -a'
+fi

@@ -1,6 +1,7 @@
 #
 # My default bash prompt theme
 #
+# https://starship.rs/config
 
 add_newline = false
 
@@ -59,6 +60,9 @@ magenta = '205'
 red = '204'
 white = '223'
 yellow = '226'
+
+[c]
+disabled = true
 
 [character]
 success_symbol = '[\$](green)'

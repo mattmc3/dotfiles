@@ -1,3 +1,5 @@
+# shellcheck shell=bash
+
 #
 # XDG base dirs - don't pollute home
 #

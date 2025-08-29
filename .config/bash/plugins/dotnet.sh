@@ -1,3 +1,5 @@
+# shellcheck shell=bash
+
 # https://learn.microsoft.com/en-us/dotnet/core/tools/enable-tab-autocomplete
 # bash parameter completion for the dotnet CLI
 function _dotnet_bash_complete()

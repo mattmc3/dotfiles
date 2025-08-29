@@ -1,3 +1,5 @@
+# shellcheck shell=bash
+
 # dotfiles
 export DOTFILES="${DOTFILES:-$HOME/.dotfiles}"
 alias dotf='cd "$DOTFILES"'
