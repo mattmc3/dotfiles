@@ -1,0 +1,12 @@
+use strict;
+use warnings;
+use Test::More;
+
+sub split0 {
+    my $input = shift;
+    return $input =~ /(\S+)/g;
+}
+
+is_deeply([split0("a\nb\nc\n")], ['a', 'b', 'c'], 'split0 works');
+
+done_testing();

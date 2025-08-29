@@ -43,6 +43,10 @@ indent_size = 2
 [*.{md,markdown}]
 trim_trailing_whitespace = false
 
+[*.pl]
+indent_style = space
+indent_size = 4
+
 [*.lua]
 indent_style = space
 indent_size = 2

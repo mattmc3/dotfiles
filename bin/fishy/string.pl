@@ -138,30 +138,38 @@ sub do_join_like {
     return (\@out, $had_output);
 }
 
+# Helper for input presence and usage errors
+sub require_inputs {
+    my ($count, $usage) = @_;
+    if (@inputs < $count) {
+        print STDERR "Usage: $0 $usage\n";
+        exit 2;
+    }
+}
+
 # ---------- dispatch ----------
 my (@outputs, $changed, $had_output);
 
 if ($mode eq 'upper' or $mode eq 'lower') {
-    @inputs or exit 1;
+    require_inputs(1, "$mode [STRING...]");
     my ($outref, $chg) = do_case($mode, \@inputs);
     @outputs = @$outref;
     $changed = $chg;
 }
 elsif ($mode eq 'trim') {
-    @inputs or exit 1;
+    require_inputs(1, "trim [STRING...]");
     my ($outref, $chg) = do_trim(\@inputs);
     @outputs = @$outref;
     $changed = $chg;
 }
 elsif ($mode eq 'length') {
-    @inputs or exit 1;
+    require_inputs(1, "length [STRING...]");
     my ($outref, $any_nonempty) = do_length(\@inputs);
     @outputs = @$outref;
     $had_output = $any_nonempty ? 0+@outputs : 0;
-    # Exit 0 only if any non-empty input existed (matches fish)
 }
 elsif ($mode eq 'split') {
-    if (!@ARGV) { print STDERR "Usage: $0 split SEP [STRING...]\n"; exit 2 }
+    require_inputs(2, "split SEP [STRING...]");
     my ($outref, $had) = do_split_like(0, \@inputs);
     @outputs = @$outref;
     $had_output = $had;
@@ -172,7 +180,7 @@ elsif ($mode eq 'split0') {
     $had_output = $had;
 }
 elsif ($mode eq 'join') {
-    if (!@ARGV) { print STDERR "Usage: $0 join SEP [STRING...]\n"; exit 2 }
+    require_inputs(2, "join SEP [STRING...]");
     my ($outref, $had) = do_join_like(0, \@inputs);
     @outputs = @$outref;
     $had_output = $had;
