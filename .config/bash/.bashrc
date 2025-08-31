@@ -22,6 +22,7 @@ plugins=(
   environment
   fzf
   git
+  gitignore
   gpg
   history
   iwd
