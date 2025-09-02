@@ -28,6 +28,7 @@ plugins=(
   iwd
   macos
   magic-enter
+  nim
   prompt
   python
   utils
