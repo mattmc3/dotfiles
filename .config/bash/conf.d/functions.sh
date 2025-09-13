@@ -1,5 +1,8 @@
 # shellcheck shell=bash disable=SC2155,SC2001
 
+die() { warn "${@:2}"; exit "$1"; }
+warn() { printf '%s: %s\n' "${0##*/}" "$*" >&2; }
+
 function func/exists() {
   declare -F -- "$1" >/dev/null 2>&1
 }
@@ -139,14 +142,14 @@ function arr/index_of() {
   return 1
 }
 
-function prj {
+function prj() {
   local selection="$(~/bin/prj "$*")"
   [ -z "$selection" ] && return
   cd "${selection}" && pwd
 }
 
 # shellcheck disable=SC2154
-function plugins/list {
+function plugins/list() {
   local plugin_file
   for plugin_file in "${BASH_HOME:-$HOME/.config/bash}"/plugins/*.sh; do
     plugin="$(basename "$plugin_file")"
@@ -157,4 +160,77 @@ function plugins/list {
       printf '%-25s %s\n' "$plugin" off
     fi
   done
+}
+
+##? Normalize a path string without requiring it to exist.
+function path/normalize() {
+  local p=$1
+  local IFS=/ part out=
+
+  # if relative, prepend $PWD
+  if [[ $p != /* ]]; then
+    p="$PWD/$p"
+  fi
+
+  for part in $p; do
+    case $part in
+      ""|.) continue        ;;  # skip empty or "."
+      ..)  out=${out%/*}    ;;  # pop last element
+      *)   out="$out/$part" ;;
+    esac
+  done
+
+  # Ensure at least "/"
+  [[ -z "$out" ]] && out="/"
+  printf '%s\n' "$out"
+}
+
+##? Cross-shell method of manipulating paths.
+function path() {
+  local opt p
+  local -a actions=()
+
+  OPTIND=1
+  while getopts "ahret" opt; do
+    actions+=("$opt")
+  done
+  shift $((OPTIND-1))
+
+  # If path argument was passed, use it; else read from stdin
+  if [[ $# -gt 0 ]]; then
+    p=$1
+  elif [[ ! -t 0 ]]; then
+    IFS= read -r p || return 1
+  else
+    echo "Usage: path [-a] [-h] [-r] [-e] [-t] path" >&2
+    return 1
+  fi
+
+  # Apply in given order
+  for opt in "${actions[@]}"; do
+    case $opt in
+      a) p=$(path/normalize "$p") ;;
+      h) p=$(dirname -- "$p") ;;
+      r)
+        local dir base
+        dir=$(dirname -- "$p")
+        base=$(basename -- "$p")
+        if [[ $base == *.* ]]; then
+          base=${base%.*}
+        fi
+        p="$dir/$base"
+        ;;
+      e)
+        local base=$(basename -- "$p")
+        if [[ $base == *.* ]]; then
+          p=${base##*.}
+        else
+          p=""
+        fi
+        ;;
+    t) p=$(basename -- "$p") ;;
+    esac
+  done
+
+  printf '%s\n' "$p"
 }
