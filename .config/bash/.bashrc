@@ -26,6 +26,7 @@ plugins=(
   gpg
   history
   iwd
+  jupyter
   macos
   magic-enter
   nim
