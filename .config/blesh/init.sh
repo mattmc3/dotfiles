@@ -590,9 +590,9 @@ bleopt history_share=1
 ## non-empty strings are set, the functionality is enabled. Otherwise, the
 ## functionality is inactive.
 
-#bleopt complete_auto_complete=1
-#bleopt complete_menu_complete=1
-#bleopt complete_menu_filter=1
+bleopt complete_auto_complete=1
+bleopt complete_menu_complete=1
+bleopt complete_menu_filter=1
 
 
 ## If "complete_ambiguous" has non-empty values, ambiguous completion
@@ -734,6 +734,7 @@ bleopt history_share=1
 ## interprets ANSI escape sequences in the descriptions.
 
 #bleopt complete_menu_style=align-nowrap
+bleopt complete_menu_style=desc
 
 
 ## When a non-empty value is specified to this setting, the matching text on
