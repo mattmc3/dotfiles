@@ -483,5 +483,9 @@ def read_stdin_if_piped():
     return []
 
 
-if __name__ == "__main__":
+def main():
     cli()
+
+
+if __name__ == "__main__":
+    main()
