@@ -10,90 +10,146 @@ import os
 import re
 import stat
 import sys
-import argparse
+import click
+import fnmatch
 
 # region string subcommands
 
 
-def str_length(args):
-    """print string lengths"""
-    if len(args.STRINGS) == 0:
-        return 1
-    for s in args.STRINGS:
-        if not args.quiet:
-            print(len(s))
-    return 0
+@click.group(context_settings={"help_option_names": ["-h", "--help"]})
+def cli():
+    """Manipulate strings - A Python implementation of Fish's string utility"""
+    pass
+
+@cli.command()
+@click.option('-q', '--quiet', is_flag=True, help='Suppresses output but exits with the documented status')
+@click.argument('strings', nargs=-1)
+@click.pass_context
+def length(ctx, quiet, strings):
+    """Print string lengths"""
+    strings = list(strings) + read_stdin_if_piped()
+    if len(strings) == 0:
+        ctx.exit(1)
+    for s in strings:
+        if not quiet:
+            click.echo(len(s))
+    ctx.exit(0)
 
 
-def str_sub(args):
-    """extract substrings"""
-    if len(args.STRINGS) == 0:
-        return 1
-    for s in args.STRINGS:
-        newstr = s[args.start : args.end]
-        if args.length is not None:
-            newstr = newstr[: args.length]
-        if not args.quiet:
-            print(newstr)
-    return 0
+@cli.command()
+@click.option('-q', '--quiet', is_flag=True, help='Suppresses output but exits with the documented status')
+@click.option('-s', '--start', default=0, type=int, help='The start of the substring')
+@click.option('-e', '--end', type=int, help='The end of the substring')
+@click.option('-l', '--length', type=int, help='The length of the substring')
+@click.argument('strings', nargs=-1)
+@click.pass_context
+def sub(ctx, quiet, start, end, length, strings):
+    """Extract substrings"""
+    strings = list(strings) + read_stdin_if_piped()
+    if len(strings) == 0:
+        ctx.exit(1)
+
+    if end is not None and length is not None:
+        click.echo("Error: Cannot specify both --end and --length", err=True)
+        ctx.exit(2)
+
+    for s in strings:
+        newstr = s[start:end]
+        if length is not None:
+            newstr = newstr[:length]
+        if not quiet:
+            click.echo(newstr)
+    ctx.exit(0)
 
 
-def str_pad(args):
-    """pad strings to a fixed width"""
-    if len(args.STRINGS) == 0:
-        return 0
-    if not args.width:
-        args.width = max([len(x) for x in args.STRINGS])
-    for s in args.STRINGS:
-        if args.right:
-            result = s.ljust(args.width, args.char)
+@cli.command()
+@click.option('-q', '--quiet', is_flag=True, help='Suppresses output but exits with the documented status')
+@click.option('-r', '--right', is_flag=True, help='Add the padding after a string')
+@click.option('-c', '--char', default=' ', help='Pad with CHAR instead of whitespace')
+@click.option('-w', '--width', type=int, help='Ensure minimum width of padded results')
+@click.argument('strings', nargs=-1)
+@click.pass_context
+def pad(ctx, quiet, right, char, width, strings):
+    """Pad strings to a fixed width"""
+    strings = list(strings) + read_stdin_if_piped()
+    if len(strings) == 0:
+        ctx.exit(0)
+
+    if len(char) != 1:
+        click.echo(f"Error: --char must be a single character", err=True)
+        ctx.exit(2)
+
+    if not width:
+        width = max([len(x) for x in strings])
+
+    for s in strings:
+        if right:
+            result = s.ljust(width, char)
         else:
-            result = s.rjust(args.width, args.char)
-        if not args.quiet:
-            print(result)
-    return 0
+            result = s.rjust(width, char)
+        if not quiet:
+            click.echo(result)
+    ctx.exit(0)
 
 
-def str_trim(args):
-    """remove leading or trailing whitespace"""
+@cli.command()
+@click.option('-q', '--quiet', is_flag=True, help='Suppresses output but exits with the documented status')
+@click.option('-l', '--left', is_flag=True, help='Only leading whitespace is removed')
+@click.option('-r', '--right', is_flag=True, help='Only trailing whitespace is removed')
+@click.option('-c', '--chars', help='Remove specific chars instead of whitespace')
+@click.argument('strings', nargs=-1)
+@click.pass_context
+def trim(ctx, quiet, left, right, chars, strings):
+    """Remove leading or trailing whitespace"""
+    strings = list(strings) + read_stdin_if_piped()
     errcode = 1
-    for s in args.STRINGS:
+
+    for s in strings:
         newstr = s
-        if not args.left and not args.right:
-            newstr = newstr.strip(args.chars)
+        if not left and not right:
+            newstr = newstr.strip(chars)
         else:
-            if args.left:
-                newstr = newstr.lstrip(args.chars)
-            if args.right:
-                newstr = newstr.rstrip(args.chars)
+            if left:
+                newstr = newstr.lstrip(chars)
+            if right:
+                newstr = newstr.rstrip(chars)
         if newstr != s:
             errcode = 0
-        if not args.quiet:
-            print(newstr)
-    return errcode
+        if not quiet:
+            click.echo(newstr)
+    ctx.exit(errcode)
 
 
-def str_join(args):
-    """join strings with delimiter"""
-    result = args.SEP.join(args.STRINGS)
-    if not args.quiet:
-        print(result)
-    if len(args.STRINGS) < 2:
-        return 1
-    return 0
+@cli.command()
+@click.option('-q', '--quiet', is_flag=True, help='Suppresses output but exits with the documented status')
+@click.argument('sep')
+@click.argument('strings', nargs=-1)
+@click.pass_context
+def join(ctx, quiet, sep, strings):
+    """Join strings with delimiter"""
+    strings = list(strings) + read_stdin_if_piped()
+    result = sep.join(strings)
+    if not quiet:
+        click.echo(result)
+    ctx.exit(0 if len(strings) >= 2 else 1)
 
 
-def str_join0(args):
-    """join strings with null delimiter"""
-    args.STRINGS.append("")
-    args.SEP = "\0"
-    return str_join(args)
+@cli.command()
+@click.option('-q', '--quiet', is_flag=True, help='Suppresses output but exits with the documented status')
+@click.argument('strings', nargs=-1)
+@click.pass_context
+def join0(ctx, quiet, strings):
+    """Join strings with null delimiter"""
+    strings = list(strings) + read_stdin_if_piped()
+    strings.append("")
+    result = "\0".join(strings)
+    if not quiet:
+        click.echo(result)
+    ctx.exit(0 if len(strings) >= 2 else 1)
 
 
 def _split_chars(txt, maximum=-1, right=False):
-    """split string on empty delimiter"""
-    # python's split/rsplit functions don't support empty separators, so this method
-    # does that work.
+    """Split string on empty delimiter"""
     if maximum == 0:
         return [txt]
 
@@ -102,9 +158,9 @@ def _split_chars(txt, maximum=-1, right=False):
         return chars
 
     if right:
-        result = chars[maximum * -1 :]
+        result = chars[maximum * -1:]
         if maximum < len(txt):
-            result.insert(0, "".join(chars[: maximum * -1]))
+            result.insert(0, "".join(chars[:maximum * -1]))
     else:
         result = chars[:maximum]
         if maximum < len(txt):
@@ -113,87 +169,146 @@ def _split_chars(txt, maximum=-1, right=False):
     return result
 
 
-def str_split(args, remove_null_suffix=False):
-    """split strings by delimiter"""
-    if len(args.STRINGS) < 1:
-        return 1
+@cli.command()
+@click.option('-q', '--quiet', is_flag=True, help='Suppresses output but exits with the documented status')
+@click.option('-r', '--right', is_flag=True, help='Splitting is performed right to left')
+@click.option('-m', '--max', 'maximum', default=-1, type=int, help='At most MAX splits are done on each string')
+@click.argument('sep')
+@click.argument('strings', nargs=-1)
+@click.pass_context
+def split(ctx, quiet, right, maximum, sep, strings):
+    """Split strings by delimiter"""
+    strings = list(strings) + read_stdin_if_piped()
+    if len(strings) < 1:
+        ctx.exit(1)
 
     errcode = 1
-    nul = chr(0x00)
-    for s in args.STRINGS:
-        if remove_null_suffix and s.endswith(nul):
-            s = s[:-1]
-
-        if args.SEP == "":
-            results = _split_chars(s, args.max, args.right)
-        elif args.right:
-            results = s.rsplit(args.SEP, args.max)
+    for s in strings:
+        if sep == "":
+            results = _split_chars(s, maximum, right)
+        elif right:
+            results = s.rsplit(sep, maximum)
         else:
-            results = s.split(args.SEP, args.max)
+            results = s.split(sep, maximum)
 
         if len(results) > 1:
             errcode = 0
-        if not args.quiet:
-            print(*results, sep="\n")
+        if not quiet:
+            for result in results:
+                click.echo(result)
 
-    return errcode
-
-
-def str_split0(args):
-    """split strings by null delimiter"""
-    args.SEP = "\0"
-    result = str_split(args, True)
+    ctx.exit(errcode)
 
 
-def str_changecase(args):
-    """
-    change string case and return errcode if no strings were modified
-    """
+@cli.command()
+@click.option('-q', '--quiet', is_flag=True, help='Suppresses output but exits with the documented status')
+@click.option('-r', '--right', is_flag=True, help='Splitting is performed right to left')
+@click.option('-m', '--max', 'maximum', default=-1, type=int, help='At most MAX splits are done on each string')
+@click.argument('strings', nargs=-1)
+@click.pass_context
+def split0(ctx, quiet, right, maximum, strings):
+    """Split strings by null delimiter"""
+    strings = list(strings) + read_stdin_if_piped()
+    if len(strings) < 1:
+        ctx.exit(1)
+
     errcode = 1
-    for s in args.STRINGS:
-        if args.case == "lower":
-            newstr = s.lower()
-        elif args.case == "upper":
-            newstr = s.upper()
+    nul = chr(0x00)
+    for s in strings:
+        if s.endswith(nul):
+            s = s[:-1]
+
+        if right:
+            results = s.rsplit(nul, maximum)
         else:
-            raise ValueError(f"Unexpected case '{args.case}'.")
+            results = s.split(nul, maximum)
+
+        if len(results) > 1:
+            errcode = 0
+        if not quiet:
+            for result in results:
+                click.echo(result)
+
+    ctx.exit(errcode)
+
+
+@cli.command()
+@click.option('-q', '--quiet', is_flag=True, help='Suppresses output but exits with the documented status')
+@click.argument('strings', nargs=-1)
+@click.pass_context
+def lower(ctx, quiet, strings):
+    """Convert strings to lowercase"""
+    strings = list(strings) + read_stdin_if_piped()
+    errcode = 1
+    for s in strings:
+        newstr = s.lower()
         if newstr != s:
             errcode = 0
-        if not args.quiet:
-            print(newstr)
-    return errcode
+        if not quiet:
+            click.echo(newstr)
+    ctx.exit(errcode)
 
 
-def str_repeat(args):
-    """
-    change string case and return errcode if no strings were modified
-    """
+@cli.command()
+@click.option('-q', '--quiet', is_flag=True, help='Suppresses output but exits with the documented status')
+@click.argument('strings', nargs=-1)
+@click.pass_context
+def upper(ctx, quiet, strings):
+    """Convert strings to uppercase"""
+    strings = list(strings) + read_stdin_if_piped()
     errcode = 1
-    for s in args.STRINGS:
+    for s in strings:
+        newstr = s.upper()
+        if newstr != s:
+            errcode = 0
+        if not quiet:
+            click.echo(newstr)
+    ctx.exit(errcode)
+
+
+@cli.command()
+@click.option('-q', '--quiet', is_flag=True, help='Suppresses output but exits with the documented status')
+@click.option('-n', '--count', default=0, type=int, help='The number of times to repeat')
+@click.option('-m', '--max', 'maximum', default=0, type=int, help='The maximum length of the result')
+@click.argument('strings', nargs=-1)
+@click.pass_context
+def repeat(ctx, quiet, count, maximum, strings):
+    """Repeat strings"""
+    strings = list(strings) + read_stdin_if_piped()
+    errcode = 1
+
+    if count < 0:
+        click.echo("Error: --count must be non-negative", err=True)
+        ctx.exit(2)
+    if maximum < 0:
+        click.echo("Error: --max must be non-negative", err=True)
+        ctx.exit(2)
+
+    for s in strings:
         result = ""
-        if args.count > 0:
-            result = s * args.count
-        elif args.max > 0:
-            result = s * ((args.max // len(s)) + 1)
-        if args.max > 0:
-            result = result[: args.max]
+        if count > 0:
+            result = s * count
+        elif maximum > 0:
+            result = s * ((maximum // len(s)) + 1)
+        if maximum > 0:
+            result = result[:maximum]
 
         errcode = 0 if len(result) > 0 else errcode
-        if not args.quiet:
-            print(result)
+        if not quiet:
+            click.echo(result)
 
-    return errcode
+    ctx.exit(errcode)
 
 
-def _convert_regex_flags(args):
+def _convert_regex_flags(verbose, multiline, dotall, ignore_case):
     flags = 0
-    if args.verbose:
+    if verbose:
         flags = flags | re.X
-    if args.multiline:
+    if multiline:
         flags = flags | re.M
-    if args.dotall:
+    if dotall:
         flags = flags | re.S
-    if args.ignore_case:
+    if ignore_case:
         flags = flags | re.I
     return flags
 
@@ -228,296 +343,115 @@ def _regex_collect_matches(
     return matches
 
 
-def str_match(args):
-    """match substrings"""
-    flags = _convert_regex_flags(args)
+@cli.command()
+@click.option('-q', '--quiet', is_flag=True, help='Suppresses output but exits with the documented status')
+@click.option('-a', '--all', is_flag=True, help='Report all matches not just the first one')
+@click.option('-n', '--index', is_flag=True, help='Print the starting and ending indices of matches')
+@click.option('-e', '--entire', is_flag=True, help='Print the entire matching string')
+@click.option('-g', '--groups-only', is_flag=True, help='Print only the regex capturing groups of matches')
+@click.option('-v', '--invert', is_flag=True, help='Print only non-matching strings')
+@click.option('-x', '--verbose', is_flag=True, help='Regex verbose (extended) option')
+@click.option('--multiline', is_flag=True, help='Regex multiline option')
+@click.option('-s', '--dotall', is_flag=True, help='Regex dotall (singleline) option')
+@click.option('-i', '--ignore-case', is_flag=True, help='Regex case-insensitive option')
+@click.option('-r', '--regex', is_flag=True, help='Use regex instead of glob pattern matching')
+@click.option('--fish-compat', is_flag=True, help="Compatibility mode with fish's string util")
+@click.argument('pattern')
+@click.argument('strings', nargs=-1)
+@click.pass_context
+def match(ctx, quiet, all, index, entire, groups_only, invert, verbose, multiline, dotall, ignore_case, regex, fish_compat, pattern, strings):
+    """Match substrings"""
+    strings = list(strings) + read_stdin_if_piped()
+
+    if entire and groups_only:
+        click.echo("Error: Cannot specify both --entire and --groups-only", err=True)
+        ctx.exit(2)
+    if entire and invert:
+        click.echo("Error: Cannot specify both --entire and --invert", err=True)
+        ctx.exit(2)
+    if groups_only and invert:
+        click.echo("Error: Cannot specify both --groups-only and --invert", err=True)
+        ctx.exit(2)
+
+    # Convert glob to regex if not using --regex flag
+    if not regex:
+        pattern = fnmatch.translate(pattern)
+
+    flags = _convert_regex_flags(verbose, multiline, dotall, ignore_case)
 
     errcode = 1
-    for string in args.STRINGS:
+    for string in strings:
         matches = _regex_collect_matches(
-            args.PATTERN,
+            pattern,
             string,
             flags,
-            args.all,
-            args.entire,
-            args.groups_only,
-            args.index,
-            args.fish_compat,
+            all,
+            entire,
+            groups_only,
+            index,
+            fish_compat,
         )
 
-        # output
-        if not args.quiet:
-            found = len(matches) > 0
-            if args.invert and not found:
-                print(string)
-            elif not args.invert and found:
-                print(*matches, sep="\n")
+        found = len(matches) > 0
 
-        # determine overall success
-        if found and not args.invert:
+        if not quiet:
+            if invert and not found:
+                click.echo(string)
+            elif not invert and found:
+                for m in matches:
+                    click.echo(m)
+
+        if found and not invert:
             errcode = 0
-        elif not found and args.invert:
+        elif not found and invert:
             errcode = 0
-    return errcode
+
+    ctx.exit(errcode)
+
+
+@cli.command()
+@click.option('-q', '--quiet', is_flag=True, help='Suppresses output but exits with the documented status')
+@click.option('-a', '--all', is_flag=True, help='Report all matches not just the first one')
+@click.option('-i', '--ignore-case', is_flag=True, help='Match with case-insensitive')
+@click.option('-f', '--filter', is_flag=True, help='Only print strings with replacements')
+@click.option('-r', '--regex', is_flag=True, help='Use regex instead of glob pattern matching')
+@click.argument('pattern')
+@click.argument('replacement')
+@click.argument('strings', nargs=-1)
+@click.pass_context
+def replace(ctx, quiet, all, ignore_case, filter, regex, pattern, replacement, strings):
+    """Replace substrings"""
+    strings = list(strings) + read_stdin_if_piped()
+
+    # Convert glob to regex if not using --regex flag
+    if not regex:
+        pattern = fnmatch.translate(pattern)
+
+    flags = 0
+    if ignore_case:
+        flags = re.I
+
+    errcode = 1
+    for s in strings:
+        if all:
+            newstr = re.sub(pattern, replacement, s, flags=flags)
+        else:
+            newstr = re.sub(pattern, replacement, s, count=1, flags=flags)
+
+        if newstr != s:
+            errcode = 0
+
+        if not quiet:
+            if filter and newstr == s:
+                continue
+            click.echo(newstr)
+
+    ctx.exit(errcode)
 
 
 # endregion
 
-# region not implement subcommands
-
-
-def str_replace(args):
-    """replace substrings"""
-    pass
-
-
-# endregion
-
-# region argument parser
-
-
-def int_try_parse(value):
-    """try to parse integer from a string"""
-    try:
-        return int(value), True
-    except ValueError:
-        return value, False
-
-
-def single_char(value):
-    """verify an arg is a single character"""
-    if len(str(value)) != 1:
-        raise argparse.ArgumentTypeError(
-            f"Invalid value '{value}'. Expecting a single character."
-        )
-    return value
-
-
-def non_negative_int(value):
-    """verify an arg is a positive integer"""
-    value, isint = int_try_parse(value)
-    if isint and value < 0:
-        raise argparse.ArgumentTypeError(
-            f"Invalid value '{value}'. Expecting a non-negative integer."
-        )
-    return int(value)
-
-
-class StrArgParser:
-    def __init__(self):
-        self.parser = argparse.ArgumentParser()
-        self.subparsers = self.parser.add_subparsers()
-        self.parent_parser = argparse.ArgumentParser(add_help=False)
-        self.parent_parser.add_argument(
-            "-q",
-            "--quiet",
-            action="store_true",
-            help="suppresses output but exits with the documented status",
-        )
-        self.add_joincmd_parser("join", str_join)
-        self.add_joincmd_parser("join0", str_join0, False)
-        self.add_simplecmd_parser("length", str_length)
-        self.add_casecmd_parser("lower", str_changecase)
-        self.add_matchcmd_parser("match", str_match)
-        self.add_padcmd_parser("pad", str_pad)
-        self.add_repeatcmd_parser("repeat", str_repeat)
-        # self.add_replacecmd_parser("replace", str_replace)
-        self.add_splitcmd_parser("split", str_split)
-        self.add_splitcmd_parser("split0", str_split0, False)
-        self.add_subcmd_parser("sub", str_sub)
-        self.add_trimcmd_parser("trim", str_trim)
-        self.add_casecmd_parser("upper", str_changecase)
-
-    def add_simplecmd_parser(self, name, str_fn):
-        p = self.add_subparser(name, str_fn)
-        self.add_STRINGS_arg(p)
-
-    def add_joincmd_parser(self, name, str_fn, include_sep=True):
-        p = self.add_subparser(name, str_fn)
-        if include_sep:
-            p.add_argument("SEP", help="separator")
-        self.add_STRINGS_arg(p)
-
-    def add_splitcmd_parser(self, name, str_fn, include_sep=True):
-        p = self.add_subparser(name, str_fn)
-        p.add_argument(
-            "-r",
-            "--right",
-            action="store_true",
-            help="splitting is performed right to left",
-        )
-        p.add_argument(
-            "-m",
-            "--max",
-            type=int,
-            default=-1,
-            help="at most MAX splits are done on each string",
-        )
-        if include_sep:
-            p.add_argument("SEP", help="separator")
-        self.add_STRINGS_arg(p)
-
-    def add_subcmd_parser(self, name, str_fn):
-        p = self.add_subparser(name, str_fn)
-        p.add_argument(
-            "-s",
-            "--start",
-            default=0,
-            type=int,
-            help="the start of the substring",
-        )
-        grp_mutex_endlen = p.add_mutually_exclusive_group()
-        grp_mutex_endlen.add_argument(
-            "-e",
-            "--end",
-            type=int,
-            help="the end of the substring",
-        )
-        grp_mutex_endlen.add_argument(
-            "-l",
-            "--length",
-            type=non_negative_int,
-            help="the length of the substring",
-        )
-        self.add_STRINGS_arg(p)
-
-    def add_padcmd_parser(self, name, str_fn):
-        p = self.add_subparser(name, str_fn)
-        p.add_argument(
-            "-r",
-            "--right",
-            action="store_true",
-            help="add the padding after a string",
-        )
-        p.add_argument(
-            "-c",
-            "--char",
-            default=" ",
-            type=single_char,
-            help="pad with CHAR instead of whitespace",
-        )
-        p.add_argument(
-            "-w",
-            "--width",
-            type=int,
-            help="ensure minimum width of padded results",
-        )
-        self.add_STRINGS_arg(p)
-        p.set_defaults(func=str_fn)
-
-    def add_repeatcmd_parser(self, name, str_fn):
-        p = self.add_subparser(name, str_fn)
-        p.add_argument(
-            "-n",
-            "--count",
-            default=0,
-            type=non_negative_int,
-            help="the number of times to repeat",
-        )
-        p.add_argument(
-            "-m",
-            "--max",
-            default=0,
-            type=non_negative_int,
-            help="the maximum length of the result",
-        )
-        self.add_STRINGS_arg(p)
-
-    def add_replacecmd_parser(self, name, str_fn):
-        p = self.add_subparser(name, str_fn)
-        # self.add_bool_arg(p, "regex", "patterns are PCRE regex syntax")
-        self.add_bool_arg(p, "all", "report all matches not just the first one")
-        self.add_bool_arg(p, "ignore-case", "match with case-insensitive")
-        self.add_bool_arg(p, "filter", "only print strings with replacements")
-        p.add_argument("PATTERN", help="the regex pattern to replace")
-        p.add_argument("REPLACEMENT", help="the string replacement")
-        self.add_STRINGS_arg(p)
-
-    def add_matchcmd_parser(self, name, str_fn):
-        p = self.add_subparser(name, str_fn)
-        # self.add_bool_arg(p, "regex", "patterns are PCRE regex syntax")
-        self.add_bool_arg(p, "all", "report all matches not just the first one")
-        self.add_bool_arg(
-            p,
-            "index",
-            "print the starting and ending indices of matches",
-            short_char="n",
-        )
-        grp_mutex_output = p.add_mutually_exclusive_group()
-        grp_mutex_output.add_argument(
-            "-e",
-            "--entire",
-            action="store_true",
-            help="print the entire matching string",
-        )
-        grp_mutex_output.add_argument(
-            "-g",
-            "--groups-only",
-            action="store_true",
-            help="print only the regex capturing groups of matches",
-        )
-        grp_mutex_output.add_argument(
-            "-v",
-            "--invert",
-            action="store_true",
-            help="print only non-matching strings",
-        )
-        self.add_bool_arg(
-            p, "verbose", "regex verbose (extended) option", short_char="x"
-        )
-        self.add_bool_arg(p, "multiline", "regex multiline option")
-        self.add_bool_arg(
-            p, "dotall", "regex dotall (singleline) option", short_char="s"
-        )
-        self.add_bool_arg(p, "ignore-case", "regex case-insensitive option")
-        self.add_bool_arg(p, "regex", "unused, but provided for compatibility")
-        self.add_bool_arg(
-            p, "fish-compat", "compatibility mode with fish's string util"
-        )
-        p.add_argument("PATTERN", help="the regex pattern to match")
-        self.add_STRINGS_arg(p)
-
-    def add_trimcmd_parser(self, name, str_fn):
-        p = self.add_subparser(name, str_fn)
-        self.add_bool_arg(p, "left", "only leading whitespace is removed")
-        self.add_bool_arg(p, "right", "only trailing whitespace is removed")
-        self.add_arg(p, "chars", help="remove specific chars instead of whitespace")
-        self.add_STRINGS_arg(p)
-
-    def add_casecmd_parser(self, name, str_fn, strcase=None):
-        if not strcase:
-            strcase = name
-        p = self.add_subparser(
-            name, str_fn, help=f"convert strings to {strcase}case"
-        )
-        p.add_argument("--case", default=strcase, help=argparse.SUPPRESS)
-        self.add_STRINGS_arg(p)
-
-    def add_subparser(self, name, str_fn, help=None):
-        if not help:
-            help = str_fn.__doc__
-        p = self.subparsers.add_parser(name, parents=[self.parent_parser], help=help)
-        p.set_defaults(func=str_fn)
-        return p
-
-    def add_bool_arg(self, parser, name, help, short_char=None):
-        self.add_arg(parser, name, help, action="store_true", short_char=short_char)
-
-    def add_arg(self, parser, name, help, action="store", short_char=None):
-        if not short_char:
-            short_char = name[0]
-        parser.add_argument(
-            f"-{short_char}",
-            f"--{name}",
-            action=action,
-            help=help,
-        )
-
-    def add_STRINGS_arg(self, parser):
-        parser.add_argument("STRINGS", nargs="*", help="strings to manipulate")
-
-
-# endregion
+# region helpers
 
 
 def stdin_is_piped():
@@ -526,23 +460,14 @@ def stdin_is_piped():
     return not os.isatty(fileno) and stat.S_ISFIFO(mode)
 
 
-def main():
-    if len(sys.argv) == 1:
-        print("str: missing subcommand", file=sys.stderr)
-        return 2
-
-    # parse args and call func
-    parser = StrArgParser().parser
-    args = parser.parse_args()
-
+def read_stdin_if_piped():
     if stdin_is_piped():
-        args.STRINGS.extend(sys.stdin.read().splitlines())
+        return sys.stdin.read().splitlines()
+    return []
 
-    return args.func(args)
+
+# endregion
 
 
 if __name__ == "__main__":
-    result = main()
-    if result is None:
-        result = 0
-    exit(result)
+    cli()
