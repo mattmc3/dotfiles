@@ -13,17 +13,16 @@ import sys
 import click
 import fnmatch
 
-# region string subcommands
-
 
 @click.group(context_settings={"help_option_names": ["-h", "--help"]})
 def cli():
     """Manipulate strings - A Python implementation of Fish's string utility"""
     pass
 
+
 @cli.command()
-@click.option('-q', '--quiet', is_flag=True, help='Suppresses output but exits with the documented status')
-@click.argument('strings', nargs=-1)
+@click.option("-q", "--quiet", is_flag=True, help="Suppresses output but exits with the documented status")
+@click.argument("strings", nargs=-1)
 @click.pass_context
 def length(ctx, quiet, strings):
     """Print string lengths"""
@@ -37,11 +36,11 @@ def length(ctx, quiet, strings):
 
 
 @cli.command()
-@click.option('-q', '--quiet', is_flag=True, help='Suppresses output but exits with the documented status')
-@click.option('-s', '--start', default=0, type=int, help='The start of the substring')
-@click.option('-e', '--end', type=int, help='The end of the substring')
-@click.option('-l', '--length', type=int, help='The length of the substring')
-@click.argument('strings', nargs=-1)
+@click.option("-q", "--quiet", is_flag=True, help="Suppresses output but exits with the documented status")
+@click.option("-s", "--start", default=0, type=int, help="The start of the substring")
+@click.option("-e", "--end", type=int, help="The end of the substring")
+@click.option("-l", "--length", type=int, help="The length of the substring")
+@click.argument("strings", nargs=-1)
 @click.pass_context
 def sub(ctx, quiet, start, end, length, strings):
     """Extract substrings"""
@@ -63,11 +62,11 @@ def sub(ctx, quiet, start, end, length, strings):
 
 
 @cli.command()
-@click.option('-q', '--quiet', is_flag=True, help='Suppresses output but exits with the documented status')
-@click.option('-r', '--right', is_flag=True, help='Add the padding after a string')
-@click.option('-c', '--char', default=' ', help='Pad with CHAR instead of whitespace')
-@click.option('-w', '--width', type=int, help='Ensure minimum width of padded results')
-@click.argument('strings', nargs=-1)
+@click.option("-q", "--quiet", is_flag=True, help="Suppresses output but exits with the documented status")
+@click.option("-r", "--right", is_flag=True, help="Add the padding after a string")
+@click.option("-c", "--char", default=" ", help="Pad with CHAR instead of whitespace")
+@click.option("-w", "--width", type=int, help="Ensure minimum width of padded results")
+@click.argument("strings", nargs=-1)
 @click.pass_context
 def pad(ctx, quiet, right, char, width, strings):
     """Pad strings to a fixed width"""
@@ -93,11 +92,11 @@ def pad(ctx, quiet, right, char, width, strings):
 
 
 @cli.command()
-@click.option('-q', '--quiet', is_flag=True, help='Suppresses output but exits with the documented status')
-@click.option('-l', '--left', is_flag=True, help='Only leading whitespace is removed')
-@click.option('-r', '--right', is_flag=True, help='Only trailing whitespace is removed')
-@click.option('-c', '--chars', help='Remove specific chars instead of whitespace')
-@click.argument('strings', nargs=-1)
+@click.option("-q", "--quiet", is_flag=True, help="Suppresses output but exits with the documented status")
+@click.option("-l", "--left", is_flag=True, help="Only leading whitespace is removed")
+@click.option("-r", "--right", is_flag=True, help="Only trailing whitespace is removed")
+@click.option("-c", "--chars", help="Remove specific chars instead of whitespace")
+@click.argument("strings", nargs=-1)
 @click.pass_context
 def trim(ctx, quiet, left, right, chars, strings):
     """Remove leading or trailing whitespace"""
@@ -121,9 +120,9 @@ def trim(ctx, quiet, left, right, chars, strings):
 
 
 @cli.command()
-@click.option('-q', '--quiet', is_flag=True, help='Suppresses output but exits with the documented status')
-@click.argument('sep')
-@click.argument('strings', nargs=-1)
+@click.option("-q", "--quiet", is_flag=True, help="Suppresses output but exits with the documented status")
+@click.argument("sep")
+@click.argument("strings", nargs=-1)
 @click.pass_context
 def join(ctx, quiet, sep, strings):
     """Join strings with delimiter"""
@@ -135,8 +134,8 @@ def join(ctx, quiet, sep, strings):
 
 
 @cli.command()
-@click.option('-q', '--quiet', is_flag=True, help='Suppresses output but exits with the documented status')
-@click.argument('strings', nargs=-1)
+@click.option("-q", "--quiet", is_flag=True, help="Suppresses output but exits with the documented status")
+@click.argument("strings", nargs=-1)
 @click.pass_context
 def join0(ctx, quiet, strings):
     """Join strings with null delimiter"""
@@ -158,9 +157,9 @@ def _split_chars(txt, maximum=-1, right=False):
         return chars
 
     if right:
-        result = chars[maximum * -1:]
+        result = chars[maximum * -1 :]
         if maximum < len(txt):
-            result.insert(0, "".join(chars[:maximum * -1]))
+            result.insert(0, "".join(chars[: maximum * -1]))
     else:
         result = chars[:maximum]
         if maximum < len(txt):
@@ -170,11 +169,18 @@ def _split_chars(txt, maximum=-1, right=False):
 
 
 @cli.command()
-@click.option('-q', '--quiet', is_flag=True, help='Suppresses output but exits with the documented status')
-@click.option('-r', '--right', is_flag=True, help='Splitting is performed right to left')
-@click.option('-m', '--max', 'maximum', default=-1, type=int, help='At most MAX splits are done on each string')
-@click.argument('sep')
-@click.argument('strings', nargs=-1)
+@click.option("-q", "--quiet", is_flag=True, help="Suppresses output but exits with the documented status")
+@click.option("-r", "--right", is_flag=True, help="Splitting is performed right to left")
+@click.option(
+    "-m",
+    "--max",
+    "maximum",
+    default=-1,
+    type=int,
+    help="At most MAX splits are done on each string",
+)
+@click.argument("sep")
+@click.argument("strings", nargs=-1)
 @click.pass_context
 def split(ctx, quiet, right, maximum, sep, strings):
     """Split strings by delimiter"""
@@ -201,10 +207,17 @@ def split(ctx, quiet, right, maximum, sep, strings):
 
 
 @cli.command()
-@click.option('-q', '--quiet', is_flag=True, help='Suppresses output but exits with the documented status')
-@click.option('-r', '--right', is_flag=True, help='Splitting is performed right to left')
-@click.option('-m', '--max', 'maximum', default=-1, type=int, help='At most MAX splits are done on each string')
-@click.argument('strings', nargs=-1)
+@click.option("-q", "--quiet", is_flag=True, help="Suppresses output but exits with the documented status")
+@click.option("-r", "--right", is_flag=True, help="Splitting is performed right to left")
+@click.option(
+    "-m",
+    "--max",
+    "maximum",
+    default=-1,
+    type=int,
+    help="At most MAX splits are done on each string",
+)
+@click.argument("strings", nargs=-1)
 @click.pass_context
 def split0(ctx, quiet, right, maximum, strings):
     """Split strings by null delimiter"""
@@ -233,8 +246,8 @@ def split0(ctx, quiet, right, maximum, strings):
 
 
 @cli.command()
-@click.option('-q', '--quiet', is_flag=True, help='Suppresses output but exits with the documented status')
-@click.argument('strings', nargs=-1)
+@click.option("-q", "--quiet", is_flag=True, help="Suppresses output but exits with the documented status")
+@click.argument("strings", nargs=-1)
 @click.pass_context
 def lower(ctx, quiet, strings):
     """Convert strings to lowercase"""
@@ -250,8 +263,8 @@ def lower(ctx, quiet, strings):
 
 
 @cli.command()
-@click.option('-q', '--quiet', is_flag=True, help='Suppresses output but exits with the documented status')
-@click.argument('strings', nargs=-1)
+@click.option("-q", "--quiet", is_flag=True, help="Suppresses output but exits with the documented status")
+@click.argument("strings", nargs=-1)
 @click.pass_context
 def upper(ctx, quiet, strings):
     """Convert strings to uppercase"""
@@ -267,10 +280,17 @@ def upper(ctx, quiet, strings):
 
 
 @cli.command()
-@click.option('-q', '--quiet', is_flag=True, help='Suppresses output but exits with the documented status')
-@click.option('-n', '--count', default=0, type=int, help='The number of times to repeat')
-@click.option('-m', '--max', 'maximum', default=0, type=int, help='The maximum length of the result')
-@click.argument('strings', nargs=-1)
+@click.option("-q", "--quiet", is_flag=True, help="Suppresses output but exits with the documented status")
+@click.option("-n", "--count", default=0, type=int, help="The number of times to repeat")
+@click.option(
+    "-m",
+    "--max",
+    "maximum",
+    default=0,
+    type=int,
+    help="The maximum length of the result",
+)
+@click.argument("strings", nargs=-1)
 @click.pass_context
 def repeat(ctx, quiet, count, maximum, strings):
     """Repeat strings"""
@@ -344,22 +364,24 @@ def _regex_collect_matches(
 
 
 @cli.command()
-@click.option('-q', '--quiet', is_flag=True, help='Suppresses output but exits with the documented status')
-@click.option('-a', '--all', is_flag=True, help='Report all matches not just the first one')
-@click.option('-n', '--index', is_flag=True, help='Print the starting and ending indices of matches')
-@click.option('-e', '--entire', is_flag=True, help='Print the entire matching string')
-@click.option('-g', '--groups-only', is_flag=True, help='Print only the regex capturing groups of matches')
-@click.option('-v', '--invert', is_flag=True, help='Print only non-matching strings')
-@click.option('-x', '--verbose', is_flag=True, help='Regex verbose (extended) option')
-@click.option('--multiline', is_flag=True, help='Regex multiline option')
-@click.option('-s', '--dotall', is_flag=True, help='Regex dotall (singleline) option')
-@click.option('-i', '--ignore-case', is_flag=True, help='Regex case-insensitive option')
-@click.option('-r', '--regex', is_flag=True, help='Use regex instead of glob pattern matching')
-@click.option('--fish-compat', is_flag=True, help="Compatibility mode with fish's string util")
-@click.argument('pattern')
-@click.argument('strings', nargs=-1)
+@click.option("-q", "--quiet", is_flag=True, help="Suppresses output but exits with the documented status")
+@click.option("-a", "--all", is_flag=True, help="Report all matches not just the first one")
+@click.option("-n", "--index", is_flag=True, help="Print the starting and ending indices of matches")
+@click.option("-e", "--entire", is_flag=True, help="Print the entire matching string")
+@click.option("-g", "--groups-only", is_flag=True, help="Print only the regex capturing groups of matches")
+@click.option("-v", "--invert", is_flag=True, help="Print only non-matching strings")
+@click.option("-x", "--verbose", is_flag=True, help="Regex verbose (extended) option")
+@click.option("--multiline", is_flag=True, help="Regex multiline option")
+@click.option("-s", "--dotall", is_flag=True, help="Regex dotall (singleline) option")
+@click.option("-i", "--ignore-case", is_flag=True, help="Regex case-insensitive option")
+@click.option("-r", "--regex", is_flag=True, help="Use regex instead of glob pattern matching")
+@click.option("--fish-compat", is_flag=True, help="Compatibility mode with fish's string util")
+@click.argument("pattern")
+@click.argument("strings", nargs=-1)
 @click.pass_context
-def match(ctx, quiet, all, index, entire, groups_only, invert, verbose, multiline, dotall, ignore_case, regex, fish_compat, pattern, strings):
+def match(
+    ctx, quiet, all, index, entire, groups_only, invert, verbose, multiline, dotall, ignore_case, regex, fish_compat, pattern, strings
+):
     """Match substrings"""
     strings = list(strings) + read_stdin_if_piped()
 
@@ -410,14 +432,14 @@ def match(ctx, quiet, all, index, entire, groups_only, invert, verbose, multilin
 
 
 @cli.command()
-@click.option('-q', '--quiet', is_flag=True, help='Suppresses output but exits with the documented status')
-@click.option('-a', '--all', is_flag=True, help='Report all matches not just the first one')
-@click.option('-i', '--ignore-case', is_flag=True, help='Match with case-insensitive')
-@click.option('-f', '--filter', is_flag=True, help='Only print strings with replacements')
-@click.option('-r', '--regex', is_flag=True, help='Use regex instead of glob pattern matching')
-@click.argument('pattern')
-@click.argument('replacement')
-@click.argument('strings', nargs=-1)
+@click.option("-q", "--quiet", is_flag=True, help="Suppresses output but exits with the documented status")
+@click.option("-a", "--all", is_flag=True, help="Report all matches not just the first one")
+@click.option("-i", "--ignore-case", is_flag=True, help="Match with case-insensitive")
+@click.option("-f", "--filter", is_flag=True, help="Only print strings with replacements")
+@click.option("-r", "--regex", is_flag=True, help="Use regex instead of glob pattern matching")
+@click.argument("pattern")
+@click.argument("replacement")
+@click.argument("strings", nargs=-1)
 @click.pass_context
 def replace(ctx, quiet, all, ignore_case, filter, regex, pattern, replacement, strings):
     """Replace substrings"""
@@ -449,11 +471,6 @@ def replace(ctx, quiet, all, ignore_case, filter, regex, pattern, replacement, s
     ctx.exit(errcode)
 
 
-# endregion
-
-# region helpers
-
-
 def stdin_is_piped():
     fileno = sys.stdin.fileno()
     mode = os.fstat(fileno).st_mode
@@ -464,9 +481,6 @@ def read_stdin_if_piped():
     if stdin_is_piped():
         return sys.stdin.read().splitlines()
     return []
-
-
-# endregion
 
 
 if __name__ == "__main__":

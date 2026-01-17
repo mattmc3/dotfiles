@@ -1,1 +1,13 @@
-./dispatch
+#!/bin/sh
+
+WORKON_HOME="${WORKON_HOME:-$HOME/.local/share/venvs}"
+if [ -e "$WORKON_HOME/str/bin/activate" ]; then
+  . "$WORKON_HOME/str/bin/activate"
+else
+  printf '%s\n' "str venv not found" >&2
+  exit 1
+fi
+
+THIS_DIR="$(CDPATH='' cd -- "$(dirname -- "$0")" && pwd)"
+python "$THIS_DIR/str.py/str.py"
+deactivate

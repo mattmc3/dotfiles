@@ -1,7 +1,0 @@
-#!/bin/sh
-
-if [ -t 0 ]; then
-  printf '%s\n' "$@" | tr [:lower:] [:upper:]
-else
-  tr [:lower:] [:upper:]
-fi
