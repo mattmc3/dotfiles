@@ -95,13 +95,13 @@ config.font_size = 14.0
 
 local GRID = {
   cols = 120,
-  rows = 32,
+  rows = 42,
 }
 
 -- Approx cell size for MesloLGM Nerd Font @ 14pt
 local CELL = {
-  w = 8,
-  h = 18,
+  w = 15,
+  h = 30,
 }
 
 local function set_window_size(window)
