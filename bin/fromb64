@@ -1,0 +1,2 @@
+#!/bin/sh
+python3 -c 'import sys,base64; s=(sys.stdin.read() if not sys.stdin.isatty() else (sys.argv[1] if len(sys.argv)>1 else "")); print(base64.b64decode(s).decode("utf-8","replace"))'
