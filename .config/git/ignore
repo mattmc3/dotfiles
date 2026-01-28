@@ -316,3 +316,7 @@ foo
 foo.*
 .foo
 .foo/*
+
+# ai things
+.claude/
+**/.claude/settings.local.json
