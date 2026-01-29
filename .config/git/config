@@ -4,7 +4,7 @@
 	# Moved values to $DOTFILES/local
 	# https://stackoverflow.com/questions/42553685/setting-git-username-and-email-without-using-gitconfig
 [core]
-	excludesfile = ~/.config/git/gitignore
+	excludesfile = ~/.config/git/ignore
 	editor = subl -n -w
 	fileMode = false
 [interactive]
