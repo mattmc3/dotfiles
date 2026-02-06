@@ -181,20 +181,21 @@
 [init]
 	defaultBranch = main
 
-# include local customizations last
-[include]
-	path = ~/.local/config/git/config.local
-
-[mycustom]
+[cloner]
 	repoPath = ~/Projects
+	gitOwner = mattmc3
 	gitDomain = github.com
 	gitProtocol = git
-	gitUser = mattmc3
 	cloneAddFlags = --recurse-submodules
-	debug = True
+	sshKey = ~/.ssh/github_mattmc3
+
 [difftool "sourcetree"]
 	cmd = opendiff \"$LOCAL\" \"$REMOTE\"
 	path =
 [mergetool "sourcetree"]
 	cmd = /Applications/Sourcetree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
 	trustExitCode = true
+
+# include local customizations last
+[include]
+	path = ~/.local/config/git/config.local
