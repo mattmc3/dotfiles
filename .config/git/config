@@ -198,4 +198,4 @@
 
 # include local customizations last
 [include]
-	path = ~/.local/config/git/config.local
+	path = ~/.local/config/git/local.gitconfig
