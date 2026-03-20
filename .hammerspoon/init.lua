@@ -9,6 +9,10 @@
 -- * to right opt (0xE6)
 -- hidutil property --set '{"UserKeyMapping":[{"HIDKeyboardModifierMappingSrc":0x700000039,"HIDKeyboardModifierMappingDst":0x70000006D}]}'
 
+-- Mouse wiggle if KeepingYouAwake is on
+hs.loadSpoon("ActivePresence")
+spoon.ActivePresence:start()
+
 local hotkey = require "hs.hotkey"
 local window = require "hs.window"
 local spaces = require "hs.spaces"

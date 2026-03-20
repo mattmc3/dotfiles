@@ -52,6 +52,7 @@
 
 # hammmerspoon
 !.hammerspoon/
+!.hammerspoon/**/
 !.hammerspoon/Spoons/**
 !.hammerspoon/init.lua
 !.hammerspoon/readme.md
