@@ -13,12 +13,12 @@ submodules:
 
 ##?   stow        create symlinks to dotfiles
 stow:
-	stow -v .
+	stow --verbose --dotfiles .
 .PHONY : stow
 
 ##?   unstow      remove symlinks to dotfiles
 unstow:
-	stow -v -D .
+	stow --verbose --dotfiles -D .
 .PHONY : unstow
 
 ##?   help        show this message
