@@ -11,6 +11,16 @@ submodules:
 	git submodule update --recursive --remote
 .PHONY : submodules
 
+##?   stow        create symlinks to dotfiles
+stow:
+	stow -v .
+.PHONY : stow
+
+##?   unstow      remove symlinks to dotfiles
+unstow:
+	stow -v -D .
+.PHONY : unstow
+
 ##?   help        show this message
 help:
 	@grep "^##?" makefile | cut -c 5-
