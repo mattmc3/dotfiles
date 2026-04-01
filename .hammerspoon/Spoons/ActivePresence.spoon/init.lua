@@ -26,7 +26,8 @@ end
 
 function obj:isPreventingIdle()
   local output = hs.execute("pmset -g assertions 2>/dev/null")
-  return output:find("PreventUserIdleSystemSleep") ~= nil
+  local count = output:match("PreventUserIdleSystemSleep%s+(%d+)")
+  return tonumber(count) and tonumber(count) > 0
 end
 
 function obj:simulateActivity()
