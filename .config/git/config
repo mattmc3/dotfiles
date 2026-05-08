@@ -187,7 +187,13 @@
 	gitDomain = github.com
 	gitProtocol = git
 	cloneAddFlags = --recurse-submodules
-	sshKey = ~/.ssh/github_mattmc3
+
+[grab]
+	clonePath = ~/Projects
+	gitUser = mattmc3
+	gitDomain = github.com
+	gitProtocol = git
+	cloneFlags = --recurse-submodules
 
 # include local customizations last
 [include]
