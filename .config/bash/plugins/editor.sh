@@ -1,11 +1,17 @@
 # shellcheck shell=bash
 
+[[ -t 0 ]] || return 1
+
 # Allow ctrl-S for history navigation (with ctrl-R)
-[[ -t 0 ]] && stty -ixon
+stty -ixon
+
+# If not ble.sh, we set the regular ways and get out.
+if [[ -z "$BLE_VERSION" ]]; then
+  set -o vi
+  return 0
+fi
 
 # Do ble.sh things from here on.
-[ -n "$BLE_VERSION" ] || return 1
-
 # https://github.com/akinomyoga/ble.sh/wiki/Vi-(Vim)-editing-mode
 bleopt default_keymap=vi
 #bleopt keymap_vi_mode_show=
