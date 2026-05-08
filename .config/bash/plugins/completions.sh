@@ -14,6 +14,8 @@
 
 [[ -r "/opt/homebrew/etc/profile.d/bash_completion.sh" ]] && . "/opt/homebrew/etc/profile.d/bash_completion.sh"
 
+[ -n "${BLE_VERSION:-}" ] || return 0
+
 function settings-for-completion {
   # shellcheck disable=SC2016
   ble/function#advice around ble/complete/auto-complete.idle '

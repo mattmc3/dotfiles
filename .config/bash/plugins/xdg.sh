@@ -12,10 +12,14 @@ export XDG_CONFIG_HOME=${XDG_CONFIG_HOME:-$HOME/.config}
 export XDG_CACHE_HOME=${XDG_CACHE_HOME:-$HOME/.cache}
 export XDG_DATA_HOME=${XDG_DATA_HOME:-$HOME/.local/share}
 export XDG_STATE_HOME=${XDG_STATE_HOME:-$HOME/.local/state}
-export XDG_RUNTIME_DIR=${XDG_RUNTIME_DIR:-$HOME/.xdg}
+if [[ -z "${XDG_RUNTIME_DIR:-}" ]]; then
+  export XDG_RUNTIME_DIR="${TMPDIR:-/tmp}"
+  export XDG_RUNTIME_DIR="${XDG_RUNTIME_DIR%/}/xdg-runtime-${UID:-$(id -u)}"
+fi
 export XDG_PROJECTS_DIR=${XDG_PROJECTS_DIR:-$HOME/Projects}
 mkdir -p "$XDG_CONFIG_HOME" "$XDG_CACHE_HOME" "$XDG_DATA_HOME" \
          "$XDG_STATE_HOME" "$XDG_RUNTIME_DIR" "$XDG_PROJECTS_DIR"
+chmod 700 "$XDG_RUNTIME_DIR" 2>/dev/null || true
 
 #
 # Shell utils
@@ -33,13 +37,13 @@ export SCREENRC="${SCREENRC:-$XDG_CONFIG_HOME/screen/screenrc}"
 
 # tmux
 export TMUX_CONFIG="${TMUX_CONFIG:-$XDG_CONFIG_HOME/tmux/tmux.conf}"
-if ! alias tmux 2>/dev/null; then
+if ! alias tmux >/dev/null 2>&1; then
   alias tmux='tmux -f "$TMUX_CONFIG"'
 fi
 
 # wget
 export WGETRC="${WGETRC:-$XDG_CONFIG_HOME/wget/wgetrc}"
-if ! alias wget 2>/dev/null; then
+if ! alias wget >/dev/null 2>&1; then
   alias wget='wget --hsts-file="$XDG_CACHE_HOME/wget/wget-hsts"'
 fi
 mkdir -p "$XDG_CONFIG_HOME/wget" "$XDG_CACHE_HOME/wget"

@@ -1,6 +1,29 @@
 # shellcheck shell=bash source=/dev/null
 
 # Manage Python venvs.
+export WORKON_HOME="${WORKON_HOME:-${XDG_DATA_HOME:-$HOME/.local/share}/venvs}"
+export IPYTHONDIR="${IPYTHONDIR:-${XDG_CONFIG_HOME:-$HOME/.config}/ipython}"
+export MPLCONFIGDIR="${MPLCONFIGDIR:-${XDG_CONFIG_HOME:-$HOME/.config}/matplotlib}"
+
+alias py3='python3'
+alias py='python'
+alias pip3update="pip3 list --outdated | cut -d ' ' -f1 | xargs -n1 pip3 install -U"
+alias pipup="pip list --outdated | cut -d ' ' -f1 | xargs -n1 pip install -U"
+alias pyfind='find . -name "*.py"'
+alias pygrep='grep --include="*.py"'
+alias pyva="source .venv/bin/activate"
+
+function pipup {
+  pip list --outdated | cut -d ' ' -f1 | xargs -n1 pip install -U
+}
+
+function pyclean {
+  find "${@:-.}" -type f -name "*.py[co]" -delete
+  find "${@:-.}" -type d -name "__pycache__" -delete
+  find "${@:-.}" -depth -type d -name ".mypy_cache" -exec rm -r "{}" +
+  find "${@:-.}" -depth -type d -name ".pytest_cache" -exec rm -r "{}" +
+}
+
 function venv {
   local workon_home="${WORKON_HOME:-${XDG_DATA_HOME:-$HOME/.local/share}/venvs}"
   local -a usage=(

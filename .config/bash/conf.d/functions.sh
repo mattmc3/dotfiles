@@ -2,6 +2,7 @@
 
 die() { warn "${@:2}"; exit "$1"; }
 warn() { printf '%s: %s\n' "${0##*/}" "$*" >&2; }
+say() { printf '%s\n' "$@"; }
 
 function func/exists() {
   declare -F -- "$1" >/dev/null 2>&1
@@ -15,6 +16,29 @@ function retval() {
 # A basic calculator.
 function calc() {
   bc -l <<< "$@"
+}
+
+##? Show all extensions in current folder structure.
+function allexts() {
+  find . -not \( -path '*/.git/*' -prune \) -type f -name '*.*' | sed 's|.*\.|\.|' | sort | uniq -c
+}
+
+##? Backup files or directories.
+function bak() {
+  local now f
+  now=$(date +"%Y%m%d-%H%M%S")
+  for f in "$@"; do
+    if [[ ! -e "$f" ]]; then
+      echo "bak: file not found: $f" >&2
+      continue
+    fi
+    cp -R "$f" "$f.$now.bak"
+  done
+}
+
+##? Find files with no file extension.
+function noext() {
+  find . -not \( -path '*/.git/*' -prune \) -type f ! -name '*.*' "$@"
 }
 
 # Check strings for boolean values.
@@ -63,6 +87,24 @@ function extract() {
     *.7z)       7z x "$1"     ;;
     *)          echo "'$1' cannot be extracted via extract()" ;;
   esac
+}
+
+function tailf() {
+  local nl=
+  tail -f "$@" | while IFS= read -r line; do
+    printf '%b%s' "$nl" "$line"
+    nl='\n'
+  done
+}
+
+function touchf() {
+  if [[ -n "$1" && ! -f "$1" ]]; then
+    mkdir -p "$(dirname -- "$1")" && touch "$1"
+  fi
+}
+
+function weather() {
+  curl "http://wttr.in/$1"
 }
 
 # Join strings with a delimiter.

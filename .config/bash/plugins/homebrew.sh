@@ -25,10 +25,11 @@ fi
 
 # Add user directories.
 export PATH="$HOME/bin:$HOME/.local/bin:$PATH"
+export HOMEBREW_NO_ANALYTICS="${HOMEBREW_NO_ANALYTICS:-1}"
 
 # shellcheck disable=SC2016
 ##? Show the root installs with all deps.
-brews() {
+brewdeps() {
   local bluify_deps='
     BEGIN { blue = "\033[34m"; reset = "\033[0m" }
           { leaf = $1; $1 = ""; printf "%s%s%s%s\n", leaf, blue, $0, reset}

@@ -532,7 +532,7 @@ bleopt history_share=1
 ## specifies that the keymap should be automatically selected from "emacs" or
 ## "vi" according to the current readline state "set -o emacs" or "set -o vi".
 
-#bleopt default_keymap=auto
+bleopt default_keymap=vi
 
 
 ## The following setting controls the treatment of isolated ESCs.  The value

@@ -1,5 +1,9 @@
 # shellcheck shell=bash
 
+if [[ -d "$HOME/.dotnet/tools" && ":$PATH:" != *":$HOME/.dotnet/tools:"* ]]; then
+  export PATH="$PATH:$HOME/.dotnet/tools"
+fi
+
 # https://learn.microsoft.com/en-us/dotnet/core/tools/enable-tab-autocomplete
 # bash parameter completion for the dotnet CLI
 function _dotnet_bash_complete()

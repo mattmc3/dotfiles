@@ -1,15 +1,27 @@
 #!/usr/bin/env bash
 # shellcheck shell=bash disable=SC2001,SC2002
 
-BASH_THEME="starship"
-BASH_HOME=~/.config/bash
+case $- in
+  *i*) ;;
+  *) return 0 ;;
+esac
+
+[[ -z "${BASHRC_LOADED:-}" ]] || return 0
+export BASHRC_LOADED=1
+
+BASH_THEME="${BASH_THEME:-starship}"
+BASH_HOME="${BASH_HOME:-${XDG_CONFIG_HOME:-$HOME/.config}/bash}"
+
+if [[ -z "${BASH_PROFILE_LOADED:-}" && -r "$BASH_HOME/.bash_profile" ]]; then
+  . "$BASH_HOME/.bash_profile"
+fi
 
 plugins=(
   __init__
   xdg
   homebrew
-  ble
   repos
+  ble
   atuin
   azure
   colors
@@ -19,19 +31,24 @@ plugins=(
   dotfiles
   dotnet
   editor
-  environment
   fzf
   git
   gitignore
+  golang
   gpg
   history
   iwd
+  java
   jupyter
   macos
   magic-enter
   nim
+  node
+  postgres
   prompt
   python
+  ruby
+  rust
   utils
   wezterm
   zoxide

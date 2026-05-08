@@ -9,8 +9,10 @@ alias ldot='ls -ld .*'
 
 # Single character shortcuts - be sparing!
 alias _='sudo'
+alias please='sudo'
+alias g='git'
 alias h='history'
-alias v='vim'
+alias v='nvim'
 alias c='clear'
 
 # Mask built-ins with better defaults.
@@ -41,6 +43,16 @@ alias urlencode='python3 -c "import sys, urllib.parse as ul; \
 #alias fd='find . -type d -name '
 #alias ff='find . -type f -name '
 
+# tar
+alias tarls='tar -tvf'
+alias untar='tar -xf'
+
+# disk usage
+alias biggest='du -s ./* | sort -nr | awk '\''{print $2}'\'' | xargs du -sh'
+alias dux='du -x --max-depth=1 | sort -n'
+alias dud='du -d 1 -h'
+alias duf='du -sh *'
+
 # date/time
 alias timestamp="date '+%Y-%m-%d %H:%M:%S'"
 alias datestamp="date '+%Y-%m-%d'"
@@ -59,6 +71,7 @@ alias myip="curl ifconfig.me"
 alias nv=nvim
 alias curry="xargs -I{}"  # printf '%s\n' foo bar baz | curry touch {}.txt
 alias ppath='echo $PATH | tr ":" "\n"'
+alias print-path='echo $PATH | tr ":" "\n"'
 alias cls="clear && printf '\e[3J'"
 alias bench="for i in {1..10}; do /usr/bin/time bash -ic 'echo -n'; done"
 alias secrets="cd \"\${XDG_DATA_HOME:-\$HOME/.local/share}\"/secrets"
