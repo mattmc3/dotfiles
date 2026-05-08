@@ -6,7 +6,6 @@
 \.stow-local-ignore
 bak
 docs
-\.config/zsh
 makefile
 LICENSE
 README.md

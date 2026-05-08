@@ -1,7 +1,4 @@
-# Reduce key delay
-export KEYTIMEOUT=${KEYTIMEOUT:-1}
-
-# Make Apple Terminal behave.
-if [[ "$OSTYPE" == darwin* ]]; then
-  export SHELL_SESSIONS_DISABLE=${SHELL_SESSIONS_DISABLE:-1}
+#!/bin/zsh
+if [[ -r "${ZDOTDIR:-$HOME/.config/zsh}/custom/rcs/zshenv.zsh" ]]; then
+  source "${ZDOTDIR:-$HOME/.config/zsh}/custom/rcs/zshenv.zsh"
 fi
