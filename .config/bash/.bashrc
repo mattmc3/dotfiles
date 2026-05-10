@@ -7,7 +7,7 @@ case $- in
 esac
 
 [[ -z "${BASHRC_LOADED:-}" ]] || return 0
-export BASHRC_LOADED=1
+BASHRC_LOADED=1
 
 BASH_THEME="${BASH_THEME:-starship}"
 BASH_HOME="${BASH_HOME:-${XDG_CONFIG_HOME:-$HOME/.config}/bash}"

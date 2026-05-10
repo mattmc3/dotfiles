@@ -2,7 +2,7 @@
 # shellcheck shell=bash source=/dev/null
 
 [[ -z "${BASH_PROFILE_LOADED:-}" ]] || return 0
-export BASH_PROFILE_LOADED=1
+BASH_PROFILE_LOADED=1
 
 export XDG_CONFIG_HOME="${XDG_CONFIG_HOME:-$HOME/.config}"
 export XDG_CACHE_HOME="${XDG_CACHE_HOME:-$HOME/.cache}"
