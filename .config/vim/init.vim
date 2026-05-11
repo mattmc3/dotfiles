@@ -13,6 +13,9 @@ source $VIMRUNTIME/defaults.vim
 " Kickstart:
 source ~/.config/vim/kickstart.vim
 
+" XDG
+set viminfofile=$XDG_STATE_HOME/vim/viminfo
+
 " General Settings
 set colorcolumn=88              " add ruler
 set nobackup                    " We have vcs, we don't need backups this way
