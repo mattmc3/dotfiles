@@ -45,6 +45,10 @@
 !.config/fish/**
 .config/fish/fish_variables
 
+# ghostty
+!.config/ghostty/
+!.config/ghostty/**
+
 # git
 !.gitignore
 !.config/git/
