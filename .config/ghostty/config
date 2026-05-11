@@ -57,5 +57,10 @@ theme = Aizen Dark
 background-opacity = .95
 background-blur = 10
 
-command = /opt/homebrew/bin/fish
-shell-integration = fish
+# Zsh
+command = /opt/homebrew/bin/zsh
+shell-integration = zsh
+
+# Fish
+# command = /opt/homebrew/bin/fish
+# shell-integration = fish
