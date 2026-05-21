@@ -320,3 +320,5 @@ foo.*
 # ai things
 .claude/
 **/.claude/settings.local.json
+.agents/
+skills-lock.json
