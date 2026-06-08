@@ -54,13 +54,13 @@ font-family = MesloLGM Nerd Font Mono
 font-size = 14
 theme = Aizen Dark
 # theme = TokyoNight Night
-background-opacity = .95
-background-blur = 10
+background-opacity = .92
+background-blur = 20
 
 # Zsh
-command = /opt/homebrew/bin/zsh
-shell-integration = zsh
+# command = /opt/homebrew/bin/zsh
+# shell-integration = zsh
 
 # Fish
-# command = /opt/homebrew/bin/fish
-# shell-integration = fish
+command = /opt/homebrew/bin/fish
+shell-integration = fish
