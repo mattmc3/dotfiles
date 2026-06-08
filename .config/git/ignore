@@ -322,3 +322,5 @@ foo.*
 **/.claude/settings.local.json
 .agents/
 skills-lock.json
+
+.*/
