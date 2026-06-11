@@ -1,0 +1,53 @@
+#!/usr/bin/env bash
+
+# Setup:
+# az ad sp create-for-rbac --name "az-firewall-updater" --role Contributor \
+#   --scopes /subscriptions/<sub-id>/resourceGroups/<rg> > "${XDG_DATA_HOME:-$HOME/.local/share}/secrets/work/azure/az-firewall-updater.jsonc"
+SECRETS_FILE="${XDG_DATA_HOME:-$HOME/.local/share}/secrets/work/azure/az-firewall-updater.jsonc"
+
+# secrets file format:
+# {
+#   "subscriptionId": "?",
+#   "appId": "?",
+#   "displayName": "?",
+#   "password": "?",
+#   "tenant": "?",
+#   "rules": [
+#     {
+#       "ruleName": "?",
+#       "resourceGroup": "?",
+#       "serverName": "?"
+#     }
+#   ]
+# }
+
+jqc() {
+  local file
+  file="${*: -1}"
+  sed 's|//.*||g; s|/\*.*\*\/||g' "$file" | jq -r "${*:1:$#-1}"
+}
+
+AZURE_CLIENT_ID=$(jqc '.appId' "$SECRETS_FILE")
+AZURE_CLIENT_SECRET=$(jqc '.password' "$SECRETS_FILE")
+AZURE_TENANT_ID=$(jqc '.tenant' "$SECRETS_FILE")
+MY_IP=$(curl -s https://api.ipify.org)
+
+az login --service-principal \
+  --username "$AZURE_CLIENT_ID" \
+  --password "$AZURE_CLIENT_SECRET" \
+  --tenant "$AZURE_TENANT_ID" \
+  --output none || { echo "Azure login failed"; exit 1; }
+
+jqc '.rules[]' "$SECRETS_FILE" | jq -rc '.' | while IFS= read -r rule; do
+  AZURE_RULE_NAME=$(echo "$rule" | jq -r '.ruleName')
+  AZURE_RESOURCE_GROUP=$(echo "$rule" | jq -r '.resourceGroup')
+  AZURE_SERVER_NAME=$(echo "$rule" | jq -r '.serverName')
+
+  echo "Updating $AZURE_SERVER_NAME firewall rule to $MY_IP..."
+  az sql server firewall-rule update \
+    --resource-group "$AZURE_RESOURCE_GROUP" \
+    --server "$AZURE_SERVER_NAME" \
+    --name "$AZURE_RULE_NAME" \
+    --start-ip-address "$MY_IP" \
+    --end-ip-address "$MY_IP"
+done
