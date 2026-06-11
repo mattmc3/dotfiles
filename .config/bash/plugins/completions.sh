@@ -27,3 +27,8 @@ function settings-for-completion {
   '
 }
 blehook/eval-after-load complete settings-for-completion
+
+if type carapace >/dev/null 2>&1; then
+  export CARAPACE_BRIDGES="${CARAPACE_BRIDGES:-zsh,fish,bash}"
+  source <(carapace _carapace)
+fi
