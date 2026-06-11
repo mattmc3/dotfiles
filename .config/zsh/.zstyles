@@ -1,0 +1,4 @@
+#!/bin/zsh
+if [[ -r "${ZDOTDIR:-$HOME/.config/zsh}/custom/rcs/zstyles.zsh" ]]; then
+  source "${ZDOTDIR:-$HOME/.config/zsh}/custom/rcs/zstyles.zsh"
+fi
