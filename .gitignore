@@ -36,6 +36,10 @@
 !docs/
 !docs/**
 
+# doom
+!.config/doom/
+!.config/doom/**
+
 # editorconfig
 !~/.editorconfig
 
@@ -68,6 +72,7 @@
 # homebrew
 !.config/homebrew/
 !.config/homebrew/**
+.config/homebrew/trust.json.lock
 
 # iterm2
 !.config/iterm2/
