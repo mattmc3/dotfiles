@@ -14,9 +14,16 @@ SECRETS_FILE="${XDG_DATA_HOME:-$HOME/.local/share}/secrets/work/azure/az-firewal
 #   "tenant": "?",
 #   "rules": [
 #     {
+#       "type": "sql",
 #       "ruleName": "?",
 #       "resourceGroup": "?",
 #       "serverName": "?"
+#     },
+#     {
+#       "type": "nsg",
+#       "ruleName": "?",
+#       "resourceGroup": "?",
+#       "nsgName": "?"
 #     }
 #   ]
 # }
@@ -39,15 +46,26 @@ az login --service-principal \
   --output none || { echo "Azure login failed"; exit 1; }
 
 jqc '.rules[]' "$SECRETS_FILE" | jq -rc '.' | while IFS= read -r rule; do
+  AZURE_RULE_TYPE=$(echo "$rule" | jq -r '.type // "sql"')
   AZURE_RULE_NAME=$(echo "$rule" | jq -r '.ruleName')
   AZURE_RESOURCE_GROUP=$(echo "$rule" | jq -r '.resourceGroup')
-  AZURE_SERVER_NAME=$(echo "$rule" | jq -r '.serverName')
 
-  echo "Updating $AZURE_SERVER_NAME firewall rule to $MY_IP..."
-  az sql server firewall-rule update \
-    --resource-group "$AZURE_RESOURCE_GROUP" \
-    --server "$AZURE_SERVER_NAME" \
-    --name "$AZURE_RULE_NAME" \
-    --start-ip-address "$MY_IP" \
-    --end-ip-address "$MY_IP"
+  if [[ "$AZURE_RULE_TYPE" == "nsg" ]]; then
+    AZURE_NSG_NAME=$(echo "$rule" | jq -r '.nsgName')
+    echo "Updating NSG $AZURE_NSG_NAME rule $AZURE_RULE_NAME to $MY_IP..."
+    az network nsg rule update \
+      --resource-group "$AZURE_RESOURCE_GROUP" \
+      --nsg-name "$AZURE_NSG_NAME" \
+      --name "$AZURE_RULE_NAME" \
+      --source-address-prefix "$MY_IP"
+  else
+    AZURE_SERVER_NAME=$(echo "$rule" | jq -r '.serverName')
+    echo "Updating SQL $AZURE_SERVER_NAME firewall rule to $MY_IP..."
+    az sql server firewall-rule update \
+      --resource-group "$AZURE_RESOURCE_GROUP" \
+      --server "$AZURE_SERVER_NAME" \
+      --name "$AZURE_RULE_NAME" \
+      --start-ip-address "$MY_IP" \
+      --end-ip-address "$MY_IP"
+  fi
 done
