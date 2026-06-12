@@ -1,0 +1,7 @@
+{
+  "trustedtaps": [
+    "d12frosted/emacs-plus",
+    "mattmc3/tools",
+    "microsoft/mssql-release"
+  ]
+}
