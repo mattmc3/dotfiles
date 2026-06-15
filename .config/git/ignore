@@ -323,4 +323,7 @@ foo.*
 .agents/
 skills-lock.json
 
+# Ignore dotdirs by default
 .*/
+!.github/
+!.github/**
