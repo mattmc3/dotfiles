@@ -93,72 +93,45 @@ config.font = wezterm.font 'MesloLGM Nerd Font Mono'
 --config.font = wezterm.font 'FiraCode Nerd Font'
 config.font_size = 14.0
 
-local GRID = {
-  cols = 120,
-  rows = 42,
-}
+local WIN_W = 1100  -- logical points
+local WIN_H = 720
+local WIN_X_OFFSET = 0    -- nudge left/right from computed center (negative = left)
+local WIN_Y_OFFSET = 0    -- nudge up/down from computed center (negative = up)
 
--- Approx cell size for MesloLGM Nerd Font @ 14pt
-local CELL = {
-  w = 15,
-  h = 30,
-}
-
-local function set_window_size(window)
-  window:set_inner_size(GRID.cols * CELL.w, GRID.rows * CELL.h)
+local function resize_window(window)
+  local s = wezterm.gui.screens().active
+  local scale = s.scale
+  local pw = WIN_W * scale  -- physical pixels
+  local ph = WIN_H * scale
+  window:set_inner_size(pw, ph)
+  -- cascade offset so new windows don't stack
+  local n = wezterm.GLOBAL.win_count or 0
+  wezterm.GLOBAL.win_count = n + 1
+  local cascade = n * 30 * scale
+  local x
+  if pw < s.width / 2 then
+    x = s.x + math.floor((s.width / 2 - pw) / 2)  -- center in left half
+  else
+    x = s.x + math.floor((s.width - pw) / 2)       -- center on screen
+  end
+  local y = s.y + math.floor((s.height - ph) / 2)
+  window:set_position(x + WIN_X_OFFSET * scale + cascade, y + WIN_Y_OFFSET * scale + cascade)
 end
 
--- Set the initial window start position
 wezterm.on("gui-startup", function(cmd)
   local tab, pane, window = wezterm.mux.spawn_window(cmd or {})
-  local gui = window:gui_window()
-  set_window_size(gui)
+  resize_window(window:gui_window())
 end)
 
--- Set new windows
--- https://github.com/wez/wezterm/issues/3173
 wezterm.on('window-config-reloaded', function(window, pane)
-  -- approximately identify this gui window, by using the associated mux id
   local id = tostring(window:window_id())
-
-  -- maintain a mapping of windows that we have previously seen before in this event handler
   local seen = wezterm.GLOBAL.seen_windows or {}
-  -- set a flag if we haven't seen this window before
-  local is_new_window = not seen[id]
-  -- and update the mapping
-  seen[id] = true
-  wezterm.GLOBAL.seen_windows = seen
-
-  -- now act upon the flag
-  if is_new_window then
-    set_window_size(window)
+  if not seen[id] then
+    seen[id] = true
+    wezterm.GLOBAL.seen_windows = seen
+    resize_window(window)
   end
 end)
-
-
--- wezterm.on("window-config-reloaded", function(window, pane)
---   -- approximately identify this gui window, by using the associated mux id
---   local id = tostring(window:window_id())
-
---   -- maintain a mapping of windows that we have previously seen before in this event handler
---   local seen = wezterm.GLOBAL.seen_windows or {}
---   local next_window_x = wezterm.GLOBAL.next_window_x or 450
---   local next_window_y = wezterm.GLOBAL.next_window_y or 350
-
---   -- set a flag if we haven't seen this window before
---   local is_new_window = not seen[id]
-
---   -- and update the mapping
---   seen[id] = true
---   wezterm.GLOBAL.seen_windows = seen
---   wezterm.GLOBAL.next_window_x = next_window_x + 50
---   wezterm.GLOBAL.next_window_y = next_window_y + 50
-
---   -- now act upon the flag
---   if is_new_window then
---     window:set_position(next_window_x, next_window_y)
---   end
--- end)
 
 -- Mimic iTerm2's floating window trick
 config.keys = {
