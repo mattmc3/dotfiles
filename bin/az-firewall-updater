@@ -14,7 +14,13 @@ SECRETS_FILE="${XDG_DATA_HOME:-$HOME/.local/share}/secrets/work/azure/az-firewal
 #   "tenant": "?",
 #   "rules": [
 #     {
-#       "type": "sql",
+#       "type": "sqlserver",
+#       "ruleName": "?",
+#       "resourceGroup": "?",
+#       "serverName": "?"
+#     },
+#     {
+#       "type": "postgres",
 #       "ruleName": "?",
 #       "resourceGroup": "?",
 #       "serverName": "?"
@@ -27,6 +33,7 @@ SECRETS_FILE="${XDG_DATA_HOME:-$HOME/.local/share}/secrets/work/azure/az-firewal
 #     }
 #   ]
 # }
+# Add "skip": true to any rule to skip it without removing it.
 
 jqc() {
   local file
@@ -46,26 +53,73 @@ az login --service-principal \
   --output none || { echo "Azure login failed"; exit 1; }
 
 jqc '.rules[]' "$SECRETS_FILE" | jq -rc '.' | while IFS= read -r rule; do
-  AZURE_RULE_TYPE=$(echo "$rule" | jq -r '.type // "sql"')
+  AZURE_RULE_TYPE=$(echo "$rule" | jq -r '.type // "sqlserver"')
   AZURE_RULE_NAME=$(echo "$rule" | jq -r '.ruleName')
   AZURE_RESOURCE_GROUP=$(echo "$rule" | jq -r '.resourceGroup')
+  SKIP=$(echo "$rule" | jq -r '.skip // false')
+
+  if [[ "$SKIP" == "true" ]]; then
+    echo "Skipping $AZURE_RULE_TYPE rule $AZURE_RULE_NAME"
+    continue
+  fi
 
   if [[ "$AZURE_RULE_TYPE" == "nsg" ]]; then
     AZURE_NSG_NAME=$(echo "$rule" | jq -r '.nsgName')
+    CURRENT_IP=$(az network nsg rule show \
+      --resource-group "$AZURE_RESOURCE_GROUP" \
+      --nsg-name "$AZURE_NSG_NAME" \
+      --name "$AZURE_RULE_NAME" \
+      --query sourceAddressPrefix -o tsv 2>/dev/null || echo "")
+    if [[ "$CURRENT_IP" == "$MY_IP" ]]; then
+      echo "NSG $AZURE_NSG_NAME rule $AZURE_RULE_NAME already set to $MY_IP, skipping"
+      continue
+    fi
     echo "Updating NSG $AZURE_NSG_NAME rule $AZURE_RULE_NAME to $MY_IP..."
     az network nsg rule update \
       --resource-group "$AZURE_RESOURCE_GROUP" \
       --nsg-name "$AZURE_NSG_NAME" \
       --name "$AZURE_RULE_NAME" \
-      --source-address-prefix "$MY_IP"
+      --source-address-prefix "$MY_IP" \
+      --output none
+
+  elif [[ "$AZURE_RULE_TYPE" == "postgres" ]]; then
+    AZURE_SERVER_NAME=$(echo "$rule" | jq -r '.serverName')
+    CURRENT_IP=$(az postgres flexible-server firewall-rule show \
+      --resource-group "$AZURE_RESOURCE_GROUP" \
+      --server-name "$AZURE_SERVER_NAME" \
+      --name "$AZURE_RULE_NAME" \
+      --query startIpAddress -o tsv 2>/dev/null || echo "")
+    if [[ "$CURRENT_IP" == "$MY_IP" ]]; then
+      echo "Postgres $AZURE_SERVER_NAME rule $AZURE_RULE_NAME already set to $MY_IP, skipping"
+      continue
+    fi
+    echo "Updating Postgres $AZURE_SERVER_NAME firewall rule to $MY_IP..."
+    az postgres flexible-server firewall-rule update \
+      --resource-group "$AZURE_RESOURCE_GROUP" \
+      --server-name "$AZURE_SERVER_NAME" \
+      --name "$AZURE_RULE_NAME" \
+      --start-ip-address "$MY_IP" \
+      --end-ip-address "$MY_IP" \
+      --output none
+
   else
     AZURE_SERVER_NAME=$(echo "$rule" | jq -r '.serverName')
+    CURRENT_IP=$(az sql server firewall-rule show \
+      --resource-group "$AZURE_RESOURCE_GROUP" \
+      --server "$AZURE_SERVER_NAME" \
+      --name "$AZURE_RULE_NAME" \
+      --query startIpAddress -o tsv 2>/dev/null || echo "")
+    if [[ "$CURRENT_IP" == "$MY_IP" ]]; then
+      echo "SQL $AZURE_SERVER_NAME rule $AZURE_RULE_NAME already set to $MY_IP, skipping"
+      continue
+    fi
     echo "Updating SQL $AZURE_SERVER_NAME firewall rule to $MY_IP..."
     az sql server firewall-rule update \
       --resource-group "$AZURE_RESOURCE_GROUP" \
       --server "$AZURE_SERVER_NAME" \
       --name "$AZURE_RULE_NAME" \
       --start-ip-address "$MY_IP" \
-      --end-ip-address "$MY_IP"
+      --end-ip-address "$MY_IP" \
+      --output none
   fi
 done
