@@ -62,9 +62,6 @@
 #ble-face vbell_erase='bg=252'
 #ble-face vbell_flash='fg=green,reverse'
 
-ble-face vbell=
-bleopt vbell_default_message=' ding '
-
 
 ##-----------------------------------------------------------------------------
 ## Line editor settings
@@ -79,7 +76,7 @@ bleopt vbell_default_message=' ding '
 ## settings "edit_vbell" and "edit_abell" should be updated to use "edit_bell".
 
 #bleopt edit_bell=abell
-bleopt edit_bell=vbell
+#bleopt edit_bell=vbell
 
 ## The following setting turns on the delayed load of history when an non-empty
 ## value is set.
@@ -181,9 +178,6 @@ bleopt edit_bell=vbell
 ## "prompt_ps1_transient" is effective only when the current working directory
 ## did not change since the last command line.
 
-bleopt prompt_ps1_final="$(tput setaf 005)❯$(tput sgr0) "
-bleopt prompt_ps1_transient=trim
-
 
 ## The following settings controls the right prompt. "prompt_rps1" specifies
 ## the contents of the right prompt in the format of PS1.  When the cursor
@@ -193,7 +187,6 @@ bleopt prompt_ps1_transient=trim
 
 #bleopt prompt_rps1='\w'
 #bleopt prompt_rps1_final=''
-bleopt prompt_rps1_transient='true'
 
 
 ## The following settings specify the content of terminal titles and status
@@ -332,7 +325,7 @@ bleopt prompt_rps1_transient='true'
 ## history is shared with the other Bash ble.sh sessions with the history
 ## sharing turned on.
 
-bleopt history_share=1
+#bleopt history_share=1
 
 
 ## This option controls the target range in the command history for
@@ -532,7 +525,7 @@ bleopt history_share=1
 ## specifies that the keymap should be automatically selected from "emacs" or
 ## "vi" according to the current readline state "set -o emacs" or "set -o vi".
 
-bleopt default_keymap=vi
+#bleopt default_keymap=vi
 
 
 ## The following setting controls the treatment of isolated ESCs.  The value
@@ -590,9 +583,9 @@ bleopt default_keymap=vi
 ## non-empty strings are set, the functionality is enabled. Otherwise, the
 ## functionality is inactive.
 
-bleopt complete_auto_complete=1
-bleopt complete_menu_complete=1
-bleopt complete_menu_filter=1
+#bleopt complete_auto_complete=1
+#bleopt complete_menu_complete=1
+#bleopt complete_menu_filter=1
 
 
 ## If "complete_ambiguous" has non-empty values, ambiguous completion
@@ -734,7 +727,7 @@ bleopt complete_menu_filter=1
 ## interprets ANSI escape sequences in the descriptions.
 
 #bleopt complete_menu_style=align-nowrap
-bleopt complete_menu_style=desc
+#bleopt complete_menu_style=desc
 
 
 ## When a non-empty value is specified to this setting, the matching text on
@@ -937,19 +930,19 @@ bleopt complete_menu_style=desc
 # used for specific features are described in the respective sections.
 
 #bleopt color_scheme=default
-bleopt color_scheme=base16
+#bleopt color_scheme=base16
 
 # ble-face argument_error=fg=red,underline
 # ble-face argument_option=fg=teal
-ble-face auto_complete=fg=240                # fg=black,bg=silver
+# ble-face auto_complete=fg=240                # fg=black,bg=silver
 # ble-face cmdinfo_cd_cdpath=fg=navy,bg=yellow
 # ble-face command_alias=fg=teal
-ble-face command_builtin=fg=teal
-ble-face command_builtin_dot=fg=teal,bold
+# ble-face command_builtin=fg=teal
+# ble-face command_builtin_dot=fg=teal,bold
 # ble-face command_directory=fg=blue,underline
 # ble-face command_file=fg=green
 # ble-face command_function=fg=magenta
-ble-face command_jobs=fg=teal,bold
+# ble-face command_jobs=fg=teal,bold
 # ble-face command_keyword=fg=blue
 # ble-face command_suffix=fg=white,bg=green
 # ble-face command_suffix_new=fg=white,bg=brown
@@ -973,21 +966,21 @@ ble-face command_jobs=fg=teal,bold
 # ble-face menu_desc_quote=ref:syntax_quoted
 # ble-face menu_desc_type=ref:syntax_delimiter
 # ble-face menu_filter_fixed=bold
-ble-face menu_filter_input=none  # fg=black,bg=yellow
+# ble-face menu_filter_input=none  # fg=black,bg=yellow
 # ble-face overwrite_mode=fg=black,bg=cyan
 # ble-face prompt_status_line=fg=white,bg=gray
 # ble-face region=fg=white,bg=navy
-ble-face region_insert=none
-ble-face region_match=none
-ble-face region_target=none
+# ble-face region_insert=none
+# ble-face region_match=none
+# ble-face region_target=none
 # ble-face syntax_brace=fg=teal,bold
-ble-face syntax_command=fg=teal
+# ble-face syntax_command=fg=teal
 # ble-face syntax_comment=fg=silver
 # ble-face syntax_default=none
 # ble-face syntax_delimiter=bold
 # ble-face syntax_document=fg=olive
 # ble-face syntax_document_begin=fg=olive,bold
-ble-face syntax_error=fg=red,bold      # fg=white,bg=red
+# ble-face syntax_error=fg=red,bold      # fg=white,bg=red
 # ble-face syntax_escape=fg=magenta
 # ble-face syntax_expr=fg=blue
 # ble-face syntax_function_name=fg=magenta,bold
@@ -1140,7 +1133,6 @@ function blerc/vim-load-hook {
   ## empty string.
 
   #bleopt keymap_vi_mode_show=1
-  bleopt keymap_vi_mode_show=
 
   ## The following options specify the name of modes in
   ## \q{keymap:vi/mode-indicator}.
@@ -1159,11 +1151,9 @@ function blerc/vim-load-hook {
   ## normal mode like in other modes, please use the following setting:
 
   #bleopt keymap_vi_mode_string_nmap:=$'\e[1m-- NORMAL --\e[m'
-  bleopt keymap_vi_mode_string_nmap:=$'\e[1m-- NORMAL --\e[m'
 
-  # Set cursors.
-  ble-bind -m vi_nmap --cursor 2
-  ble-bind -m vi_imap --cursor 5
+  #ble-bind -m vi_nmap --cursor 2
+  #ble-bind -m vi_imap --cursor 5
   #ble-bind -m vi_omap --cursor 4
   #ble-bind -m vi_xmap --cursor 2
   #ble-bind -m vi_cmap --cursor 0
