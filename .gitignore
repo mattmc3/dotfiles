@@ -7,139 +7,139 @@
 
 # Add back items as needed.
 
+# home (stow target root)
+!home/
+
 # config
-!.config/
-!.config/*
+!home/.config/
+!home/.config/*
+
+# antibody
+!home/.config/antibody/
+!home/.config/antibody/**
 
 # atuin
-!.config/atuin/
-!.config/atuin/**
+!home/.config/atuin/
+!home/.config/atuin/**
+
+# bat
+!home/.config/bat/
+!home/.config/bat/**
 
 # bin
-!bin/
-!bin/**
+!home/bin/
+!home/bin/**
 **/bin/gam7/
 **/bin/gamadv-xtd3/
 
 # bash
-!.bash_profile
-!.bashrc
-!.config/bash/
-!.config/bash/**
-.config/bash/*.log
+!home/.bash_profile
+!home/.bashrc
+!home/.config/bash/
+!home/.config/bash/**
+home/.config/bash/*.log
 
 # blesh
-!.config/blesh/
-!.config/blesh/**
+!home/.config/blesh/
+!home/.config/blesh/**
 
 # docs
 !docs/
 !docs/**
 
 # doom
-!.config/doom/
-!.config/doom/**
+!home/.config/doom/
+!home/.config/doom/**
 
 # editorconfig
-!~/.editorconfig
+!home/.editorconfig
 
 # fish
-!.config/fish/
-!.config/fish/*
-!.config/fish/**
-.config/fish/fish_variables
+!home/.config/fish/
+!home/.config/fish/*
+!home/.config/fish/**
+home/.config/fish/fish_variables
 
 # ghostty
-!.config/ghostty/
-!.config/ghostty/**
+!home/.config/ghostty/
+!home/.config/ghostty/**
 
 # git
 !.gitignore
-!.config/git/
-!.config/git/**
+!home/.config/git/
+!home/.config/git/**
 
-# hammmerspoon
-!.hammerspoon/
-!.hammerspoon/**/
-!.hammerspoon/Spoons/**
-!.hammerspoon/init.lua
-!.hammerspoon/readme.md
+# hammerspoon
+!home/.hammerspoon/
+!home/.hammerspoon/**/
+!home/.hammerspoon/Spoons/**
+!home/.hammerspoon/init.lua
+!home/.hammerspoon/readme.md
 
 # helix
-!.config/helix/
-!.config/helix/**
+!home/.config/helix/
+!home/.config/helix/**
 
 # homebrew
-!.config/homebrew/
-!.config/homebrew/**
-.config/homebrew/trust.json.lock
+!home/.config/homebrew/
+!home/.config/homebrew/**
+home/.config/homebrew/trust.json.lock
 
 # iterm2
-!.config/iterm2/
-!.config/iterm2/*.json
+!home/.config/iterm2/
+!home/.config/iterm2/*.json
 
 # kak
-!.config/kak/
-!.config/kak/**
+!home/.config/kak/
+!home/.config/kak/**
 
 # npm
-!.config/npm/
-!.config/npm/**
+!home/.config/npm/
+!home/.config/npm/**
 
 # neovim
-!.config/nvim/
-!.config/nvim/**
+!home/.config/nvim/
+!home/.config/nvim/**
 
 # readline
-!.config/readline/
-!.config/readline/**
+!home/.config/readline/
+!home/.config/readline/**
+
+# ripgrep
+!home/.config/ripgrep/
+!home/.config/ripgrep/**
 
 # shell
-!.config/shell/
-!.config/shell/**
+!home/.config/shell/
+!home/.config/shell/**
 
 # starship
-!.config/starship/
-!.config/starship/**
+!home/.config/starship/
+!home/.config/starship/**
 
 # stow
-!.stow-*
+!home/.stow-*
 
 # tmux
-!.config/tmux/
-!.config/tmux/**
+!home/.config/tmux/
+!home/.config/tmux/**
 
 # vim
-!~/.vimrc
-!.config/vim/
-!.config/vim/*.vim
+!home/.vimrc
+!home/.config/vim/
+!home/.config/vim/*.vim
 
 # wezterm
-!.config/wezterm/
-!.config/wezterm/**
+!home/.config/wezterm/
+!home/.config/wezterm/**
 
-# zsh
-!.config/zsh/
-!.config/zsh/**
-.config/zsh/.*
-.config/zsh/.*/
-!.p10k.zsh
-!.zaliases
-!.zlogin
-!.zlogout
-!.zprofile
-!.zshenv
-!.zshrc
-!.zshrc.*
-!.zstyles
-!.zplugins
-!.config/zsh/.zshrc.d/
-!.config/zsh/.zshrc.d/**
-.config/zsh/.zcompdump*
-.config/zsh/.custom/
-.config/zsh/custom/
-.config/zsh/ohmyzsh/
-.config/zsh/.oh-my-zsh/
+# wget
+!home/.config/wget/
+!home/.config/wget/**
+
+# zed (settings only - prompts/ is a local LMDB database, not config)
+!home/.config/zed/
+!home/.config/zed/settings.json
 
 # re-ignore local files
 *.local
@@ -150,7 +150,7 @@ local.*
 !.local/**
 
 # helpers
-!makefile
+!justfile
 !LICENSE
 !README.md
 

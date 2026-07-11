@@ -1,0 +1,32 @@
+# ~/.config/antibody/antibody.toml
+
+[bundle]
+# path-style controls how bundle clone directories are named on disk.
+# escaped  - URL characters replaced with tokens (default, backward-compatible)
+#            e.g. https:-SLASH--SLASH-github.com-SLASH-owner-SLASH-repo
+# short    - owner/repo only
+#            e.g. owner/repo
+# full     - host/owner/repo
+#            e.g. github.com/owner/repo
+path-style = "short"
+
+[defer]
+# bundle is the zsh-defer plugin used for kind:defer bundles.
+bundle = "romkatv/zsh-defer"
+
+[fpath]
+# rule controls whether fpath entries are appended or prepended.
+# Options: append (default), prepend
+rule = "append"
+
+[git]
+# domain is the default git hosting domain used for short owner/repo bundle specs.
+domain = "github.com"
+# protocol controls the URL scheme used when cloning short owner/repo specs.
+# Options: https (default), ssh
+protocol = "https"
+
+[home]
+# dir overrides where bundles are cloned. $ANTIBODY_HOME env var takes precedence.
+dir = "~/.cache/antibody"
+

@@ -1,0 +1,10 @@
+# case-insensitive unless pattern has an uppercase letter
+--smart-case
+
+# don't choke display on minified/long lines
+--max-columns=150
+--max-columns-preview
+
+# search dotfiles, but never .git internals
+--hidden
+--glob=!.git/*

@@ -1,0 +1,10 @@
+# Comments and blank lines are allowed.
+
+\.DS_Store
+
+\.git
+\.gitignore
+\.gitmodules
+
+.+~          # emacs backup files
+\#.*\#       # emacs autosave files
