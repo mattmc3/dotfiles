@@ -3,5 +3,9 @@
     "d12frosted/emacs-plus",
     "mattmc3/brews",
     "microsoft/mssql-release"
+  ],
+  "trustedformulae": [
+    "mattmc3/brews/git-cmds",
+    "mattmc3/brews/histdb"
   ]
 }
