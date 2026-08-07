@@ -52,7 +52,8 @@
 # font-family = Hack Nerd Font
 font-family = MesloLGM Nerd Font Mono
 font-size = 14
-theme = Aizen Dark
+# Aizen Dark, Ayu Mirage
+theme = Blue Matrix2
 # theme = TokyoNight Night
 background-opacity = .92
 background-blur = 20
