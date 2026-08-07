@@ -198,3 +198,6 @@
 # include local customizations last
 [include]
 	path = ~/.local/config/git/local.gitconfig
+[zsh-clone]
+	user = mattmc3
+	url = github.com
