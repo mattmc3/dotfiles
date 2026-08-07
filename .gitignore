@@ -11,5 +11,6 @@ local.*
 # per-tool generated or runtime files
 !home/.config/
 !home/.config/**
-home/.config/bash/*.log
-home/.config/homebrew/trust.json.lock
+*.log
+*.json.lock
+*.mdb
