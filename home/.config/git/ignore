@@ -322,6 +322,7 @@ foo.*
 **/.claude/settings.local.json
 .agents/
 skills-lock.json
+.*.md
 
 # Ignore dotdirs by default
 .*/
