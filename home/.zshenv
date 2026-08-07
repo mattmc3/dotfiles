@@ -1,3 +1,3 @@
 #!/bin/zsh
-export ZDOTDIR="$HOME/.zsh"
+export ZDOTDIR="$HOME/.config/zsh"
 [[ -r $ZDOTDIR/.zshenv ]] && . $ZDOTDIR/.zshenv
