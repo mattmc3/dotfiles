@@ -58,6 +58,9 @@ theme = Blue Matrix2
 background-opacity = .92
 background-blur = 20
 
+# MacOS
+macos-option-as-alt = true
+
 # Zsh
 command = /opt/homebrew/bin/zsh
 shell-integration = zsh
