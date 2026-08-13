@@ -7,6 +7,8 @@
 	excludesfile = ~/.config/git/ignore
 	editor = subl -n -w
 	fileMode = false
+	# overrides .git/hooks; the hooks here chain to the repo's own
+	hooksPath = ~/.local/config/git/hooks
 [interactive]
 	diffFilter = delta --color-only
 [add.interactive]
